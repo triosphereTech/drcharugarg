@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import {
@@ -8,12 +8,26 @@ import {
   HiOutlineArrowRight,
 } from "react-icons/hi2";
 import { MdOutlineEmail } from "react-icons/md";
+import { useSelector } from "react-redux";
+import Link from "next/link";
 
 const LoginPage = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [isSendingOtp, setIsSendingOtp] = useState(false);
   const [error, setError] = useState("");
+
+    const user = useSelector(
+    (state) => state.user.user
+  );
+
+  useEffect(() => {
+
+    if (user) {
+      router.replace("/");
+    }
+
+  }, [user, router]);
 
   const features = [
     {
@@ -160,9 +174,11 @@ const LoginPage = () => {
             <div className="mt-8">
               <p className="text-[#7e8883] text-sm">
                 Don’t have an account?{" "}
+                <Link href="/signup">
                 <span className="text-[#058FD2] font-medium cursor-pointer">
                   Sign Up
                 </span>
+                </Link>
               </p>
 
               <p className="text-xs text-[#9aa4a0] leading-6 mt-6">

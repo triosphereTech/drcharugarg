@@ -3,6 +3,8 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/redux/features/userSlice";
 import {
   HiOutlineShieldCheck,
   HiOutlineClock,
@@ -22,7 +24,7 @@ const OtpPage = () => {
   const [isResending, setIsResending] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
-
+const dispatch = useDispatch();
   const inputRefs = useRef([]);
   const otpValue = otp.join("");
   const formattedSeconds = String(seconds).padStart(2, "0");
@@ -108,6 +110,7 @@ const OtpPage = () => {
       if (!response.ok) {
         throw new Error(data.message || "Unable to login.");
       }
+      dispatch(setUser(data.patient));
 
       sessionStorage.removeItem("loginEmail");
       setMessage(data.message || "Login successful.");

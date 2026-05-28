@@ -5,11 +5,18 @@ import { useEffect, useState } from "react";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { IoCloseOutline } from "react-icons/io5";
 import { HiArrowUpRight } from "react-icons/hi2";
+import { useDispatch, useSelector } from "react-redux";
+import { clearUser } from "@/redux/features/userSlice";
 
 const Navbar = () => {
   const [openMenu, setOpenMenu] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const dispatch = useDispatch();
+
+const user = useSelector(
+  (state) => state.user.user
+);
 const handleLogout = async () => {
   // Clear user session or token here
   // For example, if using cookies:
@@ -25,6 +32,7 @@ const handleLogout = async () => {
       if (!response.ok) {
         throw new Error(data.message || "Unable to logout.");
       }
+      dispatch(clearUser()); // Clear user from Redux store
       setMessage(data.message || "Logout successful.");
       
       window.location.href = "/"; // Redirect to login page after logout
@@ -114,19 +122,42 @@ const handleLogout = async () => {
             </button>
             
           </div>
+           
+           {/* Logout or name display */}
             <div className="hidden xl:block">
-            <button className="flex items-center gap-2 rounded-full bg-primary-dark px-6 py-3 text-[15px] font-medium text-white transition-all duration-300 hover:scale-[1.02]"
-            onClick={async () => {
-              await  handleLogout();
-            }
-          }
-            >
-         Logout 
 
-              <HiArrowUpRight className="text-[18px]" />
-            </button>
-            
-          </div>
+  {user ? (
+
+    <div className="flex items-center gap-4">
+
+      <p className="text-[15px] font-medium text-primary-dark">
+        {user.name}
+      </p>
+
+      <button
+        className="flex items-center gap-2 rounded-full bg-primary-dark px-6 py-3 text-[15px] font-medium text-white transition-all duration-300 hover:scale-[1.02]"
+        onClick={handleLogout}
+      >
+        Logout
+
+        <HiArrowUpRight className="text-[18px]" />
+      </button>
+
+    </div>
+
+  ) : (
+
+    <Link href="/login">
+      <button className="flex items-center gap-2 rounded-full bg-primary-dark px-6 py-3 text-[15px] font-medium text-white transition-all duration-300 hover:scale-[1.02]">
+        Login
+
+        <HiArrowUpRight className="text-[18px]" />
+      </button>
+    </Link>
+
+  )}
+
+</div>
           {/* MOBILE MENU BUTTON */}
           <button
             onClick={() => setOpenMenu(true)}

@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import {
   FaStethoscope, FaClipboardList, FaMicroscope, FaBolt,
   FaCalendarAlt, FaClock, FaImages, FaCheck,
   FaChevronLeft, FaChevronRight, FaUpload, FaTimes,
   FaInfoCircle, FaWhatsapp, FaRedo, FaCalendar,
+  FaExclamationTriangle,
 } from "react-icons/fa";
 
 const SERVICES = [
@@ -14,10 +15,10 @@ const SERVICES = [
   { id: "scalp",    label: "Scalp Analysis",         icon: FaMicroscope,   duration: "25 min", desc: "Detailed scalp examination" },
   { id: "laser",    label: "Laser Consultation",     icon: FaBolt,         duration: "40 min", desc: "Laser treatment planning" },
 ];
-const TIME_SLOTS    = ["09:00 AM","10:00 AM","11:00 AM","02:00 PM","03:00 PM","04:00 PM"];
-const UNAVAIL_SLOTS = ["11:00 AM","03:00 PM"];
-const MONTHS        = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-const DAY_NAMES     = ["SU","MO","TU","WE","TH","FR","SA"];
+
+const TIME_SLOTS = ["09:00 AM","10:00 AM","11:00 AM","02:00 PM","03:00 PM","04:00 PM"];
+const MONTHS     = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const DAY_NAMES  = ["SU","MO","TU","WE","TH","FR","SA"];
 
 const STEP_META = [
   { n: 1, label: "Service", icon: FaStethoscope },
@@ -28,13 +29,18 @@ const STEP_META = [
 
 const HINTS = [
   null,
-  { icon: FaCalendarAlt, title: "Choose a date",     sub: "Select any available date from the calendar." },
-  { icon: FaClock,       title: "Pick a time slot",  sub: "Morning and afternoon slots available." },
-  { icon: FaCalendar,    title: "Almost there!",     sub: "Just a few more details and you're all set." },
+  { icon: FaCalendarAlt, title: "Choose a date",    sub: "Select any available date from the calendar." },
+  { icon: FaClock,       title: "Pick a time slot", sub: "Morning and afternoon slots available." },
+  { icon: FaCalendar,    title: "Almost there!",    sub: "Just a few more details and you're all set." },
 ];
 
 function getDaysInMonth(y, m) { return new Date(y, m + 1, 0).getDate(); }
 function getFirstDay(y, m)    { return new Date(y, m, 1).getDay(); }
+
+// Format a selectedDate object → "YYYY-MM-DD" for the API
+function formatDateForApi(selectedDate) {
+  return `${selectedDate.y}-${String(selectedDate.m + 1).padStart(2, "0")}-${String(selectedDate.d).padStart(2, "0")}`;
+}
 
 /* ─── Left sidebar ─── */
 function LeftPanel({ step, selectedService, selectedDate, selectedTime, booked }) {
@@ -49,7 +55,6 @@ function LeftPanel({ step, selectedService, selectedDate, selectedTime, booked }
 
   return (
     <aside className="w-full md:w-[260px] lg:w-[400px] flex-shrink-0 bg-slate-50/70 border-b md:border-b-0 md:border-r border-slate-100 p-5 md:p-7 flex flex-col gap-0">
-      {/* Header */}
       <div className="inline-flex items-center gap-1.5 text-[10px] font-semibold tracking-widest text-[#058FD2] uppercase bg-[#E8F6FD] px-3 py-1.5 rounded-full mb-3 w-fit">
         <FaCalendarAlt className="w-3 h-3" /> Online Booking
       </div>
@@ -57,7 +62,6 @@ function LeftPanel({ step, selectedService, selectedDate, selectedTime, booked }
       <p className="text-md text-slate-400 mb-4 md:mb-5">Quick, easy, and confirmed instantly.</p>
       <div className="h-px bg-slate-200 mb-4 md:mb-5 hidden md:block" />
 
-      {/* Steps — horizontal on mobile, vertical on desktop */}
       <div className="flex md:flex-col flex-row overflow-x-auto md:overflow-visible gap-0 md:gap-0 pb-1 md:pb-0 flex-1">
         {STEP_META.map(({ n, label, icon: Icon }, i) => {
           const done   = booked || step > n;
@@ -65,7 +69,6 @@ function LeftPanel({ step, selectedService, selectedDate, selectedTime, booked }
           const val    = getVal(n);
           return (
             <div key={n} className="flex md:flex-row flex-col items-center md:items-start gap-0 md:gap-3 min-w-[60px] md:min-w-0">
-              {/* Dot + line */}
               <div className="flex flex-col md:flex-col items-center">
                 <div className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 border-[1.5px] transition-all duration-200
                   ${done   ? "bg-[#058FD2] border-[#058FD2] text-white"
@@ -81,21 +84,18 @@ function LeftPanel({ step, selectedService, selectedDate, selectedTime, booked }
                   <div className={`md:hidden h-px w-6 mt-0 ml-1 rounded transition-colors duration-300 ${done ? "bg-[#058FD2]" : "bg-slate-200"}`} />
                 )}
               </div>
-              {/* Label — hidden on mobile for space */}
               <div className="hidden md:block pt-0.5 pb-5">
                 <p className={`text-[18px] font-normal leading-none mb-1 ${done ? "text-[#058FD2]" : active ? "text-[#058FD2]" : "text-slate-400"}`}>
                   {n}. {label}
                 </p>
                 {val && <p className="text-xs text-slate-400">{val}</p>}
               </div>
-              {/* Mobile label */}
               <p className={`md:hidden text-[9px] font-medium mt-1 text-center ${active ? "text-[#058FD2]" : done ? "text-[#058FD2]/70" : "text-slate-400"}`}>{label}</p>
             </div>
           );
         })}
       </div>
 
-      {/* Hint box — desktop only */}
       {hint && (
         <div className="hidden md:block mt-auto pt-4">
           <div className="bg-white border border-slate-100 rounded-xl p-3 flex gap-3 items-start">
@@ -194,14 +194,24 @@ function Step1({ selectedService, setSelectedService, onNext }) {
   );
 }
 
-/* ─── Step 2 ─── */
-function Step2({ selectedDate, setSelectedDate, onBack, onNext }) {
+/* ─── Step 2 — now fetches availability on date select ─── */
+function Step2({ selectedDate, setSelectedDate, onBack, onNext, onDateConfirmed, availabilityLoading, availabilityError, allFull }) {
   const today = new Date(); today.setHours(0, 0, 0, 0);
   const [year, setYear]   = useState(today.getFullYear());
   const [month, setMonth] = useState(today.getMonth());
   const prevMonth = () => { if (month === 0) { setMonth(11); setYear(y => y - 1); } else setMonth(m => m - 1); };
   const nextMonth = () => { if (month === 11) { setMonth(0); setYear(y => y + 1); } else setMonth(m => m + 1); };
   const days = getDaysInMonth(year, month), firstDay = getFirstDay(year, month);
+
+  const handleDayClick = (d) => {
+    const dateObj = { d, m: month, y: year };
+    setSelectedDate(dateObj);
+    onDateConfirmed(dateObj); // trigger availability fetch immediately
+  };
+
+  // Next is blocked while loading, on error, or if all slots are full
+  const nextBlocked = !selectedDate || availabilityLoading || !!availabilityError || allFull;
+
   return (
     <>
       <RightHeader step={2} title="Select a date" subtitle="Pick an available date for your appointment" />
@@ -226,7 +236,7 @@ function Step2({ selectedDate, setSelectedDate, onBack, onNext }) {
               const past = dt < today, isToday = dt.getTime() === today.getTime();
               const sel  = selectedDate?.d === d && selectedDate?.m === month && selectedDate?.y === year;
               return (
-                <button key={d} disabled={past} onClick={() => setSelectedDate({ d, m: month, y: year })}
+                <button key={d} disabled={past} onClick={() => handleDayClick(d)}
                   className={`mx-auto w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium transition-all
                     ${sel      ? "bg-[#058FD2] text-white scale-110 font-semibold"
                     : past     ? "text-slate-300 cursor-not-allowed"
@@ -237,26 +247,52 @@ function Step2({ selectedDate, setSelectedDate, onBack, onNext }) {
             })}
           </div>
         </div>
+
+        {/* Status feedback below calendar */}
         {selectedDate && (
-          <p className="text-center text-sm text-[#058FD2] font-medium mt-3 flex items-center justify-center gap-1.5">
-            <FaCheck className="w-3 h-3" /> {MONTHS[selectedDate.m]} {selectedDate.d}, {selectedDate.y}
-          </p>
+          <div className="mt-3 text-center">
+            {availabilityLoading && (
+              <p className="text-sm text-slate-400 flex items-center justify-center gap-2">
+                <span className="w-3.5 h-3.5 border-2 border-[#058FD2] border-t-transparent rounded-full animate-spin inline-block" />
+                Checking available slots…
+              </p>
+            )}
+            {!availabilityLoading && availabilityError && (
+              <p className="text-sm text-red-500 flex items-center justify-center gap-1.5">
+                <FaExclamationTriangle className="w-3 h-3" /> {availabilityError}
+              </p>
+            )}
+            {!availabilityLoading && !availabilityError && allFull && (
+              <div className="inline-flex items-center gap-1.5 bg-red-50 border border-red-100 text-red-500 text-xs font-medium px-3 py-1.5 rounded-full">
+                <FaExclamationTriangle className="w-3 h-3" />
+                All slots are fully booked for this date. Please choose another day.
+              </div>
+            )}
+            {!availabilityLoading && !availabilityError && !allFull && (
+              <p className="text-sm text-[#058FD2] font-medium flex items-center justify-center gap-1.5">
+                <FaCheck className="w-3 h-3" /> {MONTHS[selectedDate.m]} {selectedDate.d}, {selectedDate.y}
+              </p>
+            )}
+          </div>
         )}
       </div>
-      <Footer onBack={onBack} onNext={onNext} nextDisabled={!selectedDate} />
+      <Footer onBack={onBack} onNext={onNext} nextDisabled={nextBlocked} />
     </>
   );
 }
 
-/* ─── Step 3 ─── */
-function Step3({ selectedTime, setSelectedTime, onBack, onNext }) {
+/* ─── Step 3 — driven by real availability data ─── */
+function Step3({ selectedTime, setSelectedTime, onBack, onNext, slotAvailability }) {
   return (
     <>
       <RightHeader step={3} title="Select a time" subtitle="Available slots for your chosen date" />
       <div className="px-6 md:px-7 pt-5 pb-3 flex-1">
         <div className="grid grid-cols-3 gap-2.5 max-w-lg">
           {TIME_SLOTS.map(t => {
-            const un = UNAVAIL_SLOTS.includes(t), sel = selectedTime === t;
+            // Find availability for this slot from API data; default to available if not found
+            const slotData = slotAvailability.find(s => s.slot === t);
+            const un  = slotData ? !slotData.available : false;
+            const sel = selectedTime === t;
             return (
               <button key={t} disabled={un} onClick={() => setSelectedTime(t)}
                 className={`py-3 px-2 rounded-xl border-[1.5px] text-[13px] font-semibold transition-all
@@ -265,7 +301,7 @@ function Step3({ selectedTime, setSelectedTime, onBack, onNext }) {
                   :       "border-slate-200 bg-white text-slate-600 hover:border-[#058FD2] hover:text-[#058FD2] hover:bg-[#E8F6FD]"}`}
               >
                 {t}
-                {un && <span className="block text-[10px] font-normal mt-0.5 opacity-70">Unavailable</span>}
+                {un && <span className="block text-[10px] font-normal mt-0.5 opacity-70">Full</span>}
               </button>
             );
           })}
@@ -282,12 +318,10 @@ function Step3({ selectedTime, setSelectedTime, onBack, onNext }) {
 
 /* ─── Step 4 ─── */
 function Step4({ selectedService, selectedDate, selectedTime, files, setFiles, onBack, onSubmit, isSubmitting, submitError }) {
-  const [drag, setDrag]   = useState(false);
-  const inputRef          = useRef(null);
+  const [drag, setDrag] = useState(false);
+  const inputRef        = useRef(null);
   const addFiles = (inc) => {
-    const allowed = Array.from(inc).filter(
-      (f) => f.type.startsWith("image/") || f.type === "application/pdf"
-    );
+    const allowed = Array.from(inc).filter(f => f.type.startsWith("image/") || f.type === "application/pdf");
     setFiles(p => [...p, ...allowed].slice(0, 5));
   };
   const removeFile = (i) => setFiles(f => f.filter((_, idx) => idx !== i));
@@ -316,9 +350,7 @@ function Step4({ selectedService, selectedDate, selectedTime, files, setFiles, o
             {files.map((file, i) => (
               <div key={i} className="relative group aspect-square rounded-xl border border-slate-200 overflow-hidden">
                 {file.type === "application/pdf" ? (
-                  <div className="w-full h-full bg-slate-50 flex items-center justify-center px-2 text-center text-[10px] font-semibold text-slate-500">
-                    PDF
-                  </div>
+                  <div className="w-full h-full bg-slate-50 flex items-center justify-center px-2 text-center text-[10px] font-semibold text-slate-500">PDF</div>
                 ) : (
                   <img src={URL.createObjectURL(file)} alt="" className="w-full h-full object-cover" />
                 )}
@@ -345,9 +377,7 @@ function Step4({ selectedService, selectedDate, selectedTime, files, setFiles, o
             </div>
           ))}
         </div>
-        {submitError && (
-          <p className="text-xs font-medium text-red-500">{submitError}</p>
-        )}
+        {submitError && <p className="text-xs font-medium text-red-500">{submitError}</p>}
       </div>
       <Footer onBack={onBack} onNext={onSubmit} nextLabel={isSubmitting ? "Booking..." : "Confirm booking"} nextDisabled={isSubmitting} confirm />
     </>
@@ -401,6 +431,12 @@ export default function BookingSection() {
   const [isSubmitting,    setIsSubmitting]    = useState(false);
   const [submitError,     setSubmitError]     = useState("");
 
+  // ── Availability state ──
+  const [slotAvailability,    setSlotAvailability]    = useState([]); // [{ slot, available, booked }]
+  const [allFull,             setAllFull]             = useState(false);
+  const [availabilityLoading, setAvailabilityLoading] = useState(false);
+  const [availabilityError,   setAvailabilityError]   = useState("");
+
   useEffect(() => {
     const checkAuth = async () => {
       try {
@@ -412,8 +448,33 @@ export default function BookingSection() {
         setIsCheckingAuth(false);
       }
     };
-
     checkAuth();
+  }, []);
+
+  // Called as soon as user taps a date on Step 2
+  const fetchAvailability = useCallback(async (dateObj) => {
+    setAvailabilityLoading(true);
+    setAvailabilityError("");
+    setAllFull(false);
+    setSlotAvailability([]);
+    setSelectedTime(null); // reset time whenever date changes
+
+    const dateStr = formatDateForApi(dateObj);
+    try {
+      const res  = await fetch(`/api/appointments/availability?date=${dateStr}`);
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        throw new Error(data.message || "Could not load availability.");
+      }
+
+      setSlotAvailability(data.slots);
+      setAllFull(data.allFull);
+    } catch (err) {
+      setAvailabilityError(err.message);
+    } finally {
+      setAvailabilityLoading(false);
+    }
   }, []);
 
   const reset = () => {
@@ -424,48 +485,38 @@ export default function BookingSection() {
     setFiles([]);
     setSubmitError("");
     setBooked(false);
+    setSlotAvailability([]);
+    setAllFull(false);
+    setAvailabilityLoading(false);
+    setAvailabilityError("");
   };
 
-  // ── Only this function changed ──
   const submitBooking = async () => {
     if (!selectedService || !selectedDate || !selectedTime) return;
 
     setIsSubmitting(true);
     setSubmitError("");
 
-    // Build FormData exactly as the API expects
     const formData = new FormData();
+    const service  = SERVICES.find(s => s.id === selectedService)?.label || selectedService;
+    const date     = formatDateForApi(selectedDate);
 
-    // "service" — send the human-readable label, not the id
-    const service = SERVICES.find(s => s.id === selectedService)?.label || selectedService;
-    formData.append("service", service);
-
-    // "date" — API does new Date(date), so send YYYY-MM-DD
-    const date = `${selectedDate.y}-${String(selectedDate.m + 1).padStart(2, "0")}-${String(selectedDate.d).padStart(2, "0")}`;
-    formData.append("date", date);
-
-    // "timeSlot" — send as-is (e.g. "09:00 AM")
+    formData.append("service",  service);
+    formData.append("date",     date);
     formData.append("timeSlot", selectedTime);
-
-    // "attachments" — each file appended under the same key
-    files.forEach((file) => formData.append("attachments", file));
+    files.forEach(file => formData.append("attachments", file));
 
     try {
       const response = await fetch("/api/appointments", {
         method: "POST",
-        // Do NOT set Content-Type header — the browser sets it automatically
-        // with the correct multipart boundary when using FormData
         body: formData,
       });
-
       const data = await response.json();
 
       if (!response.ok) {
-        // Use the message from your API's error response shape
         throw new Error(data.message || "Unable to book appointment.");
       }
 
-      // data.success === true and data.appointment is available if needed
       setBooked(true);
     } catch (error) {
       setSubmitError(error.message);
@@ -477,59 +528,78 @@ export default function BookingSection() {
   return (
     <section className="min-h-screen flex items-center justify-center p-4 md:py-8">
       <div className="relative w-full max-w-7xl">
-      <div className={`w-full bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden flex flex-col md:flex-row min-h-[560px] transition-all ${!isCheckingAuth && !isLoggedIn ? "blur-sm pointer-events-none select-none" : ""}`}>
+        <div className={`w-full bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden flex flex-col md:flex-row min-h-[560px] transition-all ${!isCheckingAuth && !isLoggedIn ? "blur-sm pointer-events-none select-none" : ""}`}>
 
-        {/* Left */}
-        <LeftPanel
-          step={step}
-          selectedService={selectedService}
-          selectedDate={selectedDate}
-          selectedTime={selectedTime}
-          booked={booked}
-        />
+          {/* Left */}
+          <LeftPanel
+            step={step}
+            selectedService={selectedService}
+            selectedDate={selectedDate}
+            selectedTime={selectedTime}
+            booked={booked}
+          />
 
-        {/* Right */}
-        <div className="flex flex-col flex-1 min-w-0">
-          {booked ? (
-            <SuccessScreen
-              selectedService={selectedService}
-              selectedDate={selectedDate}
-              selectedTime={selectedTime}
-              onReset={reset}
-            />
-          ) : step === 1 ? (
-            <Step1 selectedService={selectedService} setSelectedService={setSelectedService} onNext={() => setStep(2)} />
-          ) : step === 2 ? (
-            <Step2 selectedDate={selectedDate} setSelectedDate={setSelectedDate} onBack={() => setStep(1)} onNext={() => setStep(3)} />
-          ) : step === 3 ? (
-            <Step3 selectedTime={selectedTime} setSelectedTime={setSelectedTime} onBack={() => setStep(2)} onNext={() => setStep(4)} />
-          ) : (
-            <Step4
-              selectedService={selectedService}
-              selectedDate={selectedDate}
-              selectedTime={selectedTime}
-              files={files}
-              setFiles={setFiles}
-              onBack={() => setStep(3)}
-              onSubmit={submitBooking}
-              isSubmitting={isSubmitting}
-              submitError={submitError}
-            />
-          )}
-        </div>
-
-      </div>
-      {!isCheckingAuth && !isLoggedIn && (
-        <div className="absolute inset-0 z-10 flex items-center justify-center px-4">
-          <div className="bg-white border border-slate-100 shadow-xl shadow-slate-200/70 rounded-2xl p-6 text-center max-w-sm">
-            <h3 className="text-lg font-bold text-slate-800 mb-2">Login to book</h3>
-            <p className="text-sm text-slate-500 mb-5">Please login first to book your appointment with the doctor.</p>
-            <a href="/login" className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-[#058FD2] text-white text-sm font-semibold hover:bg-[#0A7AB8] transition-colors">
-              Click login to book
-            </a>
+          {/* Right */}
+          <div className="flex flex-col flex-1 min-w-0">
+            {booked ? (
+              <SuccessScreen
+                selectedService={selectedService}
+                selectedDate={selectedDate}
+                selectedTime={selectedTime}
+                onReset={reset}
+              />
+            ) : step === 1 ? (
+              <Step1
+                selectedService={selectedService}
+                setSelectedService={setSelectedService}
+                onNext={() => setStep(2)}
+              />
+            ) : step === 2 ? (
+              <Step2
+                selectedDate={selectedDate}
+                setSelectedDate={setSelectedDate}
+                onBack={() => setStep(1)}
+                onNext={() => setStep(3)}
+                onDateConfirmed={fetchAvailability}
+                availabilityLoading={availabilityLoading}
+                availabilityError={availabilityError}
+                allFull={allFull}
+              />
+            ) : step === 3 ? (
+              <Step3
+                selectedTime={selectedTime}
+                setSelectedTime={setSelectedTime}
+                onBack={() => setStep(2)}
+                onNext={() => setStep(4)}
+                slotAvailability={slotAvailability}
+              />
+            ) : (
+              <Step4
+                selectedService={selectedService}
+                selectedDate={selectedDate}
+                selectedTime={selectedTime}
+                files={files}
+                setFiles={setFiles}
+                onBack={() => setStep(3)}
+                onSubmit={submitBooking}
+                isSubmitting={isSubmitting}
+                submitError={submitError}
+              />
+            )}
           </div>
+
         </div>
-      )}
+        {!isCheckingAuth && !isLoggedIn && (
+          <div className="absolute inset-0 z-10 flex items-center justify-center px-4">
+            <div className="bg-white border border-slate-100 shadow-xl shadow-slate-200/70 rounded-2xl p-6 text-center max-w-sm">
+              <h3 className="text-lg font-bold text-slate-800 mb-2">Login to book</h3>
+              <p className="text-sm text-slate-500 mb-5">Please login first to book your appointment with the doctor.</p>
+              <a href="/login" className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-[#058FD2] text-white text-sm font-semibold hover:bg-[#0A7AB8] transition-colors">
+                Click login to book
+              </a>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
