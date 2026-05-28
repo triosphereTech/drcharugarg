@@ -8,7 +8,33 @@ import { HiArrowUpRight } from "react-icons/hi2";
 
 const Navbar = () => {
   const [openMenu, setOpenMenu] = useState(false);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+const handleLogout = async () => {
+  // Clear user session or token here
+  // For example, if using cookies:
+      try {
+      const response = await fetch("/api/auth/logout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      });
+      const data = await response.json();
 
+      if (!response.ok) {
+        throw new Error(data.message || "Unable to logout.");
+      }
+      setMessage(data.message || "Logout successful.");
+      
+      window.location.href = "/"; // Redirect to login page after logout
+    } catch (err) {
+      setError(err.message);
+    } finally {
+    }
+
+
+}
   useEffect(() => {
     if (openMenu) {
       document.body.style.overflow = "hidden";
@@ -86,8 +112,21 @@ const Navbar = () => {
 
               <HiArrowUpRight className="text-[18px]" />
             </button>
+            
           </div>
+            <div className="hidden xl:block">
+            <button className="flex items-center gap-2 rounded-full bg-primary-dark px-6 py-3 text-[15px] font-medium text-white transition-all duration-300 hover:scale-[1.02]"
+            onClick={async () => {
+              await  handleLogout();
+            }
+          }
+            >
+         Logout 
 
+              <HiArrowUpRight className="text-[18px]" />
+            </button>
+            
+          </div>
           {/* MOBILE MENU BUTTON */}
           <button
             onClick={() => setOpenMenu(true)}
@@ -175,6 +214,7 @@ const Navbar = () => {
                   <HiArrowUpRight className="text-[20px]" />
                 </button>
               </div>
+             
             </div>
           </div>
         </div>

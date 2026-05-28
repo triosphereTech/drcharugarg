@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   FaStethoscope, FaClipboardList, FaMicroscope, FaBolt,
   FaCalendarAlt, FaClock, FaImages, FaCheck,
@@ -281,16 +281,20 @@ function Step3({ selectedTime, setSelectedTime, onBack, onNext }) {
 }
 
 /* ─── Step 4 ─── */
-function Step4({ selectedService, selectedDate, selectedTime, onBack, onSubmit }) {
-  const [files, setFiles] = useState([]);
+function Step4({ selectedService, selectedDate, selectedTime, files, setFiles, onBack, onSubmit, isSubmitting, submitError }) {
   const [drag, setDrag]   = useState(false);
   const inputRef          = useRef(null);
-  const addFiles = (inc) => { const imgs = Array.from(inc).filter(f => f.type.startsWith("image/")); setFiles(p => [...p, ...imgs].slice(0, 5)); };
+  const addFiles = (inc) => {
+    const allowed = Array.from(inc).filter(
+      (f) => f.type.startsWith("image/") || f.type === "application/pdf"
+    );
+    setFiles(p => [...p, ...allowed].slice(0, 5));
+  };
   const removeFile = (i) => setFiles(f => f.filter((_, idx) => idx !== i));
   const svc = SERVICES.find(s => s.id === selectedService);
   return (
     <>
-      <RightHeader step={4} title="Upload images" subtitle="Share photos to help our doctor prepare (optional)" />
+      <RightHeader step={4} title="Upload attachments" subtitle="Share images or PDFs to help our doctor prepare (optional)" />
       <div className="px-6 md:px-7 pt-4 pb-3 flex-1 flex flex-col gap-3">
         <div
           onDragOver={e => { e.preventDefault(); setDrag(true); }}
@@ -300,18 +304,24 @@ function Step4({ selectedService, selectedDate, selectedTime, onBack, onSubmit }
           className={`border-[1.5px] border-dashed rounded-xl p-6 text-center cursor-pointer transition-all
             ${drag ? "border-[#058FD2] bg-[#E8F6FD]" : "border-slate-200 hover:border-[#058FD2]/50 hover:bg-[#E8F6FD]/20"}`}
         >
-          <input ref={inputRef} type="file" multiple accept="image/*" className="hidden" onChange={e => addFiles(e.target.files)} />
+          <input ref={inputRef} type="file" multiple accept="image/*,application/pdf" className="hidden" onChange={e => addFiles(e.target.files)} />
           <div className="w-11 h-11 bg-[#E8F6FD] rounded-xl flex items-center justify-center mx-auto mb-2">
             <FaUpload className="w-4 h-4 text-[#058FD2]" />
           </div>
-          <p className="text-sm font-semibold text-slate-700 mb-0.5">Drop images here</p>
-          <p className="text-xs text-slate-400">or <span className="text-[#058FD2] underline">browse files</span> · PNG, JPG · up to 5</p>
+          <p className="text-sm font-semibold text-slate-700 mb-0.5">Drop attachments here</p>
+          <p className="text-xs text-slate-400">or <span className="text-[#058FD2] underline">browse files</span> - PNG, JPG, WebP, PDF - up to 5</p>
         </div>
         {files.length > 0 && (
           <div className="grid grid-cols-5 gap-2">
             {files.map((file, i) => (
               <div key={i} className="relative group aspect-square rounded-xl border border-slate-200 overflow-hidden">
-                <img src={URL.createObjectURL(file)} alt="" className="w-full h-full object-cover" />
+                {file.type === "application/pdf" ? (
+                  <div className="w-full h-full bg-slate-50 flex items-center justify-center px-2 text-center text-[10px] font-semibold text-slate-500">
+                    PDF
+                  </div>
+                ) : (
+                  <img src={URL.createObjectURL(file)} alt="" className="w-full h-full object-cover" />
+                )}
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all flex items-center justify-center">
                   <button onClick={e => { e.stopPropagation(); removeFile(i); }}
                     className="opacity-0 group-hover:opacity-100 w-6 h-6 bg-white rounded-full flex items-center justify-center shadow text-slate-600 transition-opacity" aria-label="Remove">
@@ -335,8 +345,11 @@ function Step4({ selectedService, selectedDate, selectedTime, onBack, onSubmit }
             </div>
           ))}
         </div>
+        {submitError && (
+          <p className="text-xs font-medium text-red-500">{submitError}</p>
+        )}
       </div>
-      <Footer onBack={onBack} onNext={onSubmit} nextLabel="Confirm booking" confirm />
+      <Footer onBack={onBack} onNext={onSubmit} nextLabel={isSubmitting ? "Booking..." : "Confirm booking"} nextDisabled={isSubmitting} confirm />
     </>
   );
 }
@@ -350,7 +363,7 @@ function SuccessScreen({ selectedService, selectedDate, selectedTime, onReset })
         <FaCheck className="w-7 h-7 text-[#058FD2]" />
       </div>
       <h2 className="text-xl font-bold text-slate-800 mb-2">Appointment confirmed!</h2>
-      <p className="text-sm text-slate-400 mb-6">You'll receive a confirmation shortly.</p>
+      <p className="text-sm text-slate-400 mb-6">You will receive a confirmation shortly.</p>
       <div className="bg-slate-50 border border-slate-100 rounded-xl p-4 text-left w-full max-w-xs mb-6">
         {[
           { label: "Service", value: svc?.label },
@@ -382,12 +395,89 @@ export default function BookingSection() {
   const [selectedDate,    setSelectedDate]    = useState(null);
   const [selectedTime,    setSelectedTime]    = useState(null);
   const [booked,          setBooked]          = useState(false);
+  const [files,           setFiles]           = useState([]);
+  const [isLoggedIn,      setIsLoggedIn]      = useState(false);
+  const [isCheckingAuth,  setIsCheckingAuth]  = useState(true);
+  const [isSubmitting,    setIsSubmitting]    = useState(false);
+  const [submitError,     setSubmitError]     = useState("");
 
-  const reset = () => { setStep(1); setSelectedService(null); setSelectedDate(null); setSelectedTime(null); setBooked(false); };
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const response = await fetch("/api/patient/profile");
+        setIsLoggedIn(response.ok);
+      } catch {
+        setIsLoggedIn(false);
+      } finally {
+        setIsCheckingAuth(false);
+      }
+    };
+
+    checkAuth();
+  }, []);
+
+  const reset = () => {
+    setStep(1);
+    setSelectedService(null);
+    setSelectedDate(null);
+    setSelectedTime(null);
+    setFiles([]);
+    setSubmitError("");
+    setBooked(false);
+  };
+
+  // ── Only this function changed ──
+  const submitBooking = async () => {
+    if (!selectedService || !selectedDate || !selectedTime) return;
+
+    setIsSubmitting(true);
+    setSubmitError("");
+
+    // Build FormData exactly as the API expects
+    const formData = new FormData();
+
+    // "service" — send the human-readable label, not the id
+    const service = SERVICES.find(s => s.id === selectedService)?.label || selectedService;
+    formData.append("service", service);
+
+    // "date" — API does new Date(date), so send YYYY-MM-DD
+    const date = `${selectedDate.y}-${String(selectedDate.m + 1).padStart(2, "0")}-${String(selectedDate.d).padStart(2, "0")}`;
+    formData.append("date", date);
+
+    // "timeSlot" — send as-is (e.g. "09:00 AM")
+    formData.append("timeSlot", selectedTime);
+
+    // "attachments" — each file appended under the same key
+    files.forEach((file) => formData.append("attachments", file));
+
+    try {
+      const response = await fetch("/api/appointments", {
+        method: "POST",
+        // Do NOT set Content-Type header — the browser sets it automatically
+        // with the correct multipart boundary when using FormData
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        // Use the message from your API's error response shape
+        throw new Error(data.message || "Unable to book appointment.");
+      }
+
+      // data.success === true and data.appointment is available if needed
+      setBooked(true);
+    } catch (error) {
+      setSubmitError(error.message);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <section className="min-h-screen flex items-center justify-center p-4 md:py-8">
-      <div className="w-full max-w-7xl bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden flex flex-col md:flex-row min-h-[560px]">
+      <div className="relative w-full max-w-7xl">
+      <div className={`w-full bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden flex flex-col md:flex-row min-h-[560px] transition-all ${!isCheckingAuth && !isLoggedIn ? "blur-sm pointer-events-none select-none" : ""}`}>
 
         {/* Left */}
         <LeftPanel
@@ -414,10 +504,32 @@ export default function BookingSection() {
           ) : step === 3 ? (
             <Step3 selectedTime={selectedTime} setSelectedTime={setSelectedTime} onBack={() => setStep(2)} onNext={() => setStep(4)} />
           ) : (
-            <Step4 selectedService={selectedService} selectedDate={selectedDate} selectedTime={selectedTime} onBack={() => setStep(3)} onSubmit={() => setBooked(true)} />
+            <Step4
+              selectedService={selectedService}
+              selectedDate={selectedDate}
+              selectedTime={selectedTime}
+              files={files}
+              setFiles={setFiles}
+              onBack={() => setStep(3)}
+              onSubmit={submitBooking}
+              isSubmitting={isSubmitting}
+              submitError={submitError}
+            />
           )}
         </div>
 
+      </div>
+      {!isCheckingAuth && !isLoggedIn && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center px-4">
+          <div className="bg-white border border-slate-100 shadow-xl shadow-slate-200/70 rounded-2xl p-6 text-center max-w-sm">
+            <h3 className="text-lg font-bold text-slate-800 mb-2">Login to book</h3>
+            <p className="text-sm text-slate-500 mb-5">Please login first to book your appointment with the doctor.</p>
+            <a href="/login" className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-[#058FD2] text-white text-sm font-semibold hover:bg-[#0A7AB8] transition-colors">
+              Click login to book
+            </a>
+          </div>
+        </div>
+      )}
       </div>
     </section>
   );

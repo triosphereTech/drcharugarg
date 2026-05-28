@@ -43,6 +43,7 @@ export async function POST(request) {
     return Response.json({
       success: true,
       message: "OTP sent successfully to your email.",
+      email,
     });
   } catch (error) {
     return Response.json(

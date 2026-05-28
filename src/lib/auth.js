@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { cookies } from "next/headers";
 
 export function createAccessToken(patient) {
   if (!process.env.ACCESS_TOKEN_SECRET) {
@@ -16,4 +17,37 @@ export function createAccessToken(patient) {
       expiresIn: "7d",
     }
   );
+}
+export async function requireAuth() {
+
+  try {
+
+    const cookieStore = await cookies();
+
+    const token = cookieStore.get("accessToken")?.value;
+    console.log("token", token)
+    // TOKEN NOT FOUND
+    if (!token) {
+      return {
+        success: false,
+      };
+    }
+
+    // VERIFY TOKEN
+    const decoded = jwt.verify(
+      token,
+      process.env.ACCESS_TOKEN_SECRET
+    );
+
+    return {
+      success: true,
+      user: decoded,
+    };
+
+  } catch (error) {
+    console.log("Error occurred while verifying token:", error);
+    return {
+      success: false,
+    };
+  }
 }

@@ -1,5 +1,7 @@
 'use client'
+import { useState } from "react";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 import {
   HiOutlineShieldCheck,
   HiOutlineSparkles,
@@ -8,6 +10,11 @@ import {
 import { MdOutlineEmail } from "react-icons/md";
 
 const LoginPage = () => {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [isSendingOtp, setIsSendingOtp] = useState(false);
+  const [error, setError] = useState("");
+
   const features = [
     {
       icon: <HiOutlineShieldCheck />,
@@ -18,6 +25,39 @@ const LoginPage = () => {
       title: "Fast & Seamless Access",
     },
   ];
+
+  const sendOtp = async () => {
+    setError("");
+
+    if (!email) {
+      setError("Please enter your email address.");
+      return;
+    }
+
+    setIsSendingOtp(true);
+
+    try {
+      const response = await fetch("/api/auth/send-otp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Unable to send OTP.");
+      }
+      sessionStorage.setItem("loginEmail", email);
+      router.replace("/otp");
+
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsSendingOtp(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#f8fbfd] overflow-hidden font-sans">
@@ -95,14 +135,23 @@ const LoginPage = () => {
                   <input
                     type="email"
                     placeholder="Enter your email address"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     className="w-full bg-transparent outline-none text-base text-[#131C15] placeholder:text-[#9aa5a0]"
                   />
                 </div>
               </div>
 
-              {/* BUTTON */}
-              <button className="w-full h-[58px] cursor-pointer active:scale-95 duration-300 rounded-full bg-[#058FD2] hover:bg-[#047fbc] transition-all text-white font-medium flex items-center justify-center gap-2 mt-2">
-                Get OTP
+              {error && (
+                <p className="text-sm font-medium text-red-500">{error}</p>
+              )}
+
+              <button
+                onClick={sendOtp}
+                disabled={isSendingOtp}
+                className="w-full h-[58px] cursor-pointer disabled:cursor-not-allowed disabled:bg-slate-300 active:scale-95 duration-300 rounded-full 
+              bg-[#058FD2] hover:bg-[#047fbc] transition-all text-white font-medium flex items-center justify-center gap-2 mt-2">
+                {isSendingOtp ? "Sending OTP..." : "Get OTP"}
                 <HiOutlineArrowRight className="text-lg" />
               </button>
             </div>
