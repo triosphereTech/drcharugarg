@@ -2,307 +2,319 @@
 
 import { useState, useRef } from "react";
 import {
-  FaStethoscope,
-  FaClipboardList,
-  FaMicroscope,
-  FaBolt,
-  FaCalendarAlt,
-  FaClock,
-  FaImages,
-  FaCheck,
-  FaChevronLeft,
-  FaChevronRight,
-  FaUpload,
-  FaTimes,
-  FaInfoCircle,
-  FaWhatsapp,
-  FaRedo,
+  FaStethoscope, FaClipboardList, FaMicroscope, FaBolt,
+  FaCalendarAlt, FaClock, FaImages, FaCheck,
+  FaChevronLeft, FaChevronRight, FaUpload, FaTimes,
+  FaInfoCircle, FaWhatsapp, FaRedo, FaCalendar,
 } from "react-icons/fa";
 
 const SERVICES = [
-  { id: "initial",  label: "Initial Consultation", icon: FaStethoscope, duration: "30 min", desc: "First-time patient evaluation" },
+  { id: "initial",  label: "Initial Consultation", icon: FaStethoscope,   duration: "30 min", desc: "First-time patient evaluation" },
   { id: "followup", label: "Follow-up Visit",       icon: FaClipboardList, duration: "20 min", desc: "Review & progress check" },
-  { id: "scalp",    label: "Scalp Analysis",         icon: FaMicroscope, duration: "25 min", desc: "Detailed scalp examination" },
-  { id: "laser",    label: "Laser Consultation",     icon: FaBolt, duration: "40 min", desc: "Laser treatment planning" },
+  { id: "scalp",    label: "Scalp Analysis",         icon: FaMicroscope,   duration: "25 min", desc: "Detailed scalp examination" },
+  { id: "laser",    label: "Laser Consultation",     icon: FaBolt,         duration: "40 min", desc: "Laser treatment planning" },
 ];
-
 const TIME_SLOTS    = ["09:00 AM","10:00 AM","11:00 AM","02:00 PM","03:00 PM","04:00 PM"];
 const UNAVAIL_SLOTS = ["11:00 AM","03:00 PM"];
 const MONTHS        = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-const DAY_NAMES     = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
+const DAY_NAMES     = ["SU","MO","TU","WE","TH","FR","SA"];
+
+const STEP_META = [
+  { n: 1, label: "Service", icon: FaStethoscope },
+  { n: 2, label: "Date",    icon: FaCalendarAlt },
+  { n: 3, label: "Time",    icon: FaClock },
+  { n: 4, label: "Images",  icon: FaImages },
+];
+
+const HINTS = [
+  null,
+  { icon: FaCalendarAlt, title: "Choose a date",     sub: "Select any available date from the calendar." },
+  { icon: FaClock,       title: "Pick a time slot",  sub: "Morning and afternoon slots available." },
+  { icon: FaCalendar,    title: "Almost there!",     sub: "Just a few more details and you're all set." },
+];
 
 function getDaysInMonth(y, m) { return new Date(y, m + 1, 0).getDate(); }
 function getFirstDay(y, m)    { return new Date(y, m, 1).getDay(); }
 
-/* ─── Step progress indicator ─── */
-function StepBar({ step }) {
-  const stepMeta = [
-    { label: "Service", icon: FaStethoscope },
-    { label: "Date",    icon: FaCalendarAlt },
-    { label: "Time",    icon: FaClock },
-    { label: "Images",  icon: FaImages },
-  ];
+/* ─── Left sidebar ─── */
+function LeftPanel({ step, selectedService, selectedDate, selectedTime, booked }) {
+  const getVal = (n) => {
+    if (n === 1) return selectedService ? SERVICES.find(s => s.id === selectedService)?.label : "";
+    if (n === 2) return selectedDate ? `${MONTHS[selectedDate.m].slice(0,3)} ${selectedDate.d}, ${selectedDate.y}` : "";
+    if (n === 3) return selectedTime || "";
+    return "";
+  };
+
+  const hint = booked ? null : HINTS[step - 1];
+
   return (
-    <div className="flex items-center justify-center mb-8">
-      {stepMeta.map(({ label, icon: Icon }, i) => {
-        const n      = i + 1;
-        const done   = step > n;
-        const active = step === n;
-        return (
-          <div key={n} className="flex items-center">
-            <div className="flex flex-col items-center">
-              <div className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium border-[1.5px] transition-all duration-300
-                ${active ? "bg-blue-700 border-blue-700 text-white ring-4 ring-blue-100"
-                  : done  ? "bg-blue-700 border-blue-700 text-white"
-                  : "bg-white border-slate-200 text-slate-400"}`}>
-                {done ? <FaCheck className="w-3 h-3" /> : <Icon className="w-3.5 h-3.5" />}
+    <aside className="w-full md:w-[260px] lg:w-[400px] flex-shrink-0 bg-slate-50/70 border-b md:border-b-0 md:border-r border-slate-100 p-5 md:p-7 flex flex-col gap-0">
+      {/* Header */}
+      <div className="inline-flex items-center gap-1.5 text-[10px] font-semibold tracking-widest text-[#058FD2] uppercase bg-[#E8F6FD] px-3 py-1.5 rounded-full mb-3 w-fit">
+        <FaCalendarAlt className="w-3 h-3" /> Online Booking
+      </div>
+      <h1 className="text-lg md:text-3xl font-bold text-slate-800 leading-snug mb-1">Book your appointment</h1>
+      <p className="text-md text-slate-400 mb-4 md:mb-5">Quick, easy, and confirmed instantly.</p>
+      <div className="h-px bg-slate-200 mb-4 md:mb-5 hidden md:block" />
+
+      {/* Steps — horizontal on mobile, vertical on desktop */}
+      <div className="flex md:flex-col flex-row overflow-x-auto md:overflow-visible gap-0 md:gap-0 pb-1 md:pb-0 flex-1">
+        {STEP_META.map(({ n, label, icon: Icon }, i) => {
+          const done   = booked || step > n;
+          const active = !booked && step === n;
+          const val    = getVal(n);
+          return (
+            <div key={n} className="flex md:flex-row flex-col items-center md:items-start gap-0 md:gap-3 min-w-[60px] md:min-w-0">
+              {/* Dot + line */}
+              <div className="flex flex-col md:flex-col items-center">
+                <div className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 border-[1.5px] transition-all duration-200
+                  ${done   ? "bg-[#058FD2] border-[#058FD2] text-white"
+                  : active ? "bg-[#E8F6FD] border-[#058FD2] text-[#058FD2] ring-4 ring-[#058FD2]/10"
+                  :          "bg-white border-slate-200 text-slate-400"}`}
+                >
+                  {done ? <FaCheck className="w-4 h-4" /> : <Icon className="w-4 h-4" />}
+                </div>
+                {i < 3 && (
+                  <div className={`hidden md:block w-px flex-1 min-h-[20px] mt-1 rounded transition-colors duration-300 ${done ? "bg-[#058FD2]" : "bg-slate-200"}`} style={{ height: 20 }} />
+                )}
+                {i < 3 && (
+                  <div className={`md:hidden h-px w-6 mt-0 ml-1 rounded transition-colors duration-300 ${done ? "bg-[#058FD2]" : "bg-slate-200"}`} />
+                )}
               </div>
-              <span className={`mt-1.5 text-[11px] font-medium ${active ? "text-blue-700" : done ? "text-blue-400" : "text-slate-400"}`}>
-                {label}
-              </span>
+              {/* Label — hidden on mobile for space */}
+              <div className="hidden md:block pt-0.5 pb-5">
+                <p className={`text-[18px] font-normal leading-none mb-1 ${done ? "text-[#058FD2]" : active ? "text-[#058FD2]" : "text-slate-400"}`}>
+                  {n}. {label}
+                </p>
+                {val && <p className="text-xs text-slate-400">{val}</p>}
+              </div>
+              {/* Mobile label */}
+              <p className={`md:hidden text-[9px] font-medium mt-1 text-center ${active ? "text-[#058FD2]" : done ? "text-[#058FD2]/70" : "text-slate-400"}`}>{label}</p>
             </div>
-            {i < 3 && (
-              <div className={`w-14 sm:w-20 h-[1.5px] mx-1 mb-4 rounded transition-colors duration-300 ${done ? "bg-blue-300" : "bg-slate-200"}`}/>
-            )}
+          );
+        })}
+      </div>
+
+      {/* Hint box — desktop only */}
+      {hint && (
+        <div className="hidden md:block mt-auto pt-4">
+          <div className="bg-white border border-slate-100 rounded-xl p-3 flex gap-3 items-start">
+            <div className="w-8 h-8 rounded-lg bg-[#E8F6FD] flex items-center justify-center flex-shrink-0">
+              <hint.icon className="w-3.5 h-3.5 text-[#058FD2]" />
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-slate-700 mb-0.5">{hint.title}</p>
+              <p className="text-[11px] text-slate-400 leading-relaxed">{hint.sub}</p>
+            </div>
           </div>
-        );
-      })}
+        </div>
+      )}
+      {booked && (
+        <div className="hidden md:block mt-auto pt-4">
+          <div className="bg-white border border-slate-100 rounded-xl p-3 flex gap-3 items-start">
+            <div className="w-8 h-8 rounded-lg bg-[#E8F6FD] flex items-center justify-center flex-shrink-0">
+              <FaCheck className="w-3.5 h-3.5 text-[#058FD2]" />
+            </div>
+            <div>
+              <p className="text-xs font-semibold text-slate-700 mb-0.5">All done!</p>
+              <p className="text-[11px] text-slate-400 leading-relaxed">Your appointment has been confirmed.</p>
+            </div>
+          </div>
+        </div>
+      )}
+    </aside>
+  );
+}
+
+/* ─── Right panel header ─── */
+function RightHeader({ step, title, subtitle }) {
+  return (
+    <div className="px-6 md:px-7 pt-6 md:pt-7 pb-0">
+      <div className="inline-flex items-center gap-1.5 text-[11px] font-medium text-slate-500 bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-full mb-3 uppercase tracking-wider">
+        Step {step} of 4
+      </div>
+      <h2 className="text-[17px] font-semibold text-slate-800 mb-1">{title}</h2>
+      <p className="text-sm text-slate-400">{subtitle}</p>
     </div>
   );
 }
 
-/* ─── Reusable footer nav buttons ─── */
-function Footer({ onBack, onNext, nextLabel = "Continue", nextDisabled = false, nextConfirm = false }) {
+/* ─── Footer ─── */
+function Footer({ onBack, onNext, nextLabel = "Continue", nextDisabled = false, confirm = false }) {
   return (
-    <div className="flex items-center justify-between px-6 py-4 border-t border-slate-100 bg-slate-50/60 rounded-b-2xl">
+    <div className="flex items-center justify-between px-6 md:px-7 py-4 border-t border-slate-100 bg-slate-50/60 rounded-br-2xl">
       {onBack ? (
-        <button onClick={onBack} className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 bg-white text-slate-500 text-sm font-medium hover:border-blue-300 hover:text-blue-600 hover:bg-blue-50 transition-all">
-          <FaChevronLeft className="w-3.5 h-3.5" />
-          Back
+        <button onClick={onBack} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-200 bg-white text-slate-500 text-sm font-medium hover:border-[#058FD2] hover:text-[#058FD2] hover:bg-[#E8F6FD] transition-all">
+          <FaChevronLeft className="w-3 h-3" /> Back
         </button>
-      ) : <div/>}
+      ) : <div />}
       <button
         onClick={onNext}
         disabled={nextDisabled}
-        className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-all
-          ${nextDisabled
-            ? "bg-slate-100 text-slate-400 cursor-not-allowed"
-            : "bg-blue-700 text-white hover:bg-blue-800 active:scale-95"}`}
+        className={`inline-flex items-center gap-2 px-5 py-2 rounded-xl text-sm font-medium transition-all active:scale-95
+          ${nextDisabled ? "bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200" : "bg-[#058FD2] text-white hover:bg-[#0A7AB8]"}`}
       >
-        {nextConfirm && <FaCheck className="w-3.5 h-3.5" />}
+        {confirm && <FaCheck className="w-3 h-3" />}
         {nextLabel}
-        {!nextConfirm && <FaChevronRight className="w-3.5 h-3.5" />}
+        {!confirm && <FaChevronRight className="w-3 h-3" />}
       </button>
     </div>
   );
 }
 
-/* ─── Card header with step badge ─── */
-function CardHeader({ step, Icon, title, subtitle }) {
-  return (
-    <div className="px-6 pt-6 pb-0">
-      <div className="inline-flex items-center gap-1.5 text-xs font-medium text-blue-600 bg-blue-50 px-3 py-1.5 rounded-full mb-3">
-        <Icon className="w-3.5 h-3.5" />
-        <span>Step {step} of 4</span>
-      </div>
-      <h2 className="text-lg font-semibold text-slate-800 mb-1">{title}</h2>
-      <p className="text-sm text-slate-400 mb-0">{subtitle}</p>
-    </div>
-  );
-}
-
-/* ─── Step 1: Service ─── */
+/* ─── Step 1 ─── */
 function Step1({ selectedService, setSelectedService, onNext }) {
   return (
     <>
-      <CardHeader step={1} Icon={FaStethoscope} title="Select a service" subtitle="Choose the type of appointment you need"/>
-      <div className="px-6 pt-5 pb-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <RightHeader step={1} title="Select a service" subtitle="Choose the type of appointment you need" />
+      <div className="px-6 md:px-7 pt-5 pb-3 grid grid-cols-2 gap-3 flex-1">
         {SERVICES.map(s => {
-          const Icon = s.icon;
+          const Icon = s.icon, sel = selectedService === s.id;
           return (
-            <button
-              key={s.id}
-              onClick={() => setSelectedService(s.id)}
+            <button key={s.id} onClick={() => setSelectedService(s.id)}
               className={`group p-4 rounded-xl border-[1.5px] text-left transition-all duration-150
-                ${selectedService === s.id
-                  ? "border-blue-700 bg-blue-50"
-                  : "border-slate-200 bg-white hover:border-blue-300 hover:bg-blue-50/40"}`}
+                ${sel ? "border-[#058FD2] bg-[#E8F6FD]" : "border-slate-200 bg-white hover:border-[#058FD2]/50 hover:bg-[#E8F6FD]/40"}`}
             >
               <div className="flex items-start justify-between mb-3">
-                <div className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors
-                  ${selectedService === s.id ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-slate-500 group-hover:bg-blue-100 group-hover:text-blue-600"}`}>
-                  <Icon className="w-4 h-4" />
+                <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors
+                  ${sel ? "bg-[#058FD2] text-white" : "bg-slate-100 text-slate-400 group-hover:bg-[#058FD2] group-hover:text-white"}`}>
+                  <Icon className="w-3.5 h-3.5" />
                 </div>
-                {selectedService === s.id && (
-                  <div className="w-5 h-5 rounded-full bg-blue-700 flex items-center justify-center flex-shrink-0">
-                    <FaCheck className="w-2.5 h-2.5 text-white" />
-                  </div>
-                )}
+                {sel && <div className="w-5 h-5 rounded-full bg-[#058FD2] flex items-center justify-center"><FaCheck className="w-2.5 h-2.5 text-white" /></div>}
               </div>
-              <p className={`text-sm font-semibold mb-0.5 ${selectedService === s.id ? "text-blue-800" : "text-slate-700"}`}>{s.label}</p>
+              <p className={`text-sm font-semibold mb-0.5 ${sel ? "text-[#065F8F]" : "text-slate-700"}`}>{s.label}</p>
               <p className="text-xs text-slate-400 mb-2">{s.desc}</p>
-              <span className="inline-block text-xs font-medium text-blue-600 bg-blue-100 px-2 py-0.5 rounded-lg">{s.duration}</span>
+              <span className="text-xs font-medium text-[#058FD2] bg-[#058FD2]/10 px-2 py-0.5 rounded-md">{s.duration}</span>
             </button>
           );
         })}
       </div>
-      <Footer onNext={onNext} nextDisabled={!selectedService}/>
+      <Footer onNext={onNext} nextDisabled={!selectedService} />
     </>
   );
 }
 
-/* ─── Step 2: Calendar ─── */
+/* ─── Step 2 ─── */
 function Step2({ selectedDate, setSelectedDate, onBack, onNext }) {
-  const today = new Date(); today.setHours(0,0,0,0);
+  const today = new Date(); today.setHours(0, 0, 0, 0);
   const [year, setYear]   = useState(today.getFullYear());
   const [month, setMonth] = useState(today.getMonth());
-
   const prevMonth = () => { if (month === 0) { setMonth(11); setYear(y => y - 1); } else setMonth(m => m - 1); };
   const nextMonth = () => { if (month === 11) { setMonth(0); setYear(y => y + 1); } else setMonth(m => m + 1); };
-
-  const days = getDaysInMonth(year, month);
-  const firstDay = getFirstDay(year, month);
-
+  const days = getDaysInMonth(year, month), firstDay = getFirstDay(year, month);
   return (
     <>
-      <CardHeader step={2} Icon={FaCalendarAlt} title="Select a date" subtitle="Pick an available date for your appointment"/>
-      <div className="px-6 pt-5 pb-2">
-        <div className="bg-slate-50/60 border border-slate-100 rounded-2xl p-4 max-w-sm mx-auto">
-          {/* Month nav */}
+      <RightHeader step={2} title="Select a date" subtitle="Pick an available date for your appointment" />
+      <div className="px-6 md:px-7 pt-5 pb-3 flex-1">
+        <div className="bg-slate-50 border border-slate-100 rounded-2xl p-4 max-w-[480px] mx-auto">
           <div className="flex items-center justify-between mb-4">
-            <button onClick={prevMonth} className="w-8 h-8 rounded-lg border border-slate-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 text-slate-500 hover:text-blue-600 transition-all">
-              <FaChevronLeft className="w-3 h-3" />
+            <button onClick={prevMonth} className="w-7 h-7 rounded-lg border border-slate-200 flex items-center justify-center text-slate-400 hover:border-[#058FD2] hover:text-[#058FD2] hover:bg-[#E8F6FD] transition-all">
+              <FaChevronLeft className="w-2.5 h-2.5" />
             </button>
             <span className="text-sm font-semibold text-slate-800">{MONTHS[month]} {year}</span>
-            <button onClick={nextMonth} className="w-8 h-8 rounded-lg border border-slate-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 text-slate-500 hover:text-blue-600 transition-all">
-              <FaChevronRight className="w-3 h-3" />
+            <button onClick={nextMonth} className="w-7 h-7 rounded-lg border border-slate-200 flex items-center justify-center text-slate-400 hover:border-[#058FD2] hover:text-[#058FD2] hover:bg-[#E8F6FD] transition-all">
+              <FaChevronRight className="w-2.5 h-2.5" />
             </button>
           </div>
-          {/* Day names */}
           <div className="grid grid-cols-7 mb-1">
-            {DAY_NAMES.map(d => <div key={d} className="text-center text-[10px] font-semibold text-slate-400 py-1">{d}</div>)}
+            {DAY_NAMES.map(d => <div key={d} className="text-center text-[10px] font-semibold text-slate-400 py-1 tracking-wider">{d}</div>)}
           </div>
-          {/* Day grid */}
-          <div className="grid grid-cols-7 gap-y-1">
-            {Array.from({ length: firstDay }).map((_, i) => <div key={`e${i}`}/>)}
+          <div className="grid grid-cols-7 gap-y-0.5">
+            {Array.from({ length: firstDay }).map((_, i) => <div key={`e${i}`} />)}
             {Array.from({ length: days }).map((_, i) => {
-              const d = i + 1;
-              const dt = new Date(year, month, d);
-              const past = dt < today;
-              const isToday = dt.getTime() === today.getTime();
-              const sel = selectedDate?.d === d && selectedDate?.m === month && selectedDate?.y === year;
+              const d = i + 1, dt = new Date(year, month, d);
+              const past = dt < today, isToday = dt.getTime() === today.getTime();
+              const sel  = selectedDate?.d === d && selectedDate?.m === month && selectedDate?.y === year;
               return (
-                <button
-                  key={d}
-                  disabled={past}
-                  onClick={() => setSelectedDate({ d, m: month, y: year })}
-                  className={`mx-auto w-9 h-9 rounded-full flex items-center justify-center text-sm transition-all duration-150
-                    ${sel      ? "bg-blue-700 text-white font-semibold scale-110"
+                <button key={d} disabled={past} onClick={() => setSelectedDate({ d, m: month, y: year })}
+                  className={`mx-auto w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium transition-all
+                    ${sel      ? "bg-[#058FD2] text-white scale-110 font-semibold"
                     : past     ? "text-slate-300 cursor-not-allowed"
-                    : isToday  ? "border-[1.5px] border-blue-400 text-blue-700 font-semibold hover:bg-blue-50"
-                    :            "text-slate-600 hover:bg-blue-50 hover:text-blue-600 font-medium"}`}
-                >
-                  {d}
-                </button>
+                    : isToday  ? "border-[1.5px] border-[#058FD2] text-[#058FD2] font-semibold hover:bg-[#E8F6FD]"
+                    :            "text-slate-600 hover:bg-[#E8F6FD] hover:text-[#058FD2]"}`}
+                >{d}</button>
               );
             })}
           </div>
         </div>
         {selectedDate && (
-          <p className="text-center text-sm text-blue-600 font-medium mt-3 flex items-center justify-center gap-1.5">
-            <FaCheck className="w-3 h-3" />
-            {MONTHS[selectedDate.m]} {selectedDate.d}, {selectedDate.y}
+          <p className="text-center text-sm text-[#058FD2] font-medium mt-3 flex items-center justify-center gap-1.5">
+            <FaCheck className="w-3 h-3" /> {MONTHS[selectedDate.m]} {selectedDate.d}, {selectedDate.y}
           </p>
         )}
       </div>
-      <Footer onBack={onBack} onNext={onNext} nextDisabled={!selectedDate}/>
+      <Footer onBack={onBack} onNext={onNext} nextDisabled={!selectedDate} />
     </>
   );
 }
 
-/* ─── Step 3: Time ─── */
+/* ─── Step 3 ─── */
 function Step3({ selectedTime, setSelectedTime, onBack, onNext }) {
   return (
     <>
-      <CardHeader step={3} Icon={FaClock} title="Select a time" subtitle="Available slots for your chosen date"/>
-      <div className="px-6 pt-5 pb-2">
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-md mx-auto">
+      <RightHeader step={3} title="Select a time" subtitle="Available slots for your chosen date" />
+      <div className="px-6 md:px-7 pt-5 pb-3 flex-1">
+        <div className="grid grid-cols-3 gap-2.5 max-w-lg">
           {TIME_SLOTS.map(t => {
-            const unavail = UNAVAIL_SLOTS.includes(t);
-            const sel     = selectedTime === t;
+            const un = UNAVAIL_SLOTS.includes(t), sel = selectedTime === t;
             return (
-              <button
-                key={t}
-                disabled={unavail}
-                onClick={() => setSelectedTime(t)}
-                className={`py-3.5 px-4 rounded-xl border-[1.5px] text-sm font-semibold transition-all duration-150
-                  ${unavail ? "border-slate-100 bg-slate-50 text-slate-300 cursor-not-allowed line-through"
-                    : sel   ? "border-blue-700 bg-blue-700 text-white scale-105"
-                    :         "border-slate-200 bg-white text-slate-600 hover:border-blue-300 hover:text-blue-600 hover:bg-blue-50"}`}
+              <button key={t} disabled={un} onClick={() => setSelectedTime(t)}
+                className={`py-3 px-2 rounded-xl border-[1.5px] text-[13px] font-semibold transition-all
+                  ${un  ? "border-slate-100 bg-slate-50 text-slate-300 cursor-not-allowed line-through"
+                  : sel ? "border-[#058FD2] bg-[#058FD2] text-white scale-105"
+                  :       "border-slate-200 bg-white text-slate-600 hover:border-[#058FD2] hover:text-[#058FD2] hover:bg-[#E8F6FD]"}`}
               >
                 {t}
-                {unavail && <span className="block text-[10px] font-normal mt-0.5 opacity-70">Unavailable</span>}
+                {un && <span className="block text-[10px] font-normal mt-0.5 opacity-70">Unavailable</span>}
               </button>
             );
           })}
         </div>
-        <div className="mt-4 max-w-md mx-auto bg-blue-50 rounded-xl px-4 py-3 flex gap-2.5 items-start">
-          <FaInfoCircle className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
-          <p className="text-xs text-blue-600 leading-relaxed">Sessions last 20–30 minutes. Please arrive 5 minutes before your slot.</p>
+        <div className="mt-4 max-w-sm bg-[#E8F6FD] rounded-xl px-4 py-3 flex gap-2 items-start">
+          <FaInfoCircle className="w-3.5 h-3.5 text-[#058FD2] mt-0.5 flex-shrink-0" />
+          <p className="text-xs text-[#065F8F] leading-relaxed">Sessions last 20–30 minutes. Please arrive 5 minutes early.</p>
         </div>
       </div>
-      <Footer onBack={onBack} onNext={onNext} nextDisabled={!selectedTime}/>
+      <Footer onBack={onBack} onNext={onNext} nextDisabled={!selectedTime} />
     </>
   );
 }
 
-/* ─── Step 4: Image upload ─── */
+/* ─── Step 4 ─── */
 function Step4({ selectedService, selectedDate, selectedTime, onBack, onSubmit }) {
   const [files, setFiles] = useState([]);
   const [drag, setDrag]   = useState(false);
   const inputRef          = useRef(null);
-
-  const addFiles = (incoming) => {
-    const imgs = Array.from(incoming).filter(f => f.type.startsWith("image/"));
-    setFiles(prev => [...prev, ...imgs].slice(0, 5));
-  };
+  const addFiles = (inc) => { const imgs = Array.from(inc).filter(f => f.type.startsWith("image/")); setFiles(p => [...p, ...imgs].slice(0, 5)); };
   const removeFile = (i) => setFiles(f => f.filter((_, idx) => idx !== i));
-
   const svc = SERVICES.find(s => s.id === selectedService);
-
   return (
     <>
-      <CardHeader step={4} Icon={FaImages} title="Upload images" subtitle="Share photos of your condition to help our doctor prepare"/>
-      <div className="px-6 pt-5 pb-2 space-y-4">
-        {/* Drop zone */}
+      <RightHeader step={4} title="Upload images" subtitle="Share photos to help our doctor prepare (optional)" />
+      <div className="px-6 md:px-7 pt-4 pb-3 flex-1 flex flex-col gap-3">
         <div
           onDragOver={e => { e.preventDefault(); setDrag(true); }}
           onDragLeave={() => setDrag(false)}
           onDrop={e => { e.preventDefault(); setDrag(false); addFiles(e.dataTransfer.files); }}
           onClick={() => inputRef.current?.click()}
-          className={`border-[1.5px] border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-200
-            ${drag ? "border-blue-400 bg-blue-50 scale-[1.01]" : "border-slate-200 hover:border-blue-300 hover:bg-blue-50/40"}`}
+          className={`border-[1.5px] border-dashed rounded-xl p-6 text-center cursor-pointer transition-all
+            ${drag ? "border-[#058FD2] bg-[#E8F6FD]" : "border-slate-200 hover:border-[#058FD2]/50 hover:bg-[#E8F6FD]/20"}`}
         >
-          <input ref={inputRef} type="file" multiple accept="image/*" className="hidden" onChange={e => addFiles(e.target.files)}/>
-          <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mx-auto mb-3">
-            <FaUpload className="w-5 h-5 text-blue-500" />
+          <input ref={inputRef} type="file" multiple accept="image/*" className="hidden" onChange={e => addFiles(e.target.files)} />
+          <div className="w-11 h-11 bg-[#E8F6FD] rounded-xl flex items-center justify-center mx-auto mb-2">
+            <FaUpload className="w-4 h-4 text-[#058FD2]" />
           </div>
-          <p className="text-sm font-semibold text-slate-700 mb-1">Drop images here</p>
-          <p className="text-xs text-slate-400">or <span className="text-blue-500 underline">browse files</span> · PNG, JPG, WEBP · up to 5</p>
+          <p className="text-sm font-semibold text-slate-700 mb-0.5">Drop images here</p>
+          <p className="text-xs text-slate-400">or <span className="text-[#058FD2] underline">browse files</span> · PNG, JPG · up to 5</p>
         </div>
-
-        {/* Previews */}
         {files.length > 0 && (
-          <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
+          <div className="grid grid-cols-5 gap-2">
             {files.map((file, i) => (
               <div key={i} className="relative group aspect-square rounded-xl border border-slate-200 overflow-hidden">
-                <img src={URL.createObjectURL(file)} alt={file.name} className="w-full h-full object-cover"/>
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-all flex items-center justify-center">
-                  <button
-                    onClick={e => { e.stopPropagation(); removeFile(i); }}
-                    className="opacity-0 group-hover:opacity-100 w-6 h-6 bg-white rounded-full flex items-center justify-center shadow text-slate-700 transition-opacity"
-                    aria-label="Remove image"
-                  >
+                <img src={URL.createObjectURL(file)} alt="" className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all flex items-center justify-center">
+                  <button onClick={e => { e.stopPropagation(); removeFile(i); }}
+                    className="opacity-0 group-hover:opacity-100 w-6 h-6 bg-white rounded-full flex items-center justify-center shadow text-slate-600 transition-opacity" aria-label="Remove">
                     <FaTimes className="w-2.5 h-2.5" />
                   </button>
                 </div>
@@ -310,10 +322,8 @@ function Step4({ selectedService, selectedDate, selectedTime, onBack, onSubmit }
             ))}
           </div>
         )}
-
-        {/* Summary */}
         <div className="bg-slate-50 border border-slate-100 rounded-xl p-4">
-          <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-3">Booking Summary</p>
+          <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-3">Booking summary</p>
           {[
             { label: "Service", value: svc?.label },
             { label: "Date",    value: selectedDate ? `${MONTHS[selectedDate.m]} ${selectedDate.d}, ${selectedDate.y}` : "—" },
@@ -326,22 +336,22 @@ function Step4({ selectedService, selectedDate, selectedTime, onBack, onSubmit }
           ))}
         </div>
       </div>
-      <Footer onBack={onBack} onNext={onSubmit} nextLabel="Confirm Booking" nextConfirm/>
+      <Footer onBack={onBack} onNext={onSubmit} nextLabel="Confirm booking" confirm />
     </>
   );
 }
 
-/* ─── Success screen ─── */
+/* ─── Success ─── */
 function SuccessScreen({ selectedService, selectedDate, selectedTime, onReset }) {
   const svc = SERVICES.find(s => s.id === selectedService);
   return (
-    <div className="text-center py-10 px-6">
-      <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-5">
-        <FaCheck className="w-7 h-7 text-blue-700" />
+    <div className="flex flex-col items-center justify-center flex-1 py-10 px-6 text-center">
+      <div className="w-16 h-16 bg-[#E8F6FD] rounded-full flex items-center justify-center mb-5">
+        <FaCheck className="w-7 h-7 text-[#058FD2]" />
       </div>
-      <h2 className="text-xl font-semibold text-slate-800 mb-2">Appointment confirmed!</h2>
-      <p className="text-sm text-slate-400 mb-6">You'll receive a confirmation email shortly.</p>
-      <div className="bg-slate-50 border border-slate-100 rounded-xl p-4 text-left max-w-xs mx-auto mb-6">
+      <h2 className="text-xl font-bold text-slate-800 mb-2">Appointment confirmed!</h2>
+      <p className="text-sm text-slate-400 mb-6">You'll receive a confirmation shortly.</p>
+      <div className="bg-slate-50 border border-slate-100 rounded-xl p-4 text-left w-full max-w-xs mb-6">
         {[
           { label: "Service", value: svc?.label },
           { label: "Date",    value: selectedDate ? `${MONTHS[selectedDate.m]} ${selectedDate.d}, ${selectedDate.y}` : "" },
@@ -353,18 +363,19 @@ function SuccessScreen({ selectedService, selectedDate, selectedTime, onReset })
           </div>
         ))}
       </div>
-      <button
-        onClick={onReset}
-        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-700 text-white text-sm font-medium hover:bg-blue-800 active:scale-95 transition-all"
-      >
-        Book another appointment
-        <FaRedo className="w-3.5 h-3.5" />
+      <button onClick={onReset}
+        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#058FD2] text-white text-sm font-medium hover:bg-[#0A7AB8] active:scale-95 transition-all mb-4">
+        <FaRedo className="w-3.5 h-3.5" /> Book another appointment
       </button>
+      <a href="https://wa.me/1234567890"
+        className="inline-flex items-center gap-1.5 text-emerald-500 font-semibold text-sm underline underline-offset-2 hover:text-emerald-600 transition-colors">
+        <FaWhatsapp className="w-4 h-4" /> Chat on WhatsApp instead
+      </a>
     </div>
   );
 }
 
-/* ─── Main export ─── */
+/* ─── Main ─── */
 export default function BookingSection() {
   const [step,            setStep]            = useState(1);
   const [selectedService, setSelectedService] = useState(null);
@@ -372,29 +383,23 @@ export default function BookingSection() {
   const [selectedTime,    setSelectedTime]    = useState(null);
   const [booked,          setBooked]          = useState(false);
 
-  const reset = () => {
-    setStep(1); setSelectedService(null); setSelectedDate(null);
-    setSelectedTime(null); setBooked(false);
-  };
+  const reset = () => { setStep(1); setSelectedService(null); setSelectedDate(null); setSelectedTime(null); setBooked(false); };
 
   return (
-    <section className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-white flex items-center justify-center p-4 sm:p-8">
-      <div className="w-full max-w-2xl">
+    <section className="min-h-screen flex items-center justify-center p-4 md:py-8">
+      <div className="w-full max-w-7xl bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden flex flex-col md:flex-row min-h-[560px]">
 
-        {/* Page heading */}
-        <div className="text-center mb-8">
-          <span className="inline-block text-xs font-semibold tracking-widest text-blue-600 uppercase mb-3 bg-blue-50 px-4 py-1.5 rounded-full">
-            Online Booking
-          </span>
-          <h1 className="text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight">Book your appointment</h1>
-          <p className="text-slate-400 text-sm mt-2">Quick, easy, and confirmed instantly.</p>
-        </div>
+        {/* Left */}
+        <LeftPanel
+          step={step}
+          selectedService={selectedService}
+          selectedDate={selectedDate}
+          selectedTime={selectedTime}
+          booked={booked}
+        />
 
-        {/* Progress */}
-        {!booked && <StepBar step={step}/>}
-
-        {/* Card */}
-        <div className="bg-white rounded-2xl shadow-xl shadow-blue-100/40 border border-slate-100 overflow-hidden">
+        {/* Right */}
+        <div className="flex flex-col flex-1 min-w-0">
           {booked ? (
             <SuccessScreen
               selectedService={selectedService}
@@ -403,44 +408,16 @@ export default function BookingSection() {
               onReset={reset}
             />
           ) : step === 1 ? (
-            <Step1
-              selectedService={selectedService}
-              setSelectedService={setSelectedService}
-              onNext={() => setStep(2)}
-            />
+            <Step1 selectedService={selectedService} setSelectedService={setSelectedService} onNext={() => setStep(2)} />
           ) : step === 2 ? (
-            <Step2
-              selectedDate={selectedDate}
-              setSelectedDate={setSelectedDate}
-              onBack={() => setStep(1)}
-              onNext={() => setStep(3)}
-            />
+            <Step2 selectedDate={selectedDate} setSelectedDate={setSelectedDate} onBack={() => setStep(1)} onNext={() => setStep(3)} />
           ) : step === 3 ? (
-            <Step3
-              selectedTime={selectedTime}
-              setSelectedTime={setSelectedTime}
-              onBack={() => setStep(2)}
-              onNext={() => setStep(4)}
-            />
+            <Step3 selectedTime={selectedTime} setSelectedTime={setSelectedTime} onBack={() => setStep(2)} onNext={() => setStep(4)} />
           ) : (
-            <Step4
-              selectedService={selectedService}
-              selectedDate={selectedDate}
-              selectedTime={selectedTime}
-              onBack={() => setStep(3)}
-              onSubmit={() => setBooked(true)}
-            />
+            <Step4 selectedService={selectedService} selectedDate={selectedDate} selectedTime={selectedTime} onBack={() => setStep(3)} onSubmit={() => setBooked(true)} />
           )}
         </div>
 
-        {/* WhatsApp */}
-        <p className="text-center mt-5 text-sm text-slate-400 flex items-center justify-center gap-1.5">
-          Prefer to talk?{" "}
-          <a href="https://wa.me/1234567890" className="inline-flex items-center gap-1 text-emerald-500 font-semibold underline underline-offset-2 hover:text-emerald-600 transition-colors">
-            <FaWhatsapp className="w-4 h-4" />
-            Chat on WhatsApp instead
-          </a>
-        </p>
       </div>
     </section>
   );
