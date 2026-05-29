@@ -43,32 +43,29 @@ export const blogs = [
 
 const LatestArticles = () => {
  return (
-   <section className="px-3 pt-10 md:px-5 md:pt-20">
+   <section className="px-4 pt-10 md:px-5 md:pt-20">
      <div>
        {/* Header */}
-       <div className="mb-10 flex flex-col gap-6 md:mb-14 md:flex-row md:items-end md:justify-between">
-         <div>
-           <p className="mb-3 text-sm font-medium uppercase tracking-[0.22em] text-[#058FD2]">
-             Latest Articles
-           </p>
+       <div className="mb-10 flex flex-col items-center justify-center gap-6 text-center md:mb-14 md:flex-row md:items-center md:justify-center">
+  <div>
+    <p className="mb-3 text-sm font-medium uppercase tracking-[0.22em] text-[#058FD2]">
+      Latest Articles
+    </p>
 
+    <h2 className="text-3xl font-semibold leading-tight text-[#131C15]">
+      Our Blogs
+    </h2>
+  </div>
 
-           <h2 className="max-w-[620px] text-3xl font-semibold leading-tight text-[#131C15] md:text-5xl">
-             Our Blogs
-           </h2>
-         </div>
+  <button className="group flex items-center gap-2 rounded-full border border-[#dbe5ea] bg-white px-5 py-3 text-sm font-medium text-[#131C15] transition-all duration-300 hover:border-[#058FD2] hover:text-[#058FD2]">
+    View All Articles
 
-
-         <button className="group flex w-fit items-center gap-2 rounded-full border border-[#dbe5ea] bg-white px-5 py-3 text-sm font-medium text-[#131C15] transition-all duration-300 hover:border-[#058FD2] hover:text-[#058FD2]">
-           View All Articles
-
-
-           <ArrowRight
-             size={16}
-             className="transition-transform duration-300 group-hover:translate-x-1"
-           />
-         </button>
-       </div>
+    <ArrowRight
+      size={16}
+      className="transition-transform duration-300 group-hover:translate-x-1"
+    />
+  </button>
+</div>
 
 
        {/* Cards */}

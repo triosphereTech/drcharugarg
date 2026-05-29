@@ -76,7 +76,7 @@ function Services() {
   return (
     <>
       {/* SERVICES */}
-      <section className="px-3 pt-10 md:px-5 md:pt-20">
+      <section className="px-4 pt-10 md:px-5 md:pt-20">
         <div className="">
           {/* TOP */}
           <div className="mx-auto text-center">

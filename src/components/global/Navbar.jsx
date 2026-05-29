@@ -148,7 +148,7 @@ const Navbar = () => {
     {/* MOBILE MENU BUTTON */}
     <button
       onClick={() => setOpenMenu(true)}
-      className="ml-auto flex h-11 w-11 items-center justify-center rounded-full bg-primary-dark text-white xl:hidden"
+      className="ml-auto flex h-auto w-auto p-2 items-center justify-center rounded-full bg-primary-dark text-white xl:hidden"
     >
       <HiOutlineMenuAlt3 className="text-[24px]" />
     </button>
@@ -172,7 +172,7 @@ const Navbar = () => {
           {/* INNER WRAPPER */}
           <div className="flex h-full flex-col px-3 pt-3">
             {/* TOP NAV */}
-            <div className="flex h-[72px] items-center justify-between rounded-[30px] border border-black/[0.04] bg-white px-4">
+            <div className="flex h-[72px] items-center justify-between rounded-[30px] border border-black/[0.04] bg-white py-4 px-4">
               {/* LEFT */}
               <Link href="/" className="flex items-center gap-3">
                 <div className="flex h-11 w-11 items-center justify-center rounded-full bg-primary-dark text-[18px] font-semibold text-white">
@@ -221,15 +221,15 @@ const Navbar = () => {
 
               {/* BOTTOM CARD */}
               <div className="mb-3 mt-8 rounded-[32px] border border-black/[0.04] bg-white p-5">
-                <p className="text-[15px] font-medium leading-[170%] text-primary-dark/55">
+                {/* <p className="text-[15px] font-medium leading-[170%] text-primary-dark/55">
                   Advanced dermatology care focused on healthy skin, confidence,
                   and long-term wellness.
-                </p>
+                </p> */}
 
-                <button className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-primary-dark py-4 text-[16px] font-medium text-white">
+                <a id="#booking" className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-primary-dark py-4 text-[16px] font-medium text-white">
                   Book Appointment
                   <HiArrowUpRight className="text-[20px]" />
-                </button>
+                </a>
               </div>
             </div>
           </div>

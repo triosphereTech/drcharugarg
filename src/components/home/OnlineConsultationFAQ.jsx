@@ -48,11 +48,11 @@ const OnlineConsultationFAQ = () => {
   };
 
   return (
-    <section className="relative px-3 pt-10 md:px-5 md:pt-20">
+    <section className="relative px-4 pt-10 md:px-5 md:pt-20">
       {/* Soft Background */}
       <div className="absolute left-0 top-0 h-[320px] w-[320px] rounded-full bg-[#eef7fb] blur-[90px]" />
 
-      <div className="relative mx-auto max-w-[1280px] px-5 md:px-8 lg:px-10">
+      <div className="relative mx-auto max-w-[1280px]">
         <div className="grid items-start gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:gap-14 xl:gap-20">
           {/* Left Content */}
           {/* Left Content */}

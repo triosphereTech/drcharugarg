@@ -3,7 +3,7 @@ import { HiArrowUpRight } from "react-icons/hi2";
 function AppointmentCTA() {
   return (
     <>
-      <section className="px-3 pt-10 md:px-5 md:pt-20">
+      <section className="px-4 pt-10 md:px-5 md:pt-20">
         <div className="relative overflow-hidden rounded-[36px] bg-primary-dark">
           {/* BACKGROUND GLOW */}
           <div className="absolute left-[-120px] top-[-120px] h-[260px] w-[260px] rounded-full bg-primary-accent/20 blur-3xl" />

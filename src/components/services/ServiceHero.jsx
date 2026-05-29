@@ -8,7 +8,7 @@ import { ArrowRight } from "lucide-react";
 
 const ServiceHero = ({ data }) => {
  return (
-   <section className="relative overflow-hidden bg-[#f4f5f7] pt-30 pb-14 md:pb-20 md:pt-10">
+   <section className="relative overflow-hidden bg-[#f4f5f7] pt-5 pb-14 md:pb-20 md:pt-10">
      {/* Background Blur */}
      <div className="absolute left-0 top-0 h-[300px] w-[300px] rounded-full bg-[#dff2fc] blur-[100px]" />
 

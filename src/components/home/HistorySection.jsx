@@ -220,9 +220,10 @@ function TimelineItem({ item, index }) {
       </div>
 
       {/* ── MOBILE layout (<md) ────────────────────────────────── */}
+      {/* FIX: was ref={undefined} — mobile items never triggered useInView */}
       <div
-        ref={undefined}
-        className="md:hidden relative flex gap-4 pb-10"
+        ref={ref}
+        className="md:hidden relative flex gap-4 "
       >
         {/* Left spine + dot */}
         <div className="flex flex-col items-center">
@@ -396,7 +397,7 @@ export default function HistorySection() {
 
       {/* ── Footer CTA ─────────────────────────────────────────── */}
       <motion.div
-        className="relative z-10 max-w-5xl mx-auto px-5 sm:px-8 text-center mt-14 md:mt-16"
+        className="relative z-10 max-w-5xl mx-auto px-5 sm:px-8 text-center mt-7 md:mt-16"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}

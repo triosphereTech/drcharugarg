@@ -5,7 +5,7 @@ import Dr from "../../../public/images/drcharu.jpeg";
 function about() {
   return (
     <>
-      <section className="px-3 pt-10 md:px-5 md:pt-20">
+      <section className="px-4 pt-0 md:px-5 md:pt-20">
         <div className="">
           <div className="grid gap-x-12 xl:grid-cols-[0.85fr_1.15fr]">
             {/* IMAGE SIDE */}
@@ -53,7 +53,7 @@ function about() {
             </div>
 
             {/* CONTENT SIDE */}
-            <div className="flex items-center ">
+            <div className="flex items-center pt-10 lg:pt-0">
               <div>
                 {/* LABEL */}
                 <div className="inline-flex items-center rounded-full bg-primary-accent/10 px-4 py-2">
