@@ -40,12 +40,25 @@ const AppointmentSchema = new mongoose.Schema(
       type: [AttachmentSchema],
       default: [],
     },
+    
+    prescription: {
+      type: String,
+      trim: true,
+      default: "",
+    },
 
     status: {
       type: String,
-      enum: ["pending", "confirmed", "cancelled"],
+      enum: ["pending", "attended", "cancelled"],
       default: "pending",
     },
+     paymentStatus: {
+      type: String,
+      enum: ["unpaid", "paid", "failed"],
+      default: "unpaid",
+        },
+    razorpayOrderId:   { type: String, default: null },
+    razorpayPaymentId: { type: String, default: null },
   },
   {
     timestamps: true,

@@ -13,9 +13,7 @@
   --primary-accent: #058FD2;
   --white: #ffffff;
   --soft-bg: #EEF7FB;
-
 }
-
 
 html,
 body {
@@ -23,3 +21,40 @@ body {
   color: var(--primary-dark);
 }
 
+/* Smooth scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #D4E9F2;
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #B8D9EC;
+}
+
+/* Tailwind v4 animation utilities */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slide-in-from-bottom-3 {
+  from { transform: translateY(12px); }
+  to { transform: translateY(0); }
+}
+.animate-in {
+  animation-fill-mode: both;
+}
+.fade-in {
+  animation-name: fade-in;
+}
+.slide-in-from-bottom-3 {
+  animation-name: slide-in-from-bottom-3;
+}
+.duration-200 {
+  animation-duration: 200ms;
+}
