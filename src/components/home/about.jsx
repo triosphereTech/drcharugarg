@@ -31,11 +31,11 @@ function about() {
                 </div>
 
                 {/* EXPERTISE */}
-                <div className="absolute bottom-4 left-4 rounded-full border border-white/40 bg-sky-600/80 px-5 py-3 backdrop-blur-xl md:bottom-6 md:left-6">
+                {/* <div className="absolute bottom-4 left-4 rounded-full border border-white/40 bg-sky-600/80 px-5 py-3 backdrop-blur-xl md:bottom-6 md:left-6">
                   <p className="text-xs font-medium uppercase tracking-[2px] text-white">
                     Skin • Nail • Hair Expert
                   </p>
-                </div>
+                </div> */}
               </div>
 
               {/* DOCTOR INFO */}
@@ -43,10 +43,12 @@ function about() {
                 <h3 className="text-2xl font-semibold tracking-[-1px] text-primary-dark md:text-3xl">
                   Dr. Charu Garg
                 </h3>
-
-                <p className="pt-2 text-sm font-medium text-primary-dark/55 md:text-base">
+                  <p className="text-sm pt-2 font-medium uppercase tracking-[2px] text-black">
+                    Skin • Nail • Hair Expert
+                  </p>
+                {/* <p className="pt-2 text-sm font-medium text-primary-dark/55 md:text-base">
                   Chief Dermatologist & Medical Director
-                </p>
+                </p> */}
               </div>
             </div>
 
@@ -80,7 +82,7 @@ function about() {
                     in Advanced Clinical Dermatology and Lasers from Mumbai.
                   </p>
                   <p className="text-sm font-medium leading-[190%] text-primary-dark/65 md:text-[17px] pt-5">
-                    Dr. Charu Garg aims to make dermatology care accessible,
+                    Dr. Garg aims to make dermatology care accessible,
                     reliable, and patient-friendly through a dedicated
                     teleconsultation platform.
                   </p>

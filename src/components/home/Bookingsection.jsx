@@ -611,7 +611,7 @@ export default function BookingSection() {
       {/* Load Razorpay SDK once */}
       <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
 
-      <section className="min-h-screen flex items-center justify-center p-4 md:py-8">
+      <section  className="min-h-screen flex items-center justify-center p-4 md:py-8">
         <div className="relative w-full max-w-7xl">
           <div className={`w-full bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden flex flex-col md:flex-row min-h-[560px] transition-all ${!isCheckingAuth && !isLoggedIn ? "blur-sm pointer-events-none select-none" : ""}`}>
 

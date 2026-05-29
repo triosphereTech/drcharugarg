@@ -74,7 +74,8 @@ const LatestArticles = () => {
        {/* Cards */}
        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
          {blogs.map((blog, index) => (
-           <div
+           <Link
+             href={blog.slug}
              key={index}
              className="group rounded-[32px] border border-[#e7edf1] bg-white p-3 transition-all duration-500 hover:-translate-y-1 hover:border-[#d6eaf5] hover:shadow-[0_25px_70px_rgba(16,24,40,0.07)]"
            >
@@ -141,7 +142,7 @@ const LatestArticles = () => {
 
              
              </div>
-           </div>
+           </Link>
          ))}
        </div>
      </div>

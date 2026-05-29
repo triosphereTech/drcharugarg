@@ -48,7 +48,7 @@ const WhyThisHappen = ({ data }) => {
 
 
            {/* Heading */}
-           <h2 className="max-w-[620px] text-3xl font-semibold leading-[1.05] tracking-[-0.04em] text-[#131C15] md:text-5xl lg:text-[62px]">
+           <h2 className="max-w-[620px] text-3xl font-semibold leading-[1.05] tracking-[-0.04em] text-[#131C15] md:text-4xl lg:text-5xl">
              {data.title}
            </h2>
 

@@ -13,11 +13,19 @@ export default function Home() {
     <>
     <div className="max-w-7xl mx-auto">
     <Hero/>
+    <section id="about">
     <About/>
+    </section>
+    <section id="services">
     <Services/>
+    </section>
     <AppointmentCTA/>
+    <section id="whyus">
     <WhyChooseUs/>
+    </section>
+    <section id="booking">
     <BookingSection/>
+    </section>
     <HistorySection/>
     <LatestArticles/>
     <OnlineConsultationFAQ/>
