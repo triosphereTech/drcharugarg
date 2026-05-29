@@ -65,7 +65,7 @@ const Navbar = () => {
       href: "#services",
     },
     {
-      label: "#whyus",
+      label: "Why us",
       href: "/",
     },
     {
