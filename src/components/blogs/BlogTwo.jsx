@@ -23,14 +23,14 @@ const BlogTwo = () => {
 
      <section className="relative h-[80vh] min-h-[650px] overflow-hidden">
 
-
+{/* 
        <Image
          src="/images/blogs/skin-barrier-banner.jpg"
          alt="The Barrier First Approach"
          fill
          priority
          className="object-cover"
-       />
+       /> */}
 
 
        <div className="absolute inset-0 bg-gradient-to-br from-black/90 via-black/65 to-[#058FD2]/20" />
@@ -140,7 +140,7 @@ const BlogTwo = () => {
        <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
 
 
-         <div className="rounded-[36px] border border-slate-200 bg-white p-8 md:p-12 shadow-[0_20px_60px_rgba(0,0,0,0.06)]">
+         <div className="rounded-[36px] border border-slate-200 bg-white mt-20 md:mt-0 p-8 md:p-12 shadow-[0_20px_60px_rgba(0,0,0,0.06)]">
 
 
            <div className="max-w-5xl">

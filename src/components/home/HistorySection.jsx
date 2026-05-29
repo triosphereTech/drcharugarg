@@ -79,9 +79,12 @@ const timelineData = [
 
 /* ─── Single timeline item ─────────────────────────────────────── */
 function TimelineItem({ item, index }) {
-  const ref = useRef(null);
-  // once: true  →  animate only once
-  const isInView = useInView(ref, { once: true, margin: "-15% 0px -15% 0px" });
+  const desktopRef = useRef(null);
+  const mobileRef = useRef(null);
+  // Each layout has its own ref so useInView fires correctly on both breakpoints
+  const desktopInView = useInView(desktopRef, { once: true, margin: "-15% 0px -15% 0px" });
+  const mobileInView = useInView(mobileRef, { once: true, margin: "-15% 0px -15% 0px" });
+  const isInView = desktopInView || mobileInView;
   const isEven = index % 2 === 0;
   const Icon = item.icon;
   const StatIcon = item.statIcon;
@@ -89,7 +92,7 @@ function TimelineItem({ item, index }) {
   return (
     <>
       <div
-        ref={ref}
+        ref={desktopRef}
         className={`hidden md:flex relative items-center gap-0 min-h-[380px] ${
           isEven ? "flex-row" : "flex-row-reverse"
         }`}
@@ -220,10 +223,9 @@ function TimelineItem({ item, index }) {
       </div>
 
       {/* ── MOBILE layout (<md) ────────────────────────────────── */}
-      {/* FIX: was ref={undefined} — mobile items never triggered useInView */}
       <div
-        ref={ref}
-        className="md:hidden relative flex gap-4 "
+        ref={mobileRef}
+        className="md:hidden relative flex gap-4 pb-10"
       >
         {/* Left spine + dot */}
         <div className="flex flex-col items-center">
@@ -397,7 +399,7 @@ export default function HistorySection() {
 
       {/* ── Footer CTA ─────────────────────────────────────────── */}
       <motion.div
-        className="relative z-10 max-w-5xl mx-auto px-5 sm:px-8 text-center mt-7 md:mt-16"
+        className="relative z-10 max-w-5xl mx-auto px-5 sm:px-8 text-center mt-14 md:mt-16"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}

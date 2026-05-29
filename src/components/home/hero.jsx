@@ -138,27 +138,27 @@ const HeroSection = () => {
       </p>
 
       {/* CTA */}
-      <div className="flex items-center gap-4 mt-9 flex-wrap">
-        <button className="h-[56px] px-7 rounded-full bg-[#058FD2] hover:bg-[#047db7] transition-all text-white text-sm font-medium flex items-center gap-2 shadow-[0_10px_30px_rgba(5,143,210,0.18)]">
-          Book Appointment Now
+      <div className="flex items-center gap-3 mt-5 flex-wrap">
+        <button className="h-[56px]  px-6 rounded-full bg-[#058FD2] hover:bg-[#047db7] transition-all text-white text-sm font-medium flex items-center gap-2 shadow-[0_10px_30px_rgba(5,143,210,0.18)]">
+          Book Appointment
           <HiArrowUpRight className="text-lg" />
         </button>
 
-        <button className="h-[56px] px-6 rounded-full border border-[#dbe7ee] bg-white/70 backdrop-blur-sm text-[#131C15] text-sm font-medium hover:bg-white transition-all">
+        {/* <button className="h-[56px] px-6 rounded-full border border-[#dbe7ee] bg-white/70 backdrop-blur-sm text-[#131C15] text-sm font-medium hover:bg-white transition-all">
           Explore Treatments
-        </button>
+        </button> */}
       </div>
 
       {/* STATS */}
-      <div className="flex flex-wrap gap-6 mt-10">
+      <div className="flex overflow-x-auto gap-6 mt-10">
         {slide.stats.map((item, index) => (
           <div key={index} className="flex items-center gap-6">
             <div>
-              <h3 className="text-2xl font-semibold text-[#131C15]">
+              <h3 className="text-xl md:text-2xl font-semibold text-[#131C15]">
                 {item.number}
               </h3>
 
-              <p className="text-sm text-[#7a8480] mt-1">
+              <p className="text-xs md:text-sm text-[#7a8480] mt-1">
                 {item.label}
               </p>
             </div>
