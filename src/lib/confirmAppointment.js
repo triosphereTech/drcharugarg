@@ -1,7 +1,7 @@
 // lib/confirmAppointment.js
 import Appointment from "@/models/Appointment";
 import Patient from "@/models/Patient"; // your patient model
-import { sendAppointmentConfirmationMail } from "./sendAppointmentConfirmationMail";
+import { sendAppointmentConfirmationMail } from "@/lib/sendAppointmentConfirmationMail";
 
 export async function confirmAppointment(orderId, paymentId) {
 
