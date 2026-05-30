@@ -7,13 +7,18 @@ export async function GET(request) {
     const auth = await requireAuth(request);
     
     if (auth.error) {
-      return auth.error;
+      return Response.json(
+        {
+          success:false,
+          message: "Patient hasn't logged in yet."
+        }, 
+        {status: 401}
+      )
     }
 
     await connectDB();
 
     const patient = await Patient.findById(auth.user.id).select("-otp");
-    console.log("Fetched patient profile:", patient); 
     if (!patient) {
       return Response.json(
         {
@@ -29,7 +34,6 @@ export async function GET(request) {
       patient,
     });
   } catch (error) {
-      console.log("Error fetching patient profile:", error);
     return Response.json(
       {
         success: false,

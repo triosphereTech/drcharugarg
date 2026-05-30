@@ -45,7 +45,6 @@ export async function requireAuth() {
     };
 
   } catch (error) {
-    console.log("Error occurred while verifying token:", error);
     return {
       success: false,
     };
