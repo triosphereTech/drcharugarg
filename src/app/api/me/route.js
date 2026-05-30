@@ -7,9 +7,7 @@ export async function GET() {
   try {
 
     await connectDB();
-       console.log("me")
     const auth = await requireAuth();
-    console.log("auth",auth);
     
     if (!auth.success) {
 

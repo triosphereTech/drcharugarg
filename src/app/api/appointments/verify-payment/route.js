@@ -45,7 +45,6 @@ export async function POST(request) {
         { status: 400 }
       );
     }
-      console.log("verify payment ");
       
         const result = await confirmAppointment(razorpay_order_id, razorpay_payment_id);
 
@@ -65,9 +64,7 @@ export async function POST(request) {
       message: "Payment verified. Appointment confirmed!",
     });
 
-  } catch (error) {
-    console.log("error",error)
-    return Response.json(
+  } catch (error) {    return Response.json(
       { success: false, message: "Verification error.", error: error.message },
       { status: 500 }
     );

@@ -20,7 +20,6 @@ const LoginPage = () => {
     const user = useSelector(
     (state) => state.user.user
   );
-    console.log("User from Redux store:", user);
   useEffect(() => {
 
     if (user) {

@@ -5,7 +5,6 @@ import Patient from "@/models/Patient";
 
 export async function POST(request) {
   try {
-    console.log("rrequest to otp")
     const body = await request.json();
     const { email } = body;
 
@@ -47,7 +46,6 @@ export async function POST(request) {
       email,
     });
   } catch (error) {
-    console.log(error)
     return Response.json(
       {
         success: false,

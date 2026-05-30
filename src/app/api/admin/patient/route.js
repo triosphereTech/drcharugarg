@@ -54,7 +54,6 @@ export async function GET(req) {
       { status: 200 }
     );
   } catch (error) {
-    console.log(error);
 
     return Response.json(
       {

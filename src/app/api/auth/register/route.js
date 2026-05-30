@@ -45,7 +45,6 @@ export async function POST(request) {
 
     await sendOtpEmail({ email, otp });
 
-    console.log(`Register OTP for ${email}: ${otp}`);
 
     return Response.json(
       {

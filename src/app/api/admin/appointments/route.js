@@ -15,7 +15,6 @@ export async function POST(request) {
 
     // AUTH USER
     const auth = await requireAuth();
-    console.log("auth", auth);
     if (!auth.success) {
       return Response.json(
         {
@@ -257,7 +256,6 @@ export async function GET(req) {
       { status: 200 }
     );
   } catch (error) {
-    console.log(error);
 
     return Response.json(
       {

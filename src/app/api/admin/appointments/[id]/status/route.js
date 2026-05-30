@@ -80,7 +80,6 @@ export async function PATCH(req, { params }) {
       { status: 200 }
     );
   } catch (error) {
-    console.log(error);
 
     return Response.json(
       {

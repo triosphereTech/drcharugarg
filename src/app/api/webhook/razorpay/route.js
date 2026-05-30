@@ -21,9 +21,7 @@ export async function POST(request) {
 
   // ── Read raw body as text (simple, no helper function needed) ──
   const rawBody = await request.text();
-    console.log("SECRET IN USE:", JSON.stringify(process.env.RAZORPAY_WEBHOOK_SECRET));
 
-  console.log("Raw webhook body:", rawBody);
 
   // ── Verify signature ──
   const receivedSignature = request.headers.get("x-razorpay-signature");
@@ -38,7 +36,6 @@ export async function POST(request) {
     .digest("hex");
 
   if (receivedSignature !== expectedSignature) {
-    console.error("Webhook signature mismatch — rejected");
     return Response.json({ success: false, message: "Invalid signature." }, { status: 400 });
   }
 
@@ -53,7 +50,6 @@ export async function POST(request) {
   await connectDB();
 
   const eventType = event.event;
-  console.log("Razorpay webhook received:", eventType);
 
   try {
 
@@ -76,7 +72,6 @@ export async function POST(request) {
         appointment.paymentStatus     = "paid";
         appointment.razorpayPaymentId = paymentId;
         await appointment.save();
-        console.log("Appointment marked as paid via webhook:", appointment);
         
         await sendAppointmentConfirmationMail({
           to:      appointment.patient.email,
@@ -85,7 +80,6 @@ export async function POST(request) {
           date:    appointment.date,
           time:    appointment.timeSlot,
         });
-        console.log("Appointment confirmed via webhook:", appointment._id);
       }
 
       return Response.json({ success: true, message: "Appointment confirmed." });
@@ -110,7 +104,6 @@ export async function POST(request) {
 
       await deleteAppointmentFiles(appointment);
       await appointment.deleteOne();
-      console.log("Appointment deleted due to payment failure:", orderId);
 
       return Response.json({ success: true, message: "Appointment deleted." });
     }
@@ -118,7 +111,6 @@ export async function POST(request) {
     return Response.json({ success: true, message: `Event ${eventType} acknowledged.` });
 
   } catch (error) {
-    console.error("Webhook handler error:", error);
     return Response.json({ success: true, message: "Handled with error." });
   }
 }
