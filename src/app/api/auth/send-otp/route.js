@@ -46,6 +46,7 @@ export async function POST(request) {
       email,
     });
   } catch (error) {
+    console.log(error)
     return Response.json(
       {
         success: false,
