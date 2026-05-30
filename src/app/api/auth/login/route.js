@@ -8,6 +8,8 @@ export async function POST(request) {
     const body = await request.json();
     const { email, otp } = body;
 
+    console.log("request to login")
+
     if (!email || !otp) {
       return Response.json(
         {
@@ -78,6 +80,7 @@ export async function POST(request) {
       },
     });
   } catch (error) {
+    console.log(error)
     return Response.json(
       {
         success: false,
