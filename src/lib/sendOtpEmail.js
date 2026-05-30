@@ -10,11 +10,7 @@ export async function sendOtpEmail({ email, otp }) {
   ];
 
   const missingEnv = requiredEnv.filter((key) => !process.env[key]);
-
-  if (missingEnv.length > 0) {
-    throw new Error(`Missing email env values: ${missingEnv.join(", ")}`);
-  }
-
+  try{
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: Number(process.env.SMTP_PORT),
@@ -24,8 +20,7 @@ export async function sendOtpEmail({ email, otp }) {
       pass: process.env.SMTP_PASS,
     },
   });
-
-  await transporter.sendMail({
+    await transporter.sendMail({
     from: process.env.SMTP_FROM,
     to: email,
     subject: "Your login OTP",
@@ -39,4 +34,8 @@ export async function sendOtpEmail({ email, otp }) {
       </div>
     `,
   });
+  }catch(error){
+console.log(error)
+  }
+
 }
