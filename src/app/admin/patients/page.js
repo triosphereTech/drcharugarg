@@ -5,12 +5,7 @@ import { useRouter } from "next/navigation";
 import { Topbar } from "@/components/admin/layout/Topbar";
 import { Avatar } from "@/components/admin/ui/Avatar";
 import { Pagination } from "@/components/admin/ui/Pagination";
-import {
-  fetchPatients,
-  getAppointmentCountForPatient,
-  getLastVisitForPatient,
-  formatDate,
-} from "@/lib/data";
+import { formatDate } from "@/lib/data";
 
 // ── Icons ──────────────────────────────────────────────────────────────────
 const SearchIcon = () => (
@@ -82,6 +77,8 @@ export default function PatientsPage() {
   const [total,           setTotal]           = useState(0);
   const [totalPages,      setTotalPages]      = useState(1);
   const [loading,         setLoading]         = useState(true);
+  const [patientStats,    setPatientStats]    = useState({});
+  const [error,           setError]           = useState("");
 
   // Debounce search
   useEffect(() => {
@@ -91,11 +88,77 @@ export default function PatientsPage() {
 
   const loadPatients = useCallback(async () => {
     setLoading(true);
-    const res = await fetchPatients({ search: debouncedSearch, page, limit: 10 });
-    setPatients(res.data);
-    setTotal(res.pagination.total);
-    setTotalPages(res.pagination.totalPages);
-    setLoading(false);
+    setError("");
+
+    try {
+      const params = new URLSearchParams({
+        page: String(page),
+        limit: "10",
+      });
+
+      if (debouncedSearch) {
+        params.set("search", debouncedSearch);
+      }
+
+      const response = await fetch(`/api/admin/patient?${params.toString()}`);
+      const res = await response.json();
+
+      if (!response.ok) {
+        throw new Error(res.message || "Unable to load patients.");
+      }
+
+      const data = res.data || [];
+      setPatients(data);
+      setTotal(res.total || 0);
+      setTotalPages(res.totalPages || 1);
+
+      const statsEntries = await Promise.all(
+        data.map(async (patient) => {
+          const totalParams = new URLSearchParams({
+            patientId: patient._id,
+            page: "1",
+            limit: "1",
+          });
+          const attendedParams = new URLSearchParams({
+            patientId: patient._id,
+            status: "attended",
+            page: "1",
+            limit: "1",
+          });
+
+          const [totalResponse, attendedResponse] = await Promise.all([
+            fetch(`/api/admin/appointments?${totalParams.toString()}`),
+            fetch(`/api/admin/appointments?${attendedParams.toString()}`),
+          ]);
+
+          const [totalData, attendedData] = await Promise.all([
+            totalResponse.json(),
+            attendedResponse.json(),
+          ]);
+
+          return [
+            patient._id,
+            {
+              count: totalResponse.ok ? totalData.total || 0 : 0,
+              lastVisit:
+                attendedResponse.ok && attendedData.data?.[0]
+                  ? attendedData.data[0].date
+                  : null,
+            },
+          ];
+        })
+      );
+
+      setPatientStats(Object.fromEntries(statsEntries));
+    } catch (err) {
+      setError(err.message);
+      setPatients([]);
+      setTotal(0);
+      setTotalPages(1);
+      setPatientStats({});
+    } finally {
+      setLoading(false);
+    }
   }, [debouncedSearch, page]);
 
   useEffect(() => { loadPatients(); }, [loadPatients]);
@@ -303,7 +366,17 @@ export default function PatientsPage() {
                 ))}
 
                 {/* Empty */}
-                {!loading && patients.length === 0 && (
+                 {!loading && error && (
+                  <tr>
+                    <td colSpan={6} style={{ textAlign: "center", padding: "72px 20px" }}>
+                      <p style={{ fontSize: 14, fontWeight: 500, color: "#EF4444", margin: 0 }}>
+                        {error}
+                      </p>
+                    </td>
+                  </tr>
+                )}
+
+                {!loading && !error && patients.length === 0 && (
                   <tr>
                     <td colSpan={6} style={{ textAlign: "center", padding: "72px 20px" }}>
                       <div style={{
@@ -332,9 +405,9 @@ export default function PatientsPage() {
                 )}
 
                 {/* Rows */}
-                {!loading && patients.map((patient, idx) => {
-                  const count    = getAppointmentCountForPatient(patient._id);
-                  const lastVisit = getLastVisitForPatient(patient._id);
+                   {!loading && !error && patients.map((patient, idx) => {
+                  const count    = patientStats[patient._id]?.count || 0;
+                  const lastVisit = patientStats[patient._id]?.lastVisit || null;
                   const badge    = apptBadge(count);
 
                   return (

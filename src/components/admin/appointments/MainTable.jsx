@@ -5,7 +5,7 @@ import { Topbar } from "@/components/admin/layout/Topbar";
 import { AppointmentItem } from "@/components/admin/appointments/AppointmentItem";
 import { AppointmentModal } from "@/components/admin/appointments/AppointmentModal";
 import { Pagination } from "@/components/admin/ui/Pagination";
-import { fetchAppointments, SERVICES, TIME_SLOTS } from "@/lib/data";
+import { SERVICES, TIME_SLOTS } from "@/lib/data";
 
 const STATUS_TABS = [
   { label: "All",       value: "all",       dot: null         },
@@ -29,35 +29,65 @@ export default function AppointmentsPage() {
   const [showSlotPicker, setShowSlotPicker] = useState(false);
 
   const [selectedAppt, setSelectedAppt] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const loadAppointments = useCallback(async () => {
-    const res = await fetchAppointments({
-      status:    statusFilter === "all" ? undefined : statusFilter,
-      services:  serviceFilter ? [serviceFilter] : undefined,
-      dateFrom:  dateFrom || undefined,
-      dateTo:    dateTo   || undefined,
-      timeSlots: selectedSlots.length ? selectedSlots : undefined,
-      page,
-      limit: 10,
-    });
-    setAppointments(res.data);
-    setTotal(res.pagination.total);
-    setTotalPages(res.pagination.totalPages);
+    setLoading(true);
+    setError("");
+
+    try {
+      const params = new URLSearchParams({
+        page: String(page),
+        limit: "10",
+      });
+
+      if (statusFilter !== "all") params.set("status", statusFilter);
+      if (serviceFilter) params.set("services", serviceFilter);
+      if (dateFrom) params.set("startDate", dateFrom);
+      if (dateTo) params.set("endDate", dateTo);
+      if (selectedSlots.length) params.set("timeSlots", selectedSlots.join(","));
+
+      const response = await fetch(`/api/admin/appointments?${params.toString()}`);
+      const res = await response.json();
+
+      if (!response.ok) {
+        throw new Error(res.message || "Unable to load appointments.");
+      }
+
+      setAppointments(res.data || []);
+      setTotal(res.total || 0);
+      setTotalPages(res.totalPages || 1);
+    } catch (err) {
+      setError(err.message);
+      setAppointments([]);
+      setTotal(0);
+      setTotalPages(1);
+    } finally {
+      setLoading(false);
+    }
   }, [statusFilter, serviceFilter, dateFrom, dateTo, selectedSlots, page]);
 
   useEffect(() => { loadAppointments(); }, [loadAppointments]);
   useEffect(() => { setPage(1); }, [statusFilter, serviceFilter, dateFrom, dateTo, selectedSlots]);
 
-  function handleStatusChange(id, status, prescription) {
+  function handleStatusChange(id, status, prescription, updatedAppointment) {
     setAppointments((prev) =>
       prev.map((a) =>
         a._id === id
-          ? { ...a, status, ...(prescription ? { prescription } : {}) }
+          ? { ...a, ...(updatedAppointment || {}), status, ...(prescription ? { prescription } : {}) }
           : a
       )
     );
-  }
 
+    if (selectedAppt?._id === id) {
+      setSelectedAppt((prev) =>
+        prev
+          ? { ...prev, ...(updatedAppointment || {}), status, ...(prescription ? { prescription } : {}) }
+          : prev
+      );
+    }
+  }
   function clearFilters() {
     setStatusFilter("all");
     setServiceFilter("");
@@ -241,7 +271,15 @@ export default function AppointmentsPage() {
             className="px-2 py-2 max-h-[560px] overflow-y-auto"
             onClick={() => setShowSlotPicker(false)}
           >
-            {appointments.length === 0 ? (
+              {loading ? (
+              <div className="flex flex-col items-center justify-center py-20 gap-3">
+                <p className="text-zinc-400 text-[13px]">Loading appointments...</p>
+              </div>
+            ) : error ? (
+              <div className="flex flex-col items-center justify-center py-20 gap-3">
+                <p className="text-red-500 text-[13px]">{error}</p>
+              </div>
+            ) : appointments.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-20 gap-3">
                 <span className="text-3xl select-none">🗓️</span>
                 <p className="text-zinc-400 text-[13px]">No appointments match the current filters</p>
