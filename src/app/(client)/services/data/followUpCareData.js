@@ -293,6 +293,71 @@ heroSection: {
 
 
  // =========================
+// BEFORE & AFTER
+// =========================
+
+beforeAfterSection: {
+  title: "Better Outcomes Through Consistent Follow-Up Care",
+
+  description:
+    "Successful skin and hair treatment often requires ongoing monitoring, treatment adjustments, and maintenance guidance. Regular follow-up helps improve results, prevent relapses, and support long-term skin and hair health.",
+
+  items: [
+    {
+      title: "Acne Treatment Progress",
+
+      description:
+        "Visible improvement achieved through treatment adjustments and regular monitoring over time.",
+
+      beforeImage:
+        "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=1200&auto=format&fit=crop",
+
+      afterImage:
+        "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1200&auto=format&fit=crop",
+    },
+
+    {
+      title: "Hair Fall Recovery Journey",
+
+      description:
+        "Improved hair density and scalp health through guided treatment and periodic reassessment.",
+
+      beforeImage:
+        "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=1200&auto=format&fit=crop",
+
+      afterImage:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1200&auto=format&fit=crop",
+    },
+
+    {
+      title: "Pigmentation Improvement",
+
+      description:
+        "Gradual reduction in pigmentation achieved through consistent treatment and maintenance care.",
+
+      beforeImage:
+        "https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=1200&auto=format&fit=crop",
+
+      afterImage:
+        "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1200&auto=format&fit=crop",
+    },
+
+    {
+      title: "Long-Term Skin Health",
+
+      description:
+        "Better disease control and reduced recurrence through structured follow-up and treatment optimization.",
+
+      beforeImage:
+        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1200&auto=format&fit=crop",
+
+      afterImage:
+        "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=1200&auto=format&fit=crop",
+    },
+  ],
+},
+
+ // =========================
  // HOW IT WORKS
  // =========================
 

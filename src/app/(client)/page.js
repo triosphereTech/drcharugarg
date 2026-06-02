@@ -7,6 +7,7 @@ import HistorySection from "@/components/home/HistorySection";
 import LatestArticles from "@/components/home/LatestArticles";
 import OnlineConsultationFAQ from "@/components/home/OnlineConsultationFAQ";
 import BookingSection from "@/components/home/Bookingsection";
+import Reviews from "@/components/home/Reviews";
 
 export default function Home() {
   return (
@@ -28,6 +29,7 @@ export default function Home() {
     </section>
     <HistorySection/>
     <LatestArticles/>
+    <Reviews/>
     <OnlineConsultationFAQ/>
     </div>
     </>

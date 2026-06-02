@@ -351,6 +351,72 @@ heroSection: {
 
 
  // =========================
+// BEFORE & AFTER
+// =========================
+
+beforeAfterSection: {
+  title: "Healthier Skin Through Accurate Diagnosis & Treatment",
+
+  description:
+    "Skin rashes, fungal infections, allergies, and inflammatory conditions often improve significantly when the correct diagnosis is made early and treated appropriately. These examples demonstrate the importance of targeted dermatology care.",
+
+  items: [
+    {
+      title: "Fungal Infection Recovery",
+
+      description:
+        "Reduction in redness, itching, and scaling following appropriate antifungal treatment.",
+
+      beforeImage:
+        "https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=1200&auto=format&fit=crop",
+
+      afterImage:
+        "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1200&auto=format&fit=crop",
+    },
+
+    {
+      title: "Eczema Improvement",
+
+      description:
+        "Healthier skin barrier with reduced irritation, dryness, and inflammation.",
+
+      beforeImage:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1200&auto=format&fit=crop",
+
+      afterImage:
+        "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=1200&auto=format&fit=crop",
+    },
+
+    {
+      title: "Allergic Rash Resolution",
+
+      description:
+        "Visible reduction in redness and skin sensitivity after trigger identification and treatment.",
+
+      beforeImage:
+        "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=1200&auto=format&fit=crop",
+
+      afterImage:
+        "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1200&auto=format&fit=crop",
+    },
+
+    {
+      title: "Chronic Skin Irritation Control",
+
+      description:
+        "Improved skin comfort and appearance through personalized long-term management.",
+
+      beforeImage:
+        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1200&auto=format&fit=crop",
+
+      afterImage:
+        "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=1200&auto=format&fit=crop",
+    },
+  ],
+},
+
+
+ // =========================
  // FOLLOW-UP
  // =========================
 

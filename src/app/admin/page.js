@@ -7,6 +7,7 @@ import { MiniCalendar } from "@/components/admin/dashboard/MiniCalendar";
 import { AppointmentItem } from "@/components/admin/appointments/AppointmentItem";
 import { AppointmentModal } from "@/components/admin/appointments/AppointmentModal";
 import { Pagination } from "@/components/admin/ui/Pagination";
+import MainTable from '@/components/admin/appointments/MainTable'
 import {
   fetchAppointments,
   fetchDashboardStats,
@@ -68,10 +69,10 @@ export default function DashboardPage() {
       prev.map((a) =>
         a._id === id
           ? {
-              ...a,
-              status,
-              ...(prescription ? { prescription } : {}),
-            }
+            ...a,
+            status,
+            ...(prescription ? { prescription } : {}),
+          }
           : a
       )
     );
@@ -101,38 +102,42 @@ export default function DashboardPage() {
         {/* Stats */}
         <div className="grid grid-cols-4 gap-3.5">
           <StatCard
-            label="Total Today"
-            value={stats.total}
-            note="Scheduled appointments"
+            label="Total Patients"
+            value="1,248"
+            note="+18 this month"
             accentColor="#058FD2"
+            icon="patients"
           />
 
           <StatCard
-            label="Pending"
-            value={stats.pending}
-            note="Awaiting review"
+            label="Appointments"
+            value="42"
+            note="12 scheduled today"
+            accentColor="#22C55E"
+            icon="appointments"
+          />
+
+          <StatCard
+            label="Messages"
+            value="16"
+            note="4 unread inquiries"
             accentColor="#F59E0B"
+            icon="messages"
           />
 
           <StatCard
-            label="Attended"
-            value={stats.attended}
-            note="Completed today"
-            accentColor="#10B981"
-          />
-
-          <StatCard
-            label="Cancelled"
-            value={stats.cancelled}
-            note="Cancelled today"
-            accentColor="#EF4444"
+            label="Revenue"
+            value="₹84K"
+            note="+12% from last month"
+            accentColor="#8B5CF6"
+            icon="analytics"
           />
         </div>
 
         {/* Main grid */}
         <div className="grid grid-cols-[1fr_300px] gap-5 items-start">
           {/* Timeline */}
-          <div className="bg-white border border-[#D4E9F2] rounded-2xl overflow-hidden">
+          {/* <div className="bg-white border border-[#D4E9F2] rounded-2xl overflow-hidden">
             <div className="px-5 py-4 border-b border-[#D4E9F2] flex items-center justify-between flex-wrap gap-3">
               <h2 className="text-[14px] font-semibold text-[--primary-dark]">
                 Today&apos;s Timeline
@@ -146,11 +151,10 @@ export default function DashboardPage() {
                       setStatusFilter(tab.value);
                       setPage(1);
                     }}
-                    className={`px-3 py-1 rounded-full text-[12.5px] font-medium border transition-colors ${
-                      statusFilter === tab.value
+                    className={`px-3 py-1 rounded-full text-[12.5px] font-medium border transition-colors ${statusFilter === tab.value
                         ? "bg-[--primary-accent] text-white border-[--primary-accent]"
                         : "bg-[--soft-bg] text-zinc-500 border-[#D4E9F2] hover:text-[--primary-dark]"
-                    }`}
+                      }`}
                   >
                     {tab.label}
                   </button>
@@ -181,6 +185,9 @@ export default function DashboardPage() {
               totalItems={total}
               itemsPerPage={10}
             />
+          </div> */}
+          <div>
+            <MainTable/>
           </div>
 
           {/* Right column */}
@@ -191,7 +198,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Services breakdown */}
-            <div className="bg-white border border-[#D4E9F2] rounded-2xl overflow-hidden">
+            {/* <div className="bg-white border border-[#D4E9F2] rounded-2xl overflow-hidden">
               <div className="px-5 py-3.5 border-b border-[#D4E9F2]">
                 <h3 className="text-[14px] font-semibold text-[--primary-dark]">
                   Services today
@@ -214,7 +221,7 @@ export default function DashboardPage() {
                   </div>
                 ))}
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

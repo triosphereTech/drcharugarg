@@ -351,6 +351,71 @@ heroSection: {
      },
    ],
  },
+// =========================
+// BEFORE & AFTER
+// =========================
+
+beforeAfterSection: {
+  title: "Real Results Through Personalized Hair Care",
+
+  description:
+    "Hair restoration is a gradual process. With proper diagnosis, targeted treatment, and consistent follow-up, patients can experience visible improvement in hair density, scalp health, and overall confidence.",
+
+  items: [
+    {
+      title: "Male Pattern Hair Loss",
+
+      description:
+        "Visible improvement in hair density and reduced scalp visibility after a personalized treatment plan.",
+
+      beforeImage:
+        "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=1200&auto=format&fit=crop",
+
+      afterImage:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1200&auto=format&fit=crop",
+    },
+
+    {
+      title: "Hair Thinning",
+
+      description:
+        "Improved scalp coverage and healthier hair growth through guided treatment and monitoring.",
+
+      beforeImage:
+        "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=1200&auto=format&fit=crop",
+
+      afterImage:
+        "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1200&auto=format&fit=crop",
+    },
+
+    {
+      title: "Female Hair Fall",
+
+      description:
+        "Reduction in excessive shedding and improved hair volume with customized care.",
+
+      beforeImage:
+        "https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=1200&auto=format&fit=crop",
+
+      afterImage:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1200&auto=format&fit=crop",
+    },
+
+    {
+      title: "Scalp Recovery",
+
+      description:
+        "Healthier scalp condition and stronger hair growth following targeted scalp treatment.",
+
+      beforeImage:
+        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1200&auto=format&fit=crop",
+
+      afterImage:
+        "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1200&auto=format&fit=crop",
+    },
+  ],
+},
+ 
 
 
  // =========================

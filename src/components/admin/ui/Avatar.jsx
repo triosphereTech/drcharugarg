@@ -15,7 +15,7 @@ export function Avatar({
   return (
     <div
       className={cn(
-        "rounded-full bg-[--primary-accent] text-white font-semibold flex items-center justify-center flex-shrink-0",
+        "rounded-full bg-primary-accent text-white font-semibold flex items-center justify-center flex-shrink-0",
         SIZE_MAP[size],
         className
       )}

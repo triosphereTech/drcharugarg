@@ -22,10 +22,11 @@ const slides = [
  {
    id: 1,
    label: "ADVANCED DERMATOLOGY CARE",
-   title: "Expert Skin Solution",
+   title: "Consult the Dermatologist from the comfort of your home.",
    description:
      "Personalized dermatology treatments focused on skin health, confidence, and long-term wellness through modern and trusted care.",
-   image: Hero1,
+   image: Hero2,
+  //  tagline :"Consult Me Garg for Expert Skin Solutions",
    stats: [
      { number: "12+", label: "Years Experience" },
      { number: "5k+", label: "Happy Patients" },
@@ -38,9 +39,10 @@ const slides = [
    id: 2,
    label: "MODERN SKIN SOLUTIONS",
    title: "Teleconsult Dr.Charu Garg",
+   tagline:"Expert Care, One click away",
    description:
      "Experience premium dermatology care with personalized solutions for healthier, radiant, and naturally balanced skin.",
-   image: Hero2,
+   image: Hero3,
    stats: [
      { number: "15+", label: "Advanced Treatments" },
      { number: "8k+", label: "Consultations Done" },
@@ -52,10 +54,11 @@ const slides = [
  {
    id: 3,
    label: "PERSONALIZED CARE EXPERIENCE",
-   title: "Where science and aesthetics work together.",
+   title: "Expert Skin Solution",
+   tagline :"Disease Treatment to Aesthetic Care",
    description:
      "Comprehensive skin care designed with modern dermatology practices, advanced technologies, and patient-first attention.",
-   image: Hero3,
+   image: Hero1,
    stats: [
      { number: "10+", label: "Skin Specialists" },
      { number: "4.9★", label: "Average Rating" },
@@ -116,7 +119,7 @@ const HeroSection = () => {
       </div>
 
       {/* HEADING */}
-      <h1 className="text-4xl sm:text-5xl xl:text-6xl leading-[1.08] font-semibold text-[#131C15] mt-6 tracking-[-0.03em]">
+      <h1 className="text-4xl sm:text-5xl xl:text-5xl leading-[1.08] font-semibold text-[#131C15] mt-6 tracking-[-0.01em]">
         {slide.title}
       </h1>
 
@@ -133,8 +136,11 @@ const HeroSection = () => {
       </div>
 
       {/* DESCRIPTION */}
-      <p className="text-[#66706b] text-base xl:text-lg leading-8 mt-6 max-w-lg">
+      {/* <p className="text-[#66706b] text-base xl:text-lg leading-8 mt-6 max-w-lg">
         {slide.description}
+      </p> */}
+      <p className="text-[#66706b] text-base xl:text-lg leading-8 mt-4 max-w-lg">
+        {slide.tagline}
       </p>
 
       {/* CTA */}

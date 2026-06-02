@@ -1,53 +1,54 @@
 import {
   HiOutlineShieldCheck,
-  HiOutlineHeart,
-  HiOutlineSparkles,
+  HiOutlineLockClosed,
+  HiOutlineUserGroup,
+  HiOutlineCalendarDays,
 } from "react-icons/hi2";
+import { MdOutlineMedication } from "react-icons/md";
+import { LuClipboardList } from "react-icons/lu";
 
-import { RiMedalLine } from "react-icons/ri";
-import { LuGem, LuBookOpenText } from "react-icons/lu";
 
 const valuesData = [
   {
     icon: <HiOutlineShieldCheck />,
-    title: "Ethics",
+    title: "Verified Specialists",
     description:
-      "Transparent communication and honest treatment recommendations.",
+      "Consult experienced dermatology professionals backed by clinical expertise and evidence-based treatment approaches.",
   },
 
   {
-    icon: <HiOutlineHeart />,
-    title: "Patient-Centric Care",
+    icon: <HiOutlineLockClosed />,
+    title: "Secure & Private",
     description:
-      "Personalized care focused on comfort, trust, and satisfaction.",
+      "Your medical information, consultations, and treatment records are handled with complete confidentiality.",
   },
 
   {
-    icon: <HiOutlineSparkles />,
-    title: "Innovation",
+    icon: <HiOutlineUserGroup />,
+    title: "Integrated Care",
     description:
-      "Advanced dermatology techniques with modern clinical expertise.",
+      "Comprehensive dermatology solutions covering skin, hair, nail, cosmetic, and long-term treatment needs.",
   },
 
   {
-    icon: <RiMedalLine />,
-    title: "Trustworthiness",
+    icon: <LuClipboardList />,
+    title: "Personalized Follow-Ups",
     description:
-      "Reliable care built on consistency and clinical excellence.",
+      "Structured follow-up plans and ongoing guidance to monitor progress and optimize treatment outcomes.",
   },
 
   {
-    icon: <LuGem />,
-    title: "Luxury",
+    icon: <MdOutlineMedication />,
+    title: "Integrated E-Prescriptions",
     description:
-      "Premium consultation experience with modern facilities.",
+      "Receive clear digital prescriptions and treatment instructions for convenient access and continuity of care.",
   },
 
   {
-    icon: <LuBookOpenText />,
-    title: "Academic Excellence",
+    icon: <HiOutlineCalendarDays />,
+    title: "Easy Scheduling",
     description:
-      "Strong academic background with research and national achievements.",
+      "Book consultations effortlessly with a streamlined appointment process designed around your convenience.",
   },
 ];
 

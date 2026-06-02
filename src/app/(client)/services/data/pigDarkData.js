@@ -261,6 +261,67 @@ heroSection: {
      "Convenient online dermatology guidance for pigmentation and dark spots.",
  },
 
+ beforeAfterSection: {
+  title: "Real Results Through Personalized Pigmentation Care",
+
+  description:
+    "Pigmentation improvement takes time, consistency, and the right treatment approach. With accurate diagnosis and guided care, patients can achieve a clearer, brighter, and more even complexion.",
+
+  items: [
+    {
+      title: "Dark Spot Reduction",
+
+      description:
+        "Visible improvement in stubborn facial dark spots with targeted pigmentation treatment.",
+
+      beforeImage:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1200&auto=format&fit=crop",
+
+      afterImage:
+        "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1200&auto=format&fit=crop",
+    },
+
+    {
+      title: "Melasma Management",
+
+      description:
+        "Gradual reduction in patchy pigmentation and improved skin tone balance.",
+
+      beforeImage:
+        "https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=1200&auto=format&fit=crop",
+
+      afterImage:
+        "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=1200&auto=format&fit=crop",
+    },
+
+    {
+      title: "Post-Acne Pigmentation",
+
+      description:
+        "Improved skin clarity and reduction in post-inflammatory marks left behind after acne.",
+
+      beforeImage:
+        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1200&auto=format&fit=crop",
+
+      afterImage:
+        "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1200&auto=format&fit=crop",
+    },
+
+    {
+      title: "Uneven Skin Tone",
+
+      description:
+        "Brighter, healthier-looking skin with improved tone and overall complexion.",
+
+      beforeImage:
+        "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=1200&auto=format&fit=crop",
+
+      afterImage:
+        "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=1200&auto=format&fit=crop",
+    },
+  ],
+},
+
 
  // =========================
  // FOLLOW-UP

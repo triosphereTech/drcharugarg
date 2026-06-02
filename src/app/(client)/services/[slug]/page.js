@@ -11,6 +11,8 @@ import HOTW from "@/components/services/HOTW";
 import TreatmentScope from "@/components/services/TreatmentScope";
 import FollowUpCare from "@/components/services/FollowUpCare";
 import DoctorMini from "@/components/services/DoctorMini";
+import BookingSection from "@/components/home/Bookingsection";
+import BeforeAfter from "@/components/services/BeforeAfter";
 
 
 const Page = async ({ params }) => {
@@ -49,10 +51,18 @@ const Page = async ({ params }) => {
  <HOTW data={data.howTreatmentWorksSection} />
 )}
 
+<section className="px-4 pt-0 md:px-5 md:pt-20 bg-white">
+<BookingSection/>
+</section>
 
 {data.treatmentScopeSection && (
  <TreatmentScope data={data.treatmentScopeSection} />
 )}
+
+{data.beforeAfterSection && (
+  <BeforeAfter data={data.beforeAfterSection} />
+)}
+
 
 
 {data.followUpSection && (

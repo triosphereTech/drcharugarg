@@ -344,6 +344,71 @@ heroSection: {
    bottomTitle:
      "Convenient online nail care guidance from the comfort of your home.",
  },
+ 
+ // =========================
+// BEFORE & AFTER
+// =========================
+
+beforeAfterSection: {
+  title: "Healthier Nails Through Early Diagnosis & Proper Treatment",
+
+  description:
+    "Nail disorders often improve gradually with consistent care and accurate diagnosis. Whether caused by infection, inflammation, or underlying skin conditions, targeted treatment can help restore healthier nail growth and appearance.",
+
+  items: [
+    {
+      title: "Fungal Nail Infection",
+
+      description:
+        "Improved nail clarity and reduced discoloration following appropriate antifungal treatment.",
+
+      beforeImage:
+        "https://images.unsplash.com/photo-1604654894610-df63bc536371?q=80&w=1200&auto=format&fit=crop",
+
+      afterImage:
+        "https://images.unsplash.com/photo-1522337660859-02fbefca4702?q=80&w=1200&auto=format&fit=crop",
+    },
+
+    {
+      title: "Brittle Nail Recovery",
+
+      description:
+        "Healthier nail structure and reduced splitting through guided treatment and nail care support.",
+
+      beforeImage:
+        "https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=1200&auto=format&fit=crop",
+
+      afterImage:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1200&auto=format&fit=crop",
+    },
+
+    {
+      title: "Nail Psoriasis Improvement",
+
+      description:
+        "Reduction in nail surface irregularities and improved nail appearance with ongoing management.",
+
+      beforeImage:
+        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1200&auto=format&fit=crop",
+
+      afterImage:
+        "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1200&auto=format&fit=crop",
+    },
+
+    {
+      title: "Discolored Nail Restoration",
+
+      description:
+        "Visible improvement in nail color, texture, and overall nail health after personalized care.",
+
+      beforeImage:
+        "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=1200&auto=format&fit=crop",
+
+      afterImage:
+        "https://images.unsplash.com/photo-1522337660859-02fbefca4702?q=80&w=1200&auto=format&fit=crop",
+    },
+  ],
+},
 
 
  // =========================

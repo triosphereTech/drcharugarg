@@ -1,25 +1,77 @@
-export function StatCard({ label, value, note, accentColor }) {
-  return (
-    <div className="bg-white border border-[#D4E9F2] rounded-2xl p-5 relative overflow-hidden">
-      <div
-        className="absolute top-0 right-0 w-14 h-14 rounded-bl-full opacity-[0.07]"
-        style={{ background: accentColor }}
-      />
+import {
+  HiOutlineUsers,
+  HiOutlineCalendarDays,
+  HiOutlineChartBar,
+  HiOutlineInbox,
+} from "react-icons/hi2";
 
-      <p className="text-[11px] font-semibold text-zinc-400 uppercase tracking-wider">
+const ICONS = {
+  patients: HiOutlineUsers,
+  appointments: HiOutlineCalendarDays,
+  analytics: HiOutlineChartBar,
+  messages: HiOutlineInbox,
+};
+
+export function StatCard({
+  label,
+  value,
+  note,
+  accentColor = "#058FD2",
+  icon = "patients",
+}) {
+  const Icon = ICONS[icon] || HiOutlineChartBar;
+
+  return (
+    <div className="group relative overflow-hidden rounded-3xl border border-[#DDEBF2] bg-gradient-to-br from-white via-white to-[#F3FAFD] p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-[#058FD2]/5">
+      {/* Decorative Glow */}
+      {/* <div
+        className="absolute -top-10 -right-10 h-32 w-32 rounded-full opacity-[0.08]"
+        style={{ backgroundColor: accentColor }}
+      /> */}
+
+      {/* Icon */}
+     <div className="flex justify-between items-start">
+      <div>
+         {/* Label */}
+      <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-400">
         {label}
       </p>
 
-      <p className="text-[28px] font-semibold text-[--primary-dark] mt-2 leading-none">
+      {/* Value */}
+      <h3 className="mt-3 text-[34px] font-semibold leading-none text-[#131C15]">
         {value}
-      </p>
+      </h3>
 
-      <p
-        className="text-[12px] mt-2"
-        style={{ color: accentColor }}
-      >
+      {/* Note */}
+      <p className="mt-3 text-[13px] text-zinc-500">
         {note}
-      </p>
+      </p> 
+      </div>
+      <div>
+         <div
+        className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl"
+        style={{
+          backgroundColor: `${accentColor}15`,
+        }}
+      >
+        <Icon
+          className="h-6 w-6"
+          style={{ color: accentColor }}
+        />
+      </div>
+      </div>
+      
+     </div>
+
+    
+
+      {/* Bottom Accent */}
+      <div
+        className="absolute bottom-0 left-0 h-1 w-full"
+        style={{
+          background: `linear-gradient(to right, ${accentColor}, transparent)`,
+        }}
+      />
     </div>
   );
 }

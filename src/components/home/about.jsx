@@ -56,11 +56,11 @@ function about() {
             <div className="flex items-center pt-10 lg:pt-0">
               <div>
                 {/* LABEL */}
-                <div className="inline-flex items-center rounded-full bg-primary-accent/10 px-4 py-2">
+                {/* <div className="inline-flex items-center rounded-full bg-primary-accent/10 px-4 py-2">
                   <p className="text-xs font-semibold uppercase tracking-[2px] text-primary-accent">
                     About Us
                   </p>
-                </div>
+                </div> */}
 
                 {/* TITLE */}
                 <div className="max-w-[620px] pt-6">

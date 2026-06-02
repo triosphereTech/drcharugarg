@@ -23,20 +23,20 @@ export function Pagination({
     : null;
 
   return (
-    <div className="flex items-center justify-between px-5 py-3 border-t border-[#D4E9F2]">
-      {showing && (
+    <div className="flex items-center justify-between px-5 py-3 ">
+      {/* {showing && (
         <span className="text-xs text-zinc-400">
           {showing}
         </span>
-      )}
+      )} */}
 
-      <div className="flex items-center gap-1.5 ml-auto">
+      <div className="ml-5 flex items-center gap-1.5">
         <button
           onClick={() =>
             onPageChange(Math.max(1, currentPage - 1))
           }
           disabled={currentPage === 1}
-          className="w-8 h-8 rounded-lg border border-[#D4E9F2] bg-white text-sm text-zinc-500 flex items-center justify-center hover:bg-[--soft-bg] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+          className="w-8 h-8 cursor-pointer rounded-lg border border-[#D4E9F2] bg-white text-sm text-zinc-500 flex items-center justify-center hover:bg-[--soft-bg] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
         >
           ‹
         </button>
@@ -45,9 +45,9 @@ export function Pagination({
           <button
             key={p}
             onClick={() => onPageChange(p)}
-            className={`w-8 h-8 rounded-lg border text-sm font-medium transition-colors ${
+            className={`w-8 h-8 rounded-lg cursor-pointer border text-sm font-medium transition-colors ${
               p === currentPage
-                ? "bg-[--primary-accent] text-white border-[--primary-accent]"
+                ? "bg-[--primary-accent] text-blue-600 border-[--primary-accent]"
                 : "border-[#D4E9F2] bg-white text-zinc-600 hover:bg-[--soft-bg]"
             }`}
           >
@@ -62,7 +62,7 @@ export function Pagination({
             )
           }
           disabled={currentPage === totalPages}
-          className="w-8 h-8 rounded-lg border border-[#D4E9F2] bg-white text-sm text-zinc-500 flex items-center justify-center hover:bg-[--soft-bg] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+          className="w-8 h-8 cursor-pointer rounded-lg border border-[#D4E9F2] bg-white text-sm text-zinc-500 flex items-center justify-center hover:bg-[--soft-bg] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
         >
           ›
         </button>
