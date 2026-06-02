@@ -78,13 +78,19 @@ const timelineData = [
 ];
 
 /* ─── Single timeline item ─────────────────────────────────────── */
-function TimelineItem({ item, index }) {
+function TimelineItem({ item, index, timelineProgress, totalItems }) {
   const desktopRef = useRef(null);
   const mobileRef = useRef(null);
   // Each layout has its own ref so useInView fires correctly on both breakpoints
   const desktopInView = useInView(desktopRef, { once: true, margin: "-15% 0px -15% 0px" });
   const mobileInView = useInView(mobileRef, { once: true, margin: "-15% 0px -15% 0px" });
   const isInView = desktopInView || mobileInView;
+  const dotPosition = (index + 0.3) / totalItems;
+  const dotScale = useTransform(
+    timelineProgress,
+    [Math.max(0, dotPosition - 0.07), dotPosition],
+    [0, 1],
+  );
   const isEven = index % 2 === 0;
   const Icon = item.icon;
   const StatIcon = item.statIcon;
@@ -180,9 +186,7 @@ function TimelineItem({ item, index }) {
         {/* Center dot */}
         <div className="relative w-24 flex-shrink-0 flex justify-center">
           <motion.div
-            initial={{ scale: 0.4, opacity: 0 }}
-            animate={isInView ? { scale: 1, opacity: 1 } : {}}
-            transition={{ duration: 0.5, ease: "backOut", delay: 0.05 }}
+            style={{ scale: dotScale }}
           >
             <motion.div
               className="w-5 h-5 rounded-full bg-blue-600 border-4 border-white shadow-[0_0_0_3px_rgba(37,99,235,0.2)]"
@@ -230,9 +234,7 @@ function TimelineItem({ item, index }) {
         {/* Left spine + dot */}
         <div className="flex flex-col items-center">
           <motion.div
-            initial={{ scale: 0.4, opacity: 0 }}
-            animate={isInView ? { scale: 1, opacity: 1 } : {}}
-            transition={{ duration: 0.45, ease: "backOut" }}
+            style={{ scale: dotScale }}
             className="mt-1 flex-shrink-0"
           >
             <div className="w-4 h-4 rounded-full bg-blue-600 border-[3px] border-white shadow-[0_0_0_3px_rgba(37,99,235,0.18)]" />
@@ -302,6 +304,8 @@ export default function HistorySection() {
   });
 
   const lineScaleY = useTransform(smoothProgress, [0, 1], [0, 1]);
+  const startDotScale = useTransform(smoothProgress, [0, 0.06], [0, 1]);
+  const endDotScale = useTransform(smoothProgress, [0.92, 1], [0, 1]);
 
   return (
     <section className="relative px-3 pt-10 md:px-5 md:pt-20 overflow-hidden">
@@ -387,12 +391,28 @@ export default function HistorySection() {
           style={{ scaleY: lineScaleY, height: "100%", transformOrigin: "top center" }}
         />
 
+        {/* Desktop spine endpoint dots */}
+        <motion.div
+          className="hidden md:block absolute left-1/2 top-0 z-20 w-4 h-4 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-600 border-[3px] border-white shadow-[0_0_0_3px_rgba(37,99,235,0.18)]"
+          style={{ scale: startDotScale }}
+        />
+        <motion.div
+          className="hidden md:block absolute left-1/2 bottom-0 z-20 w-4 h-4 -translate-x-1/2 translate-y-1/2 rounded-full bg-blue-600 border-[3px] border-white shadow-[0_0_0_3px_rgba(37,99,235,0.18)]"
+          style={{ scale: endDotScale }}
+        />
+
         {/* Mobile spine track (left-aligned) */}
         <div className="md:hidden absolute left-[6px] top-0 bottom-0 w-px bg-slate-100" />
 
         <div className="relative z-10 flex flex-col">
           {timelineData.map((item, index) => (
-            <TimelineItem key={item.year} item={item} index={index} />
+            <TimelineItem
+              key={item.year}
+              item={item}
+              index={index}
+              timelineProgress={smoothProgress}
+              totalItems={timelineData.length}
+            />
           ))}
         </div>
       </div>

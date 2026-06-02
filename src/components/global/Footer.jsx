@@ -66,9 +66,9 @@ function Footer() {
           </div>
 
           {/* MIDDLE */}
-          <div className="grid gap-12 p-5 md:grid-cols-2 md:p-7 xl:grid-cols-[1fr_0.7fr_0.7fr_0.8fr] xl:p-10">
+          <div className="grid grid-cols-2 gap-12 p-5 md:grid-cols-2 md:p-7 xl:grid-cols-[1fr_0.7fr_0.7fr_0.8fr] xl:p-10">
             {/* BRAND */}
-            <div>
+            <div className="col-span-2 md:col-span-1">
               {/* LOGO */}
               <div className="flex items-center gap-4">
                 <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-accent">
@@ -163,7 +163,7 @@ function Footer() {
             </div>
 
             {/* CONTACT */}
-            <div>
+            <div className="col-span-2 md:col-span-1">
               <h3 className="text-lg font-semibold text-white">
                 Contact Info
               </h3>
