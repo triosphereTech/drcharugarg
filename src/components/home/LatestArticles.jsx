@@ -120,9 +120,9 @@ const LatestArticles = () => {
                  </div>
 
 
-                 <div className="flex h-10 w-10 -rotate-30 items-center justify-center rounded-full bg-[#eef7fb] text-[#058FD2] transition-all duration-300 group-hover:bg-[#058FD2] group-hover:text-white">
-                 <Link href={blog.slug} > <ArrowRight  size={16} /> </Link>
-                 </div>
+                <div className="flex h-10 w-10 -rotate-30 items-center justify-center rounded-full bg-[#eef7fb] text-[#058FD2] transition-all duration-300 group-hover:bg-[#058FD2] group-hover:text-white">
+                  <ArrowRight size={16} />
+                </div>
                </div>
 
 
