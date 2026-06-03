@@ -10,7 +10,7 @@ export default function ClientLayout({ children }) {
       <AuthProvider>
         <Navbar />
 
-        <div className="pt-22">
+        <div className="pt-0">
           {children}
         </div>
 

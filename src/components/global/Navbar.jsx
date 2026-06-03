@@ -10,6 +10,8 @@ import { clearUser } from "@/redux/features/userSlice";
 
 const Navbar = () => {
   const [openMenu, setOpenMenu] = useState(false);
+  const [isPastFirstViewport, setIsPastFirstViewport] = useState(false);
+  const [showFixedNavbar, setShowFixedNavbar] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const dispatch = useDispatch();
@@ -40,6 +42,34 @@ const Navbar = () => {
     }
   };
   useEffect(() => {
+    const handleScroll = () => {
+      setIsPastFirstViewport(window.scrollY >= window.innerHeight);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isPastFirstViewport) {
+      setShowFixedNavbar(false);
+      return;
+    }
+
+    const frame = requestAnimationFrame(() => {
+      setShowFixedNavbar(true);
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, [isPastFirstViewport]);
+
+  useEffect(() => {
     if (openMenu) {
       document.body.style.overflow = "hidden";
     } else {
@@ -58,15 +88,19 @@ const Navbar = () => {
     },
     {
       label: "About",
-      href: "#about",
+      href: "/#about",
+    },
+     {
+      label: "Our Facilities",
+      href: "/#services",
     },
     {
-      label: "Our Care",
-      href: "#services",
+      label: "Faq's",
+      href: "/#faqs",
     },
     {
-      label: "Why us",
-      href: "/",
+      label: "Academics & Achievements",
+      href: "/#achievements",
     },
     {
       label: "Contact",
@@ -78,8 +112,18 @@ const Navbar = () => {
     <>
       {/* DESKTOP + MOBILE NAVBAR */}
      {/* DESKTOP + MOBILE NAVBAR */}
-<header className="fixed top-0 z-50 w-full px-3 md:px-5">
-  <div className="flex h-[62px] items-center rounded-[30px] bg-white/30 px-4 backdrop-blur-xl md:h-[84px] md:px-7 xl:px-10">
+<header
+  className={`top-0 z-50 w-full px-3 md:px-5 transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+    isPastFirstViewport
+      ? `fixed bg-transparent ${
+          showFixedNavbar
+            ? "translate-y-0 opacity-100 scale-100"
+            : "-translate-y-10 opacity-0 scale-[0.98]"
+        }`
+      : "absolute translate-y-0 bg-white opacity-100 scale-100"
+  }`}
+>
+  <div className="flex h-[62px] items-center rounded-[30px] bg-white/30 px-4 backdrop-blur-xl transition-all duration-500 ease-in-out md:h-[84px] md:px-7 xl:px-10">
     
     {/* LEFT */}
     <Link
@@ -103,7 +147,7 @@ const Navbar = () => {
 
     {/* DESKTOP NAV */}
     <div className="hidden flex-1 justify-center xl:flex">
-      <div className="flex items-center gap-11">
+      <div className="flex items-center gap-9">
         {navLinks.map((item, index) => (
           <Link
             key={index}

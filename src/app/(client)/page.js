@@ -12,8 +12,8 @@ import Reviews from "@/components/home/Reviews";
 export default function Home() {
   return (
     <>
-    <div className="max-w-7xl mx-auto">
     <Hero/>
+    <div className="max-w-7xl mx-auto">
     <section id="about">
     <About/>
     </section>
@@ -27,10 +27,14 @@ export default function Home() {
     <section id="booking">
     <BookingSection/>
     </section>
+    <section id="achievements">
     <HistorySection/>
+    </section>
     <LatestArticles/>
     <Reviews/>
+    <section id="faqs">
     <OnlineConsultationFAQ/>
+    </section>
     </div>
     </>
   );
