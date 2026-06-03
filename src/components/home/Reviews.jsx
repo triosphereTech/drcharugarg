@@ -82,19 +82,7 @@ const Reviews = () => {
 
               <div
                 key={index}
-                className="
-                  min-w-[360px]
-                  max-w-[360px]
-                  rounded-[34px]
-                  border
-                  border-[#dceaf3]
-                  bg-[#fbfdfe]
-                  p-7
-                  shadow-[0_10px_40px_rgba(15,23,42,0.04)]
-                  transition-all
-                  duration-300
-                  hover:-translate-y-1
-                "
+                className="min-w-[360px] max-w-[360px] rounded-[34px] border border-[#dceaf3] bg-[#fbfdfe] p-7 shadow-[0_10px_40px_rgba(15,23,42,0.04)] transition-all duration-300 hover:-translate-y-1"
               >
 
                 {/* Quote Icon */}
