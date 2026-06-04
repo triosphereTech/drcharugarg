@@ -22,6 +22,7 @@ import Hero3 from "../../../public/images/StraightLook.png";
 
 import PlusBg from "../../../public/images/PlusBg.png";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const marqueeItems = [
   "Energy-based devices",
@@ -34,37 +35,42 @@ const slides = [
   {
     id: 1,
     label: "ADVANCED DERMATOLOGY CARE",
-    title: "Dr. Charu Garg",
-    contentwidth: "max-w-lg",
-    extraheadingclass : "-mt-30",
-    description:
-      "Consult the Dermatologist from the comfort of your home.",
+    title1: "Dr. Charu Garg",
+    title2: "",
+    contentwidth: "max-w-lg 2xl:max-w-2xl",
+    extraheadingclass: "-mt-30",
+    description: "Consult the Dermatologist from the comfort of your home.",
     image: Hero3,
-    imageScale: "1.25",
+    imageScale: "1.22",
+    imageScaleXl: "1.45",
     imageX: "0px",
     imageY: "0px",
+    imageHeight: "100vh",
+    imageHeightXl: "110vh",
     color: "#315e95",
     blend: "#039bd3",
     accent: "#50b1a2",
-    //  tagline :"Consult Me Garg for Expert Skin Solutions",
     stats: [
       { number: "12+", label: "Years Experience" },
       { number: "5k+", label: "Happy Patients" },
       { number: "98%", label: "Patient Satisfaction" },
     ],
   },
-
   {
     id: 2,
     label: "MODERN SKIN SOLUTIONS",
-    title: `Teleconsult Dr.Charu Garg`,
+    title1: "Teleconsult",
+    title2: "Dr. Charu Garg",
     tagline: "Expert Care, One click away",
-     contentwidth: "max-w-lg",
+    contentwidth: "max-w-lg 2xl:max-w-2xl",
+
     description:
       "Experience premium dermatology care with personalized solutions for healthier, radiant, and naturally balanced skin.",
     image: Hero2,
     imageHeight: "80vh",
-    imageScale : "1.3",
+    imageHeightXl: "88vh",
+    imageScale: "1.4",
+    imageScaleXl: "1.5",
     imageX: "0px",
     imageY: "50px",
     color: "#039bd3",
@@ -76,21 +82,26 @@ const slides = [
       { number: "96%", label: "Trusted Care Rate" },
     ],
   },
-
   {
     id: 3,
     label: "PERSONALIZED CARE EXPERIENCE",
-    title: "Expert Skin Solution",
-     contentwidth: "max-w-lg",
-    extraheadingclass : "-mt-30",
+    title1: "Expert",
+    title2: "Skin Solutions",
+    contentwidth: "max-w-lg 2xl:max-w-2xl",
+    extraheadingclass: "mt-10",
+    extraheadingclassxl: "-mt-20",
     tagline: "Disease Treatment to Aesthetic Care",
     description:
       "Comprehensive skin care designed with modern dermatology practices, advanced technologies, and patient-first attention.",
     image: Hero1,
-    // imageHeight: "100vh",
-    imageScale : "1.1",
+    imageScale: "1.1",
+    imageScaleXl: "1.28",
     imageX: "0px",
-    imageY: "-100px",
+    imageY: "-10px",
+    imageXxl: "0px",
+    imageYxl: "-20px",
+    imageHeight: "70vh",
+    imageHeightXl: "90vh",
     color: "#50b1a2",
     blend: "#039bd3",
     accent: "#315e95",
@@ -103,38 +114,49 @@ const slides = [
 ];
 
 const HeroSection = () => {
+  const [is2xl, setIs2xl] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1536px)");
+    setIs2xl(mq.matches);
+    const handler = (e) => setIs2xl(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
   return (
     <section className="relative h-[100vh] overflow-hidden bg-[#315e95] font-sans">
       <div className="absolute bottom-0 left-0 z-30 w-[min(760px,calc(100%-72px))] overflow-hidden rounded-tr-[46px] bg-[#eef7fb] py-4 shadow-[0_-4px_18px_rgba(0,0,0,0.08)]">
-  <motion.div
-    className="flex w-max items-center whitespace-nowrap"
-    animate={{ x: ["0%", "-50%"] }}
-    transition={{
-      duration: 20,
-      ease: "linear",
-      repeat: Infinity,
-    }}
-  >
-    {[0, 1].map((group) => (
-      <div key={group} className="flex items-center gap-10 pl-8">
-        {marqueeItems.map((item, index) => (
-          <div
-            key={`${group}-${item}`}
-            className="flex items-center gap-3 text-md font-medium text-slate-800"
-          >
-            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#039bd3]/10 text-[#039bd3]">
-              {index === 0 ? <MdOutlineBiotech size={14} /> :
-               index === 1 ? <MdOutlineLocalHospital size={14} /> :
-               index === 2 ? <MdOutlineLightbulb size={14} /> :
-               <MdOutlineSpa size={14} />}
-            </span>
-            <span>{item}</span>
-          </div>
-        ))}
+        <motion.div
+          className="flex w-max items-center whitespace-nowrap"
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{ duration: 20, ease: "linear", repeat: Infinity }}
+        >
+          {[0, 1].map((group) => (
+            <div key={group} className="flex items-center gap-10 pl-8">
+              {marqueeItems.map((item, index) => (
+                <div
+                  key={`${group}-${item}`}
+                  className="flex items-center gap-3 text-md font-medium text-slate-800"
+                >
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#039bd3]/10 text-[#039bd3]">
+                    {index === 0 ? (
+                      <MdOutlineBiotech size={14} />
+                    ) : index === 1 ? (
+                      <MdOutlineLocalHospital size={14} />
+                    ) : index === 2 ? (
+                      <MdOutlineLightbulb size={14} />
+                    ) : (
+                      <MdOutlineSpa size={14} />
+                    )}
+                  </span>
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+          ))}
+        </motion.div>
       </div>
-    ))}
-  </motion.div>
-</div>
 
       <button
         aria-label="Previous slide"
@@ -152,14 +174,8 @@ const HeroSection = () => {
 
       <Swiper
         modules={[Navigation, Autoplay]}
-        navigation={{
-          prevEl: ".hero-prev",
-          nextEl: ".hero-next",
-        }}
-        autoplay={{
-          delay: 11000,
-          disableOnInteraction: false,
-        }}
+        navigation={{ prevEl: ".hero-prev", nextEl: ".hero-next" }}
+        autoplay={{ delay: 11000, disableOnInteraction: false }}
         speed={900}
         loop={true}
         className="min-h-screen w-full"
@@ -167,12 +183,11 @@ const HeroSection = () => {
         {slides.map((slide) => (
           <SwiperSlide key={slide.id}>
             <div
-              className="relative min-h-screen overflow-hidden px-5 py-16 sm:px-8 md:py-20 lg:px-20"
+              className="relative min-h-screen overflow-hidden px-5 py-16 sm:px-8 md:py-20 lg:px-20 2xl:px-28"
               style={{
                 background: `linear-gradient(120deg, ${slide.color} 0%, ${slide.blend} 48%, ${slide.accent} 100%)`,
               }}
             >
-
               <div
                 className="pointer-events-none absolute inset-0"
                 style={{
@@ -196,7 +211,6 @@ const HeroSection = () => {
                 ))}
               </div>
               <div className="pointer-events-none absolute -bottom-28 left-1/3 h-64 w-64 rounded-full border border-white/15" />
-
               <div className="pointer-events-none absolute left-[60%] top-[58%] h-24 w-24 rotate-45 rounded-3xl border border-white/10" />
 
               {/* Medical Pattern Background */}
@@ -210,17 +224,20 @@ const HeroSection = () => {
                 />
               </div>
 
-              <div className="relative z-10 mx-auto grid min-h-[calc(100vh-8rem)] max-w-7xl grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
+              <div className="relative z-10 mx-auto grid min-h-[calc(100vh-8rem)] max-w-7xl 2xl:max-w-[96rem] grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16 2xl:gap-20">
                 {/* LEFT CONTENT */}
                 <motion.div
                   initial={{ opacity: 0, y: 25 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7 }}
-                  className={`${slide.contentwidth} lg:ml-10 ${slide.extraheadingclass}`}
+                  className={`${slide.contentwidth} lg:ml-10 2xl:ml-0 ${slide.extraheadingclass ?? ""} 2xl:${slide.extraheadingclassxl ?? ""}`}
                 >
-                  {/* HEADING */}
-                  <span className="text-4xl xl:text-6xl leading-[1.08] font-semibold text-white">
-                    {slide.title}
+                  <span className="text-4xl xl:text-6xl 2xl:text-7xl leading-[1.08] font-semibold text-white">
+                    {slide.title1}
+                  </span>
+                  <br />
+                  <span className="text-4xl xl:text-6xl 2xl:text-7xl leading-[1.08] font-semibold text-white">
+                    {slide.title2}
                   </span>
 
                   {/* MOBILE IMAGE */}
@@ -235,24 +252,18 @@ const HeroSection = () => {
                     </div>
                   </div>
 
-                  {/* DESCRIPTION */}
-                  {/* <p className="text-[#66706b] text-base xl:text-lg leading-8 mt-6 max-w-lg">
-        {slide.description}
-      </p> */}
-                  <p className="text-white text-base xl:text-lg leading-8 mt-4 max-w-lg">
+                  <p className="text-white text-base xl:text-lg 2xl:text-2xl leading-8 2xl:leading-9 mt-4 max-w-lg 2xl:max-w-2xl">
                     {slide.tagline || slide.description}
                   </p>
 
-                  {/* CTA */}
                   <div className="flex items-center gap-3 mt-5 flex-wrap">
-                    <Link href={"/#booking"} className="h-[56px]  px-6 rounded-full bg-white text-[#315e95] hover:bg-white/90 transition-all text-sm font-semibold flex items-center gap-2 shadow-[0_10px_30px_rgba(0,0,0,0.16)]">
+                    <Link
+                      href="/#booking"
+                      className="h-[56px] 2xl:h-[64px] px-6 2xl:px-8 rounded-full bg-white text-[#315e95] hover:bg-white/90 transition-all text-md active:scale-95 2xl:text-xl font-semibold flex items-center gap-2 shadow-sm shadow-inner"
+                    >
                       Book Appointment
-                      <HiArrowUpRight className="text-lg" />
+                      <HiArrowUpRight className="text-lg 2xl:text-xl" />
                     </Link>
-
-                    {/* <button className="h-[56px] px-6 rounded-full border border-[#dbe7ee] bg-white/70 backdrop-blur-sm text-[#131C15] text-sm font-medium hover:bg-white transition-all">
-          Explore Treatments
-        </button> */}
                   </div>
                 </motion.div>
 
@@ -263,19 +274,27 @@ const HeroSection = () => {
                   transition={{ duration: 0.8 }}
                   className="relative hidden lg:flex justify-end items-end self-end overflow-visible"
                 >
-                  <div className="relative flex items-end overflow-visible">
+                  <div
+                    className="relative flex items-end overflow-visible"
+                    style={{
+                      transform: `translate(${is2xl ? slide.imageXxl || slide.imageX : slide.imageX},
+                        ${is2xl ? slide.imageYxl || slide.imageY : slide.imageY})
+                        scale(${is2xl ? slide.imageScaleXl : slide.imageScale})`,
+                      transformOrigin: "bottom center",
+                    }}
+                  >
                     <Image
-  src={slide.image}
-  alt="Dermatology"
-  priority
-  style={{
-    height: slide.imageHeight || "100vh",
-    width: "auto",
-    transform: `translate(${slide.imageX}, ${slide.imageY}) scale(${slide.imageScale})`,
-    transformOrigin: "bottom center",
-  }}
-  className="object-contain object-bottom"
-/>
+                      src={slide.image}
+                      alt="Dermatology"
+                      priority
+                      style={{
+                        height: is2xl
+                          ? slide.imageHeightXl || "110vh"
+                          : slide.imageHeight || "100vh",
+                        width: "auto",
+                      }}
+                      className="object-contain object-bottom"
+                    />
                   </div>
                 </motion.div>
               </div>
