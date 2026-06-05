@@ -27,14 +27,14 @@ import { useEffect, useState } from "react";
 const marqueeItems = [
   "Energy-based devices",
   "Dermato surgical facility",
-  "Advanced laser care",
+  "Evidence-based practice",
   "Skin & hair treatments",
 ];
 
 const slides = [
   {
     id: 1,
-    label: "ADVANCED DERMATOLOGY CARE",
+    label: "Trust built on expertise",
     title1: "Dr. Charu Garg",
     title2: "",
     contentwidth: "max-w-lg 2xl:max-w-2xl",
@@ -58,7 +58,7 @@ const slides = [
   },
   {
     id: 2,
-    label: "MODERN SKIN SOLUTIONS",
+    label: "Trust built on expertise",
     title1: "Teleconsult",
     title2: "Dr. Charu Garg",
     tagline: "Expert Care, One click away",
@@ -84,7 +84,7 @@ const slides = [
   },
   {
     id: 3,
-    label: "PERSONALIZED CARE EXPERIENCE",
+    label: "Trust built on expertise",
     title1: "Expert",
     title2: "Skin Solutions",
     contentwidth: "max-w-lg 2xl:max-w-2xl",
@@ -94,8 +94,8 @@ const slides = [
     description:
       "Comprehensive skin care designed with modern dermatology practices, advanced technologies, and patient-first attention.",
     image: Hero1,
-    imageScale: "1.1",
-    imageScaleXl: "1.28",
+    imageScale: "1.2",
+    imageScaleXl: "1.32",
     imageX: "0px",
     imageY: "-10px",
     imageXxl: "0px",
@@ -232,6 +232,9 @@ const HeroSection = () => {
                   transition={{ duration: 0.7 }}
                   className={`${slide.contentwidth} lg:ml-10 2xl:ml-0 ${slide.extraheadingclass ?? ""} 2xl:${slide.extraheadingclassxl ?? ""}`}
                 >
+                  <div className="text-sm px-3 py-1 mb-3 rounded-full border border-white/35 bg-white/15 text-white backdrop-blur-md transition-all hover:bg-white hover:text-[#315e95] w-fit">
+                    {slide.label}
+                  </div>
                   <span className="text-4xl xl:text-6xl 2xl:text-7xl leading-[1.08] font-semibold text-white">
                     {slide.title1}
                   </span>
@@ -259,7 +262,14 @@ const HeroSection = () => {
                   <div className="flex items-center gap-3 mt-5 flex-wrap">
                     <Link
                       href="/#booking"
-                      className="h-[56px] 2xl:h-[64px] px-6 2xl:px-8 rounded-full bg-white text-[#315e95] hover:bg-white/90 transition-all text-md active:scale-95 2xl:text-xl font-semibold flex items-center gap-2 shadow-sm shadow-inner"
+                      className="py-3 px-6 2xl:px-8 rounded-full bg-white text-[#315e95] hover:bg-white/90 transition-all text-md active:scale-95 2xl:text-xl font-semibold flex items-center gap-2 shadow-sm shadow-inner"
+                    >
+                      Our Facilities
+                      <HiArrowUpRight className="text-lg 2xl:text-xl" />
+                    </Link>
+                    <Link
+                      href="/#booking"
+                      className="py-3 px-6 2xl:px-8 rounded-full bg-white text-[#315e95] hover:bg-white/90 transition-all text-md active:scale-95 2xl:text-xl font-semibold flex items-center gap-2 shadow-sm shadow-inner"
                     >
                       Book Appointment
                       <HiArrowUpRight className="text-lg 2xl:text-xl" />

@@ -6,7 +6,7 @@ import React from "react";
 
 const LookLike = ({ data }) => {
   return (
-    <section className="relative overflow-hidden bg-[#ffffff] ">
+    <section className="relative overflow-hidden ">
 
       {/* Soft Background */}
       <div className="absolute left-1/2 top-0 h-[320px] w-[320px] -translate-x-1/2 rounded-full bg-[#eef7fb] blur-[110px]" />

@@ -46,16 +46,16 @@ const LatestArticles = () => {
    <section className="px-4 pt-10 md:px-5 md:pt-20">
      <div>
        {/* Header */}
-       <div className="mb-10 flex flex-col items-center justify-center gap-6 text-center md:mb-14 md:flex-row md:items-center md:justify-center">
-  <div className="flex flex-col gap-5">
-    <p className="mb-3 text-sm font-medium uppercase tracking-[0.22em] text-[#058FD2]">
-      Latest Articles
-    </p>
+<div className="mb-10 flex flex-col items-center justify-center text-center md:mb-14">
+  <p className="mb-3 text-sm font-medium uppercase tracking-[0.22em] text-white">
+    Latest Articles
+  </p>
 
-    <h2 className="text-3xl lg:text-5xl font-semibold leading-tight text-[#131C15]">
-      Our Blogs
-    </h2>
-     <button className="group flex items-center gap-2 rounded-full border border-[#dbe5ea] bg-white px-5 py-3 text-sm font-medium text-[#131C15] transition-all duration-300 hover:border-[#058FD2] hover:text-[#058FD2]">
+  <h2 className="mb-6 text-3xl font-semibold leading-tight text-white lg:text-5xl">
+    Our Blogs
+  </h2>
+
+  <button className="group flex items-center gap-2 rounded-full border border-[#dbe5ea] bg-white px-5 py-3 text-sm font-medium text-[#131C15] transition-all duration-300 hover:border-[#058FD2] hover:text-[#058FD2]">
     View All Articles
 
     <ArrowRight
@@ -63,9 +63,6 @@ const LatestArticles = () => {
       className="transition-transform duration-300 group-hover:translate-x-1"
     />
   </button>
-  </div>
-
- 
 </div>
 
 
@@ -75,7 +72,7 @@ const LatestArticles = () => {
            <Link
              href={blog.slug}
              key={index}
-             className="group rounded-[32px] border border-[#e7edf1] bg-white p-3 transition-all duration-500 hover:-translate-y-1 hover:border-[#d6eaf5] hover:shadow-[0_25px_70px_rgba(16,24,40,0.07)]"
+             className="group rounded-[32px] border border-[#e7edf1] bg-white/70 p-3 transition-all duration-500 hover:-translate-y-1 hover:border-[#d6eaf5] hover:shadow-[0_25px_70px_rgba(16,24,40,0.07)]"
            >
              {/* Image Wrapper */}
              <div className="relative overflow-hidden rounded-[24px]">

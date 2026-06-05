@@ -44,7 +44,9 @@ const Page = async ({ params }) => {
 
 
 {data.whyThisHappenSection && (
+  <section className="bg-[#eef7fb]">
  <WhyThisHappen data={data.whyThisHappenSection} />
+ </section>
 )}
 
 
@@ -52,17 +54,19 @@ const Page = async ({ params }) => {
  <HOTW data={data.howTreatmentWorksSection} />
 )}
 
-<section className="px-4 pt-0 md:px-5 md:pt-20 bg-white">
+<section className="px-4 md:px-5  bg-white">
 <BookingSection/>
 </section>
 
+{data.beforeAfterSection && (
+  <section className="">
+    <BeforeAfter data={data.beforeAfterSection} />
+  </section>
+)}
 {data.treatmentScopeSection && (
  <TreatmentScope data={data.treatmentScopeSection} />
 )}
 
-{data.beforeAfterSection && (
-  <BeforeAfter data={data.beforeAfterSection} />
-)}
 
 
 

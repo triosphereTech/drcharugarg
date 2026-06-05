@@ -76,21 +76,20 @@ function Services() {
   return (
     <>
       {/* SERVICES */}
-      <section className="px-4 pt-10 md:px-5 md:pt-20">
+      <section className="px-4  md:px-5">
         <div className="">
           {/* TOP */}
           <div className="mx-auto text-center">
             {/* LABEL */}
-            <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 shadow-sm">
-              <div className="h-2 w-2 rounded-full bg-primary-accent" />
-
-              <p className="text-xs font-semibold uppercase tracking-[2px] text-primary-accent">
+            <div className="inline-flex items-center gap-2 bg-white/20 rounded-full px-4 py-2 shadow-sm">
+              
+              <p className="text-xl font-semibold uppercase tracking-[2px] text-white ">
                 Our Services
               </p>
             </div>
 
             {/* HEADING */}
-            <div className="pt-6">
+            {/* <div className="pt-6">
               <h2 className="text-4xl font-semibold leading-[105%]  text-primary-dark md:text-5xl xl:text-5xl">
                 Personalized Dermatology
               </h2>
@@ -98,13 +97,16 @@ function Services() {
               <h2 className="pt-2 text-4xl font-semibold leading-[105%]  text-primary-accent md:text-5xl xl:text-5xl">
                 For Healthy Skin & Hair
               </h2>
-            </div>
+            </div> */}
 
             {/* SUBTEXT */}
-            <div className="mx-auto max-w-[620px] pt-6">
-              <p className="text-sm font-medium leading-[190%] text-primary-dark/60 md:text-[16px]">
-                Comprehensive skin, hair, and nail treatments designed with
-                modern dermatology expertise and personalized care.
+            <div className="mx-auto max-w-[800px] pt-6">
+              <p className="text-sm font-medium leading-[190%] text-white md:text-[20px]">
+                We offer a comprehensive range of dermatology services, from
+                medical treatments to advanced aesthetic procedures and
+                dedicated to delivering personalized care, supported by modern
+                technology and the highest standards in skin, hair, and nail
+                health.
               </p>
             </div>
           </div>
@@ -115,7 +117,7 @@ function Services() {
               <Link
                 href={item.link}
                 key={index}
-                className="group rounded-[32px] bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                className="group rounded-[32px] bg-white/80 p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
               >
                 {/* IMAGE */}
                 <div className="overflow-hidden rounded-[26px]">

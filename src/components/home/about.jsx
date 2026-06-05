@@ -1,11 +1,13 @@
 import React from "react";
 import Image from "next/image";
 import Dr from "../../../public/images/drcharu.jpeg";
+import Link from "next/link";
+import { HiArrowUpRight } from "react-icons/hi2";
 
 function about() {
   return (
     <>
-      <section className="px-4 pt-0 md:px-5 md:pt-20">
+      <section className="px-4 pt-20 md:px-5 md:pt-20">
         <div className="">
           <div className="grid gap-x-12 xl:grid-cols-[0.85fr_1.15fr]">
             {/* IMAGE SIDE */}
@@ -67,7 +69,7 @@ function about() {
                   <h2 className="text-3xl font-semibold leading-[110%] tracking-[-1.5px] text-primary-dark md:text-5xl">
                     Dr. Charu Garg
                     <span className="block text-primary-accent">
-                      MD Dermatologist
+                     MD DERMATOLOGY
                     </span>
                   </h2>
                 </div>
@@ -75,11 +77,7 @@ function about() {
                 {/* SHORT DESCRIPTION */}
                 <div className="max-w-[720px] pt-7">
                   <p className="text-sm font-medium leading-[190%] text-primary-dark/65 md:text-[17px]">
-                    Dr. Garg is a qualified dermatologist with over 5 years of
-                    clinical experience in managing skin, hair, and nail
-                    disorders. She completed her MD in Dermatology from
-                    Government Medical College, Surat, and pursued a fellowship
-                    in Advanced Clinical Dermatology and Lasers from Mumbai.
+                    Dr. Garg is a qualified dermatologist with over five years of clinical experience in managing disorders of the skin, hair, and nails. She completed her MD in Dermatology from Government Medical College, Surat, and pursued a fellowship in Advanced Clinical Dermatology and Lasers from Mumbai.She is committed to delivering comprehensive, patient-focused dermatology care, combining in-clinic expertise with seamless digital follow-up support to ensure continuity of care and long-term treatment outcomes.
                   </p>
                   <p className="text-sm font-medium leading-[190%] text-primary-dark/65 md:text-[17px] pt-5">
                     Dr. Garg aims to make dermatology care accessible,
@@ -91,29 +89,20 @@ function about() {
                 {/* POINTS */}
                 {/* POINTS */}
                 <div className="flex flex-wrap gap-3 pt-8">
-                  <div className="flex items-center gap-3 rounded-full bg-white px-5 py-4">
-                    <div className="h-2.5 w-2.5 rounded-full bg-primary-accent" />
-
-                    <p className="text-sm font-medium text-primary-dark/75 md:text-[15px]">
-                      Pioneer in dermatological care and innovation
-                    </p>
-                  </div>
-
-                  <div className="flex items-center gap-3 rounded-full bg-white px-5 py-4">
-                    <div className="h-2.5 w-2.5 rounded-full bg-primary-accent" />
-
-                    <p className="text-sm font-medium text-primary-dark/75 md:text-[15px]">
-                      Advanced treatment protocols
-                    </p>
-                  </div>
-
-                  <div className="flex items-center gap-3 rounded-full bg-white px-5 py-4">
-                    <div className="h-2.5 w-2.5 rounded-full bg-primary-accent" />
-
-                    <p className="text-sm font-medium text-primary-dark/75 md:text-[15px]">
-                      State-of-the-art technology
-                    </p>
-                  </div>
+                  <Link
+                      href="#"
+                      className="py-3 px-6 2xl:px-8 rounded-full bg-primary-accent text-[#ffffff] transition-all text-md active:scale-95 2xl:text-xl font-semibold flex items-center gap-2 shadow-sm shadow-inner"
+                    >
+                      Read more
+                      <HiArrowUpRight className="text-lg 2xl:text-xl" />
+                    </Link>
+                    <Link
+                      href="/#booking"
+                      className="py-3 px-6 2xl:px-8 rounded-full bg-primary-accent text-[#ffffff] transition-all text-md active:scale-95 2xl:text-xl font-semibold flex items-center gap-2 shadow-sm shadow-inner"
+                    >
+                      Book Appointment
+                      <HiArrowUpRight className="text-lg 2xl:text-xl" />
+                    </Link>
                 </div>
               </div>
             </div>

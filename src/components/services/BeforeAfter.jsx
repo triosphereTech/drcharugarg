@@ -5,7 +5,7 @@ import ReactCompareImage from "react-compare-image";
 
 const BeforeAfter = ({ data }) => {
   return (
-    <section className="relative overflow-hidden bg-[#ffffff] py-18 md:py-24">
+    <section className="relative overflow-hidden bg-linear-[120deg] from-[#315e95] via-[#039bd3] to-[#50b1a2] py-10 md:my-16 mx-5 rounded-4xl py-18 md:py-15">
 
       <div className="absolute right-0 top-0 h-[320px] w-[320px] rounded-full bg-[#eef7fb] blur-[120px]" />
 
@@ -14,20 +14,20 @@ const BeforeAfter = ({ data }) => {
         {/* Header */}
         <div className="max-w-[850px]">
 
-          <div className="mb-5 flex w-fit items-center gap-2 rounded-full border border-[#dceaf3] bg-[#f8fcfe] px-4 py-2">
+          <div className="mb-5 flex w-fit items-center gap-2 rounded-full border border-[#dceaf371] bg-white/20 px-4 py-2">
 
-            <div className="h-2 w-2 rounded-full bg-[#058FD2]" />
+            <div className="h-2 w-2 rounded-full bg-white" />
 
-            <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#058FD2]">
+            <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-white">
               Patient Transformations
             </p>
           </div>
 
-         <h2 className="text-3xl font-semibold leading-[1.1] text-[#131C15] md:text-4xl lg:text-4xl">
+         <h2 className="text-3xl font-semibold leading-[1.1] text-white md:text-4xl lg:text-4xl">
             {data.title}
           </h2>
 
-          <p className="mt-5 max-w-[650px] text-[15px] leading-7 text-[#667085]">
+          <p className="mt-5 max-w-[650px] text-[15px] leading-7 text-white">
             {data.description}
           </p>
         </div>
@@ -39,16 +39,16 @@ const BeforeAfter = ({ data }) => {
 
             <div
               key={index}
-              className="overflow-hidden rounded-[16px] border border-[#e4edf2] bg-white p-4 shadow-[0_10px_40px_rgba(15,23,42,0.04)]"
+              className="overflow-hidden rounded-[16px] border border-[#e4edf2]/30 bg-white/60 p-4 shadow-[0_10px_40px_rgba(15,23,42,0.04)]"
             >
 
               {/* Comparison */}
               <div className="h-[240px] overflow-hidden rounded-[14px] md:h-[280px]">
-  <ReactCompareImage
-    leftImage={item.beforeImage}
-    rightImage={item.afterImage}
-  />
-</div>
+                <ReactCompareImage
+                  leftImage={item.beforeImage}
+                  rightImage={item.afterImage}
+                />
+              </div>
 
               {/* Labels */}
               <div className="mt-5 flex items-center justify-between">
@@ -78,9 +78,9 @@ const BeforeAfter = ({ data }) => {
         </div>
 
         {/* Bottom Note */}
-        <div className="mt-14 border-t border-[#dceaf3] pt-8">
+        <div className="mt-14 border-t border-[#dceaf3]/50 pt-8">
 
-          <p className="text-center text-sm leading-7 text-[#667085]">
+          <p className="text-center text-sm leading-7 text-white">
             Results vary from person to person depending on condition severity,
             treatment plan, and adherence to medical advice.
           </p>

@@ -27,9 +27,9 @@ const iconMap = {
 
 const WhyThisHappen = ({ data }) => {
  return (
-   <section className="relative overflow-hidden bg-linear-to-b from-white to-[#eef7fb] ">
+   <section className="relative overflow-hidden bg-linear-[120deg] from-[#315e95] via-[#039bd3] to-[#50b1a2] py-10 md:my-16 mx-5 rounded-4xl ">
      {/* Background Blur */}
-     <div className="absolute left-0 top-30 h-80 w-[320px] rounded-full bg-[#dff2fc] blur-[110px]" />
+     {/* <div className="absolute left-0 top-30 h-80 w-[320px] rounded-full bg-[#dff2fc] blur-[110px]" /> */}
 
 
      <div className="relative mx-auto max-w-7xl px-3 pt-10 md:px-5 md:pt-20">
@@ -37,24 +37,24 @@ const WhyThisHappen = ({ data }) => {
          {/* LEFT */}
          <div>
            {/* Badge */}
-           <div className="mb-5 flex w-fit items-center gap-2 rounded-full border border-[#dceaf3] bg-white px-4 py-2">
-             <div className="h-2 w-2 rounded-full bg-[#058FD2]" />
+           <div className="mb-5 flex w-fit items-center gap-2 rounded-full border border-[#dceaf3] bg-white/20 px-4 py-2">
+             <div className="h-2 w-2 rounded-full bg-white" />
 
 
-             <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#058FD2]">
+             <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-white">
                {data.badge}
              </p>
            </div>
 
 
            {/* Heading */}
-           <h2 className="max-w-[620px] text-3xl font-semibold leading-[1.05] tracking-[-0.04em] text-[#131C15] md:text-4xl lg:text-5xl">
+           <h2 className="max-w-[620px] text-3xl font-semibold leading-[1.05] tracking-[-0.04em] text-white md:text-4xl lg:text-5xl">
              {data.title}
            </h2>
 
 
            {/* Paragraph */}
-           <p className="mt-7 max-w-[620px] text-[15px] leading-8 text-[#667085] md:text-[17px]">
+           <p className="mt-7 max-w-[620px] text-[15px] leading-8 text-white md:text-[17px]">
              {data.description}
            </p>
 
@@ -64,7 +64,7 @@ const WhyThisHappen = ({ data }) => {
              {data.points?.map((item, index) => (
                <div
                  key={index}
-                 className="group flex flex-col items-start gap-4 rounded-[24px] border border-[#dceaf3] bg-white p-4 transition-all duration-500 hover:border-[#cfe4f2] hover:shadow-[0_15px_40px_rgba(15,23,42,0.05)]"
+                 className="group flex flex-col items-start gap-4 rounded-[24px] border border-[#dceaf3] bg-white/70 p-4 transition-all duration-500 hover:border-[#cfe4f2] hover:shadow-[0_15px_40px_rgba(15,23,42,0.05)]"
                >
                  <div className="flex items-center gap-4">
                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-[#eef7fb] text-[#058FD2] transition-all duration-500 group-hover:bg-[#058FD2] group-hover:text-white">
@@ -76,7 +76,7 @@ const WhyThisHappen = ({ data }) => {
                  </div>
 
 
-                 <p className=" text-[14px] leading-7 text-[#667085]">
+                 <p className=" text-[14px] leading-7 text-[#272727]">
                    {item.description}
                  </p>
                </div>
@@ -85,7 +85,7 @@ const WhyThisHappen = ({ data }) => {
 
 
            {/* Highlight Line */}
-           <div className="mt-10 overflow-hidden rounded-[30px] border border-[#dceaf3] bg-[#eef7fb]">
+           <div className="mt-10 overflow-hidden rounded-[30px] border border-[#dceaf3] bg-[#eef7fb]/60">
              <div className="flex flex-col gap-5 p-6 md:flex-row md:items-center md:justify-between">
                {/* Left */}
                <div className="flex items-start gap-4">
@@ -133,7 +133,7 @@ const WhyThisHappen = ({ data }) => {
 
 
            {/* Floating Card */}
-           <div className="absolute bottom-5 left-5 max-w-[400px] rounded-[28px] border border-white/70 bg-white/92 p-5 shadow-[0_15px_40px_rgba(0,0,0,0.08)] backdrop-blur-xl md:p-6">
+           <div className="absolute bottom-5 left-5 max-w-[400px] rounded-[28px] border border-white/70 bg-white/40 p-5 shadow-[0_15px_40px_rgba(0,0,0,0.08)] backdrop-blur-xl md:p-6">
              <p className="text-sm font-medium uppercase tracking-[0.15em] text-[#058FD2]">
                Clinical Observation
              </p>
@@ -142,7 +142,7 @@ const WhyThisHappen = ({ data }) => {
             
 
 
-             <p className="mt-3 text-[14px] leading-7 text-[#667085]">
+             <p className="mt-3 text-[14px] leading-7 text-[#474747]">
                {data.floatingDescription}
              </p>
 

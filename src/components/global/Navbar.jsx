@@ -95,15 +95,15 @@ const Navbar = () => {
       href: "/#services",
     },
     {
-      label: "Faq's",
+      label: "FAQs",
       href: "/#faqs",
     },
     {
-      label: "Academics & Achievements",
-      href: "/#achievements",
+      label: "Blogs",
+      href: "/#blogs",
     },
     {
-      label: "Contact",
+      label: "Contact Us",
       href: "/contact",
     },
   ];
