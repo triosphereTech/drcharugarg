@@ -71,7 +71,9 @@ const Page = async ({ params }) => {
 
 
 {data.followUpSection && (
- <FollowUpCare data={data.followUpSection} />
+  <section>
+    <FollowUpCare data={data.followUpSection} />
+  </section>
 )}
 
 

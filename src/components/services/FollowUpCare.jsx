@@ -13,10 +13,10 @@ import {
 
 const FollowUpCare = ({ data }) => {
   return (
-    <section className="relative overflow-hidden bg-linear-to-b from-white to-[#EEF7FB] ">
+    <section className="relative overflow-hidden bg-linear-[120deg] from-[#315e95] via-[#039bd3] to-[#50b1a2] py-10 pb-20 md:mt-16 mx-5 rounded-4xl">
 
       {/* Blur */}
-      <div className="absolute right-0 top-0 h-[340px] w-[340px] rounded-full bg-[#dff2fc] blur-[120px]" />
+      <div className="absolute right-0 top-0 h-[340px] w-[340px] rounded-full bg-[#56cdfc] blur-[120px]" />
 
       <div className="relative mx-auto max-w-7xl px-3 pt-10 md:px-5 md:pt-20">
 
@@ -24,22 +24,22 @@ const FollowUpCare = ({ data }) => {
         <div className="max-w-[900px]">
 
           {/* Badge */}
-          <div className="mb-5 flex w-fit items-center gap-2 rounded-full border border-[#dceaf3] bg-white px-4 py-2">
+          <div className="mb-5 flex w-fit items-center gap-2 rounded-full border border-[#dceaf3]/40 bg-white/20 px-4 py-2">
 
-            <div className="h-2 w-2 rounded-full bg-[#058FD2]" />
+            <div className="h-2 w-2 rounded-full bg-white" />
 
-            <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#058FD2]">
+            <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-white">
               {data.badge}
             </p>
           </div>
 
           {/* Heading */}
-          <h2 className="text-3xl font-semibold leading-[1.05] text-[#131C15] md:text-4xl lg:text-5xl">
+          <h2 className="text-3xl font-semibold leading-[1.05] text-white md:text-4xl lg:text-5xl">
             {data.title}
           </h2>
 
           {/* Description */}
-          <p className="mt-7 max-w-[760px] text-[15px] leading-8 text-[#667085] md:text-[17px]">
+          <p className="mt-7 max-w-[760px] text-[15px] leading-8 text-white md:text-[17px]">
             {data.description}
           </p>
         </div>
@@ -51,7 +51,7 @@ const FollowUpCare = ({ data }) => {
           <div className="grid gap-6 md:grid-cols-2">
 
             {/* Large Image */}
-            <div className="group relative overflow-hidden rounded-[38px] border border-[#dceaf3] bg-white p-3 md:col-span-2">
+            <div className="group relative overflow-hidden rounded-[38px] border border-[#dceaf3]/40 bg-white/20 p-3 md:col-span-2">
 
               <div className="overflow-hidden rounded-[30px]">
 
@@ -63,20 +63,18 @@ const FollowUpCare = ({ data }) => {
               </div>
 
               {/* Floating Card */}
-              <div className="absolute bottom-8 left-8 rounded-[28px] border border-white/70 bg-white/92 px-6 py-5 shadow-[0_15px_40px_rgba(0,0,0,0.08)] backdrop-blur-xl">
+              <div className="absolute bottom-8 left-8 rounded-[28px] border border-[#dceaf3]/40 bg-white/70 px-6 py-5 shadow-[0_15px_40px_rgba(0,0,0,0.08)] backdrop-blur-xl">
 
-                <p className="text-sm font-medium uppercase tracking-[0.15em] text-[#058FD2]">
+                <p className="text-sm font-medium uppercase tracking-[0.15em] text-[#2c2c2c]">
                   Continuous Monitoring
                 </p>
 
-                <h3 className="mt-2 text-xl font-semibold text-[#131C15]">
-                  Long-Term Hair Progress Tracking
-                </h3>
+                
               </div>
             </div>
 
             {/* Small Image 1 */}
-            <div className="overflow-hidden rounded-[34px] border border-[#dceaf3] bg-white p-3">
+            <div className="overflow-hidden rounded-[34px] border border-[#dceaf3]/40 bg-white/20 p-3">
 
               <img
                 src={data.imageOne}
@@ -86,7 +84,7 @@ const FollowUpCare = ({ data }) => {
             </div>
 
             {/* Small Image 2 */}
-            <div className="overflow-hidden rounded-[34px] border border-[#dceaf3] bg-white p-3">
+            <div className="overflow-hidden rounded-[34px] border border-[#dceaf3]/40 bg-white/20 p-3">
 
               <img
                 src={data.imageTwo}

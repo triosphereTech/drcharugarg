@@ -35,7 +35,7 @@ const Reviews = () => {
   const duplicatedReviews = [...reviews, ...reviews];
 
   return (
-    <section className="relative overflow-hidden py-20 md:py-28">
+    <section className="relative overflow-hidden ">
 
       {/* Background */}
       {/* <div className="absolute inset-0 bg-gradient-to-b from-white via-[#f8fbfd] to-white" /> */}
@@ -43,26 +43,26 @@ const Reviews = () => {
       {/* Right Glow */}
       {/* <div className="absolute right-[-120px] top-1/2 h-[500px] w-[500px] -translate-y-1/2 rounded-full bg-[#cdefff] opacity-80 blur-[160px]" /> */}
 
-      <div className="relative mx-auto max-w-[1350px] px-5 md:px-8 lg:px-10">
+      <div className="relative mx-auto px-5 md:px-8 lg:px-0">
 
         {/* Heading */}
-        <div className="mx-auto max-w-[820px] text-center">
+        <div className="mx-auto max-w-full text-center">
 
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#d8eaf4] bg-white px-4 py-2">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#d8eaf4]/40 bg-white/30 px-4 py-2">
 
-            <div className="h-2 w-2 rounded-full bg-[#058FD2]" />
+            <div className="h-2 w-2 rounded-full bg-white" />
 
-            <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#058FD2]">
+            <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-white">
               Patient Experiences
             </p>
 
           </div>
 
-          <h2 className="mt-6 text-4xl font-semibold leading-[1.1] tracking-[-0.03em] text-[#131C15] md:text-5xl lg:text-[58px]">
+          <h2 className="mt-6 text-4xl font-semibold leading-[1.1] tracking-[-0.03em] text-white md:text-5xl lg:text-[58px]">
             Experiences Shared By Our Patients
           </h2>
 
-          <p className="mx-auto mt-6 max-w-[760px] text-[15px] leading-8 text-[#667085] md:text-[17px]">
+          <p className="mx-auto mt-6 max-w-[760px] text-[15px] leading-8 text-white md:text-[17px]">
             Every patient journey is different. These experiences reflect the
             trust patients place in Dr. Charu Garg for thoughtful,
             evidence-based dermatology care.
@@ -73,10 +73,16 @@ const Reviews = () => {
         {/* Reviews */}
         <div className="relative mt-16">
 
-          {/* Right Fade Only */}
-          <div className="absolute right-[-40] top-0 z-10 h-full w-20    md:w-50 bg-gradient-to-l from-[#EEF7FB] via-[#EEF7FB]/90 to-transparent" />
+          {/* Left Fade */}
+  {/* <div className="pointer-events-none absolute left-0 top-0 z-20 h-full w-24 md:w-40 bg-gradient-to-r from-[#2d6fa6] via-[#2d6fa6]/90 to-transparent" /> */}
 
-          <div className="marquee flex gap-6">
+  {/* Right Fade */}
+  <div className="pointer-events-none absolute right-0 top-0 z-20 h-full w-24 md:w-40 bg-gradient-to-l from-[#3eabae] via-[#3eabae]/50 to-transparent" />
+
+          {/* Right Fade Only */}
+          {/* <div className="absolute right-[-40] top-0 z-10 h-full w-20    md:w-50 bg-gradient-to-l from-[#3eabae] via-[#3eabae]/90 to-transparent" /> */}
+
+          <div className="marquee rounded-2xl flex gap-6">
 
             {duplicatedReviews.map((item, index) => (
 

@@ -47,8 +47,10 @@ export default function Home() {
     <HistorySection/>
     </section>
 
-    <section className="max-w-7xl mx-auto" id="reviews">
+   <section className="bg-linear-[120deg] from-[#315e95] via-[#039bd3] to-[#50b1a2] py-10 md:my-16 mx-5 rounded-4xl" id="services">
+      <div className="max-w-7xl mx-auto">
     <Reviews/>
+    </div>
     </section>
 
     <section className="max-w-7xl mx-auto" id="faqs">

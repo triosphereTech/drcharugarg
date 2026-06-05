@@ -16,7 +16,7 @@ import {
 
 import "swiper/css";
 
-import Hero1 from "../../../public/images/HomeHero4.png";
+import Hero1 from "../../../public/images/HomeHero.png";
 import Hero2 from "../../../public/images/SideFaceN.png";
 import Hero3 from "../../../public/images/StraightLook.png";
 
@@ -35,11 +35,11 @@ const slides = [
   {
     id: 1,
     label: "Trust built on expertise",
-    title1: "Dr. Charu Garg",
+    title1: "Consult the Dermatologist from the comfort of your home.",
     title2: "",
     contentwidth: "max-w-lg 2xl:max-w-2xl",
     extraheadingclass: "-mt-30",
-    description: "Consult the Dermatologist from the comfort of your home.",
+    description: "",
     image: Hero3,
     imageScale: "1.22",
     imageScaleXl: "1.45",
@@ -97,7 +97,7 @@ const slides = [
     imageScale: "1.2",
     imageScaleXl: "1.32",
     imageX: "0px",
-    imageY: "-10px",
+    imageY: "30px",
     imageXxl: "0px",
     imageYxl: "-20px",
     imageHeight: "70vh",
