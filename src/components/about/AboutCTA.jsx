@@ -6,6 +6,7 @@ import {
 } from "react-icons/fi";
 import PlusBg from "../../../public/images/PlusBg.png"
 import Image from "next/image"
+import Link from "next/link";
 
 const AboutCTA = () => {
   return (
@@ -47,15 +48,15 @@ const AboutCTA = () => {
 
               {/* Buttons */}
               <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
-                <button className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-7 py-4 font-semibold text-[#0A3C84] transition hover:scale-[1.02]">
+                <Link href="/book-appoitment" className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-7 py-4 font-semibold text-[#0A3C84] transition hover:scale-[1.02]">
                   <FiCalendar />
                   Book Consultation
-                </button>
+                </Link>
 
-                <button className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/10 px-7 py-4 font-semibold text-white backdrop-blur transition hover:bg-white/15">
+                <Link href="/book-appoitment" className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/10 px-7 py-4 font-semibold text-white backdrop-blur transition hover:bg-white/15">
                   <FiPhone />
                   Contact Us
-                </button>
+                </Link>
               </div>
 
               {/* Trust Points */}

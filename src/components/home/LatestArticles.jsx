@@ -43,7 +43,7 @@ export const blogs = [
 
 const LatestArticles = () => {
  return (
-   <section className="px-4 pt-10 md:px-5 md:pt-20">
+   <section className="px-4 mt-10 md:px-5 md:pt-0">
      <div>
        {/* Header */}
 <div className="mb-10 flex flex-col items-center justify-center text-center md:mb-14">

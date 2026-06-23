@@ -268,7 +268,7 @@ const HeroSection = () => {
                       <HiArrowUpRight className="text-lg 2xl:text-xl" />
                     </Link>
                     <Link
-                      href="/#booking"
+                      href="/book-appointment"
                       className="py-3 px-6 2xl:px-8 rounded-full bg-white text-[#315e95] hover:bg-white/90 transition-all text-md active:scale-95 2xl:text-xl font-semibold flex items-center gap-2 shadow-sm shadow-inner"
                     >
                       Book Appointment

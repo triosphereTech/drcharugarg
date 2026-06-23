@@ -1,6 +1,7 @@
 import { HiArrowUpRight } from "react-icons/hi2";
 import Image from "next/image"
 import Charu from "../../../public/images/ContactCharu.png"
+import Link from "next/link";
 
 function AppointmentCTA() {
   return (
@@ -48,7 +49,7 @@ function AppointmentCTA() {
             {/* BUTTONS */}
             <div className="flex flex-wrap gap-3 pt-8">
               {/* PRIMARY BUTTON */}
-              <button className="group flex items-center gap-2 rounded-full bg-gradient-to-r from-sky-600 to-cyan-500 px-5 py-3 transition-all duration-300 hover:scale-[1.02]">
+              <Link href="/book-appointment" className="group flex items-center gap-2 rounded-full bg-gradient-to-r from-sky-600 to-cyan-500 px-5 py-3 transition-all duration-300 hover:scale-[1.02]">
                 <span className="text-sm font-semibold text-white md:text-[15px]">
                   Make a Booking
                 </span>
@@ -56,12 +57,12 @@ function AppointmentCTA() {
                 <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white">
                   <HiArrowUpRight className="text-[15px] text-sky-700 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </div>
-              </button>
+              </Link>
 
               {/* SECONDARY BUTTON */}
-              <button className="rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition-all duration-300 hover:border-sky-200 hover:bg-sky-50 md:text-[15px]">
+              {/* <button className="rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition-all duration-300 hover:border-sky-200 hover:bg-sky-50 md:text-[15px]">
                 Our Facilities
-              </button>
+              </button> */}
             </div>
           </div>
 

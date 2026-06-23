@@ -91,14 +91,14 @@ function about() {
                 {/* POINTS */}
                 <div className="flex flex-wrap gap-3 pt-8">
                   <Link
-                      href="#"
+                      href="/about"
                       className="py-3 px-6 2xl:px-8 rounded-full bg-primary-accent text-[#ffffff] transition-all text-md active:scale-95 2xl:text-xl font-semibold flex items-center gap-2 shadow-sm shadow-inner"
                     >
                       Read more
                       <HiArrowUpRight className="text-lg 2xl:text-xl" />
                     </Link>
                     <Link
-                      href="/#booking"
+                      href="/book-appointment"
                       className="py-3 px-6 2xl:px-8 rounded-full bg-primary-accent text-[#ffffff] transition-all text-md active:scale-95 2xl:text-xl font-semibold flex items-center gap-2 shadow-sm shadow-inner"
                     >
                       Book Appointment

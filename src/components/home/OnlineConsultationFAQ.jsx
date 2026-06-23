@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Plus, Minus } from "lucide-react";
+import Link from "next/link";
 
 const faqs = [
   {
@@ -120,9 +121,10 @@ const OnlineConsultationFAQ = () => {
       </div> */}
 
                 {/* CTA Button */}
-                <button className="mt-7 w-full rounded-full bg-[#131C15] px-6 py-3 text-sm font-medium text-white transition-all duration-300 active:scale-95 cursor-pointer">
+                <br/>
+                <Link href="/book-appointment" className="mt-7 w-full rounded-full bg-[#131C15] px-6 py-3 text-sm font-medium text-white transition-all duration-300 active:scale-95 cursor-pointer">
                   Book Appointment Now
-                </button>
+                </Link>
               </div>
             </div>
 

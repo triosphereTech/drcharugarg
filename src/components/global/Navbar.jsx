@@ -183,7 +183,7 @@ const Navbar = () => {
         </Link>
       )}
 
-      <Link href="#booking" className="flex active:scale-95 items-center gap-2 rounded-full bg-primary-dark px-6 py-3 text-[15px] font-medium text-white transition-all duration-300 hover:scale-[1.02]">
+      <Link href="/book-appointment" className="flex active:scale-95 items-center gap-2 rounded-full bg-primary-dark px-6 py-3 text-[15px] font-medium text-white transition-all duration-300 hover:scale-[1.02]">
        {user ? ( "Book Appointment"):("Login to Book Appointment")} 
         <HiArrowUpRight className="text-[18px]" />
       </Link>

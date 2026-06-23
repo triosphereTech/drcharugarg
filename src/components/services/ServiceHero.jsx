@@ -4,6 +4,7 @@
 'use client'
 import React from "react";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 
 const ServiceHero = ({ data }) => {
@@ -55,9 +56,9 @@ const ServiceHero = ({ data }) => {
 
          {/* Buttons */}
          <div className="mt-10 flex flex-wrap gap-4">
-           <button className="rounded-full bg-[#131C15] px-7 py-3.5 text-sm font-medium text-white transition-all duration-300 hover:bg-[#058FD2] active:scale-95">
+           <Link href="/book-appointment" className="rounded-full bg-[#131C15] px-7 py-3.5 text-sm font-medium text-white transition-all duration-300 hover:bg-[#058FD2] active:scale-95">
              Book Appointment
-           </button>
+           </Link>
 
 
            <button className="group flex items-center gap-2 rounded-full border border-[#dbe7ee] bg-white px-6 py-3.5 text-sm font-medium text-[#131C15] transition-all duration-300 hover:border-[#058FD2] hover:text-[#058FD2]">
