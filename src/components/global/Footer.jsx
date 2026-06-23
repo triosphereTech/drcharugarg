@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   FaInstagram,
   FaFacebookF,
@@ -46,18 +47,18 @@ function Footer() {
 
                 {/* BUTTONS */}
                 <div className="flex flex-wrap gap-3 pt-7">
-                  <button className="group flex items-center gap-3 rounded-full bg-primary-accent px-5 py-3 transition-all duration-300 hover:bg-primary-dark">
-                    <p className="text-sm font-semibold text-white">
+                  <Link href="/book-appointment" className="group flex items-center gap-3 rounded-full bg-primary-accent px-5 py-3 transition-all duration-300 hover:bg-primary-dark">
+                    <p className="text-md font-semibold text-white">
                       Make a Booking
                     </p>
                     <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-primary-accent transition-all duration-300 group-hover:bg-primary-dark group-hover:text-white">
                       <HiOutlineArrowUpRight className="text-lg" />
                     </div>
-                  </button>
+                  </Link>
 
-                  <button className="rounded-full border border-gray-200 px-5 py-3 text-sm font-semibold text-gray-800 transition-all duration-300 hover:bg-gray-900 hover:text-white">
+                  <Link href="/contact" className="rounded-full border border-gray-200 px-5 py-3 text-lg items-center font-semibold text-gray-800 transition-all duration-300 hover:bg-gray-900 hover:text-white">
                     Contact Us
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>

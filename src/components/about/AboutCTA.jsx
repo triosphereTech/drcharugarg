@@ -48,23 +48,17 @@ const AboutCTA = () => {
 
               {/* Buttons */}
               <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
-                <Link href="/book-appoitment" className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-7 py-4 font-semibold text-[#0A3C84] transition hover:scale-[1.02]">
+                <Link href="/book-appointment" className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-7 py-4 font-semibold text-[#0A3C84] transition hover:scale-[1.02]">
                   <FiCalendar />
                   Book Consultation
                 </Link>
 
-                <Link href="/book-appoitment" className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/10 px-7 py-4 font-semibold text-white backdrop-blur transition hover:bg-white/15">
+                <Link href="/contact" className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/10 px-7 py-4 font-semibold text-white backdrop-blur transition hover:bg-white/15">
                   <FiPhone />
                   Contact Us
                 </Link>
               </div>
 
-              {/* Trust Points */}
-              {/* <div className="mt-12 flex flex-wrap justify-center gap-6 text-sm text-blue-100">
-                <span>✓ Evidence-Based Treatments</span>
-                <span>✓ Personalized Care</span>
-                <span>✓ Advanced Dermatology Solutions</span>
-              </div> */}
             </div>
           </div>
 

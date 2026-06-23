@@ -3,10 +3,11 @@
 import Image from "next/image";
 import { HiArrowUpRight } from "react-icons/hi2";
 import DoctorImage from "../../../public/images/ContactCharu.png";
+import Link from "next/link";
 
 const ContactHero = () => {
   return (
-    <section className="relative overflow-hidden bg-white">
+    <section className="relative overflow-hidden bg-white pt-10">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#eef7fb] via-white to-white" />
 
@@ -34,10 +35,10 @@ const ContactHero = () => {
             </p>
 
             <div className="flex flex-wrap gap-4 mt-8">
-              <button className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#058FD2] text-white font-medium transition-all hover:-translate-y-0.5">
+              <Link href="/book-appointment" className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#058FD2] text-white font-medium transition-all hover:-translate-y-0.5">
                 Book Consultation
                 <HiArrowUpRight className="text-lg transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-              </button>
+              </Link>
 
               <button className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-gray-200 bg-white text-[#131C15] font-medium hover:border-[#058FD2] transition-all">
                 WhatsApp Now

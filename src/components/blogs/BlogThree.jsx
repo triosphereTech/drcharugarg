@@ -12,6 +12,7 @@ import {
  HiExclamationCircle,
  HiBookOpen,
 } from "react-icons/hi2";
+import Link from "next/link";
 
 
 const BlogThree = () => {
@@ -877,9 +878,9 @@ const BlogThree = () => {
                <div className="mt-10 flex flex-wrap gap-4">
 
 
-                 <button className="inline-flex items-center gap-2 rounded-full bg-[#058FD2] px-7 py-4 text-white font-medium transition-all hover:scale-[1.02]">
+                 <Link href="/book-appointment" className="inline-flex items-center gap-2 rounded-full bg-[#058FD2] px-7 py-4 text-white font-medium transition-all hover:scale-[1.02]">
                    Book Consultation
-                 </button>
+                 </Link>
 
 
                  <button className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-7 py-4 font-medium text-[#131C15]">

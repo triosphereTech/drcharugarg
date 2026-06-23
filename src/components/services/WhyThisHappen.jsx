@@ -15,6 +15,7 @@ import {
  ArrowUpRight,
  ShieldCheck,
 } from "lucide-react";
+import Link from "next/link";
 
 
 const iconMap = {
@@ -109,13 +110,13 @@ const WhyThisHappen = ({ data }) => {
                </div>
              </div>
              {/* Right */}
-             <button className="group w-full flex items-center gap-2 rounded-2xl bg-[#131C15] px-6 py-3.5 text-sm font-medium text-white transition-all duration-300 hover:bg-[#058FD2] active:scale-95">
+             <Link href="/book-appointment" className="group w-full flex items-center gap-2 rounded-2xl bg-[#131C15] px-6 py-3.5 text-sm font-medium text-white transition-all duration-300 hover:bg-[#058FD2] active:scale-95">
                Book Consultation
                <ArrowUpRight
                  size={16}
                  className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
                />
-             </button>
+             </Link>
            </div>
          </div>
 
