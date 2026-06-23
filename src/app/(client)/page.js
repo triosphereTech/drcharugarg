@@ -8,6 +8,7 @@ import LatestArticles from "@/components/home/LatestArticles";
 import OnlineConsultationFAQ from "@/components/home/OnlineConsultationFAQ";
 import BookingSection from "@/components/home/Bookingsection";
 import Reviews from "@/components/home/Reviews";
+import AboutCTA from "@/components/about/AboutCTA";
 
 export default function Home() {
   return (
@@ -19,8 +20,8 @@ export default function Home() {
     <About/>
     </section>
 
-    <section className="bg-linear-[120deg] from-[#315e95] via-[#039bd3] to-[#50b1a2] py-10 md:my-16 mx-5 rounded-4xl" id="services">
-      <div className="max-w-7xl mx-auto">
+    <section className="bg-linear-[120deg] from-[#315e95] via-[#039bd3] to-[#50b1a2] py-10 md:my-16 rounded-4xl max-w-7xl mx-auto" id="services">
+      <div className="px-8">
         <Services/>
       </div>
     </section>
@@ -33,12 +34,12 @@ export default function Home() {
     <WhyChooseUs/>
     </section>
 
-    <section className="max-w-7xl mx-auto" id="booking">
+    {/* <section className="max-w-7xl mx-auto" id="booking">
     <BookingSection/>
-    </section>
+    </section> */}
 
-    <section className="bg-linear-[120deg] from-[#315e95] via-[#039bd3] to-[#50b1a2] py-10 md:my-16 mx-5 rounded-4xl" id="services">
-      <div className="max-w-7xl mx-auto">
+    <section className="bg-linear-[120deg] from-[#315e95] via-[#039bd3] to-[#50b1a2] py-10 md:my-16 max-w-7xl mx-auto rounded-4xl" id="services">
+      <div className="px-8">
     <LatestArticles/>
     </div>
     </section>
@@ -47,8 +48,8 @@ export default function Home() {
     <HistorySection/>
     </section>
 
-   <section className="bg-linear-[120deg] from-[#315e95] via-[#039bd3] to-[#50b1a2] py-10 md:my-16 mx-5 rounded-4xl" id="services">
-      <div className="max-w-7xl mx-auto">
+   <section className="bg-linear-[120deg] from-[#315e95] via-[#039bd3] to-[#50b1a2] py-10 md:my-16 max-w-7xl mx-auto rounded-4xl" id="services">
+      <div className="px-8">
     <Reviews/>
     </div>
     </section>
@@ -56,6 +57,9 @@ export default function Home() {
     <section className="max-w-7xl mx-auto" id="faqs">
     <OnlineConsultationFAQ/>
     </section>
+     <section className="max-w-7xl mx-auto pt-20" id="cta">
+      <AboutCTA/>
+     </section>
     </div>
     </>
   );

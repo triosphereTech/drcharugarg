@@ -13,7 +13,7 @@ import Link from "next/link";
 const servicesData = [
   {
     image:
-      "https://www.soulflower.in/cdn/shop/articles/Scalp_Care_By_Using_Hair_Growth_Oil.jpg?v=1740404258",
+      "https://www.clinikally.com/cdn/shop/articles/Banner_Blog_Post.jpg?v=1663238072",
     title: "Hair & Scalp Care",
     description:
       "Advanced care for hair fall, scalp conditions, and long-term hair health.",

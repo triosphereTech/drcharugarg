@@ -88,7 +88,7 @@ const Navbar = () => {
     },
     {
       label: "About",
-      href: "/#about",
+      href: "/about",
     },
      {
       label: "Our Facilities",

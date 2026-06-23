@@ -77,13 +77,14 @@ function about() {
                 {/* SHORT DESCRIPTION */}
                 <div className="max-w-[720px] pt-7">
                   <p className="text-sm font-medium leading-[190%] text-primary-dark/65 md:text-[17px]">
-                    Dr. Garg is a qualified dermatologist with over five years of clinical experience in managing disorders of the skin, hair, and nails. She completed her MD in Dermatology from Government Medical College, Surat, and pursued a fellowship in Advanced Clinical Dermatology and Lasers from Mumbai.She is committed to delivering comprehensive, patient-focused dermatology care, combining in-clinic expertise with seamless digital follow-up support to ensure continuity of care and long-term treatment outcomes.
+                    Dr. Garg is a qualified dermatologist with over five years of clinical experience in managing disorders of the skin, hair, and nails. She completed her MD in Dermatology from Government Medical College, Surat, and pursued a fellowship in Advanced Clinical Dermatology and Lasers from Mumbai. She is committed to delivering comprehensive, patient-focused dermatology care, combining in-clinic expertise with seamless digital follow-up support to ensure continuity of care and long-term treatment outcomes.
+
                   </p>
-                  <p className="text-sm font-medium leading-[190%] text-primary-dark/65 md:text-[17px] pt-5">
+                  {/* <p className="text-sm font-medium leading-[190%] text-primary-dark/65 md:text-[17px] pt-5">
                     Dr. Garg aims to make dermatology care accessible,
                     reliable, and patient-friendly through a dedicated
                     teleconsultation platform.
-                  </p>
+                  </p> */}
                 </div>
 
                 {/* POINTS */}
