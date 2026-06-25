@@ -13,10 +13,10 @@ const NAV_ITEMS = [
     href: "/admin/patients",
     label: "Patients",
   },
-  {
-    href: "/admin/appointments",
-    label: "Appointments",
-  },
+  // {
+  //   href: "/admin/appointments",
+  //   label: "Appointments",
+  // },
 ];
 
 export function Topbar({ title, subtitle, actions }) {

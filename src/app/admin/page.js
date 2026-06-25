@@ -64,19 +64,19 @@ export default function DashboardPage() {
         subtitle={`${stats.total} appointments today`}
         actions={
           <>
-            <button className="px-3.5 py-2 rounded-lg border border-[#D4E9F2] text-[13px] text-zinc-600 hover:bg-[--soft-bg] transition-colors">
+            {/* <button className="px-3.5 py-2 rounded-lg border border-[#D4E9F2] text-[13px] text-zinc-600 hover:bg-[--soft-bg] transition-colors">
               Export CSV
             </button>
 
             <button className="px-3.5 py-2 rounded-lg bg-[--primary-accent] text-white text-[13px] font-medium hover:opacity-90 transition-opacity">
               + New Appointment
-            </button>
+            </button> */}
           </>
         }
       />
 
       <div className="flex-1 p-7 space-y-6">
-        <div className="grid grid-cols-4 gap-3.5">
+        {/* <div className="grid grid-cols-4 gap-3.5">
           <StatCard
             label="Today"
             value={stats.total}
@@ -108,16 +108,16 @@ export default function DashboardPage() {
             accentColor="#EF4444"
             icon="analytics"
           />
-        </div>
+        </div> */}
 
-        <div className="grid grid-cols-[1fr_300px] gap-5 items-start">
+        <div className=" items-start">
           <MainTable />
 
-          <div className="space-y-4">
+          {/* <div className="space-y-4">
             <div className="bg-white border border-[#D4E9F2] rounded-2xl overflow-hidden">
               <MiniCalendar />
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>
