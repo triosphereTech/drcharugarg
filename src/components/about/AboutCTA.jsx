@@ -11,7 +11,7 @@ import Link from "next/link";
 const AboutCTA = () => {
   return (
     <section className="px-5 lg:px-10 pb-24">
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-5xl">
         <div className="relative overflow-hidden rounded-[40px] bg-gradient-to-br from-[#082c62] via-[#0A3C84] to-[#0C7A72]">
           
           {/* Glow Effects */}
@@ -29,7 +29,7 @@ const AboutCTA = () => {
             <div className="mx-auto max-w-4xl text-center">
               
               <span className="inline-flex items-center rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm text-white backdrop-blur">
-                Dedicated To Your Health Care
+                Book Now
               </span>
 
               <h2 className="mt-6 text-4xl font-bold text-white md:text-5xl">
@@ -39,12 +39,7 @@ const AboutCTA = () => {
                 </span>
               </h2>
 
-              <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-blue-100">
-                Whether you're seeking treatment for skin conditions,
-                hair loss concerns, nail disorders, or cosmetic
-                dermatology solutions, we're here to provide
-                personalized care tailored to your needs.
-              </p>
+             
 
               {/* Buttons */}
               <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">

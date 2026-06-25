@@ -47,22 +47,10 @@ const LatestArticles = () => {
      <div>
        {/* Header */}
 <div className="mb-10 flex flex-col items-center justify-center text-center md:mb-14">
-  <p className="mb-3 text-sm font-medium uppercase tracking-[0.22em] text-white">
-    Latest Articles
-  </p>
-
+  
   <h2 className="mb-6 text-3xl font-semibold leading-tight text-white lg:text-5xl">
     Our Blogs
   </h2>
-
-  <button className="group flex items-center gap-2 rounded-full border border-[#dbe5ea] bg-white px-5 py-3 text-sm font-medium text-[#131C15] transition-all duration-300 hover:border-[#058FD2] hover:text-[#058FD2]">
-    View All Articles
-
-    <ArrowRight
-      size={16}
-      className="transition-transform duration-300 group-hover:translate-x-1"
-    />
-  </button>
 </div>
 
 

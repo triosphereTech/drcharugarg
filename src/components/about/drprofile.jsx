@@ -28,51 +28,43 @@ import {
 const DrProfile = () => {
 const expertise = [
   {
-    title: "Acne & Acne Scar Treatment",
+    title: "Acne and acne scars",
     icon: <MdOutlineFaceRetouchingNatural />,
   },
   {
-    title: "Eczema & Dermatitis",
+    title: "Eczema and dermatitis",
     icon: <FaAllergies />,
   },
   {
-    title: "Psoriasis Management",
+    title: "Psoriasis",
     icon: <FaShieldVirus />,
   },
   {
-    title: "Vitiligo Treatment",
-    icon: <FaLeaf />,
-  },
-  {
-    title: "Hair Loss Disorders",
-    icon: <GiHairStrands />,
-  },
-  {
-    title: "PRP Hair Restoration",
-    icon: <GiHairStrands />,
-  },
-  {
-    title: "Fungal Skin Infections",
+    title: "Infectious Skin Disorders",
     icon: <MdOutlineHealthAndSafety />,
   },
   {
-    title: "Skin Lesion Excision",
+    title: "Medical and Surgical management of vitiligo",
+    icon: <FaLeaf />,
+  },
+  {
+    title: "Hair loss disorders",
+    icon: <GiHairStrands />,
+  },
+  {
+    title: "PRP and Regenerative therapies",
+    icon: <GiHairStrands />,
+  },
+  {
+    title: "Dermatosurgery",
     icon: <BsScissors />,
   },
   {
-    title: "Nail Surgeries",
-    icon: <GiNails />,
-  },
-  {
-    title: "Ear Lobe Repair",
-    icon: <BsEar />,
-  },
-  {
-    title: "Keloid Management",
+    title: "Keloid and hypertrophic scar management",
     icon: <GiScalpel />,
   },
   {
-    title: "Pediatric Dermatology",
+    title: "Pediatric dermatology",
     icon: <FaChild />,
   },
 ];
@@ -115,12 +107,12 @@ const expertise = [
           <div className="grid lg:grid-cols-[1.2fr_.8fr]">
             {/* Left Content */}
             <div className="p-8 md:p-12 lg:p-16 text-white">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 backdrop-blur px-4 py-2">
+              {/* <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 backdrop-blur px-4 py-2">
                 <span className="h-2 w-2 rounded-full bg-emerald-400" />
                 <span className="text-sm">
                   Consultant Dermatologist
                 </span>
-              </div>
+              </div> */}
 
               <h2 className="mt-8 text-4xl md:text-5xl font-bold">
                 Dr. Charu Garg
@@ -132,28 +124,18 @@ const expertise = [
 
               <div className="mt-8 space-y-5 text-blue-50 leading-relaxed">
                 <p>
-                  A Consultant Dermatologist graduated from
-                  Government Medical College, Surat. She excelled in
-                  dermatology, securing the top position at Government
-                  Medical College, Surat and New Civil Hospital.
+                  A Consultant Dermatologist graduated from Government Medical College, Surat. She excelled in dermatology, securing the top position at Government Medical College,Surat and New Civil Hospital  and completed a fellowship in Clinical Dermatology & Lasers at Alok Dermatology Institute,Mumbai.
                 </p>
 
                 <p>
-                  She completed a fellowship in Clinical Dermatology &
-                  Lasers and has developed expertise in treating a wide
-                  range of skin, hair, and nail disorders using
-                  evidence-based and patient-centric approaches.
+                  Her expertise has been recognized with awards, including her  paper presentations at various dermatology conferences,  being a finalist in the prestigious ACSICON Quiz and  securing first place in the National COSDERMINDIA Quiz held in Mumbai in 2024.
                 </p>
 
-                <p>
-                  Her achievements include being a finalist in the
-                  prestigious ACSICON Quiz and securing first place in
-                  the National COSDERMINDIA Quiz held in Mumbai.
-                </p>
+                
               </div>
 
               {/* Stats */}
-              <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4">
+              {/* <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="rounded-2xl border border-white/10 bg-white/10 backdrop-blur p-4">
                   <h4 className="text-2xl font-bold">5+</h4>
                   <p className="text-xs text-blue-100 mt-1">
@@ -181,7 +163,7 @@ const expertise = [
                     Quiz Winner
                   </p>
                 </div>
-              </div>
+              </div> */}
             </div>
 
             {/* Right Image */}
@@ -239,7 +221,7 @@ const expertise = [
           {item.icon}
         </div>
 
-        <p className="font-medium text-slate-700">
+        <p className="text-md text-slate-700">
           {item.title}
         </p>
       </div>
@@ -251,12 +233,8 @@ const expertise = [
             {/* Publications */}
             <div className="mt-8 rounded-[32px] border border-slate-200 bg-white p-8 md:p-10">
               <div className="mb-8">
-                <span className="text-sm font-medium text-cyan-700">
-                  Research
-                </span>
-
                 <h3 className="mt-2 text-3xl font-bold text-slate-900">
-                  Publications & Academic Work
+                  Notable publications
                 </h3>
               </div>
 

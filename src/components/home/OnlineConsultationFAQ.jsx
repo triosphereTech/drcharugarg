@@ -66,11 +66,7 @@ const OnlineConsultationFAQ = () => {
               Online Dermatology Consultation
             </h2>
 
-            <p className="mt-6 max-w-[500px] text-[15px] leading-8 text-[#667085] md:text-base">
-              Our online dermatologist consultation service is designed to
-              provide convenient, secure, and expert skin, hair, and nail care
-              from the comfort of your home.
-            </p>
+           
 
             {/* CTA Main Card */}
             <div className="relative mt-10 overflow-hidden rounded-[32px] border border-[#d9ebf4] bg-linear-to-tr from-primary-accent to-primary-accent/70 p-7">
@@ -78,48 +74,15 @@ const OnlineConsultationFAQ = () => {
               <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[#058FD2]/10 blur-3xl" />
 
               <div className="relative z-10">
-                <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-[#058FD2] shadow-sm">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.8}
-                    stroke="currentColor"
-                    className="h-7 w-7"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M8.25 6.75V4.5m7.5 2.25V4.5M3.75 9.75h16.5M6 3.75h12A2.25 2.25 0 0120.25 6v12A2.25 2.25 0 0118 20.25H6A2.25 2.25 0 013.75 18V6A2.25 2.25 0 016 3.75z"
-                    />
-                  </svg>
-                </div>
+                
 
                 <h3 className="text-2xl font-semibold leading-snug text-[#ffffff]">
                   Book Your Online Consultation Today
                 </h3>
 
-                <p className="mt-4 text-[15px] leading-7 text-[#ffffff]">
-                  Connect with Dr. Charu Garg from anywhere for expert
-                  dermatology guidance, personalized treatment plans, and secure
-                  follow-up care.
-                </p>
+               
 
-                {/* Mini Features */}
-                {/* <div className="mt-6 flex flex-wrap gap-3">
-        <div className="rounded-full border border-white/60 bg-white/70 px-4 py-2 text-xs font-medium text-[#131C15] backdrop-blur-xl">
-          Secure Consultation
-        </div>
-
-        <div className="rounded-full border border-white/60 bg-white/70 px-4 py-2 text-xs font-medium text-[#131C15] backdrop-blur-xl">
-          Digital Prescription
-        </div>
-
-        <div className="rounded-full border border-white/60 bg-white/70 px-4 py-2 text-xs font-medium text-[#131C15] backdrop-blur-xl">
-          1 Month Follow-Up
-        </div>
-      </div> */}
-
+                
                 {/* CTA Button */}
                 <br/>
                 <Link href="/book-appointment" className="mt-7 w-full rounded-full bg-[#131C15] px-6 py-3 text-sm font-medium text-white transition-all duration-300 active:scale-95 cursor-pointer">
@@ -128,24 +91,7 @@ const OnlineConsultationFAQ = () => {
               </div>
             </div>
 
-            {/* Bottom Floating Stats */}
-            <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <div className="rounded-[24px] border border-[#e6edf2] bg-white p-5">
-                <p className="text-3xl font-semibold text-[#131C15]">5000+</p>
-
-                <p className="mt-2 text-sm leading-6 text-[#667085]">
-                  Successful online consultations with personalized care.
-                </p>
-              </div>
-
-              <div className="rounded-[24px] border border-[#e6edf2] bg-white p-5">
-                <p className="text-3xl font-semibold text-[#131C15]">24/7</p>
-
-                <p className="mt-2 text-sm leading-6 text-[#667085]">
-                  Hassle-free appointment booking and secure support.
-                </p>
-              </div>
-            </div>
+            
           </div>
 
           {/* FAQ List */}

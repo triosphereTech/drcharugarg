@@ -53,20 +53,16 @@ const Reviews = () => {
             <div className="h-2 w-2 rounded-full bg-white" />
 
             <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-white">
-              Patient Experiences
+              Testimonials
             </p>
 
           </div>
 
           <h2 className="mt-6 text-4xl font-semibold leading-[1.1] tracking-[-0.03em] text-white md:text-5xl lg:text-[58px]">
-            Experiences Shared By Our Patients
+            Words from Our Patients
           </h2>
 
-          <p className="mx-auto mt-6 max-w-[760px] text-[15px] leading-8 text-white md:text-[17px]">
-            Every patient journey is different. These experiences reflect the
-            trust patients place in Dr. Charu Garg for thoughtful,
-            evidence-based dermatology care.
-          </p>
+          
 
         </div>
 
