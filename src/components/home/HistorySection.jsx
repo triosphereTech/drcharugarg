@@ -333,7 +333,7 @@ export default function HistorySection() {
         </motion.div>
 
         <motion.h2
-          className="text-4xl sm:text-5xl md:text-5xl font-semibold text-slate-900 leading-tight mb-4"
+          className="text-4xl md:text-5xl font-semibold text-slate-900 leading-tight mb-4"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

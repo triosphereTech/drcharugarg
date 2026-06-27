@@ -12,7 +12,7 @@ export const blogs = [
      "Melasma is a common pigmentation disorder that causes dark patches on the face. Learn about its causes, treatment options, and why long-term maintenance is essential to prevent recurrence.",
    date: "May 29, 2026",
    image: "https://dermatologyclinics.com.au/wp-content/uploads/2025/06/Enlighten_Pico_Laser_Melasma.webp",
-   slug: "melasma-explained",
+   slug: "/blogs/melasma-explained-causes-treatment-why-it-recurs",
  },
 
 
@@ -24,7 +24,7 @@ export const blogs = [
      "Discover why modern skincare should begin with protecting and repairing the skin barrier. Learn what damages the barrier, warning signs to watch for, and a simple barrier-first routine.",
    date: "May 29, 2026",
    image: "https://knottstdermatology.com/wp-content/uploads/2023/06/shutterstock_1377024203-scaled.jpg",
-   slug: "barrier-first-approach",
+   slug: "/blogs/the-barrier-first-approach",
  },
 
 
@@ -36,7 +36,7 @@ export const blogs = [
      "Learn about pediatric atopic dermatitis, its causes, symptoms, common triggers, and treatment options. A practical guide to help parents recognize and manage childhood eczema effectively.",
    date: "May 29, 2026",
    image: "https://www.aap.org/globalassets/patient-care/atopic-dermatitis/atopic-dermatits-image.jpg",
-   slug: "understand-pediatric-atopic-dermatitis",
+   slug: "/blogs/understand-pediatric-atopic-dermatitis",
  },
 ];
 
@@ -46,10 +46,10 @@ const LatestArticles = () => {
    <section className="px-4 mt-10 md:px-5 md:pt-0">
      <div>
        {/* Header */}
-<div className="mb-10 flex flex-col items-center justify-center text-center md:mb-14">
+<div className=" flex flex-col items-center justify-center text-center md:mb-14">
   
-  <h2 className="mb-6 text-3xl font-semibold leading-tight text-white lg:text-5xl">
-    Our Blogs
+  <h2 className="mb-6 text-4xl md:text-5xl font-semibold leading-tight text-white lg:text-5xl">
+  Our Blogs
   </h2>
 </div>
 

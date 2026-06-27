@@ -12,7 +12,7 @@ const AboutCTA = () => {
   return (
     <section className="px-5 lg:px-10 pb-24">
       <div className="mx-auto max-w-5xl">
-        <div className="relative overflow-hidden rounded-[40px] bg-gradient-to-br from-[#082c62] via-[#0A3C84] to-[#0C7A72]">
+        <div className="relative overflow-hidden rounded-[40px] bg-linear-to-br from-[#082c62] via-[#0A3C84] to-[#0C7A72]">
           
           {/* Glow Effects */}
           <div className="absolute -left-20 top-0 h-72 w-72 rounded-full bg-cyan-400/20 blur-3xl" />

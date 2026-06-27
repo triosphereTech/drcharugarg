@@ -1,0 +1,91 @@
+{
+  "slug": "melasma-explained-causes-treatment-why-it-recurs",
+  "title": "Melasma Explained: Causes, Treatment & Why it Recurs?",
+  "category": "Melasma",
+  "author": "Dr. Charu Garg",
+  "readTime": "8 Minutes",
+  "publishedDate": "June 2025",
+  "heroImage": "https://www.oneskin.co/cdn/shop/articles/what_is_melasma_on_face.webp?v=1744672016",
+  "heroImageAlt": "Melasma treatment and pigmentation",
+  "intro": "Melasma is a common skin condition where dark patches appear on the face, usually on both sides in a similar pattern. These patches are typically seen on areas exposed to the sun, like the cheeks, forehead, upper lip, and jawline. It is a long-term skin condition that often comes back even after it improves. That's why maintaining results and preventing recurrence is just as important as treating the pigmentation in the first place. Without regular sunscreen use and ongoing care, the improvement is usually temporary.",
+  "sections": [
+    {
+      "id": "causes",
+      "heading": "Real Reasons Behind Melasma",
+      "items": [
+        {
+          "title": "Light Exposure",
+          "content": "It is the most important and controllable trigger for melasma. Sunlight increases pigment production in the skin, and even visible light (like blue light from screens and daylight) can worsen it — especially in Indian skin types. In fact, pigmentation from visible light can last longer than that from UV rays. That's why proper sun protection (preferably tinted sunscreen) is essential to prevent melasma from coming back."
+        },
+        {
+          "title": "Hormonal Influence",
+          "content": "Hormones play a major role in melasma, which is why it often appears or worsens during pregnancy or with hormonal medications like oral contraceptives."
+        },
+        {
+          "title": "Deeper Skin Changes",
+          "content": "Melasma is not just a surface pigment problem — it also involves deeper skin changes. Damage in the deeper layers and increased blood vessel activity can keep stimulating pigment production, which is why the pigmentation tends to persist and come back."
+        }
+      ]
+    },
+    {
+      "id": "treatment",
+      "heading": "Treatment Modalities",
+      "intro": "Melasma is best managed like a long-term condition, not something that can be permanently cured. Treatment focuses on three things: avoiding triggers (especially sunlight), using medications to lighten the pigmentation, and continuing maintenance treatment to prevent it from coming back.",
+      "items": [
+        {
+          "title": "Sunscreens",
+          "content": "Tinted sunscreens (with iron oxides) are especially helpful, as they also protect against visible light and better prevent pigmentation from coming back. Correct amount with reapplication every 3–4 hours is very important."
+        },
+        {
+          "title": "Topical Creams",
+          "content": "A range of topical agents are used to reduce pigmentation:",
+          "list": [
+            { "label": "Hydroquinone", "detail": "Reduces pigment production and lightens patches, but should be used carefully under medical guidance." },
+            { "label": "Retinoids", "detail": "Help increase skin turnover and reduce pigmentation, but may cause irritation if not used properly." },
+            { "label": "Triple Combination Therapy", "detail": "A combination of three ingredients (hydroquinone, retinoid, steroid) considered one of the most effective treatments for melasma." },
+            { "label": "Azelaic Acid", "detail": null },
+            { "label": "Tranexamic Acid", "detail": "Supervised use recommended." },
+            { "label": "Kojic Acid", "detail": null },
+            { "label": "Vitamin C (Ascorbic Acid)", "detail": null },
+            { "label": "Niacinamide", "detail": null },
+            { "label": "Arbutin", "detail": null }
+          ]
+        },
+        {
+          "title": "Oral Treatment",
+          "content": "In severe and resistant cases, oral treatment is helpful but needs supervision.",
+          "list": [
+            { "label": "Tranexamic Acid", "detail": null },
+            { "label": "Glutathione", "detail": null },
+            { "label": "Antioxidants", "detail": null }
+          ]
+        },
+        {
+          "title": "Procedural Treatments",
+          "content": null,
+          "list": [
+            { "label": "Chemical Peels", "detail": "Peels involving glycolic acid, lactic acid, retinoic acid. These peels help as second line agents and assist in chemical exfoliation." },
+            { "label": "Laser and Light Therapy", "detail": "Procedures like laser toning help in maintaining and also achieve better outcomes when combined with medical management." },
+            { "label": "Microneedling", "detail": "Involves repeated skin puncturing with sterile needles, that helps in collagen induction and enhanced drug delivery." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "recurrence",
+      "heading": "Why Does Melasma Keep Coming Back?",
+      "content": "Melasma has a strong tendency to recur because sunlight, visible light exposure, hormonal influences, and deeper skin changes continue to stimulate pigment production even after improvement. Consistent sun protection, maintenance skincare, and regular follow-up play a crucial role in keeping pigmentation under long-term control."
+    },
+    {
+      "id": "why-us",
+      "heading": "Why Take Treatment From Us?",
+      "content": "We focus on treating melasma as a long-term condition, not just temporary pigmentation. Our approach is personalized to your skin type and triggers, using evidence-based treatments that are safe for Indian skin. Along with effective treatment, we guide you on proper skincare, sun protection, and maintenance to prevent recurrence — ensuring more consistent and lasting results.",
+      "points": [
+        "Evidence-based treatments safe for Indian skin",
+        "Personalized plans based on your skin type and triggers",
+        "Guidance on sun protection and daily maintenance",
+        "Long-term follow-up to prevent recurrence"
+      ]
+    }
+  ]
+}

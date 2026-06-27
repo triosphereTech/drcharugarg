@@ -58,7 +58,7 @@ const Reviews = () => {
 
           </div>
 
-          <h2 className="mt-6 text-4xl font-semibold leading-[1.1] tracking-[-0.03em] text-white md:text-5xl lg:text-[58px]">
+          <h2 className="mt-6 text-4xl font-semibold leading-[1.1] text-white md:text-5xl lg:text-[58px]">
             Words from Our Patients
           </h2>
 

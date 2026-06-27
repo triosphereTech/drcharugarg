@@ -32,7 +32,7 @@ const DoctorMini = ({ data }) => {
                 <div className="relative overflow-hidden rounded-[28px] border border-[#dceaf3] bg-white p-2">
 
                   <img
-                    src={data.image}
+                    src="/images/drcharu.jpeg"
                     alt={data.name}
                     className="h-[110px] w-[100px] rounded-[22px] object-cover md:h-[130px] md:w-[120px]"
                   />
@@ -66,9 +66,9 @@ const DoctorMini = ({ data }) => {
                 </p>
 
                 {/* Description */}
-                <p className="mt-4 max-w-[420px] text-[15px] leading-7 text-[#667085]">
+                {/* <p className="mt-4 max-w-[420px] text-[15px] leading-7 text-[#667085]">
                   {data.description}
-                </p>
+                </p> */}
               </div>
             </div>
 

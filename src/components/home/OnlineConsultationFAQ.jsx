@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import { Plus, Minus } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
+import Faq from "../../../public/images/Faq.png";
 
 const faqs = [
   {
@@ -57,42 +59,53 @@ const OnlineConsultationFAQ = () => {
         <div className="grid items-start gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:gap-14 xl:gap-20">
           {/* Left Content */}
           {/* Left Content */}
-          <div className="lg:sticky lg:top-24 h-fit">
-            <p className="mb-3 text-sm font-medium uppercase tracking-[0.22em] text-[#058FD2]">
-              Frequently Asked Questions
-            </p>
+{/* Left Content */}
+<div className="lg:sticky lg:top-24 h-fit">
+  <p className="mb-3 text-sm font-medium uppercase tracking-[0.22em] text-[#058FD2]">
+    Frequently Asked Questions
+  </p>
 
-            <h2 className="max-w-[520px] text-3xl font-semibold leading-tight text-[#131C15] md:text-5xl">
-              Online Dermatology Consultation
-            </h2>
+  <h2 className="max-w-[520px] text-3xl font-semibold leading-tight text-[#131C15] md:text-5xl">
+    Online Dermatology Consultation
+  </h2>
 
-           
+  {/* Doctor Image */}
+  <div className="mt-8 overflow-hidden rounded-[34px]">
+    <Image
+      src={Faq}
+      alt="Online Consultation"
+      className="h-[420px] w-full object-cover"
+      priority
+    />
+  </div>
 
-            {/* CTA Main Card */}
-            <div className="relative mt-10 overflow-hidden rounded-[32px] border border-[#d9ebf4] bg-linear-to-tr from-primary-accent to-primary-accent/70 p-7">
-              {/* Decorative Blur */}
-              <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[#058FD2]/10 blur-3xl" />
+  {/* CTA Card */}
+  <div className="mt-6 rounded-[34px] bg-[#0F3D73] px-8 py-8">
+    <h3 className="text-3xl font-semibold text-white">
+      Any Inquiries?
+    </h3>
 
-              <div className="relative z-10">
-                
+    <p className="mt-3 text-[17px] text-white/75">
+      Reach out for expert care
+    </p>
 
-                <h3 className="text-2xl font-semibold leading-snug text-[#ffffff]">
-                  Book Your Online Consultation Today
-                </h3>
+    <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+      <Link
+        href="/book-appointment"
+        className="flex-1 rounded-full bg-[#57C3BE] px-6 py-4 text-center text-base font-medium text-white transition hover:bg-[#49b3ae]"
+      >
+        Make Booking
+      </Link>
 
-               
-
-                
-                {/* CTA Button */}
-                <br/>
-                <Link href="/book-appointment" className="mt-7 w-full rounded-full bg-[#131C15] px-6 py-3 text-sm font-medium text-white transition-all duration-300 active:scale-95 cursor-pointer">
-                  Book Appointment Now
-                </Link>
-              </div>
-            </div>
-
-            
-          </div>
+      <Link
+        href="/contact"
+        className="flex-1 rounded-full border border-white/25 bg-white/10 px-6 py-4 text-center text-base font-medium text-white backdrop-blur transition hover:bg-white hover:text-[#0F3D73]"
+      >
+        Contact Us
+      </Link>
+    </div>
+  </div>
+</div>
 
           {/* FAQ List */}
           <div className="space-y-4 lg:pr-2">

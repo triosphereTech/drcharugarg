@@ -1,0 +1,84 @@
+{
+  "slug": "understand-pediatric-atopic-dermatitis",
+  "title": "Understand Pediatric Atopic Dermatitis!",
+  "category": "Pediatric Skin",
+  "author": "Dr. Charu Garg",
+  "readTime": "6 Minutes",
+  "publishedDate": "June 2026",
+  "heroImage": "https://www.minarsdermatology.com/wp-content/uploads/2025/09/minars-common-pediatric-skin-conditions-managing-eczema-causes-and-will-they-outgrow-it.jpg",
+  "heroImageAlt": "Child with skin condition being examined by a doctor",
+  "intro": "When we think of skin disorders, we often associate them with adults. However, children and adolescents can also experience a wide range of skin conditions. One of the most common among them is Atopic Dermatitis, also known as pediatric eczema.",
+  "sections": [
+    {
+      "id": "what-is",
+      "type": "text",
+      "heading": "What is Atopic Dermatitis?",
+      "paragraphs": [
+        "Atopic Dermatitis is a long-term skin condition that leads to dry, itchy, and discolored patches on the skin. It can affect both children and adults, with symptoms that may flare up periodically or persist over time.",
+        "When a flare occurs, the affected skin often becomes intensely itchy, leading to scratching. This can further worsen the condition, resulting in swelling, cracks, crusting, and scaling. In some cases, the skin may ooze a clear fluid.",
+        "The terms dermatitis and eczema both refer to inflammation of the skin. Atopic dermatitis is the most common form of eczema, which is a broader term used to describe a group of inflammatory skin conditions.",
+        "While it is a chronic condition, various treatment options are available to help control symptoms, reduce flare-ups, and improve overall skin comfort."
+      ]
+    },
+    {
+      "id": "causes",
+      "type": "text",
+      "heading": "What Causes Atopic Dermatitis in Children?",
+      "paragraphs": [
+        "Atopic dermatitis is quite common in infants and young children. Multiple factors can contribute to its development, including genetic predisposition, environmental influences, weather changes, temperature variations, and allergies. Children with a family history of eczema, asthma, or allergic conditions may have a higher risk of developing this condition."
+      ]
+    },
+    {
+      "id": "signs",
+      "type": "text-with-bullets",
+      "heading": "What are the Signs of Pediatric Atopic Dermatitis?",
+      "content": "Recognizing atopic dermatitis can be challenging, as many of its symptoms overlap with other skin conditions. If your child shows any of the following signs, it is advisable to consult a dermatologist:",
+      "bullets": [
+        "Persistent dry skin",
+        "Intense itching",
+        "Red, inflamed, or swollen patches",
+        "Fluid-filled or crusted lesions",
+        "Rough or bumpy skin, especially on the face or arms",
+        "Occasional hives"
+      ]
+    },
+    {
+      "id": "triggers",
+      "type": "triggers",
+      "heading": "What Triggers Atopic Dermatitis?",
+      "intro": "Flare-ups of Atopic Dermatitis can be influenced by a variety of internal and external factors. Common triggers include:",
+      "generalTriggers": [
+        "Exposure to allergens or irritants",
+        "Hormonal fluctuations (for example, during pregnancy)",
+        "Skin infections",
+        "Emotional stress",
+        "Changes in temperature, such as extreme heat or cold"
+      ],
+      "contactNote": "When the skin reacts after coming into contact with a specific allergen or irritant, it is referred to as contact dermatitis. Some commonly encountered triggers include:",
+      "contactTriggers": [
+        "Certain foods (such as peanuts, eggs, soy, wheat, and shellfish)",
+        "Skincare products, especially those containing fragrances",
+        "Plants",
+        "Household cleaning agents",
+        "Soaps and detergents"
+      ],
+      "closing": "In many cases, identifying the exact trigger can be challenging. However, a healthcare professional can help evaluate patterns and guide you in recognizing and avoiding potential triggers."
+    },
+    {
+      "id": "treatment",
+      "type": "text-with-bullets",
+      "heading": "How is Atopic Dermatitis Treated?",
+      "content": "Treatment is individualized and depends on factors such as the child's age, overall health, and severity of symptoms. A comprehensive management plan may include:",
+      "bullets": [
+        "Identifying and avoiding triggers such as harsh soaps, detergents, and allergens",
+        "Keeping the child's nails short to minimize skin damage from scratching",
+        "Using gentle, skin-friendly cleansers and moisturizers",
+        "Topical corticosteroids to control inflammation",
+        "Antihistamines to reduce itching",
+        "Phototherapy (light-based treatment) in selected cases",
+        "Advanced therapies such as biologics for severe or resistant cases"
+      ],
+      "closing": "If your child has persistent or recurring skin symptoms, it is important to seek timely evaluation. Early diagnosis and appropriate management can significantly improve symptoms and prevent complications."
+    }
+  ]
+}

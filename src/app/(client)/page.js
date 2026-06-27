@@ -20,11 +20,29 @@ export default function Home() {
     <About/>
     </section>
 
-    <section className="bg-linear-[120deg] from-[#315e95] via-[#039bd3] to-[#50b1a2] py-10 md:my-16 rounded-4xl max-w-7xl mx-auto" id="services">
-      <div className="px-8">
-        <Services/>
-      </div>
-    </section>
+<section className="text-center">
+  {/* <div className="pt-6 flex flex-col items-center">
+    <p className="w-fit mx-auto rounded-full bg-white px-4 py-1 text-xs font-semibold uppercase tracking-[2px] text-primary-accent">
+      Our Services
+    </p>
+
+    <h2 className="mt-4 text-4xl font-semibold leading-[105%] tracking-[-2px] text-primary-dark md:text-5xl">
+      Built Around
+      <span className="block text-primary-accent">
+        Care & Clinical Excellence
+      </span>
+    </h2>
+  </div> */}
+</section>
+
+<section
+  className="mx-auto my-16 max-w-7xl rounded-4xl bg-linear-[120deg] from-[#315e95] via-[#039bd3] to-[#50b1a2] py-10"
+  id="services"
+>
+  <div className="px-8">
+    <Services />
+  </div>
+</section>
 
     <section className="max-w-7xl mx-auto" id="appointment">
     <AppointmentCTA/>

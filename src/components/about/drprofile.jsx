@@ -77,7 +77,7 @@ const expertise = [
     },
     {
       title:
-        "Lichen Planus at the Recipient Site Following Suction Blister Epidermal Grafting for Lower Lip Vitiligo",
+        "Lichen Planus at the Recipient Site Following Suction Blister Epidermal Grafting for Lower Lip Vitiligo: Possible Role of Local Adhesive-Induced Immune Activation : Journal of Cutaneous and Aesthetic Surgery",
       journal: "Journal of Cutaneous and Aesthetic Surgery",
     },
     {

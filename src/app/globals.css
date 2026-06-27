@@ -58,3 +58,8 @@ body {
 .duration-200 {
   animation-duration: 200ms;
 }
+
+@theme {
+  --font-heading: var(--font-aptos-display);
+}
+

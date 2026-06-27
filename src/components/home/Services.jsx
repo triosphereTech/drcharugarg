@@ -80,13 +80,22 @@ function Services() {
         <div className="">
           {/* TOP */}
           <div className="mx-auto text-center">
+            <div className="pt-6 flex flex-col items-center">
+              <p className="w-fit mx-auto rounded-full bg-white px-4 py-1 text-xs font-semibold uppercase tracking-[2px] text-primary-accent">
+                Our Services
+              </p>
+
+              <h2 className="mt-4 text-4xl md:text-5xl font-semibold leading-[105%] text-white">
+                <span className="block text-white ">Dermatology Solutions</span>
+              </h2>
+            </div>
             {/* LABEL */}
-            <div className="inline-flex items-center gap-2 bg-white/20 rounded-full px-4 py-2 shadow-sm">
+            {/* <div className="inline-flex items-center gap-2 bg-white/20 rounded-full px-4 py-2 shadow-sm">
               
               <p className="text-xl font-semibold uppercase tracking-[2px] text-white ">
                 Our Services
               </p>
-            </div>
+            </div> */}
 
             {/* HEADING */}
             {/* <div className="pt-6">
@@ -101,7 +110,7 @@ function Services() {
 
             {/* SUBTEXT */}
             <div className="mx-auto max-w-[800px] pt-6">
-              <p className="text-sm font-medium leading-[190%] text-white md:text-[20px]">
+              <p className="text-sm font-medium leading-[190%] text-white/80 md:text-[20px]">
                 We offer a comprehensive range of dermatology services, from
                 medical treatments to advanced aesthetic procedures and
                 dedicated to delivering personalized care, supported by modern

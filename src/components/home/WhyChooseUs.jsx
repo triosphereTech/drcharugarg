@@ -11,44 +11,44 @@ import { LuClipboardList } from "react-icons/lu";
 const valuesData = [
   {
     icon: <HiOutlineShieldCheck />,
-    title: "Verified Specialists",
+    title: "Ethics",
     description:
-      "Consult experienced dermatology professionals backed by clinical expertise and evidence-based treatment approaches.",
+      "Trust, transparency, and patient-first practice.",
   },
 
   {
     icon: <HiOutlineLockClosed />,
     title: "Secure & Private",
     description:
-      "Your medical information, consultations, and treatment records are handled with complete confidentiality.",
+      "Complete confidentiality and secure handling of your personal information",
   },
 
   {
     icon: <HiOutlineUserGroup />,
-    title: "Integrated Care",
+    title: "Evidence-based Practise",
     description:
-      "Comprehensive dermatology solutions covering skin, hair, nail, cosmetic, and long-term treatment needs.",
+      "scientifically guided treatments based on latest medical evidence.",
   },
 
   {
     icon: <LuClipboardList />,
-    title: "Personalized Follow-Ups",
+    title: "Trustworthiness",
     description:
-      "Structured follow-up plans and ongoing guidance to monitor progress and optimize treatment outcomes.",
+      "Your confidence and well-being remain at the center of our approach.",
   },
 
   {
     icon: <MdOutlineMedication />,
     title: "Integrated E-Prescriptions",
     description:
-      "Receive clear digital prescriptions and treatment instructions for convenient access and continuity of care.",
+      "Convenient e-prescriptions for a seamless treatment experience.",
   },
 
   {
     icon: <HiOutlineCalendarDays />,
     title: "Easy Scheduling",
     description:
-      "Book consultations effortlessly with a streamlined appointment process designed around your convenience.",
+      "Simple and hassle-free appointment scheduling for timely care.",
   },
 ];
 
@@ -64,13 +64,13 @@ function WhyChooseUs() {
               <div className="h-2 w-2 rounded-full bg-primary-accent" />
 
               <p className="text-xs font-semibold uppercase tracking-[2px] text-primary-accent">
-                Why Dr. Charu Garg
+                Why Choose Us
               </p>
             </div>
 
             {/* HEADING */}
             <div className="pt-6">
-              <h2 className="text-4xl font-semibold leading-[105%] tracking-[-2px] text-primary-dark md:text-5xl">
+              <h2 className="text-4xl md:text-5xl font-semibold leading-[105%] tracking-[-2px] text-primary-dark md:text-5xl">
                 Built Around
                 <span className="block text-primary-accent">
                   Care & Clinical Excellence
@@ -79,12 +79,12 @@ function WhyChooseUs() {
             </div>
 
             {/* TEXT */}
-            <div className="text-center pt-6">
+            {/* <div className="text-center pt-6">
               <p className="text-sm font-medium leading-[190%] text-primary-dark/60 md:text-[16px]">
                 Quality dermatology care with a patient-first approach,
                 advanced treatments, and trusted clinical expertise.
               </p>
-            </div>
+            </div> */}
           </div>
 
           {/* CARDS */}
@@ -99,7 +99,7 @@ function WhyChooseUs() {
       <div className="flex items-center justify-between gap-5">
         {/* TITLE */}
         <div className="max-w-[220px]">
-          <h3 className="text-3xl font-semibold leading-[120%]  text-primary-dark">
+          <h3 className="text-2xl font-semibold leading-[120%]  text-primary-dark">
             {item.title}
           </h3>
         </div>
@@ -114,7 +114,7 @@ function WhyChooseUs() {
       <div className="mt-2 h-px w-full bg-black/5" />
 
       {/* DESCRIPTION */}
-      <p className="pt-6 text-sm font-medium leading-[190%] text-primary-dark/60 md:text-[15px]">
+      <p className="pt-6 text-md font-medium leading-[190%] text-primary-dark/60 md:text-[15px]">
         {item.description}
       </p>
     </div>

@@ -2,6 +2,7 @@ import Navbar from "@/components/global/Navbar";
 import Footer from "@/components/global/Footer";
 import Providers from "@/redux/Providers";
 import AuthProvider from "@/components/providers/AuthProvider";
+import { aptosDisplay } from "../fonts";
 
 
 export default function ClientLayout({ children }) {
@@ -10,7 +11,7 @@ export default function ClientLayout({ children }) {
       <AuthProvider>
         <Navbar />
 
-        <div className="pt-0">
+        <div  className={aptosDisplay.variable}>
           {children}
         </div>
 
