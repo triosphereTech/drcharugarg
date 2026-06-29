@@ -47,7 +47,7 @@ const AppointmentCTA = () => {
               <h2 className="text-[28px] font-semibold leading-tight text-[#131C15] md:text-[36px]">
                 Get Expert Care
                 <span className="mt-1 block bg-gradient-to-r from-[#058FD2] via-[#0AB9E6] to-[#16C7B7] bg-clip-text text-transparent">
-                  Book Your Consultation Today
+                Schedule Your Consultation Today
                 </span>
               </h2>
             </div>
