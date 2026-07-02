@@ -45,15 +45,30 @@ const Page = async ({ params }) => {
 )}
 
 
-{data.whyThisHappenSection && (
-  <section className="bg-[#eef7fb]">
- <WhyThisHappen data={data.whyThisHappenSection} />
- </section>
-)}
+{slug === "follow-up-care" ? (
+  <>
+    {data.howTreatmentWorksSection && (
+      <HOTW data={data.howTreatmentWorksSection} />
+    )}
 
+    {data.whyThisHappenSection && (
+      <section className="bg-[#eef7fb]">
+        <WhyThisHappen data={data.whyThisHappenSection} />
+      </section>
+    )}
+  </>
+) : (
+  <>
+    {data.whyThisHappenSection && (
+      <section className="bg-[#eef7fb]">
+        <WhyThisHappen data={data.whyThisHappenSection} />
+      </section>
+    )}
 
-{data.howTreatmentWorksSection && (
- <HOTW data={data.howTreatmentWorksSection} />
+    {data.howTreatmentWorksSection && (
+      <HOTW data={data.howTreatmentWorksSection} />
+    )}
+  </>
 )}
 
 {/* <section className="px-4 md:px-5  bg-white">

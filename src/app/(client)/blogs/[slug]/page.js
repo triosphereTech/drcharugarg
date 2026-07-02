@@ -65,22 +65,7 @@ function HighlightBox({ label, children }) {
       <div className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-cyan-200/20 blur-3xl" />
 
       <div className="relative z-10">
-        {label && (
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-white/10 ring-1 ring-white/20 pl-2 pr-3.5 py-1.5">
-            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white">
-              <svg className="h-3 w-3 text-[#0A3C84]" fill="currentColor" viewBox="0 0 20 20">
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                />
-              </svg>
-            </span>
-            <span className="text-xs font-semibold uppercase tracking-wider text-white/90">
-              {label}
-            </span>
-          </div>
-        )}
+        
         {children}
       </div>
     </div>

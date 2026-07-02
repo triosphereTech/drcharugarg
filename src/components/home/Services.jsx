@@ -44,9 +44,9 @@ const servicesData = [
   {
     image:
       "/images/services/Infaction/hero/hero.png",
-    title: "Diagnosis and management of skin infections and dermatitis.",
+    title: "Skin allergy section",
     description:
-      "Expert diagnosis and treatment for allergies, fungal infections, and rashes.",
+      "Diagnosis and management of skin infections and dermatitis.",
 
     link: "/services/skin-infection",
   },

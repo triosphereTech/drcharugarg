@@ -43,7 +43,7 @@ const DoctorMini = ({ data }) => {
               <div>
 
                 {/* Badge */}
-                {/* <div className="mb-4 flex w-fit items-center gap-2 rounded-full border border-[#dceaf3] bg-white px-3 py-1.5">
+                <div className="mb-4 flex w-fit items-center gap-2 rounded-full border border-[#dceaf3] bg-white px-3 py-1.5">
 
                   <ShieldCheck
                     size={14}
@@ -51,9 +51,9 @@ const DoctorMini = ({ data }) => {
                   />
 
                   <p className="text-[10px] font-medium uppercase tracking-[0.16em] text-[#058FD2]">
-                    Verified Dermatologist
+                    Board Certified Dermitologist
                   </p>
-                </div> */}
+                </div>
 
                 {/* Name */}
                 <h2 className="text-2xl font-semibold tracking-[-0.03em] text-[#131C15] md:text-[34px]">

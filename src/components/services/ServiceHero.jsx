@@ -66,7 +66,7 @@ const ServiceHero = ({ data }) => {
            </Link>
 
 
-           <button className="group flex items-center gap-2 rounded-full border border-[#dbe7ee] bg-white px-6 py-3.5 text-sm font-medium text-[#131C15] transition-all duration-300 hover:border-[#058FD2] hover:text-[#058FD2]">
+           {/* <button className="group flex items-center gap-2 rounded-full border border-[#dbe7ee] bg-white px-6 py-3.5 text-sm font-medium text-[#131C15] transition-all duration-300 hover:border-[#058FD2] hover:text-[#058FD2]">
              Learn More
 
 
@@ -74,7 +74,7 @@ const ServiceHero = ({ data }) => {
                size={16}
                className="transition-transform duration-300 group-hover:translate-x-1"
              />
-           </button>
+           </button> */}
          </div>
 
 

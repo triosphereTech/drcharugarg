@@ -76,22 +76,22 @@ heroSection: {
 items: [
   {
     label: "Red Rashes or Patches",
-    image: "/images/services/infaction/example/redrashed.png",
+    image: "/images/services/Infaction/example/redrashed.png",
   },
 
   {
     label: "Thick, Itchy Skin Patches",
-    image: "/images/services/infaction/example/thickyintchy.png",
+    image: "/images/services/Infaction/example/thickyintchy.png",
   },
 
   {
     label: "Fungal Infection",
-    image: "/images/services/infaction/example/fungleinfaction.png",
+    image: "/images/services/Infaction/example/fungleinfaction.png",
   },
 
   {
     label: "Dry Inflamed Skin",
-    image: "/images/services/infaction/example/dryinflamed.png",
+    image: "/images/services/Infaction/example/dryinflamed.png",
   },
 ],
  },
