@@ -76,11 +76,11 @@ const LatestArticles = () => {
 
 
                {/* Category */}
-               <div className="absolute left-4 top-4 rounded-full border border-white/40 bg-white/80 px-4 py-2 backdrop-blur-xl">
+               {/* <div className="absolute left-4 top-4 rounded-full border border-white/40 bg-white/80 px-4 py-2 backdrop-blur-xl">
                  <p className="text-[11px] font-medium uppercase tracking-[0.15em] text-[#058FD2]">
                    {blog.category}
                  </p>
-               </div>
+               </div> */}
              </div>
 
 
