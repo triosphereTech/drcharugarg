@@ -9,6 +9,7 @@ import OnlineConsultationFAQ from "@/components/home/OnlineConsultationFAQ";
 import BookingSection from "@/components/home/Bookingsection";
 import Reviews from "@/components/home/Reviews";
 import AboutCTA from "@/components/about/AboutCTA";
+import OurJourney from "@/components/home/OurJourney";
 
 export default function Home() {
   return (
@@ -56,17 +57,17 @@ export default function Home() {
     <BookingSection/>
     </section> */}
 
-    <section className="bg-linear-[120deg] from-[#315e95] via-[#039bd3] to-[#50b1a2] py-10 md:my-16 max-w-7xl mx-auto rounded-4xl" id="services">
-      <div className="px-8">
+    <section  className="bg-linear-[120deg] from-[#315e95] via-[#039bd3] to-[#50b1a2] py-10 md:my-16 max-w-7xl mx-auto rounded-4xl" id="services">
+      <div className="px-8" id="blogs">
     <LatestArticles/>
     </div>
     </section>
 
-    <section className="max-w-7xl mx-auto" id="history">
-    <HistorySection/>
+    <section className=" bg-linear-to-b from-[#eef7fb] to-white mx-auto" id="history">
+    <OurJourney/>
     </section>
 
-   <section className="bg-linear-[120deg] from-[#315e95] via-[#039bd3] to-[#50b1a2] py-10 md:my-16" id="services">
+   <section className="bg-linear-[120deg] from-[#315e95] via-[#039bd3] to-[#50b1a2]" id="services">
       <div className="px-8">
     <Reviews/>
     </div>

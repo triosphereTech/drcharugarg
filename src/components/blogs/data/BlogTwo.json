@@ -7,6 +7,7 @@
   "publishedDate": "June 2026",
   "heroImage": "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=1200&q=80",
   "heroImageAlt": "Skincare barrier and moisturizer routine",
+  "hideHeroImage": true,
   "intro": "Modern skincare today often focuses on strong ingredients and quick results. People use acids, retinol, and multiple products in the hope of faster transformation. But one very important thing is often ignored — your skin barrier. Barrier-first skincare simply means taking care of your skin's natural protective layer before using strong treatments. Instead of overloading your skin with too many actives, this approach focuses on keeping your skin healthy and protected.",
   "sections": [
     {
@@ -116,6 +117,8 @@
       "id": "routine",
       "type": "routine",
       "heading": "A Simple Barrier-First Skincare Routine",
+      "highlight": true,
+      "highlightLabel": "Daily Routine",
       "intro": "Barrier-first skincare is all about keeping things simple, gentle, and consistent.",
       "steps": [
         {

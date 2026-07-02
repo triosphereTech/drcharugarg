@@ -5,7 +5,7 @@
   "author": "Dr. Charu Garg",
   "readTime": "6 Minutes",
   "publishedDate": "June 2026",
-  "heroImage": "https://www.minarsdermatology.com/wp-content/uploads/2025/09/minars-common-pediatric-skin-conditions-managing-eczema-causes-and-will-they-outgrow-it.jpg",
+  "heroImage": "/images/blog/b3/inner.png",
   "heroImageAlt": "Child with skin condition being examined by a doctor",
   "intro": "When we think of skin disorders, we often associate them with adults. However, children and adolescents can also experience a wide range of skin conditions. One of the most common among them is Atopic Dermatitis, also known as pediatric eczema.",
   "sections": [
@@ -68,6 +68,8 @@
       "id": "treatment",
       "type": "text-with-bullets",
       "heading": "How is Atopic Dermatitis Treated?",
+      "highlight": true,
+      "highlightLabel": "Treatment Plan",
       "content": "Treatment is individualized and depends on factors such as the child's age, overall health, and severity of symptoms. A comprehensive management plan may include:",
       "bullets": [
         "Identifying and avoiding triggers such as harsh soaps, detergents, and allergens",

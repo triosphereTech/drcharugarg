@@ -59,53 +59,53 @@ const OnlineConsultationFAQ = () => {
         <div className="grid items-start gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:gap-14 xl:gap-20">
           {/* Left Content */}
           {/* Left Content */}
-{/* Left Content */}
-<div className="lg:sticky lg:top-24 h-fit">
-  <p className="mb-3 text-sm font-medium uppercase tracking-[0.22em] text-[#058FD2]">
-    Frequently Asked Questions
-  </p>
+          {/* Left Content */}
+          <div className="lg:sticky lg:top-24 h-fit">
+            <p className="mb-3 text-sm font-medium uppercase tracking-[0.22em] text-[#058FD2]">
+              FAQs
+            </p>
 
-  <h2 className="max-w-[520px] text-3xl font-semibold leading-tight text-[#131C15] md:text-5xl">
-    Online Dermatology Consultation
-  </h2>
+            <h2 className="max-w-[520px] text-3xl font-semibold leading-tight text-[#131C15] md:text-5xl">
+              Frequently Asked Questions
+            </h2>
 
-  {/* Doctor Image */}
-  <div className="mt-8 overflow-hidden rounded-[34px]">
-    <Image
-      src={Faq}
-      alt="Online Consultation"
-      className="h-[420px] w-full object-cover"
-      priority
-    />
-  </div>
+            {/* Doctor Image */}
+            <div className="mt-8 overflow-hidden rounded-[34px]">
+              <Image
+                src={Faq}
+                alt="Online Consultation"
+                className="h-[420px] w-full object-cover"
+                priority
+              />
+            </div>
 
-  {/* CTA Card */}
-  <div className="mt-6 rounded-[34px] bg-[#0F3D73] px-8 py-8">
-    <h3 className="text-3xl font-semibold text-white">
-      Any Inquiries?
-    </h3>
+            {/* CTA Card */}
+            <div className="mt-6 rounded-[34px] bg-[#0F3D73] px-8 py-8">
+              <h3 className="text-3xl font-semibold text-white">
+                Any Inquiries?
+              </h3>
 
-    <p className="mt-3 text-[17px] text-white/75">
-      Reach out for expert care
-    </p>
+              <p className="mt-3 text-[17px] text-white/75">
+                Reach out for expert care
+              </p>
 
-    <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-      <Link
-        href="/book-appointment"
-        className="flex-1 rounded-full bg-[#57C3BE] px-6 py-4 text-center text-base font-medium text-white transition hover:bg-[#49b3ae]"
-      >
-        Make Booking
-      </Link>
+              <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+                <Link
+                  href="/book-appointment"
+                  className="flex-1 rounded-full bg-[#57C3BE] px-6 py-4 text-center text-base font-medium text-white transition hover:bg-[#49b3ae]"
+                >
+                  Make Booking
+                </Link>
 
-      <Link
-        href="/contact"
-        className="flex-1 rounded-full border border-white/25 bg-white/10 px-6 py-4 text-center text-base font-medium text-white backdrop-blur transition hover:bg-white hover:text-[#0F3D73]"
-      >
-        Contact Us
-      </Link>
-    </div>
-  </div>
-</div>
+                <Link
+                  href="/contact"
+                  className="flex-1 rounded-full border border-white/25 bg-white/10 px-6 py-4 text-center text-base font-medium text-white backdrop-blur transition hover:bg-white hover:text-[#0F3D73]"
+                >
+                  Contact Us
+                </Link>
+              </div>
+            </div>
+          </div>
 
           {/* FAQ List */}
           <div className="space-y-4 lg:pr-2">

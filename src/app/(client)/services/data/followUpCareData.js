@@ -12,15 +12,15 @@ heroSection: {
  badge: "Ongoing Care & Follow-Up",
 
 
- title: "Skin & Hair Treatment Needs Follow-up — Not Just One Visit",
+ title: "Better Results Come with Consistent Follow-Up Care",
 
 
  description:
-   "Get guided dermatology care with proper monitoring, treatment adjustments, and long-term support to help you achieve better and more sustainable results.",
+   "Follow-up visits help monitor progress and ensure your treatment stays on the right path.",
 
 
  image:
-   "https://static.vecteezy.com/system/resources/thumbnails/069/823/684/small/doctor-consulting-patient-healthcare-and-medical-checkup-free-photo.jpg",
+   "/images/services/followup/hero/hero.png",
 
 
  features: [
@@ -51,7 +51,7 @@ heroSection: {
  ],
 
 
- cardTitle: "Treatment Monitoring",
+ cardTitle: "",
 
 
  cardDesc:
@@ -67,60 +67,6 @@ heroSection: {
  // =========================
 
 
- lookLikeSection: {
-   title: "Conditions That Commonly Need Follow-up",
-
-
-   bottomText:
-     "Long-term improvement depends on regular monitoring and treatment guidance.",
-
-
-   items: [
-     {
-       label: "Acne & Acne Marks",
-
-
-       image:
-         "https://i0.wp.com/post.healthline.com/wp-content/uploads/2023/06/Boxcar-acne-scar-slide1.jpg?w=1155&h=1528",
-     },
-
-
-     {
-       label: "Hair Fall & Thinning",
-
-
-       image:
-         "https://www.clinikally.com/cdn/shop/articles/Banner_Blog_Post.jpg?v=1663238072",
-     },
-
-
-     {
-       label: "Pigmentation & Dark Spots",
-
-
-       image:
-         "https://www.health.com/thmb/5Bl-Z6fADwqigO4Rpox-JeaMEFw=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-157144963-2000-64093d43108e4bfcaf4b377ac87f5f6a.jpg",
-     },
-
-
-     {
-       label: "Psoriasis & Eczema",
-
-
-       image:
-         "https://www.riverchasedermatology.com/wp-content/uploads/2023/06/ecezema-on-hands.jpg",
-     },
-
-
-     {
-       label: "Recurrent Fungal Infections",
-
-
-       image:
-         "https://thumbnails.icloudhospital.com/tr:w-1536,f-webp,q-75/2-9769c3bc-75b6-430f-a7af-8408e304efc7.webp",
-     },
-   ],
- },
 
 
  // =========================
@@ -140,7 +86,7 @@ heroSection: {
 
 
    image:
-     "https://www.drneharathiskinspecialist.in/wp-content/uploads/2026/01/Skin-Doctor-In-Nagpur.jpg",
+     "/images/services/followup/why/image.png",
 
 
    points: [
@@ -215,81 +161,66 @@ heroSection: {
  // =========================
 
 
- treatmentScopeSection: {
-   badge: "Follow-up Care Support",
+treatmentScopeSection: {
+  badge: "Follow-up Care Support",
 
+  title: "What We Do During Follow-up Consultations",
 
-   title: "What We Do During Follow-up Consultations",
+  description:
+    "Follow-up care focuses on treatment monitoring, medication adjustment, and maintaining long-term improvement safely.",
 
+  tables: [
+    {
+      icon: "conditions",
 
-   description:
-     "Follow-up care focuses on treatment monitoring, medication adjustment, and maintaining long-term improvement safely.",
+      title: "Conditions Requiring Follow-up",
 
+      footer:
+        "Many chronic skin and hair conditions require periodic reassessment and guided management.",
 
-   tables: [
-     {
-       icon: "conditions",
+      items: [
+        "Dermatitis & Eczema",
+        "Psoriasis",
+        "Vitiligo",
+        "Melasma & Pigmentation Disorders",
+        "Hair Loss Conditions",
+        "Acne & Scarring",
+        "Immunobullous disorders",
+      ],
+    },
 
+    {
+      icon: "investigations",
 
-       title: "Conditions Requiring Follow-up",
+      title: "What We Assess",
 
+      footer:
+        "Regular evaluation helps track progress and identify whether treatment changes are needed.",
 
-       footer:
-         "Many chronic skin and hair conditions require periodic reassessment and guided management.",
+      items: [
+        "Treatment Response",
+        "Medication Tolerance",
+        "Side Effects Monitoring",
+        "Relapse Risk Assessment",
+      ],
+    },
 
+    {
+      icon: "treatments",
 
-       items: [
-         "Acne & Acne Marks",
-         "Hair Fall & Thinning",
-         "Pigmentation & Melasma",
-         "Psoriasis & Eczema",
-         "Recurrent Fungal Infections",
-       ],
-     },
+      title: "What We Modify",
 
+      footer:
+        "Treatment plans are adjusted carefully depending on response, duration, and condition severity.",
 
-     {
-       icon: "investigations",
-
-
-       title: "What We Assess",
-
-
-       footer:
-         "Regular evaluation helps track progress and identify whether treatment changes are needed.",
-
-
-       items: [
-         "Treatment Response",
-         "Skin & Hair Improvement",
-         "Medication Tolerance",
-         "Side Effects Monitoring",
-         "Relapse Risk Assessment",
-       ],
-     },
-
-
-     {
-       icon: "treatments",
-
-
-       title: "What We Modify",
-
-
-       footer:
-         "Treatment plans are adjusted carefully depending on response, duration, and condition severity.",
-
-
-       items: [
-         "Medication Adjustment",
-         "Treatment Duration Guidance",
-         "Maintenance Planning",
-         "Preventive Care Advice",
-         "Long-Term Monitoring",
-       ],
-     },
-   ],
- },
+      items: [
+        "Dose adjustments",
+        "Follow-up duration",
+        "Preventive care advice",
+      ],
+    },
+  ],
+},
 
 
  // =========================

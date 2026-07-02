@@ -13,38 +13,38 @@ import Link from "next/link";
 const servicesData = [
   {
     image:
-      "https://www.clinikally.com/cdn/shop/articles/Banner_Blog_Post.jpg?v=1663238072",
+      "/images/services/hairfall/hero/hero.png",
     title: "Hair & Scalp Care",
     description:
-      "Advanced care for hair fall, scalp conditions, and long-term hair health.",
+      "Advanced care for hair fall and scalp health. ",
 
     link: "/services/hair-fall",
   },
 
   {
     image:
-      "https://cdn-cdgdl.nitrocdn.com/NuHQviBvmmEbJjrsyBBmTIMsXPDRmbhb/assets/images/optimized/rev-0e47667/cureskin.com/wp-content/uploads/2024/07/Relationship-Between-Oily-Skin-and-Acne.jpg",
+      "/images/services/acne/home/hero.png",
     title: "Acne & Oily Skin",
     description:
-      "Personalized treatments for acne, oily skin, and acne scar management.",
+      "Expert solutions for breakouts and acne scars",
 
-    link: "/services/acne",
+    link: "/services/acne-oily",
   },
 
   {
     image:
-      "https://www.goodskinclinics.com/cdn/shop/articles/Untitled_design_2.jpg?v=1707762598",
+      "/images/services/pigmantation/hero/hero.png",
     title: "Pigmentation & Skin Tone",
     description:
-      "Targeted solutions for uneven skin tone, pigmentation, and dullness.",
+      "Dark patches to Dull skin.",
 
     link: "/services/pigmentation",
   },
 
   {
     image:
-      "https://bayallergy.com/wp-content/uploads/2025/03/woman-applying-ointment-or-moisturizing-cream-in-t-2023-12-19-18-17-00-utc-scaled.jpg",
-    title: "Skin Allergy & Infections",
+      "/images/services/Infaction/hero/hero.png",
+    title: "Diagnosis and management of skin infections and dermatitis.",
     description:
       "Expert diagnosis and treatment for allergies, fungal infections, and rashes.",
 
@@ -53,17 +53,17 @@ const servicesData = [
 
   {
     image:
-      "https://whiterockderm.com/wp-content/uploads/2025/05/iStock-2165396022.jpg",
+      "/images/services/nails/hero/hero.png",
     title: "Nail Disorders",
     description:
-      "Specialized treatment for nail infections, damage, and nail disorders.",
+      "Specialized treatment for all nail related concerns.",
 
     link: "/services/nail-disorders",
   },
 
   {
     image:
-      "https://nivokhospital.com/images/department/closeup-portrait-beautiful-woman-cosmetology-therapy-beauty-salon-professional-dermatology-procedures-lifting-rejuvenation-modern-devices-healthcare.jpg",
+      "/images/services/followup/hero/hero.png",
     title: "Ongoing Care & Follow-up",
     description:
       "Continuous follow-up care focused on long-term healthy skin results.",
@@ -81,12 +81,12 @@ function Services() {
           {/* TOP */}
           <div className="mx-auto text-center">
             <div className="pt-6 flex flex-col items-center">
-              <p className="w-fit mx-auto rounded-full bg-white px-4 py-1 text-xs font-semibold uppercase tracking-[2px] text-primary-accent">
+              {/* <p className="w-fit mx-auto rounded-full bg-white px-4 py-1 text-xs font-semibold uppercase tracking-[2px] text-primary-accent">
                 Our Services
-              </p>
+              </p> */}
 
               <h2 className="mt-4 text-4xl md:text-5xl font-semibold leading-[105%] text-white">
-                <span className="block text-white ">Dermatology Solutions</span>
+                <span className="block text-white "> Our Services</span>
               </h2>
             </div>
             {/* LABEL */}
@@ -141,7 +141,7 @@ function Services() {
                 <div className="pt-6">
                   {/* TITLE */}
                   <div className="">
-                    <h3 className="text-3xl font-semibold leading-[115%] tracking-[-1.5px] text-primary-dark">
+                    <h3 className="text-3xl font-semibold leading-[115%] text-primary-dark">
                       {item.title}
                     </h3>
 
@@ -155,7 +155,7 @@ function Services() {
                       <div className="h-2 w-2 rounded-full bg-primary-accent" />
 
                       <p className="text-[10px] font-semibold uppercase tracking-[2px] text-primary-dark/50">
-                        Expert Care
+                        Read More
                       </p>
                     </div>
 

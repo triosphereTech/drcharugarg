@@ -5,6 +5,11 @@
 import React from "react";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import {
+  FaFlask,
+  FaShieldAlt,
+  FaUserMd,
+} from "react-icons/fa";
 
 
 const ServiceHero = ({ data }) => {
@@ -24,13 +29,13 @@ const ServiceHero = ({ data }) => {
 
 
            <p className="text-xs font-medium uppercase tracking-[0.18em] text-[#ffffff]">
-             {data.badge}
+             Our Services
            </p>
          </div>
 
 
          {/* Heading */}
-         <h1 className="max-w-[700px] text-4xl font-semibold leading-[1.15] tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
+         <h1 className="max-w-[700px] text-4xl font-semibold leading-[1.15]  text-white md:text-5xl lg:text-5xl">
            {data.title}
          </h1>
 
@@ -75,22 +80,36 @@ const ServiceHero = ({ data }) => {
 
          {/* Bottom Stats */}
          <div className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3">
-           {data.stats?.map((item, index) => (
-             <div
-               key={index}
-               className="rounded-[20px] border border-[#e5edf2] bg-white px-5 py-4"
-             >
-               <h3 className="text-2xl font-semibold text-[#131C15]">
-                 {item.number}
-               </h3>
+  <div className="rounded-[20px] hover:scale-105 transition-all border border-[#e5edf2] bg-white px-5 py-4">
+    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#F4F8FB]">
+      <FaFlask className="text-2xl text-[#2E7D5A]" />
+    </div>
 
+    <h3 className="mt-4 text-lg font-semibold text-[#131C15]">
+      Evidence-Based
+    </h3>
+  </div>
 
-               <p className="mt-2 text-sm leading-6 text-[#667085]">
-                 {item.label}
-               </p>
-             </div>
-           ))}
-         </div>
+  <div className="rounded-[20px] hover:scale-105 transition-all border border-[#e5edf2] bg-white px-5 py-4">
+    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#F4F8FB]">
+      <FaShieldAlt className="text-2xl text-[#2E7D5A]" />
+    </div>
+
+    <h3 className="mt-4 text-lg font-semibold text-[#131C15]">
+      Safe &amp; Effective
+    </h3>
+  </div>
+
+  <div className="rounded-[20px] hover:scale-105 transition-all border border-[#e5edf2] bg-white px-5 py-4">
+    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#F4F8FB]">
+      <FaUserMd className="text-2xl text-[#2E7D5A]" />
+    </div>
+
+    <h3 className="mt-4 text-lg font-semibold text-[#131C15]">
+      Expert Care
+    </h3>
+  </div>
+</div>
        </div>
 
 
@@ -109,9 +128,7 @@ const ServiceHero = ({ data }) => {
          {/* Floating Card */}
          <div className="absolute -bottom-6 left-6 rounded-[28px] border border-white/70 bg-white/70 p-5 shadow-[0_10px_40px_rgba(0,0,0,0.08)] backdrop-blur-xl md:left-10 md:p-6">
            <div className="flex items-center gap-4">
-             <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#eef7fb] text-[#058FD2]">
-               {data.icon}
-             </div>
+             
 
 
              <div>
@@ -120,9 +137,7 @@ const ServiceHero = ({ data }) => {
                </h3>
 
 
-               <p className="mt-1 text-sm text-[#667085]">
-                 {data.cardDesc}
-               </p>
+              
              </div>
            </div>
          </div>

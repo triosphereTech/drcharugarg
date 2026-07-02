@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from "react";
 
 const services = [
-  { icon: "🔬", label: "Acne & Scar Treatment", sub: "Targeted therapies", theme: "sky" },
+  { icon: "🔬", label: "Acne & Scar Treatment", sub: "Medical & Surgical Methods", theme: "sky" },
   { icon: "☀️", label: "Skin Brightening", sub: "Pigmentation correction", theme: "cyan" },
   { icon: "💚", label: "Anti-Ageing Care", sub: "Rejuvenation & fillers", theme: "emerald" },
   { icon: "💧", label: "Hydration Therapy", sub: "Skin barrier repair", theme: "sky-solid" },
@@ -11,7 +11,7 @@ const services = [
   { icon: "🌸", label: "Chemical Peels", sub: "Resurfacing & glow", theme: "sky" },
   { icon: "💉", label: "Botox & Fillers", sub: "Cosmetic injectables", theme: "cyan" },
   { icon: "🌿", label: "Hair Loss Therapy", sub: "PRP & scalp care", theme: "emerald" },
-  { icon: "🩹", label: "Psoriasis & Eczema", sub: "Chronic skin relief", theme: "sky-solid" },
+  { icon: "🩹", label: "Psoriasis & Eczema", sub: "chronic itch relief", theme: "sky-solid" },
   { icon: "🩺", label: "Wound Care", sub: "Dermal healing", theme: "emerald-solid" },
   { icon: "⏱️", label: "Skin Consultations", sub: "Evidence-based advice", theme: "cyan-solid" },
 ];
@@ -191,11 +191,11 @@ const AboutHero = () => {
               Skin Health With Expertise
             </span>
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-slate-600 md:text-lg">
+          {/* <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-slate-600 md:text-lg">
             Providing personalized dermatological care through advanced
             treatments, evidence-based approaches, and compassionate support
             tailored to your unique needs.
-          </p>
+          </p> */}
         </div>
 
        

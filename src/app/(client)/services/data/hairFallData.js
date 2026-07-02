@@ -8,15 +8,15 @@ heroSection: {
  badge: "Hair & Scalp Care",
 
 
- title: "Struggling with Hair Fall?",
+ title: "Understanding the cause. Treating the concern. Supporting healthier hair",
 
 
  description:
-   "Get expert, science-based treatment for hair fall, scalp concerns, and thinning hair with personalized dermatology care designed for long-term results.",
+   "",
 
 
  image:
-   "https://www.drbatras.com/sites/default/files/2025-03/mobile_1.webp",
+   "/images/services/hairfall/hero/hero.png",
 
 
  features: [
@@ -43,7 +43,7 @@ heroSection: {
  ],
 
 
- cardTitle: "Hair Fall Assessment",
+ cardTitle: "A closer look at your hair fall  concerns and causes",
 
 
  cardDesc:
@@ -71,51 +71,32 @@ heroSection: {
      "Different causes need different treatment.",
 
 
-   items: [
-     {
-       label: "Excessive Shedding",
+items: [
+  {
+    label: "Excessive Shedding",
+    image: "/images/services/hairfall/example/shedding.png",
+  },
 
+  {
+    label: "Receding Hairline",
+    image: "/images/services/hairfall/example/reducehairline.png",
+  },
 
-       image:
-         "https://www.saltgrooming.com/cdn/shop/articles/receeding-hairline_1200x.png?v=1715694241",
-     },
+  {
+    label: "Hair Thinning",
+    image: "/images/services/hairfall/example/hairthining.png",
+  },
 
+  {
+    label: "Dandruff with Hair Fall",
+    image: "/images/services/hairfall/example/dandruff.png",
+  },
 
-     {
-       label: "Receding Hairline",
-
-
-       image:
-         "https://hips.hearstapps.com/hmg-prod/images/701/can-discovery-end-balding-and-graying-1494333252.jpg?crop=1xw:0.786xh;center,top&resize=640:*",
-     },
-
-
-     {
-       label: "Hair Thinning",
-
-
-       image:
-         "https://www.hshairclinic.co.uk/wp-content/uploads/2025/02/Woman-with-hair-loss-by-temples.webp",
-     },
-
-
-     {
-       label: "Dandruff with Hair Fall",
-
-
-       image:
-         "https://www.thevelvetskincentre.com/blog/wp-content/uploads/2024/03/3.png",
-     },
-
-
-     {
-       label: "Scalp Infections",
-
-
-       image:
-         "https://img.lb.wbmdstatic.com/vim/live/webmd/consumer_assets/site_images/article_thumbnails/reference_guide/why_do_i_have_sores_on_my_head_ref_guide/1800x1200_why_do_i_have_sores_on_my_head_ref_guide.jpg",
-     },
-   ],
+  {
+    label: "Scalp Infections",
+    image: "/images/services/hairfall/example/scalpinfaction.png",
+  },
+],
  },
 
 
@@ -136,7 +117,7 @@ heroSection: {
 
 
    image:
-     "https://youngmenshealthsite.org/wp-content/uploads/2015/05/male-pattern-baldness.jpg",
+     "/images/services/hairfall/why/image.png",
 
 
    points: [

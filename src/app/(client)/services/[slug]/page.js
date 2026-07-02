@@ -14,6 +14,8 @@ import FollowUpCare from "@/components/services/FollowUpCare";
 import DoctorMini from "@/components/services/DoctorMini";
 import BookingSection from "@/components/home/Bookingsection";
 import BeforeAfter from "@/components/services/BeforeAfter";
+import AboutCTA from "@/components/about/AboutCTA";
+import ServiceCTA from "@/components/services/ServiceCTA";
 
 
 const Page = async ({ params }) => {
@@ -54,15 +56,15 @@ const Page = async ({ params }) => {
  <HOTW data={data.howTreatmentWorksSection} />
 )}
 
-<section className="px-4 md:px-5  bg-white">
+{/* <section className="px-4 md:px-5  bg-white">
 <BookingSection/>
-</section>
+</section> */}
 
-{data.beforeAfterSection && (
+{/* {data.beforeAfterSection && (
   <section className="">
     <BeforeAfter data={data.beforeAfterSection} />
   </section>
-)}
+)} */}
 {data.treatmentScopeSection && (
  <TreatmentScope data={data.treatmentScopeSection} />
 )}
@@ -71,8 +73,8 @@ const Page = async ({ params }) => {
 
 
 {data.followUpSection && (
-  <section>
-    <FollowUpCare data={data.followUpSection} />
+  <section className="py-10">
+    <ServiceCTA/>
   </section>
 )}
 

@@ -10,22 +10,22 @@ heroSection: {
  badge: "Skin Allergy & Infection Care",
 
 
- title: "Dealing with Itching, Rash or Skin Infection?",
+ title: "Have Itching, Rashes, or a Skin Infection?",
 
 
  description:
-   "Get the right diagnosis and treatment for skin rashes, fungal infections, allergies, and irritation with personalized dermatology care based on accurate clinical assessment.",
+   "Find relief with the right treatment.",
 
 
  image:
-   "https://cdn.prod.website-files.com/669628f8391b969dc9ec7d4c/67656c32ff91e4b55c6b89a1_rode-vlekken-dokter-frodo-amsterdam.png",
+   "/images/services/Infaction/hero/hero.png",
 
 
  features: [
-   "Skin Rashes",
-   "Fungal Infections",
+   "Rash",
+   "Infections",
    "Eczema",
-   "Allergy Care",
+   "Allergy",
  ],
 
 
@@ -49,7 +49,7 @@ heroSection: {
  ],
 
 
- cardTitle: "Clinical Skin Assessment",
+ cardTitle: "A rash may need more than just home care.Early care can help.",
 
 
  cardDesc:
@@ -66,58 +66,34 @@ heroSection: {
 
 
  lookLikeSection: {
-   title: "Does Your Skin Look Like This?",
+   title: "Is Your Skin Showing These Signs?",
 
 
    bottomText:
      "Similar-looking rashes can have very different causes and require different treatment approaches.",
 
 
-   items: [
-     {
-       label: "Red Rashes or Patches",
+items: [
+  {
+    label: "Red Rashes or Patches",
+    image: "/images/services/infaction/example/redrashed.png",
+  },
 
+  {
+    label: "Thick, Itchy Skin Patches",
+    image: "/images/services/infaction/example/thickyintchy.png",
+  },
 
-       image:
-         "https://images.everydayhealth.com/images/2025/what-common-rashes-look-like-00-intro-1440x810.jpg",
-     },
+  {
+    label: "Fungal Infection",
+    image: "/images/services/infaction/example/fungleinfaction.png",
+  },
 
-
-     {
-       label: "Itching & Irritation",
-
-
-       image:
-         "https://montrosedermatology.com/wp-content/uploads/2024/01/Rashes.png",
-     },
-
-
-     {
-       label: "Fungal Infection Rash",
-
-
-       image:
-         "https://theskindrs.b-cdn.net/wp-content/uploads/2025/10/Dermatophytosis_20190815-02ASD-1-scaled.jpg",
-     },
-
-
-     {
-       label: "Dry Inflamed Skin",
-
-
-       image:
-         "https://media.post.rvohealth.io/wp-content/uploads/sites/3/2024/01/dry-skin-patches-1296x728-slide5-1024x575.jpg",
-     },
-
-
-     {
-       label: "Sudden Skin Reactions",
-
-
-       image:
-         "https://img.lb.wbmdstatic.com/vim/live/webmd/consumer_assets/site_images/article_thumbnails/features/what_is_chronic_spontaneous_urticaria_or_csu_features/1800x1200_what_is_chronic_spontaneous_urticaria_or_csu_features.jpg?resize=339px:*&output-quality=75",
-     },
-   ],
+  {
+    label: "Dry Inflamed Skin",
+    image: "/images/services/infaction/example/dryinflamed.png",
+  },
+],
  },
 
 
@@ -138,7 +114,7 @@ heroSection: {
 
 
    image:
-     "https://s33929.pcdn.co/wp-content/uploads/sites/506/2021/09/The-Many-Types-Of-Rashes.jpg",
+     "/images/services/infaction/why/image.png",
 
 
    points: [
@@ -146,11 +122,11 @@ heroSection: {
        icon: "scalp",
 
 
-       title: "Fungal Infection",
+       title: "Heat & Humidity",
 
 
        description:
-         "Fungal infections may cause itching, circular rashes, redness, and scaling.",
+         "Warm, humid conditions promote sweating and skin irritation, increasing the risk of flare-ups.",
      },
 
 
@@ -158,11 +134,11 @@ heroSection: {
        icon: "stress",
 
 
-       title: "Eczema & Dermatitis",
+       title: "Poor Skin Barrier Function",
 
 
        description:
-         "Inflammatory skin conditions can weaken the skin barrier and trigger irritation.",
+         "A weakened skin barrier allows moisture loss and easier penetration of irritants and allergens.",
      },
 
 
@@ -170,11 +146,11 @@ heroSection: {
        icon: "nutrition",
 
 
-       title: "Allergic Reactions",
+       title: "Exposure to Irritants (soaps, chemicals, fragrances)",
 
 
        description:
-         "Skin allergies may lead to sudden redness, itching, swelling, or hives.",
+         "Frequent contact with irritants damages the skin barrier and triggers inflammation.",
      },
 
 
@@ -182,11 +158,11 @@ heroSection: {
        icon: "hormonal",
 
 
-       title: "Psoriasis & Chronic Inflammation",
+       title: "Genetics",
 
 
        description:
-         "Autoimmune and chronic inflammatory conditions may cause recurring skin lesions.",
+         "A family history of eczema or atopic disorders increases susceptibility to the condition.",
      },
    ],
 
@@ -213,82 +189,72 @@ heroSection: {
  // =========================
 
 
- treatmentScopeSection: {
-   badge: "Clinical Skin Expertise",
+treatmentScopeSection: {
+  badge: "Clinical Expertise",
 
+  title: "Comprehensive Skin Allergy & Infection Evaluation & Treatment",
 
-   title: "Comprehensive Skin Rash & Infection Evaluation",
+  description:
+    "Advanced skin assessment and personalized treatment planning designed to identify underlying causes and improve long-term skin health outcomes.",
 
+  tables: [
+    {
+      icon: "conditions",
 
-   description:
-     "Detailed skin assessment and evidence-based treatment planning designed to identify the correct cause and improve long-term skin recovery.",
+      title: "Conditions We Treat",
 
+      footer:
+        "Comprehensive diagnosis and treatment for different types of skin allergies and infections.",
 
-   tables: [
-     {
-       icon: "conditions",
+      items: [
+        "Atopic Dermatitis (Eczema)",
+        "Contact Dermatitis",
+        "Seborrheic Dermatitis",
+        "Urticaria (Hives)",
+        "Fungal Skin Infections",
+        "Bacterial Skin Infections",
+        "Viral Skin Infections",
+        "Scabies & Parasitic Infections",
+        "Psoriasis",
+        "Immunobullous disorders",
+      ],
+    },
 
+    {
+      icon: "investigations",
 
-       title: "Conditions We Commonly See",
+      title: "Investigations & Analysis",
 
+      footer:
+        "Detailed skin assessment helps identify the actual root cause accurately.",
 
-       footer:
-         "Accurate diagnosis is important because similar-looking rashes often require different treatments.",
+      items: [
+        "Laboratory investigations",
+        "Dermoscopy",
+        "Clinical evaluation & Hormonal evaluation",
+        "Gene testing",
+        "Biopsy",
+        "Patch testing",
+      ],
+    },
 
+    {
+      icon: "treatments",
 
-       items: [
-         "Fungal Infections (Tinea)",
-         "Eczema / Dermatitis",
-         "Psoriasis",
-         "Allergic Reactions",
-         "Contact Dermatitis",
-         "Urticaria (Hives)",
-       ],
-     },
+      title: "Treatment Options",
 
+      footer:
+        "Evidence-based treatment strategies customized according to skin condition and severity.",
 
-     {
-       icon: "investigations",
-
-
-       title: "Investigations & Analysis",
-
-
-       footer:
-         "Clinical evaluation helps identify infection patterns, inflammation triggers, and allergy-related skin changes.",
-
-
-       items: [
-         "Clinical Skin Examination",
-         "Rash Pattern Assessment",
-         "Inflammation Evaluation",
-         "Trigger & Allergy History",
-         "Skin Barrier Assessment",
-       ],
-     },
-
-
-     {
-       icon: "treatments",
-
-
-       title: "Treatment Options",
-
-
-       footer:
-         "Treatment plans are customized according to the condition type, severity, and recurrence risk.",
-
-
-       items: [
-         "Medical Management",
-         "Antifungal Treatment",
-         "Barrier Repair Guidance",
-         "Anti-Inflammatory Care",
-         "Long-Term Prevention Support",
-       ],
-     },
-   ],
- },
+      items: [
+        "Topical creams & Oral medications",
+        "IV Treatment",
+        "Biologics",
+        "Supportive Care & Prevention",
+      ],
+    },
+  ],
+},
 
 
  // =========================

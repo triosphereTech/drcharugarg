@@ -27,7 +27,7 @@ const valuesData = [
     icon: <HiOutlineUserGroup />,
     title: "Evidence-based Practise",
     description:
-      "scientifically guided treatments based on latest medical evidence.",
+      "Scientifically guided treatments based on latest medical evidence.",
   },
 
   {
@@ -70,7 +70,7 @@ function WhyChooseUs() {
 
             {/* HEADING */}
             <div className="pt-6">
-              <h2 className="text-4xl md:text-5xl font-semibold leading-[105%] tracking-[-2px] text-primary-dark md:text-5xl">
+              <h2 className="text-4xl md:text-5xl font-semibold leading-[105%] tracking-[-2px] text-primary-dark">
                 Built Around
                 <span className="block text-primary-accent">
                   Care & Clinical Excellence

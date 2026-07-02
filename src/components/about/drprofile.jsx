@@ -177,14 +177,7 @@ const expertise = [
               />
 
               {/* Floating Badge */}
-              <div className="absolute bottom-8 left-8 rounded-2xl bg-white/90 backdrop-blur p-4 shadow-xl">
-                <p className="text-xs uppercase tracking-wider text-slate-500">
-                  Specialized In
-                </p>
-                <h4 className="font-semibold text-slate-900 mt-1">
-                  Clinical Dermatology
-                </h4>
-              </div>
+             
             </div>
           </div>
         </div>
@@ -201,12 +194,12 @@ const expertise = [
             {/* Expertise */}
             <div className="rounded-[32px] border border-slate-200 bg-white p-8 md:p-10">
               <div className="mb-8">
-                <span className="text-sm font-medium text-cyan-700">
+                {/* <span className="text-sm font-medium text-cyan-700">
                   Areas of Expertise
-                </span>
+                </span> */}
 
                 <h3 className="mt-2 text-3xl font-bold text-slate-900">
-                  Specialized Dermatology Care
+                  Areas of Expertise
                 </h3>
               </div>
 

@@ -11,7 +11,7 @@ export const blogs = [
    desc:
      "Melasma is a common pigmentation disorder that causes dark patches on the face. Learn about its causes, treatment options, and why long-term maintenance is essential to prevent recurrence.",
    date: "May 29, 2026",
-   image: "https://dermatologyclinics.com.au/wp-content/uploads/2025/06/Enlighten_Pico_Laser_Melasma.webp",
+   image: "/images/blog/b1/front.png",
    slug: "/blogs/melasma-explained-causes-treatment-why-it-recurs",
  },
 
@@ -23,7 +23,7 @@ export const blogs = [
    desc:
      "Discover why modern skincare should begin with protecting and repairing the skin barrier. Learn what damages the barrier, warning signs to watch for, and a simple barrier-first routine.",
    date: "May 29, 2026",
-   image: "https://knottstdermatology.com/wp-content/uploads/2023/06/shutterstock_1377024203-scaled.jpg",
+   image: "/images/blog/b2/front.png",
    slug: "/blogs/the-barrier-first-approach",
  },
 
@@ -35,7 +35,7 @@ export const blogs = [
    desc:
      "Learn about pediatric atopic dermatitis, its causes, symptoms, common triggers, and treatment options. A practical guide to help parents recognize and manage childhood eczema effectively.",
    date: "May 29, 2026",
-   image: "https://www.aap.org/globalassets/patient-care/atopic-dermatitis/atopic-dermatits-image.jpg",
+   image: "/images/blog/b3/front.png",
    slug: "/blogs/understand-pediatric-atopic-dermatitis",
  },
 ];

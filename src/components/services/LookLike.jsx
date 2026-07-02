@@ -32,9 +32,9 @@ const LookLike = ({ data }) => {
           </h2>
 
           {/* Description */}
-          <p className="mt-3 max-w-3xl text-[15px] leading-8 text-[#667085] md:text-[17px]">
+          {/* <p className="mt-3 max-w-3xl text-[15px] leading-8 text-[#667085] md:text-[17px]">
             Early identification of symptoms helps create a more accurate, personalized treatment strategy for long-term hair restoration.
-          </p>
+          </p> */}
         </div>
 
         {/* MAIN GRID */}
@@ -85,12 +85,11 @@ const LookLike = ({ data }) => {
         </div>
 
         {/* Bottom Content */}
-        <div className="mt-18 border-t border-[#dceaf3] pt-10">
+        <div className="mt-0">
 
-          <div className="">
-
+        
             {/* Left */}
-            <div>
+            {/* <div>
 
               <p className="text-sm font-medium uppercase tracking-[0.18em] text-[#058FD2]">
                 Personalized Diagnosis
@@ -99,10 +98,10 @@ const LookLike = ({ data }) => {
               <h3 className="mt-4 text-2xl font-semibold leading-tight text-[#131C15] md:text-4xl">
                 {data.bottomText}
               </h3>
-            </div>
+            </div> */}
 
       
-          </div>
+          
         </div>
       </div>
     </section>

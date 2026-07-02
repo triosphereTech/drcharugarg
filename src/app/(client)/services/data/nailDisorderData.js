@@ -8,22 +8,22 @@ heroSection: {
  badge: "Nail Disorder Care",
 
 
- title: "Noticing Changes in Your Nails?",
+ title: "Nails Looking Different Than Usual?",
 
 
  description:
-   "Get expert evaluation and personalized treatment for nail infections, discoloration, brittle nails, and other nail concerns with evidence-based dermatology care.",
+   "Understanding the cause. Treating the concern. Supporting healthier nails.",
 
 
  image:
-   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPcWKYBNzcwr-Wc604bpbY4NQr_iOau_U_mg&s",
+   "/images/services/nails/hero/hero.png",
 
 
  features: [
    "Nail Infections",
-   "Discolored Nails",
+   "Nail Discoloration",
    "Brittle Nails",
-   "Nail Health",
+   "Nail growth issues",
  ],
 
 
@@ -47,11 +47,11 @@ heroSection: {
  ],
 
 
- cardTitle: "Nail Assessment",
+ cardTitle: "Understand the reason behind nail changes before choosing the right care.",
 
 
  cardDesc:
-   "Identify the underlying cause of nail changes before treatment.",
+   "Understand the reason behind nail changes before choosing the right care.",
 
 
  icon: "nail",
@@ -64,58 +64,34 @@ heroSection: {
 
 
  lookLikeSection: {
-   title: "Does Your Nail Look Like This?",
+   title: "Are Your Nails Showing These Signs?",
 
 
    bottomText:
      "Nail changes can reflect infection or underlying health conditions.",
 
 
-   items: [
-     {
-       label: "Thickened or Discolored Nails",
+items: [
+  {
+    label: "Changes in Nail Color",
+    image: "/images/services/nails/example/nailcolor.png",
+  },
 
+  {
+    label: "Weak, Fragile Nails",
+    image: "/images/services/nails/example/weakfragil.png",
+  },
 
-       image:
-         "https://www.verywellhealth.com/thmb/R9C5gGrUls9YhbD1EwKeSAkWLrA=/800x578/filters:fill(87E3EF,1)/newnailclubbing-56a5c4ca5f9b58b7d0de68f0.jpg",
-     },
+  {
+    label: "Rough Nail Surface",
+    image: "/images/services/nails/example/roughnail.png",
+  },
 
-
-     {
-       label: "Yellow or White Patches",
-
-
-       image:
-         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPcWKYBNzcwr-Wc604bpbY4NQr_iOau_U_mg&s",
-     },
-
-
-     {
-       label: "Brittle or Breaking Nails",
-
-
-       image:
-         "https://dermatologycollective.sg/wp-content/uploads/2026/01/Nail-Disorders.webp",
-     },
-
-
-     {
-       label: "Rough Nail Surface",
-
-
-       image:
-         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAN4f8feLxXFLAbXqHYPs7D_yw0TIEjr_Smw&s",
-     },
-
-
-     {
-       label: "Nail Lifting from Skin",
-
-
-       image:
-         "https://www.news-medical.net/image-handler/picture/2017/1/%40shutterstock_449110489.jpg",
-     },
-   ],
+  {
+    label: "Nail Lifting from Skin",
+    image: "/images/services/nails/example/naillifting.png",
+  },
+],
  },
 
 
@@ -136,7 +112,7 @@ heroSection: {
 
 
    image:
-     "https://t3.ftcdn.net/jpg/12/38/39/12/360_F_1238391256_k94aNlbBhC74Ff757bJ2uCVrYQyt9Yxr.jpg",
+     "/images/services/nails/why/image.png",
 
 
    points: [
@@ -144,11 +120,11 @@ heroSection: {
        icon: "scalp",
 
 
-       title: "Fungal Nail Infection",
+       title: "Repeated Trauma or Injury (biting, picking, pressure, accidents)",
 
 
        description:
-         "Fungal growth can cause nail thickening, discoloration, and crumbling texture.",
+         "Chronic trauma to the nail matrix from repeated injury or habits such as nail biting and picking can lead to longitudinal ridging.",
      },
 
 
@@ -156,11 +132,11 @@ heroSection: {
        icon: "nutrition",
 
 
-       title: "Weak & Brittle Nails",
+       title: "Nutritional Factors",
 
 
        description:
-         "Deficiency-related nail weakness may lead to splitting and fragile nail plates.",
+         "Deficiencies of iron, zinc, biotin, or B-complex vitamins may impair nail growth and contribute to longitudinal ridge formation.",
      },
 
 
@@ -168,11 +144,11 @@ heroSection: {
        icon: "stress",
 
 
-       title: "Skin-Related Nail Changes",
+       title: "Age-related",
 
 
        description:
-         "Conditions like psoriasis or eczema may alter nail structure and appearance.",
+         "Longitudinal ridges commonly develop with aging due to reduced nail matrix activity and changes in keratin production.",
      },
 
 
@@ -180,11 +156,11 @@ heroSection: {
        icon: "hormonal",
 
 
-       title: "Trauma & Irritation",
+       title: "Nail care products",
 
 
        description:
-         "Repeated pressure, injury, or harsh products may damage healthy nail growth.",
+         "Frequent use of harsh nail cosmetics, acetone-based removers, or excessive buffing can weaken the nail plate and accentuate longitudinal ridges.",
      },
    ],
 
@@ -211,80 +187,70 @@ heroSection: {
  // =========================
 
 
- treatmentScopeSection: {
-   badge: "Clinical Nail Expertise",
+treatmentScopeSection: {
+  badge: "Clinical Expertise",
 
+  title: "Comprehensive Nail Evaluation & Treatment",
 
-   title: "Comprehensive Nail Disorder Evaluation & Care",
+  description:
+    "Advanced nail assessment and personalized treatment planning designed to identify underlying causes and improve long-term nail health outcomes.",
 
+  tables: [
+    {
+      icon: "conditions",
 
-   description:
-     "Detailed nail assessment and personalized treatment planning designed to identify the underlying cause and improve long-term nail health.",
+      title: "Conditions We Treat",
 
+      footer:
+        "Comprehensive diagnosis and treatment for different types of nail disorders.",
 
-   tables: [
-     {
-       icon: "conditions",
+      items: [
+        "Onychomycosis(fungal infection)",
+        "Nail Psoriasis",
+        "Nail Lichen planus",
+        "Paronychia",
+        "Nail Pigmentation",
+        "Ingrown nails",
+        "Nail dystrophy",
+        "Trachyonychia(rough nails)",
+        "Brittle nails",
+      ],
+    },
 
+    {
+      icon: "investigations",
 
-       title: "Conditions We Commonly See",
+      title: "Investigations & Analysis",
 
+      footer:
+        "Detailed nail assessment helps identify the actual root cause accurately.",
 
-       footer:
-         "Accurate diagnosis helps differentiate fungal, inflammatory, and structural nail conditions.",
+      items: [
+        "Dermoscopy",
+        "Clinical evaluation",
+        "KOH examination of nail clipping",
+        "Biopsy",
+      ],
+    },
 
+    {
+      icon: "treatments",
 
-       items: [
-         "Fungal Nail Infection (Onychomycosis)",
-         "Brittle Nail Syndrome",
-         "Nail Psoriasis",
-         "Nail Changes Due to Skin Conditions",
-       ],
-     },
+      title: "Treatment Options",
 
+      footer:
+        "Evidence-based treatment strategies customized according to nail condition and severity.",
 
-     {
-       icon: "investigations",
-
-
-       title: "Investigations & Analysis",
-
-
-       footer:
-         "Clinical nail examination helps identify infection patterns and underlying triggers.",
-
-
-       items: [
-         "Clinical Nail Examination",
-         "Pattern & Texture Assessment",
-         "Nail Surface Evaluation",
-         "Skin Condition Correlation",
-         "History & Symptom Analysis",
-       ],
-     },
-
-
-     {
-       icon: "treatments",
-
-
-       title: "Treatment Options",
-
-
-       footer:
-         "Treatment plans are personalized according to nail condition severity and duration.",
-
-
-       items: [
-         "Medical Management",
-         "Antifungal Treatment",
-         "Nail Care Guidance",
-         "Barrier Repair Support",
-         "Maintenance & Monitoring",
-       ],
-     },
-   ],
- },
+      items: [
+        "Topical creams & Oral medications",
+        "Intralesional injections",
+        "Light & Laser based devices",
+        "Supportive Nail Care & Prevention",
+        "Medical & Surgical management of nail disorders",
+      ],
+    },
+  ],
+},
 
 
  // =========================

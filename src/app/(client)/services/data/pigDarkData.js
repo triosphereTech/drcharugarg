@@ -10,7 +10,7 @@ heroSection: {
  badge: "Pigmentation Treatment",
 
 
- title: "Struggling with Pigmentation or Dark Spots?",
+ title: "Restore skin clarity and confidence with targeted care for pigmentation concerns.",
 
 
  description:
@@ -18,14 +18,14 @@ heroSection: {
 
 
  image:
-   "https://www.drmanishasreviveclinic.com/blog/wp-content/uploads/2024/02/pigmentation.jpeg",
+   "/images/services/pigmantation/hero/hero.png",
 
 
  features: [
    "Dark Spots",
    "Melasma",
    "Uneven Skin Tone",
-   "Pigmentation Care",
+   "Pigmentation Treatment",
  ],
 
 
@@ -49,7 +49,7 @@ heroSection: {
  ],
 
 
- cardTitle: "Pigmentation Assessment",
+ cardTitle: "A closer look at your skin concerns and causes.",
 
 
  cardDesc:
@@ -66,53 +66,38 @@ heroSection: {
 
 
  lookLikeSection: {
-   title: "Does Your Skin Look Like This?",
+   title: "Have you noticed these skin changes?",
 
 
    description:
-     "Pigmentation concerns can appear differently depending on skin type, sun exposure, hormonal changes, and underlying inflammation.",
+     "",
 
 
    bottomText:
      "Different types of pigmentation require different treatment approaches.",
 
 
-   items: [
-     {
-       label: "Dark Spots on Face",
+items: [
+  {
+    label: "Dark Spots on Face",
+    image: "/images/services/pigmantation/example/darkspots.png",
+  },
 
+  {
+    label: "Melasma & Patchy Pigmentation",
+    image: "/images/services/pigmantation/example/melasma.png",
+  },
 
-       image:
-         "https://evenlyclinic.com/wp-content/uploads/2025/04/Untitled-design-7.webp",
-     },
+  {
+    label: "Uneven Skin Tone",
+    image: "/images/services/pigmantation/example/uneven.png",
+  },
 
-
-     {
-       label: "Melasma & Patchy Pigmentation",
-
-
-       image:
-         "https://i0.wp.com/post.medicalnewstoday.com/wp-content/uploads/sites/3/2022/03/Melasma-face-slide1-1024x575.jpg?w=1155&h=1528",
-     },
-
-
-     {
-       label: "Uneven Skin Tone",
-
-
-       image:
-         "https://dermalogica.ae/cdn/shop/articles/Close-up-caucasian-womans-face.jpg?v=1736250841&width=1100",
-     },
-
-
-     {
-       label: "Dull Complexion",
-
-
-       image:
-         "https://deyga.in/cdn/shop/articles/If_You_Have_Oily_Skin_Should_You_Moisturize_at_35695674-a8d4-498d-a20d-0c52d1c2416f.webp?v=1773302585",
-     },
-   ],
+  {
+    label: "Dull looking skin",
+    image: "/images/services/pigmantation/example/dullskin.png",
+  },
+],
  },
 
 
@@ -133,7 +118,7 @@ heroSection: {
 
 
    image:
-     "https://www.drsu.in/cdn/shop/articles/why-pigmentation-comes-back-after-you-stop-treatments-and-what-to-do-8826636.jpg?v=1777467988&width=1100",
+     "/images/services/pigmantation/why/image.png",
 
 
    points: [
@@ -322,6 +307,72 @@ heroSection: {
   ],
 },
 
+treatmentScopeSection: {
+  badge: "Clinical Expertise",
+
+  title: "Comprehensive Pigmentation Evaluation & Treatment",
+
+  description:
+    "Advanced skin analysis and personalized treatment planning designed to identify underlying causes and improve long-term pigmentation outcomes.",
+
+  tables: [
+    {
+      icon: "conditions",
+
+      title: "Conditions We Treat",
+
+      footer:
+        "Comprehensive diagnosis and treatment for different types of pigmentation disorders.",
+
+      items: [
+        "Melasma",
+        "Ashy dermatosis",
+        "Lichen planus pigmentosus",
+        "Vitiligo",
+        "Post inflmattory hyperpigmentation",
+        "Acanthosis nigricans",
+        "Dark circles",
+        "Lentigens",
+        "Other causes of pigmentary abnormalities",
+      ],
+    },
+
+    {
+      icon: "investigations",
+
+      title: "Investigations & Analysis",
+
+      footer:
+        "Detailed skin assessment helps identify the actual root cause accurately.",
+
+      items: [
+        "Woods lamp examination",
+        "Dermoscopy",
+        "Clinical evaluation",
+        "Hormonal evaluation",
+        "Biopsy",
+        "Patch testing",
+      ],
+    },
+
+    {
+      icon: "treatments",
+
+      title: "Treatment Options",
+
+      footer:
+        "Evidence-based treatment strategies customized according to skin condition and severity.",
+
+      items: [
+        "Topical creams & Oral medications",
+        "Chemical peels",
+        "Light & Laser based devices",
+        "Microneedling",
+        "Medical & Surgical management of Vitiligo",
+      ],
+    },
+  ],
+},
 
  // =========================
  // FOLLOW-UP

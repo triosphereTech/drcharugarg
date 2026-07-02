@@ -17,10 +17,7 @@ const ContactFormSection = () => {
             Send Us a Message
           </h2>
 
-          <p className="mt-4 text-gray-600 leading-relaxed">
-            Have questions about a treatment or want to schedule a consultation?
-            Fill out the form below and our team will get back to you shortly.
-          </p>
+         
         </div>
 
         <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-8">
@@ -106,68 +103,69 @@ const ContactFormSection = () => {
           <div className="space-y-6">
 
             {/* Map */}
-            <div className="overflow-hidden rounded-[32px] border border-slate-200 bg-white h-[400px]">
-
-              <iframe
-                title="Clinic Location"
-                src="https://www.google.com/maps/embed?pb="
-                className="w-full h-full border-0"
-                loading="lazy"
-                allowFullScreen
-              />
-            </div>
+            <div className="h-[400px] overflow-hidden rounded-[32px] border border-slate-200 bg-white">
+  <iframe
+    title="Clinic Location"
+    src="https://www.google.com/maps?q=Ahmedabad,Gujarat&output=embed"
+    className="h-full w-full border-0"
+    loading="lazy"
+    allowFullScreen
+  />
+</div>
 
             {/* Info Card */}
-            <div className="bg-white rounded-[32px] border border-slate-200 p-6">
+           <div className="rounded-[32px] border border-slate-200 bg-white p-6">
+  <h3 className="mb-5 text-xl font-semibold text-[#131C15]">
+    Clinic Information
+  </h3>
 
-              <h3 className="text-xl font-semibold text-[#131C15] mb-5">
-                Clinic Information
-              </h3>
+  <div className="space-y-5">
+    <div className="flex gap-4">
+      <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#eef7fb]">
+        <HiOutlineMapPin className="text-xl text-[#058FD2]" />
+      </div>
 
-              <div className="space-y-5">
+      <div>
+        <p className="font-medium text-[#131C15]">Address</p>
+        <p className="mt-1 text-sm text-gray-600">
+          Ahmedabad, Gujarat, India
+        </p>
+      </div>
+    </div>
 
-                <div className="flex gap-4">
-                  <div className="w-11 h-11 rounded-2xl bg-[#eef7fb] flex items-center justify-center">
-                    <HiOutlineMapPin className="text-[#058FD2] text-xl" />
-                  </div>
+    <div className="flex gap-4">
+      <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#eef7fb]">
+        <HiOutlinePhone className="text-xl text-[#058FD2]" />
+      </div>
 
-                  <div>
-                    <p className="font-medium text-[#131C15]">Address</p>
-                    <p className="text-gray-600 text-sm mt-1">
-                      Your Clinic Address Here
-                    </p>
-                  </div>
-                </div>
+      <div>
+        <p className="font-medium text-[#131C15]">Phone</p>
+        <a
+          href="tel:+918460407471"
+          className="mt-1 block text-sm text-gray-600 transition-colors hover:text-primary-accent"
+        >
+          +91 84604 07471
+        </a>
+      </div>
+    </div>
 
-                <div className="flex gap-4">
-                  <div className="w-11 h-11 rounded-2xl bg-[#eef7fb] flex items-center justify-center">
-                    <HiOutlinePhone className="text-[#058FD2] text-xl" />
-                  </div>
+    <div className="flex gap-4">
+      <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#eef7fb]">
+        <HiOutlineEnvelope className="text-xl text-[#058FD2]" />
+      </div>
 
-                  <div>
-                    <p className="font-medium text-[#131C15]">Phone</p>
-                    <p className="text-gray-600 text-sm mt-1">
-                      +91 98765 43210
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex gap-4">
-                  <div className="w-11 h-11 rounded-2xl bg-[#eef7fb] flex items-center justify-center">
-                    <HiOutlineEnvelope className="text-[#058FD2] text-xl" />
-                  </div>
-
-                  <div>
-                    <p className="font-medium text-[#131C15]">Email</p>
-                    <p className="text-gray-600 text-sm mt-1">
-                      care@drcharugarg.com
-                    </p>
-                  </div>
-                </div>
-
-              </div>
-
-            </div>
+      <div>
+        <p className="font-medium text-[#131C15]">Email</p>
+        <a
+          href="mailto:chgarg199@gmail.com"
+          className="mt-1 block text-sm text-gray-600 transition-colors hover:text-primary-accent"
+        >
+          chgarg199@gmail.com
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
 
           </div>
 

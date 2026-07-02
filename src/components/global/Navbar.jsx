@@ -7,6 +7,7 @@ import { IoCloseOutline } from "react-icons/io5";
 import { HiArrowUpRight } from "react-icons/hi2";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "@/redux/features/userSlice";
+import Logo from "../../../public/images/LOGO.png"
 
 const Navbar = () => {
   const [openMenu, setOpenMenu] = useState(false);
@@ -126,24 +127,17 @@ const Navbar = () => {
   <div className="flex h-[62px] items-center rounded-[30px] bg-white/30 px-4 backdrop-blur-xl transition-all duration-500 ease-in-out md:h-[84px] md:px-7 xl:px-10">
     
     {/* LEFT */}
-    <Link
-      href="/"
-      className="flex w-[280px] shrink-0 items-center gap-3"
-    >
-      <div className="flex h-11 w-11 items-center justify-center rounded-full bg-primary-dark text-[18px] font-semibold text-white">
-        D
-      </div>
-
-      <div>
-        <h2 className="text-[18px] font-semibold tracking-[-0.5px] text-primary-dark md:text-[21px]">
-          Dr Charu Garg
-        </h2>
-
-        <p className="text-[13px] font-medium text-primary-dark/45 md:text-[14px]">
-          Dermatology
-        </p>
-      </div>
-    </Link>
+    {/* LEFT */}
+<Link
+  href="/"
+  className="flex shrink-0 items-center"
+>
+  <img
+    src={Logo.src}
+    alt="Dr Charu Garg Clinic"
+    className="h-16 w-auto object-contain md:h-20 xl:h-24"
+  />
+</Link>
 
     {/* DESKTOP NAV */}
     <div className="hidden flex-1 justify-center xl:flex">

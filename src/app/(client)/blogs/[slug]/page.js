@@ -21,14 +21,14 @@ export async function generateStaticParams() {
 // SHARED HELPERS
 // ─────────────────────────────────────────────────────────────────────────────
 
-function BulletList({ items }) {
+function BulletList({ items, dark = false }) {
   if (!items?.length) return null;
   return (
     <ul className="mt-3 space-y-2">
       {items.map((item, i) => (
         <li key={i} className="flex gap-3">
-          <span className="mt-[10px] shrink-0 w-1.5 h-1.5 rounded-full bg-[#058FD2]" />
-          <span className="text-slate-700 leading-[1.85]">{item}</span>
+          <span className={`mt-[10px] shrink-0 w-1.5 h-1.5 rounded-full ${dark ? "bg-cyan-300" : "bg-[#058FD2]"}`} />
+          <span className={`leading-[1.85] ${dark ? "text-white/85" : "text-slate-700"}`}>{item}</span>
         </li>
       ))}
     </ul>
@@ -49,6 +49,41 @@ function DetailList({ items }) {
         </li>
       ))}
     </ul>
+  );
+}
+
+// The single shared "highlight card" design used identically across all
+// three blogs' key-takeaway sections: a deep navy → teal gradient (the same
+// medical-brand gradient already used in the page's closing CTA), with two
+// soft ambient glows and an icon-badge eyebrow. Content passed through
+// unchanged — only container styling and, where needed, text-color
+// utilities are adjusted so copy stays readable on the dark background.
+function HighlightBox({ label, children }) {
+  return (
+    <div className="relative overflow-hidden rounded-3xl bg-linear-to-br from-[#082c62] via-[#0A3C84] to-[#0C7A72] p-7 sm:p-9 shadow-[0_20px_50px_-15px_rgba(8,44,98,0.45)]">
+      <div className="pointer-events-none absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[#058FD2]/20 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-cyan-200/20 blur-3xl" />
+
+      <div className="relative z-10">
+        {label && (
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-white/10 ring-1 ring-white/20 pl-2 pr-3.5 py-1.5">
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white">
+              <svg className="h-3 w-3 text-[#0A3C84]" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                />
+              </svg>
+            </span>
+            <span className="text-xs font-semibold uppercase tracking-wider text-white/90">
+              {label}
+            </span>
+          </div>
+        )}
+        {children}
+      </div>
+    </div>
   );
 }
 
@@ -130,26 +165,43 @@ function BlogOneSections({ blog }) {
 
       <hr className="my-10 border-slate-200" />
 
-      {whyUsSection && (
-        <section>
-          <h2 className="text-2xl sm:text-3xl font-bold text-[#131C15]">
-            {whyUsSection.heading}
-          </h2>
-          <p className="mt-4 text-slate-700 leading-[1.85]">{whyUsSection.content}</p>
-          {(whyUsSection.points ?? []).length > 0 && (
-            <ul className="mt-6 space-y-3">
-              {whyUsSection.points.map((point, i) => (
-                <li key={i} className="flex items-start gap-3">
-                  <svg className="mt-1 shrink-0 w-5 h-5 text-[#058FD2]" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" clipRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" />
-                  </svg>
-                  <span className="text-slate-700">{point}</span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
+{whyUsSection && (
+  <section>
+    <HighlightBox label="Take Home Message">
+      <h2 className="text-2xl font-bold text-white">
+        {whyUsSection.heading}
+      </h2>
+
+      <p className="mt-4 text-white/85 leading-[1.85]">
+        {whyUsSection.content}
+      </p>
+
+      {(whyUsSection.points ?? []).length > 0 && (
+        <ul className="mt-6 grid gap-4 sm:grid-cols-2">
+          {whyUsSection.points.map((point, i) => (
+            <li key={i} className="flex gap-3 rounded-xl bg-white/10 ring-1 ring-white/15 p-4">
+              <svg
+                className="mt-1 h-5 w-5 shrink-0 text-cyan-200"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                />
+              </svg>
+
+              <span className="text-sm leading-6 text-white/85">
+                {point}
+              </span>
+            </li>
+          ))}
+        </ul>
       )}
+    </HighlightBox>
+  </section>
+)}
     </>
   );
 }
@@ -158,7 +210,7 @@ function BlogOneSections({ blog }) {
 // DYNAMIC SECTION RENDERER (BlogTwo, BlogThree and beyond)
 // ─────────────────────────────────────────────────────────────────────────────
 
-function DynamicSection({ section }) {
+function DynamicSection({ section, dark = false }) {
   switch (section.type) {
 
     case "text":
@@ -184,16 +236,16 @@ function DynamicSection({ section }) {
       return (
         <section>
           {section.heading && (
-            <h2 className="text-2xl sm:text-3xl font-bold text-[#131C15] mb-4">
+            <h2 className={`text-2xl sm:text-3xl font-bold mb-4 ${dark ? "text-white" : "text-[#131C15]"}`}>
               {section.heading}
             </h2>
           )}
           {section.content && (
-            <p className="text-slate-700 leading-[1.85]">{section.content}</p>
+            <p className={`leading-[1.85] ${dark ? "text-white/85" : "text-slate-700"}`}>{section.content}</p>
           )}
-          <BulletList items={section.bullets} />
+          <BulletList items={section.bullets} dark={dark} />
           {section.closing && (
-            <p className="mt-5 text-slate-700 leading-[1.85]">{section.closing}</p>
+            <p className={`mt-5 leading-[1.85] ${dark ? "text-white/85" : "text-slate-700"}`}>{section.closing}</p>
           )}
         </section>
       );
@@ -281,24 +333,31 @@ function DynamicSection({ section }) {
       return (
         <section>
           {section.heading && (
-            <h2 className="text-2xl sm:text-3xl font-bold text-[#131C15]">
+            <h2 className={`text-2xl sm:text-3xl font-bold ${dark ? "text-white" : "text-[#131C15]"}`}>
               {section.heading}
             </h2>
           )}
           {section.intro && (
-            <p className="mt-4 text-slate-700 leading-[1.85]">{section.intro}</p>
+            <p className={`mt-4 leading-[1.85] ${dark ? "text-white/85" : "text-slate-700"}`}>{section.intro}</p>
           )}
           <div className="mt-6 grid sm:grid-cols-2 gap-4">
             {(section.steps ?? []).map((step, i) => (
-              <div key={i} className="rounded-xl border border-slate-200 bg-slate-50 p-5">
-                <p className="text-xs font-semibold uppercase tracking-widest text-[#058FD2] mb-3">
+              <div
+                key={i}
+                className={
+                  dark
+                    ? "rounded-xl border border-white/15 bg-white/10 p-5 backdrop-blur-sm"
+                    : "rounded-xl border border-slate-200 bg-slate-50 p-5"
+                }
+              >
+                <p className={`text-xs font-semibold uppercase tracking-widest mb-3 ${dark ? "text-cyan-200" : "text-[#058FD2]"}`}>
                   {step.time}
                 </p>
                 <ul className="space-y-2">
                   {(step.items ?? []).map((item, j) => (
                     <li key={j} className="flex gap-2.5">
-                      <span className="mt-[10px] shrink-0 w-1.5 h-1.5 rounded-full bg-[#058FD2]" />
-                      <span className="text-slate-700 text-sm leading-[1.8]">{item}</span>
+                      <span className={`mt-[10px] shrink-0 w-1.5 h-1.5 rounded-full ${dark ? "bg-cyan-300" : "bg-[#058FD2]"}`} />
+                      <span className={`text-sm leading-[1.8] ${dark ? "text-white/85" : "text-slate-700"}`}>{item}</span>
                     </li>
                   ))}
                 </ul>
@@ -322,11 +381,21 @@ function DynamicBlogSections({ blog }) {
 
       {(blog.sections ?? []).map((section, i) => {
         const isImage = section.type === "image";
+        const isHighlighted = section.highlight === true;
+
         return (
           <div key={section.id ?? i}>
             {i > 0 && !isImage && <hr className="my-10 border-slate-200" />}
             {isImage && <div className="my-10" />}
-            <DynamicSection section={section} />
+
+            {isHighlighted ? (
+              <HighlightBox label={section.highlightLabel}>
+                <DynamicSection section={section} dark />
+              </HighlightBox>
+            ) : (
+              <DynamicSection section={section} />
+            )}
+
             {isImage && <div className="mb-2" />}
           </div>
         );
@@ -373,15 +442,19 @@ export default async function BlogPage({ params }) {
       </div>
 
       {/* ─── HERO IMAGE ───────────────────────────────────────────────── */}
-      <div className="max-w-3xl mx-auto px-5">
-        <div className="relative w-full h-[260px] sm:h-[400px] rounded-2xl overflow-hidden">
-          <img
-            src={blog.heroImage}
-            alt={blog.heroImageAlt}
-            className="w-full h-full object-cover"
-          />
+      {/* Skipped when blog.hideHeroImage is true (e.g. Blog Two, which shows
+          its image only in the middle "inline-image" section instead). */}
+      {!blog.hideHeroImage && (
+        <div className="max-w-3xl mx-auto px-5">
+          <div className="relative w-full h-[260px] sm:h-[400px] rounded-2xl overflow-hidden">
+            <img
+              src={blog.heroImage}
+              alt={blog.heroImageAlt}
+              className="w-full h-full object-cover"
+            />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* ─── ARTICLE BODY ─────────────────────────────────────────────── */}
       <article className="max-w-3xl mx-auto px-5 py-12">
@@ -401,11 +474,6 @@ export default async function BlogPage({ params }) {
     <h3 className="text-xl font-bold text-white">
       Ready to Start Your Treatment?
     </h3>
-
-    <p className="mt-2 text-slate-200">
-      Get a personalized consultation tailored to your skin type and concerns.
-    </p>
-
     <div className="mt-6 flex flex-col items-center justify-center gap-4 sm:flex-row">
       <Link
         href="/book-appointment"
