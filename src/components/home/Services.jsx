@@ -44,7 +44,7 @@ const servicesData = [
   {
     image:
       "/images/services/Infaction/hero/hero.png",
-    title: "Skin allergy section",
+    title: "Skin allergy",
     description:
       "Diagnosis and management of skin infections and dermatitis.",
 
