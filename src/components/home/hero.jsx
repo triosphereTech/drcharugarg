@@ -261,7 +261,7 @@ const HeroSection = () => {
 
                   <div className="flex items-center gap-3 mt-5 flex-wrap">
                     <Link
-                      href="/#booking"
+                      href="/#services"
                       className="py-3 px-6 2xl:px-8 rounded-full bg-white text-[#315e95] hover:bg-white/90 transition-all text-md active:scale-95 2xl:text-xl font-semibold flex items-center gap-2 shadow-sm shadow-inner"
                     >
                       Our Facilities
