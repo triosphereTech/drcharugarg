@@ -18,18 +18,18 @@ const HOTW = ({ data }) => {
       {/* Blur */}
       <div className="absolute right-0 top-0 h-[320px] w-[320px] rounded-full bg-[#eef7fb] blur-[120px]" />
 
-      <div className="relative mx-auto max-w-7xl px-3 pt-10 md:px-5 md:pt-20">
+      <div className="relative mx-auto max-w-7xl px-3 pt-5 md:px-5 md:pt-20">
         {/* Heading */}
         <div className="mx-auto max-w-[920px] text-center">
           {/* Badge */}
           <div className="mb-5 flex justify-center">
-            <div className="flex items-center gap-2 rounded-full border border-[#dceaf3] bg-[#f8fcfe] px-4 py-2">
+            {/* <div className="flex items-center gap-2 rounded-full border border-[#dceaf3] bg-[#f8fcfe] px-4 py-2">
               <div className="h-2 w-2 rounded-full bg-[#058FD2]" />
 
               <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#058FD2]">
                 {data.badge}
               </p>
-            </div>
+            </div> */}
           </div>
 
           {/* Title */}
@@ -135,12 +135,12 @@ const HOTW = ({ data }) => {
         </div>
 
         {/* Bottom Line */}
-        <div className="relative mt-20 overflow-hidden rounded-[36px] border border-[#dceaf3] bg-[#f7fbfd] p-7 md:p-10">
-          {/* Blur */}
+        {/* <div className="relative mt-20 overflow-hidden rounded-[36px] border border-[#dceaf3] bg-[#f7fbfd] p-7 md:p-10">
+         
           <div className="absolute right-0 top-0 h-44 w-44 rounded-full bg-[#dff2fc] blur-[90px]" />
 
           <div className="relative z-10 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-            {/* Left */}
+           
             <div className="max-w-[760px]">
               <p className="text-sm font-medium uppercase tracking-[0.18em] text-[#058FD2]">
                 Seamless Online Care
@@ -151,14 +151,14 @@ const HOTW = ({ data }) => {
               </h3>
             </div>
 
-            {/* Right */}
+       
             <div className="rounded-2xl border border-[#dceaf3] bg-white px-5 py-4">
               <p className="text-sm font-medium text-[#667085]">
                 Expert care from the comfort of your home.
               </p>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );
