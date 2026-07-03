@@ -7,7 +7,8 @@ import { IoCloseOutline } from "react-icons/io5";
 import { HiArrowUpRight } from "react-icons/hi2";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "@/redux/features/userSlice";
-import Logo from "../../../public/images/LOGO.png"
+import Logo from "../../../public/images/brand/LogoTop.png"
+
 
 const Navbar = () => {
   const [openMenu, setOpenMenu] = useState(false);
@@ -135,7 +136,7 @@ const Navbar = () => {
   <img
     src={Logo.src}
     alt="Dr Charu Garg Clinic"
-    className="h-16 w-auto object-contain md:h-20 xl:h-24"
+    className="h-16 w-auto object-contain md:h-20 xl:h-18"
   />
 </Link>
 

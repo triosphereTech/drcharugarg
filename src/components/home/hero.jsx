@@ -17,7 +17,7 @@ import {
 import "swiper/css";
 
 import Hero1 from "../../../public/images/HomeHero.png";
-import Hero2 from "../../../public/images/Slide2.png";
+import Hero2 from "../../../public/images/Slide2U.png";
 import Hero3 from "../../../public/images/StraightLook.png";
 
 import PlusBg from "../../../public/images/PlusBg.png";

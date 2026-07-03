@@ -54,10 +54,10 @@ const ContactHero = () => {
   <div className="rounded-3xl border border-slate-200 bg-white p-5">
     <p className="text-sm text-gray-500">Email</p>
     <a
-      href="mailto:chgarg199@gmail.com"
+      href="mailto:teleconsult.drcharugarg@gmail.com"
       className="mt-1 block font-semibold text-[#131C15] transition-colors hover:text-primary-accent"
     >
-      chgarg199@gmail.com
+      teleconsult.drcharugarg@gmail.com
     </a>
   </div>
 

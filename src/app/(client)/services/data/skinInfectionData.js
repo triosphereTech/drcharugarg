@@ -103,7 +103,7 @@ items: [
 
 
  whyThisHappenSection: {
-   badge: "Skin Condition Analysis",
+   badge: "Contributing Factors",
 
 
    title: "Why Skin Rashes & Infections Develop",
@@ -114,7 +114,7 @@ items: [
 
 
    image:
-     "/images/services/infaction/why/image.png",
+     "/images/services/Infaction/why/image.png",
 
 
    points: [
@@ -290,7 +290,7 @@ treatmentScopeSection: {
        icon: "assessment",
 
 
-       title: "Identify Likely Condition",
+       title: "Expert Assessment",
 
 
        description:

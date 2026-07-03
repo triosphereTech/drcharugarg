@@ -8,11 +8,11 @@ heroSection: {
  badge: "Hair & Scalp Care",
 
 
- title: "Understanding the cause. Treating the concern. Supporting healthier hair",
+ title: "Struggling With Hair Fall?",
 
 
  description:
-   "",
+   "Understanding the cause. Treating the concern. Supporting healthier hair",
 
 
  image:
@@ -106,7 +106,7 @@ items: [
 
 
  whyThisHappenSection: {
-   badge: "Hair Fall Analysis",
+   badge: "Contributing Factors",
 
 
    title: "Why Hair Fall Happens",

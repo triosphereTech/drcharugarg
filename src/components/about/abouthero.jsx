@@ -11,7 +11,7 @@ const services = [
   { icon: "🌸", label: "Chemical Peels", sub: "Resurfacing & glow", theme: "sky" },
   { icon: "💉", label: "Botox & Fillers", sub: "Cosmetic injectables", theme: "cyan" },
   { icon: "🌿", label: "Hair Loss Therapy", sub: "PRP & scalp care", theme: "emerald" },
-  { icon: "🩹", label: "Psoriasis & Eczema", sub: "chronic itch relief", theme: "sky-solid" },
+  { icon: "🩹", label: "Psoriasis & Eczema", sub: "Chronic itch relief", theme: "sky-solid" },
   { icon: "🩺", label: "Wound Care", sub: "Dermal healing", theme: "emerald-solid" },
   { icon: "⏱️", label: "Skin Consultations", sub: "Evidence-based advice", theme: "cyan-solid" },
 ];

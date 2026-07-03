@@ -1,32 +1,66 @@
-import Link from "next/link";
 import {
   FaInstagram,
   FaFacebookF,
   FaYoutube,
   FaLinkedinIn,
 } from "react-icons/fa";
-import Logo from "../../../public/images/LOGO.png"
+import Logo from "../../../public/images/brand/WebsiteFooterLogo.png";
+import Link from "next/link";
+import localFont from "next/font/local";
+// import F from "../../../public/font/"
+
+const appleChancery = localFont({
+  src: "../../../public/font/AppleChancery.ttf",
+  variable: "--font-apple-chancery",
+});
+
+const navLinks = [
+  {
+    label: "Home",
+    href: "/",
+  },
+  {
+    label: "About",
+    href: "/about",
+  },
+  {
+    label: "Our Facilities",
+    href: "/#services",
+  },
+  {
+    label: "FAQs",
+    href: "/#faqs",
+  },
+  {
+    label: "Blogs",
+    href: "/#blogs",
+  },
+  {
+    label: "Contact Us",
+    href: "/contact",
+  },
+];
 
 import { HiOutlineArrowUpRight } from "react-icons/hi2";
 
 function Footer() {
   const socialLinks = [
-  {
-    icon: FaInstagram,
-    href: "https://www.instagram.com/dr.charugarg_md/",
-    label: "Instagram",
-  },
-  {
-    icon: FaYoutube,
-    href: "https://www.youtube.com/@dr.charugarg_md",
-    label: "YouTube",
-  },
-  {
-    icon: FaLinkedinIn,
-    href: "https://www.linkedin.com/in/charu-garg-166b311a1?utm_source=share_via&utm_content=profile&utm_medium=member_android",
-    label: "LinkedIn",
-  },
-];
+    {
+      icon: FaInstagram,
+      href: "https://www.instagram.com/dr.charugarg_md/",
+      label: "Instagram",
+    },
+    {
+      icon: FaYoutube,
+      href: "https://www.youtube.com/@dr.charugarg_md",
+      label: "YouTube",
+    },
+    {
+      icon: FaLinkedinIn,
+      href: "https://www.linkedin.com/in/charu-garg-166b311a1?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+      label: "LinkedIn",
+    },
+  ];
 
   return (
     <>
@@ -77,7 +111,7 @@ function Footer() {
                 <img
                   src={Logo.src}
                   alt="Dr Charu Garg"
-                  className="h-56 w-56 rounded-full object-cover"
+                  className="h-52 w-fit object-cover"
                 />
 
                 {/* <div>
@@ -90,23 +124,26 @@ function Footer() {
                   </p>
                 </div> */}
               </div>
-              <p className="italic text-lg text-primary-accent">“Where  skin finds its true balance“</p>
-
+              <p
+                className={`${appleChancery.className} mt-3 text-xl text-[#007997]`}
+              >
+                Where skin finds its true balance
+              </p>
               {/* SOCIALS */}
-              <div className="grid w-fit grid-cols-4 gap-3 pt-5">
-  {socialLinks.map(({ icon: Icon, href, label }, i) => (
-    <a
-      key={i}
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={label}
-      className="flex h-12 w-12 items-center justify-center rounded-full border border-gray-400 text-gray-700 transition-all duration-300 hover:border-primary-accent hover:bg-primary-accent hover:text-white"
-    >
-      <Icon className="text-lg" />
-    </a>
-  ))}
-</div>
+              <div className="grid w-fit grid-cols-4 gap-3 pt-5 lg:ml-10">
+                {socialLinks.map(({ icon: Icon, href, label }, i) => (
+                  <a
+                    key={i}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    className="flex h-12 w-12 items-center justify-center rounded-full border border-gray-400 text-gray-700 transition-all duration-300 hover:border-primary-accent hover:bg-primary-accent hover:text-white"
+                  >
+                    <Icon className="text-lg" />
+                  </a>
+                ))}
+              </div>
             </div>
 
             {/* RIGHT SIDE */}
@@ -118,19 +155,14 @@ function Footer() {
                 </h3>
 
                 <div className="grid gap-4 pt-7">
-                  {[
-                    "Home",
-                    "About Us",
-                    "Services",
-                    "Our Journey",
-                    "Contact Us",
-                  ].map((item, index) => (
-                    <button
-                      key={index}
+                  {navLinks.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
                       className="w-fit text-md font-medium text-gray-600 transition-all duration-300 hover:text-primary-accent"
                     >
-                      {item}
-                    </button>
+                      {item.label}
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -142,31 +174,31 @@ function Footer() {
                 </h3>
 
                 <div className="grid gap-6 pt-7">
-                 <div>
-  <p className="text-sm font-semibold uppercase tracking-[2px] text-gray-400">
-    Phone
-  </p>
+                  <div>
+                    <p className="text-sm font-semibold uppercase tracking-[2px] text-gray-400">
+                      Phone
+                    </p>
 
-  <a
-    href="tel:+918460407471"
-    className="pt-2 text-md font-medium text-gray-600 transition-colors hover:text-primary-accent"
-  >
-    +91 84604 07471
-  </a>
-</div>
+                    <a
+                      href="tel:+918460407471"
+                      className="pt-2 text-md font-medium text-gray-600 transition-colors hover:text-primary-accent"
+                    >
+                      +91 84604 07471
+                    </a>
+                  </div>
 
-<div>
-  <p className="text-sm font-semibold uppercase tracking-[2px] text-gray-400">
-    Email
-  </p>
+                  <div>
+                    <p className="text-sm font-semibold uppercase tracking-[2px] text-gray-400">
+                      Email
+                    </p>
 
-  <a
-    href="mailto:chgarg199@gmail.com"
-    className="pt-2 text-md font-medium text-gray-600 transition-colors hover:text-primary-accent"
-  >
-    chgarg199@gmail.com
-  </a>
-</div>
+                    <a
+                      href="mailto:teleconsult.drcharugarg@gmail.com"
+                      className="pt-2 text-md font-medium text-gray-600 transition-colors hover:text-primary-accent"
+                    >
+                      teleconsult.drcharugarg@gmail.com
+                    </a>
+                  </div>
 
                   <div>
                     <p className="text-sm font-semibold uppercase tracking-[2px] text-gray-400">

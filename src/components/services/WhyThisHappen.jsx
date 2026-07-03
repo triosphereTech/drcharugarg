@@ -43,7 +43,7 @@ const WhyThisHappen = ({ data }) => {
 
 
              <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-white">
-               Contributing factors
+              {data.badge}
              </p>
            </div>
 

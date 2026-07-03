@@ -111,11 +111,7 @@ function Services() {
             {/* SUBTEXT */}
             <div className="mx-auto max-w-[800px] pt-6">
               <p className="text-sm font-medium leading-[190%] text-white/80 md:text-[20px]">
-                We offer a comprehensive range of dermatology services, from
-                medical treatments to advanced aesthetic procedures and
-                dedicated to delivering personalized care, supported by modern
-                technology and the highest standards in skin, hair, and nail
-                health.
+                We provide comprehensive dermatology care, offering expert medical, surgical, and advanced aesthetic treatments tailored to each individual's needs. Our commitment is to deliver personalized, evidence-based care using modern technology and the highest standards in skin, hair, and nail health.
               </p>
             </div>
           </div>

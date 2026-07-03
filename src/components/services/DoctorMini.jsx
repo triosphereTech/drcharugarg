@@ -75,7 +75,7 @@ const DoctorMini = ({ data }) => {
             {/* RIGHT */}
             <button className="group flex w-fit items-center gap-2 rounded-2xl bg-[#131C15] px-6 py-3.5 text-sm font-medium text-white transition-all duration-300 hover:bg-[#058FD2] active:scale-95">
 
-              Contact
+              Contact Us
 
               <ArrowUpRight
                 size={16}

@@ -157,10 +157,10 @@ const ContactFormSection = () => {
       <div>
         <p className="font-medium text-[#131C15]">Email</p>
         <a
-          href="mailto:chgarg199@gmail.com"
+          href="mailto:teleconsult.drcharugarg@gmail.com"
           className="mt-1 block text-sm text-gray-600 transition-colors hover:text-primary-accent"
         >
-          chgarg199@gmail.com
+          teleconsult.drcharugarg@gmail.com
         </a>
       </div>
     </div>

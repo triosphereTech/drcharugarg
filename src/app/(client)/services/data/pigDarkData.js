@@ -10,11 +10,11 @@ heroSection: {
  badge: "Pigmentation Treatment",
 
 
- title: "Restore skin clarity and confidence with targeted care for pigmentation concerns.",
+ title: "Struggling With Pigmentation Or Dark Spots?",
 
 
  description:
-   "Get clear, science-based treatment for melasma, dark spots, uneven skin tone, and stubborn pigmentation concerns with personalized dermatology care.",
+   "Restore skin clarity and confidence with targeted care for pigmentation concerns.",
 
 
  image:
@@ -107,7 +107,7 @@ items: [
 
 
  whyThisHappenSection: {
-   badge: "Pigmentation Analysis",
+   badge: "Contributing Factors",
 
 
    title: "Why Pigmentation Develops",
@@ -221,7 +221,7 @@ items: [
        icon: "assessment",
 
 
-       title: "Identify Pigmentation Type",
+       title: "Expert Assessment",
 
 
        description:

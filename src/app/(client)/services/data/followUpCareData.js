@@ -10,7 +10,7 @@ export const followUpCareData = {
 
 heroSection: {
  badge: "Ongoing Care & Follow-Up",
-
+showFloatingCard: false,
 
  title: "Better Results Come with Consistent Follow-Up Care",
 

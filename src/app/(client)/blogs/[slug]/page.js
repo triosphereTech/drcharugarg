@@ -360,7 +360,7 @@ function DynamicSection({ section, dark = false }) {
 function DynamicBlogSections({ blog }) {
   return (
     <>
-      <p className="text-lg text-slate-700 leading-[1.85] border-l-4 border-[#058FD2] pl-5">
+      <p className="text-lg text-slate-700 leading-[1.85] border-l-4 border-[#058FD2] pl-5 mb-5">
         {blog.intro}
       </p>
 

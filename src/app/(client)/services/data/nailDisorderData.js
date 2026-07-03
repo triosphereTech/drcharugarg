@@ -101,7 +101,7 @@ items: [
 
 
  whyThisHappenSection: {
-   badge: "Nail Condition Analysis",
+   badge: "Contributing Factors",
 
 
    title: "Why Nail Disorders Develop",
@@ -286,7 +286,7 @@ treatmentScopeSection: {
        icon: "assessment",
 
 
-       title: "Identify Likely Cause",
+       title: "Expert Assessment",
 
 
        description:
