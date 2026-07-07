@@ -18,7 +18,7 @@ const HOTW = ({ data }) => {
       {/* Blur */}
       <div className="absolute right-0 top-0 h-[320px] w-[320px] rounded-full bg-[#eef7fb] blur-[120px]" />
 
-      <div className="relative mx-auto max-w-7xl px-3 pt-5 md:px-5 md:pt-20">
+      <div className="relative mx-auto max-w-7xl px-3 pt-5 md:px-5 lg:pt-20">
         {/* Heading */}
         <div className="mx-auto max-w-[920px] text-center">
           {/* Badge */}
@@ -90,12 +90,12 @@ const HOTW = ({ data }) => {
           </div>
 
           {/* Cards */}
-          <div className="grid gap-10 lg:grid-cols-3">
+          <div className="grid gap-10 grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
             {data.steps?.map((item, index) => (
               <div
                 key={index}
                 className={`group relative flex flex-col items-center text-center ${
-                  index === 1 ? "lg:mt-10" : "mt-10"
+                  index === 1 ? "lg:mt-10" : "mt-0"
                 }`}
               >
                 {/* Circle */}

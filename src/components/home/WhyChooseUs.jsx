@@ -55,71 +55,62 @@ const valuesData = [
 function WhyChooseUs() {
   return (
     <>
-      <section className="px-4 pt-10 md:px-5 md:pt-20">
+      <section className="px-4 py-10 md:px-5 md:py-0 md:pt-20">
         <div className="">
           {/* TOP */}
           <div className="text-center">
             {/* LABEL */}
-            <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-2">
               <div className="h-2 w-2 rounded-full bg-primary-accent" />
 
-              <p className="text-xs font-semibold uppercase tracking-[2px] text-primary-accent">
+              <p className="text-xs md:text-xs font-semibold uppercase tracking-[2px] text-primary-accent">
                 Why Choose Us
               </p>
             </div>
 
             {/* HEADING */}
             <div className="pt-6">
-              <h2 className="text-4xl md:text-5xl font-semibold leading-[105%] tracking-[-2px] text-primary-dark">
+              <h2 className="text-3xl md:text-5xl font-semibold leading-[105%] text-primary-dark">
                 Built Around
                 <span className="block text-primary-accent">
                   Care & Clinical Excellence
                 </span>
               </h2>
             </div>
-
-            {/* TEXT */}
-            {/* <div className="text-center pt-6">
-              <p className="text-sm font-medium leading-[190%] text-primary-dark/60 md:text-[16px]">
-                Quality dermatology care with a patient-first approach,
-                advanced treatments, and trusted clinical expertise.
-              </p>
-            </div> */}
           </div>
 
           {/* CARDS */}
-          {/* CARDS */}
-<div className="grid gap-4 pt-14 md:grid-cols-2 xl:grid-cols-3">
-  {valuesData.map((item, index) => (
-    <div
-      key={index}
-      className="group rounded-[30px] bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
-    >
-      {/* TOP */}
-      <div className="flex items-center justify-between gap-5">
-        {/* TITLE */}
-        <div className="max-w-[220px]">
-          <h3 className="text-2xl font-semibold leading-[120%]  text-primary-dark">
-            {item.title}
-          </h3>
-        </div>
+          <div className="grid grid-cols-2 gap-3 pt-8 md:grid-cols-2 md:gap-4 md:pt-14 xl:grid-cols-3">
+            {valuesData.map((item, index) => (
+              <div
+                key={index}
+                className="group rounded-[18px] bg-white p-3 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg md:rounded-[30px] md:p-5"
+              >
+                {/* TOP */}
+                <div className="flex items-center justify-between gap-2 md:gap-5">
+                  {/* TITLE */}
+                  <div className="max-w-[220px]">
+                    <h3 className="text-sm font-semibold leading-[120%] text-primary-dark md:text-2xl">
+                      {item.title}
+                    </h3>
+                  </div>
 
-        {/* ICON */}
-        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[20px] bg-[#eef7fb] text-[24px] text-primary-accent transition-all duration-300 group-hover:bg-primary-accent group-hover:text-white">
-          {item.icon}
-        </div>
-      </div>
+                  {/* ICON */}
+                  <div className="hidden md:flex h-9 w-9 shrink-0 items-center justify-center rounded-[12px] bg-[#eef7fb] text-[16px] text-primary-accent transition-all duration-300 group-hover:bg-primary-accent group-hover:text-white md:h-14 md:w-14 md:rounded-[20px] md:text-[24px]">
+                    {item.icon}
+                  </div>
+                </div>
 
-      {/* LINE */}
-      <div className="mt-2 h-px w-full bg-black/5" />
+                {/* LINE */}
+                <div className="mt-2 h-px w-full bg-black/5" />
 
-      {/* DESCRIPTION */}
-      <p className="pt-6 text-md font-medium leading-[190%] text-primary-dark/60 md:text-[15px]">
-        {item.description}
-      </p>
-    </div>
-  ))}
-</div>
+                {/* DESCRIPTION */}
+                <p className="pt-2 text-xs font-medium leading-[160%] text-primary-dark/60 md:pt-6 md:text-[15px] md:leading-[190%] md:text-md">
+                  {item.description}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </>

@@ -35,13 +35,10 @@ const Reviews = () => {
   const duplicatedReviews = [...reviews, ...reviews];
 
   return (
-    <section className="relative overflow-hidden py-20">
+    <section className="relative overflow-hidden py-10 md:py-20">
 
-      {/* Background */}
-      {/* <div className="absolute inset-0 bg-gradient-to-b from-white via-[#f8fbfd] to-white" /> */}
-
-      {/* Right Glow */}
-      {/* <div className="absolute right-[-120px] top-1/2 h-[500px] w-[500px] -translate-y-1/2 rounded-full bg-[#cdefff] opacity-80 blur-[160px]" /> */}
+      {/* Right Fade — direct child of <section>, so right-0 always lands on the true edge */}
+      <div className="hidden lg:block pointer-events-none absolute right-0 top-0 z-20 h-full w-24 md:w-40 bg-linear-to-l from-[#3eabae] via-[#3eabae]/50 to-transparent" />
 
       <div className="relative mx-auto px-5 md:px-8 lg:px-0">
 
@@ -58,105 +55,113 @@ const Reviews = () => {
 
           </div>
 
-          <h2 className="mt-6 text-4xl font-semibold leading-[1.1] text-white md:text-5xl lg:text-[58px]">
+          <h2 className="mt-6 text-3xl font-semibold leading-[1.1] text-white md:text-5xl lg:text-[58px]">
             Words from Our Patients
           </h2>
-
-          
 
         </div>
 
         {/* Reviews */}
-        <div className="relative mt-16">
+        <div className="relative mt-5 md:mt-16">
 
-          {/* Left Fade */}
-  {/* <div className="pointer-events-none absolute left-0 top-0 z-20 h-full w-24 md:w-40 bg-gradient-to-r from-[#2d6fa6] via-[#2d6fa6]/90 to-transparent" /> */}
+          {/* Mobile: plain swipeable row, no animation. Desktop (lg+): original auto-scrolling marquee */}
+          <div className="marquee-wrap overflow-x-auto lg:overflow-visible snap-x snap-mandatory lg:snap-none">
+            <div className="marquee rounded-2xl flex gap-4 lg:gap-6">
 
-  {/* Right Fade */}
-  <div className="pointer-events-none absolute right-0 top-0 z-20 h-full w-24 md:w-40 bg-gradient-to-l from-[#3eabae] via-[#3eabae]/50 to-transparent" />
+              {duplicatedReviews.map((item, index) => (
 
-          {/* Right Fade Only */}
-          {/* <div className="absolute right-[-40] top-0 z-10 h-full w-20    md:w-50 bg-gradient-to-l from-[#3eabae] via-[#3eabae]/90 to-transparent" /> */}
+                <div
+                  key={index}
+                  className={`snap-start shrink-0 min-w-[250px] max-w-[250px] lg:min-w-[360px] lg:max-w-[360px] rounded-[20px] lg:rounded-[34px] border border-[#dceaf3] bg-[#fbfdfe] p-4 lg:p-7 shadow-[0_10px_40px_rgba(15,23,42,0.04)] transition-all duration-300 lg:hover:-translate-y-1 ${
+                    index >= reviews.length ? "hidden lg:block" : ""
+                  }`}
+                >
 
-          <div className="marquee rounded-2xl flex gap-6">
+                  {/* Quote Icon */}
+                  <div className="flex items-center justify-between">
 
-            {duplicatedReviews.map((item, index) => (
+                    <div className="flex h-7 w-7 lg:h-8 lg:w-8 opacity-40 items-center justify-center rounded-2xl text-[#058FD2]">
 
-              <div
-                key={index}
-                className="min-w-[360px] max-w-[360px] rounded-[34px] border border-[#dceaf3] bg-[#fbfdfe] p-7 shadow-[0_10px_40px_rgba(15,23,42,0.04)] transition-all duration-300 hover:-translate-y-1"
-              >
-
-                {/* Quote Icon */}
-                <div className="flex items-center justify-between">
-
-                  <div className="flex h-8 w-8 opacity-40 items-center justify-center rounded-2xl text-[#058FD2]">
-
-                    <Quote size={27} strokeWidth={2} />
-
-                  </div>
-
-                </div>
-
-                {/* Review Text */}
-                <p className="mt-6 text-[15px] leading-8 text-[#5f6c82]">
-                  "{item.review}"
-                </p>
-
-                {/* Divider */}
-                <div className="mt-6 h-px bg-[#e6eef3]" />
-
-                {/* Bottom */}
-                <div className="mt-6 flex items-center justify-between">
-
-                  <div className="flex items-center gap-4">
-
-                    {/* Avatar */}
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#eef7fb] text-lg font-semibold text-[#058FD2]">
-                      {item.name.charAt(0)}
-                    </div>
-
-                    <div>
-
-                      <h3 className="font-semibold text-[#131C15]">
-                        {item.name}
-                      </h3>
-
-                      <p className="mt-1 text-sm text-[#667085]">
-                        Verified Patient
-                      </p>
+                      <Quote className="w-5 h-5 lg:w-[27px] lg:h-[27px]" strokeWidth={2} />
 
                     </div>
 
                   </div>
 
-                  {/* Small Quote */}
-                  <div className="text-[#058FD2] opacity-60">
+                  {/* Review Text */}
+                  <p className="mt-4 lg:mt-6 text-sm leading-6 lg:text-[15px] lg:leading-8 text-[#5f6c82]">
+                    "{item.review}"
+                  </p>
 
-                    <Quote
-                      size={18}
-                      strokeWidth={2}
-                    />
+                  {/* Divider */}
+                  <div className="mt-4 lg:mt-6 h-px bg-[#e6eef3]" />
+
+                  {/* Bottom */}
+                  <div className="mt-4 lg:mt-6 flex items-center justify-between">
+
+                    <div className="flex items-center gap-3 lg:gap-4">
+
+                      {/* Avatar */}
+                      <div className="flex h-10 w-10 lg:h-12 lg:w-12 items-center justify-center rounded-full bg-[#eef7fb] text-base lg:text-lg font-semibold text-[#058FD2]">
+                        {item.name.charAt(0)}
+                      </div>
+
+                      <div>
+
+                        <h3 className="text-sm lg:text-base font-semibold text-[#131C15]">
+                          {item.name}
+                        </h3>
+
+                        <p className="mt-1 text-xs lg:text-sm text-[#667085]">
+                          Verified Patient
+                        </p>
+
+                      </div>
+
+                    </div>
+
+                    {/* Small Quote */}
+                    <div className="text-[#058FD2] opacity-60">
+
+                      <Quote
+                        className="w-3.5 h-3.5 lg:w-[18px] lg:h-[18px]"
+                        strokeWidth={2}
+                      />
+
+                    </div>
 
                   </div>
 
                 </div>
-
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 
       </div>
 
       <style jsx>{`
-        .marquee {
-          width: max-content;
-          animation: scroll 42s linear infinite;
+        .marquee-wrap {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+        .marquee-wrap::-webkit-scrollbar {
+          display: none;
         }
 
-        .marquee:hover {
-          animation-play-state: paused;
+        .marquee {
+          width: auto;
+        }
+
+        @media (min-width: 1024px) {
+          .marquee {
+            width: max-content;
+            animation: scroll 42s linear infinite;
+          }
+
+          .marquee:hover {
+            animation-play-state: paused;
+          }
         }
 
         @keyframes scroll {

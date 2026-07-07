@@ -170,9 +170,9 @@ const AboutHero = () => {
     <section className="relative overflow-hidden bg-white">
       {/* Background blobs */}
       <div className="absolute inset-0">
-        <div className="absolute -top-32 left-0 h-[500px] w-[500px] rounded-full bg-sky-100 blur-3xl opacity-70" />
-        <div className="absolute top-20 right-0 h-[450px] w-[450px] rounded-full bg-emerald-100 blur-3xl opacity-60" />
-        <div className="absolute bottom-0 left-1/2 h-[300px] w-[300px] -translate-x-1/2 rounded-full bg-cyan-100 blur-3xl opacity-50" />
+        <div className="absolute hidden md:block -top-32 left-0 h-[500px] w-[500px] rounded-full bg-sky-100 blur-3xl opacity-70" />
+        <div className="absolute hidden md:block top-20 right-0 h-[450px] w-[450px] rounded-full bg-emerald-100 blur-3xl opacity-60" />
+        <div className="absolute hidden md:block bottom-0 left-1/2 h-[300px] w-[300px] -translate-x-1/2 rounded-full bg-cyan-100 blur-3xl opacity-50" />
       </div>
 
       <div className="relative mx-auto max-w-7xl px-6 pt-28 pb-16 lg:px-8">

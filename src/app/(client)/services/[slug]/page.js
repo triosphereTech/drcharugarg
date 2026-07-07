@@ -36,13 +36,13 @@ const Page = async ({ params }) => {
    <>
    <div className="">
    {data.heroSection && (
- <ServiceHero data={data.heroSection} />
-)}
+      <ServiceHero data={data.heroSection} />
+   )}
 
 
-{data.lookLikeSection && (
- <LookLike data={data.lookLikeSection} />
-)}
+  {data.lookLikeSection && (
+  <LookLike data={data.lookLikeSection} />
+  )}
 
 
 {slug === "follow-up-care" ? (

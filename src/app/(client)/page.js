@@ -21,13 +21,13 @@ export default function Home() {
           <About />
         </section>
 
-        
+
 
         <section
-          className="mx-auto my-16 max-w-7xl rounded-4xl bg-linear-[120deg] from-[#315e95] via-[#039bd3] to-[#50b1a2] py-10"
+          className="mx-auto my-8 md:my-16 max-w-7xl rounded-4xl bg-linear-[120deg] from-[#315e95] via-[#039bd3] to-[#50b1a2] pb-5"
           id="services"
         >
-          <div className="px-8">
+          <div className="px-3 md:px-8">
             <Services />
           </div>
         </section>
@@ -44,8 +44,8 @@ export default function Home() {
     <BookingSection/>
     </section> */}
 
-        <section className="bg-linear-[120deg] from-[#315e95] via-[#039bd3] to-[#50b1a2] py-10 md:my-16 max-w-7xl mx-auto rounded-4xl" id="services">
-          <div className="px-8" id="blogs">
+        <section className="bg-linear-[120deg] from-[#315e95] via-[#039bd3] to-[#50b1a2] py-1 md:py-1 pb-10 md:pb-10 md:my-16 max-w-7xl mx-auto rounded-4xl" id="services">
+          <div className="px-3 md:px-8" id="blogs">
             <LatestArticles />
           </div>
         </section>
@@ -55,7 +55,7 @@ export default function Home() {
         </section>
 
         <section className="bg-linear-[120deg] from-[#315e95] via-[#039bd3] to-[#50b1a2]" id="services">
-          <div className="px-8">
+          <div className="px-0 md:px-3 md:px-8">
             <Reviews />
           </div>
         </section>
@@ -63,7 +63,7 @@ export default function Home() {
         <section className="max-w-7xl mx-auto" id="faqs">
           <OnlineConsultationFAQ />
         </section>
-        <section className="max-w-7xl mx-auto pt-20" id="cta">
+        <section className="max-w-7xl mx-auto pt-10 lg:pt-20" id="cta">
           <AboutCTA />
         </section>
       </div>

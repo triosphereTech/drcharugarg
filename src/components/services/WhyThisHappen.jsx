@@ -33,7 +33,7 @@ const WhyThisHappen = ({ data }) => {
      {/* <div className="absolute left-0 top-30 h-80 w-[320px] rounded-full bg-[#dff2fc] blur-[110px]" /> */}
 
 
-     <div className="relative mx-auto max-w-7xl px-3 pt-10 md:px-5 md:pt-10">
+     <div className="relative mx-auto max-w-7xl px-3 pt-0 md:px-5 lg:pt-10">
        <div className="grid gap-10 lg:grid-cols-[0.95fr_1fr] lg:items-center lg:gap-16">
          {/* LEFT */}
          <div>
@@ -49,7 +49,7 @@ const WhyThisHappen = ({ data }) => {
 
 
            {/* Heading */}
-           <h2 className="max-w-[620px] text-3xl font-semibold leading-[1.05] tracking-[-0.04em] text-white md:text-4xl lg:text-5xl">
+           <h2 className="max-w-[620px] text-3xl font-semibold leading-[1.05] text-white md:text-4xl lg:text-5xl">
              {data.title}
            </h2>
 
@@ -61,7 +61,7 @@ const WhyThisHappen = ({ data }) => {
 
 
            {/* Compact Points */}
-           <div className="mt-10 grid grid-cols-2 gap-4">
+           <div className="mt-10 grid gird-cols-1 md:grid-cols-2 gap-4">
              {data.points?.map((item, index) => (
                <div
                  key={index}
@@ -77,7 +77,7 @@ const WhyThisHappen = ({ data }) => {
                  </div>
 
 
-                 <p className=" text-[14px] leading-7 text-[#272727]">
+                 <p className="text-[14px] leading-7 text-[#272727]">
                    {item.description}
                  </p>
                </div>

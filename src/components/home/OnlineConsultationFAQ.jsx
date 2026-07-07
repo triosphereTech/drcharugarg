@@ -58,8 +58,6 @@ const OnlineConsultationFAQ = () => {
       <div className="relative mx-auto max-w-[1280px]">
         <div className="grid items-start gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:gap-14 xl:gap-20">
           {/* Left Content */}
-          {/* Left Content */}
-          {/* Left Content */}
           <div className="lg:sticky lg:top-24 h-fit">
             <p className="mb-3 text-sm font-medium uppercase tracking-[0.22em] text-[#058FD2]">
               FAQs
@@ -80,7 +78,7 @@ const OnlineConsultationFAQ = () => {
             </div>
 
             {/* CTA Card */}
-            <div className="mt-6 rounded-[34px] bg-[#0F3D73] px-8 py-8">
+            <div className=" mt-6 rounded-[34px] bg-[#0F3D73] px-8 py-8">
               <h3 className="text-3xl font-semibold text-white">
                 Any Inquiries?
               </h3>

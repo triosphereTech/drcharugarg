@@ -27,7 +27,7 @@ const LookLike = ({ data }) => {
           </div>
 
           {/* Heading */}
-          <h2 className="text-3xl font-semibold leading-[1.05] text-[#131C15] md:text-5xl lg:text-[4  2px]">
+          <h2 className="text-3xl px-2 font-semibold leading-[1.05] text-[#131C15] md:text-5xl lg:text-[4  2px]">
             {data.title}
           </h2>
 
@@ -38,7 +38,7 @@ const LookLike = ({ data }) => {
         </div>
 
         {/* MAIN GRID */}
-        <div className="mt-16 grid gap-5 md:grid-cols-2 xl:grid-cols-5">
+        <div className="my-10 grid gap-5 md:grid-cols-2 xl:grid-cols-5">
 
           {data.items?.map((item, index) => (
 
@@ -51,7 +51,7 @@ const LookLike = ({ data }) => {
               <div className="absolute right-0 top-0 h-32 w-32 rounded-full bg-[#eef7fb] opacity-0 blur-3xl transition-all duration-500 group-hover:opacity-100" />
 
               {/* Image */}
-              <div className="relative overflow-hidden p-3">
+              <div className="relative overflow-hidden p-2">
 
                 <div className="overflow-hidden rounded-[20px]">
 
@@ -68,7 +68,7 @@ const LookLike = ({ data }) => {
 
                 
                 {/* Title */}
-                <h3 className="mt-5 text-[22px] font-semibold leading-snug tracking-[-0.02em] text-[#131C15]">
+                <h3 className="mt-2 text-[22px] font-semibold leading-snug tracking-[-0.02em] text-[#131C15]">
                   {item.label}
                 </h3>
 

@@ -43,14 +43,14 @@ export const blogs = [
 
 const LatestArticles = () => {
  return (
-   <section className="px-4 mt-10 md:px-5 md:pt-0">
+   <section className="px-0 mt-10 md:px-5 md:pt-0">
      <div>
        {/* Header */}
-<div className=" flex flex-col items-center justify-center text-center md:mb-14">
+<div className=" flex flex-col items-center justify-center text-center">
   
-  <h2 className="mb-6 text-4xl md:text-5xl font-semibold leading-tight text-white lg:text-5xl">
+  <span className="mb-6 text-4xl md:text-5xl font-semibold leading-tight text-white lg:text-5xl">
   Our Blogs
-  </h2>
+  </span>
 </div>
 
 
@@ -118,7 +118,7 @@ const LatestArticles = () => {
 
 
                {/* Desc */}
-               <p className="mb-7 line-clamp-3 text-[15px] leading-7 text-[#667085]">
+               <p className="mb-0 line-clamp-3 text-[15px] leading-7 text-[#667085]">
                  {blog.desc}
                </p>
 

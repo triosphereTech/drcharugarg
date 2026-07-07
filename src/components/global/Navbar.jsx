@@ -125,7 +125,7 @@ const Navbar = () => {
       : "absolute translate-y-0 bg-white opacity-100 scale-100"
   }`}
 >
-  <div className="flex h-[62px] items-center rounded-[30px] bg-white/30 px-4 backdrop-blur-xl transition-all duration-500 ease-in-out md:h-[84px] md:px-7 xl:px-10">
+  <div className="flex mt-2 h-[62px] items-center rounded-[30px] bg-white/65 px-4 backdrop-blur-md transition-all duration-500 ease-in-out md:h-[84px] md:px-7 xl:px-10">
     
     {/* LEFT */}
     {/* LEFT */}
@@ -136,7 +136,7 @@ const Navbar = () => {
   <img
     src={Logo.src}
     alt="Dr Charu Garg Clinic"
-    className="h-16 w-auto object-contain md:h-20 xl:h-18"
+    className="h-12 w-auto object-contain md:h-20 xl:h-18"
   />
 </Link>
 
@@ -209,69 +209,62 @@ const Navbar = () => {
           }`}
         >
           {/* INNER WRAPPER */}
-          <div className="flex h-full flex-col px-3 pt-3">
-            {/* TOP NAV */}
-            <div className="flex h-[72px] items-center justify-between rounded-[30px] border border-black/[0.04] bg-white py-4 px-4">
-              {/* LEFT */}
-              <Link href="/" className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-primary-dark text-[18px] font-semibold text-white">
-                  D
-                </div>
+          {/* INNER WRAPPER */}
+<div className="flex h-full flex-col px-3 pt-3">
+  {/* TOP NAV */}
+  <div className="flex h-[72px] items-center justify-between rounded-[30px] border border-black/[0.04] bg-white py-4 px-4">
+    {/* LEFT */}
+    <Link href="/" className="flex items-center gap-3">
+      
 
-                <div>
-                  <h2 className="text-[18px] font-semibold tracking-[-0.5px] text-primary-dark">
-                    Dr Charu Garg
-                  </h2>
+      <div>
+        <img
+          src={Logo.src}
+          alt="Dr Charu Garg Clinic"
+          className="h-12 w-auto object-contain md:h-14"
+        />
+      </div>
+     
+    </Link>
 
-                  <p className="text-[13px] font-medium text-primary-dark/45">
-                    Dermatology
-                  </p>
-                </div>
-              </Link>
+    {/* CLOSE BUTTON */}
+    <button
+      onClick={() => setOpenMenu(false)}
+      className="flex h-11 w-11 items-center justify-center rounded-full bg-primary-dark text-white"
+    >
+      <IoCloseOutline className="text-[28px]" />
+    </button>
+  </div>
 
-              {/* CLOSE BUTTON */}
-              <button
-                onClick={() => setOpenMenu(false)}
-                className="flex h-11 w-11 items-center justify-center rounded-full bg-primary-dark text-white"
-              >
-                <IoCloseOutline className="text-[28px]" />
-              </button>
-            </div>
+  {/* NAVIGATION — now scrollable so it never overflows/hides the bottom card on shorter screens */}
+  <div className="flex min-h-0 flex-1 flex-col justify-between overflow-y-auto pt-8">
+    {/* LINKS */}
+    <div className="flex flex-col gap-2">
+      {navLinks.map((item, index) => (
+        <Link
+          key={index}
+          href={item.href}
+          onClick={() => setOpenMenu(false)}
+          className="flex items-center justify-between rounded-[28px] bg-white px-5 py-5"
+        >
+          <span className="text-[28px] font-semibold leading-none text-primary-dark">
+            {item.label}
+          </span>
 
-            {/* NAVIGATION */}
-            <div className="flex flex-1 flex-col justify-between pt-8">
-              {/* LINKS */}
-              <div className="flex flex-col gap-2">
-                {navLinks.map((item, index) => (
-                  <Link
-                    key={index}
-                    href={item.href}
-                    onClick={() => setOpenMenu(false)}
-                    className="flex items-center justify-between rounded-[28px] bg-white px-5 py-5"
-                  >
-                    <span className="text-[32px] font-semibold leading-none tracking-[-1.8px] text-primary-dark">
-                      {item.label}
-                    </span>
+          <HiArrowUpRight className="text-[24px] text-primary-dark" />
+        </Link>
+      ))}
+    </div>
 
-                    <HiArrowUpRight className="text-[24px] text-primary-dark" />
-                  </Link>
-                ))}
-              </div>
-
-              {/* BOTTOM CARD */}
-              <div className="mb-3 mt-8 rounded-[32px] border border-black/[0.04] bg-white p-5">
-                {/* <p className="text-[15px] font-medium leading-[170%] text-primary-dark/55">
-                  Advanced dermatology care focused on healthy skin, confidence,
-                  and long-term wellness.
-                </p> */}
-
-                <a id="#booking" className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-primary-dark py-4 text-[16px] font-medium text-white">
-                  Book Appointment
-                  <HiArrowUpRight className="text-[20px]" />
-                </a>
-              </div>
-            </div>
-          </div>
+    {/* BOTTOM CARD */}
+    <div className="mb-5 shrink-0">
+      <a id="#booking" className="flex w-full items-center justify-center gap-2 rounded-full bg-primary-dark py-4 text-[16px] font-medium text-white">
+        Book Appointment
+        <HiArrowUpRight className="text-[20px]" />
+      </a>
+    </div>
+  </div>
+</div>
         </div>
       </div>
     </>

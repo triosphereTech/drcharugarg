@@ -5,7 +5,7 @@ import Charu from "../../../public/images/DrDesk.jpg";
 
 const AppointmentCTA = () => {
   return (
-    <section className="pt-8 md:pt-12">
+    <section className="pt-2 px-5 md:px-0 md:pt-12">
       <div className="relative overflow-hidden rounded-[36px] border border-[#7DD3FC] bg-white">
         {/* Right Background Image */}
         <div className="absolute inset-y-0 right-0 hidden w-[52%] lg:block">
@@ -53,27 +53,28 @@ const AppointmentCTA = () => {
             </div>
 
             {/* Buttons */}
-            <div className="mt-5 flex flex-wrap gap-3">
-              <Link
-                href="/book-appointment"
-                className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#058FD2] to-[#16C7B7] px-5 py-2.5 transition-all duration-300 hover:scale-[1.03] hover:shadow-lg"
-              >
-                <span className="text-sm font-semibold text-white">
-                  Book Consultation
-                </span>
+            {/* Buttons */}
+<div className="mt-5 flex flex-col gap-3 md:flex-row md:flex-wrap">
+  <Link
+    href="/book-appointment"
+    className="group inline-flex w-full md:w-auto items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#058FD2] to-[#16C7B7] px-5 py-2.5 transition-all duration-300 hover:scale-[1.03] hover:shadow-lg"
+  >
+    <span className="text-sm font-semibold text-white">
+      Book Consultation
+    </span>
 
-                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white">
-                  <HiArrowUpRight className="text-[#058FD2] transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                </div>
-              </Link>
+    <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white">
+      <HiArrowUpRight className="text-[#058FD2] transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+    </div>
+  </Link>
 
-              <Link
-                href="/contact"
-                className="rounded-full border border-[#A9E7FF] bg-white/80 px-5 py-2.5 text-sm font-semibold text-[#058FD2] backdrop-blur-md transition hover:bg-white"
-              >
-                Contact Us
-              </Link>
-            </div>
+  <Link
+    href="/contact"
+    className="inline-flex w-full md:w-auto items-center justify-center rounded-full border border-[#A9E7FF] bg-white/80 px-5 py-2.5 text-sm font-semibold text-[#058FD2] backdrop-blur-md transition hover:bg-white"
+  >
+    Contact Us
+  </Link>
+</div>
           </div>
 
           {/* Spacer for desktop image */}

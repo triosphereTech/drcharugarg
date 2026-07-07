@@ -8,7 +8,7 @@ import { FaFlask, FaShieldAlt, FaUserMd } from "react-icons/fa";
 
 const ServiceHero = ({ data }) => {
   return (
-    <section className="relative overflow-hidden bg-linear-[120deg] from-[#315e95] via-[#039bd3] to-[#50b1a2] pt-5 pb-14 md:pb-20 md:pt-36 ">
+    <section className="relative overflow-hidden bg-linear-[120deg] from-[#315e95] via-[#039bd3] to-[#50b1a2] pt-28 pb-14 md:pb-20 md:pt-36 ">
       {/* Background Blur */}
       <div className="absolute -left-55 top-0 h-[300px] w-[300px] rounded-full bg-[#095c88] blur-[100px]" />
 
@@ -25,7 +25,7 @@ const ServiceHero = ({ data }) => {
           </div>
 
           {/* Heading */}
-          <h1 className="max-w-[700px] text-4xl font-semibold leading-[1.15]  text-white md:text-5xl lg:text-5xl">
+          <h1 className="max-w-auto text-4xl font-semibold leading-[1.15] text-white md:text-5xl lg:text-5xl">
             {data.title}
           </h1>
 
@@ -54,16 +54,6 @@ const ServiceHero = ({ data }) => {
             >
               Book Appointment
             </Link>
-
-            {/* <button className="group flex items-center gap-2 rounded-full border border-[#dbe7ee] bg-white px-6 py-3.5 text-sm font-medium text-[#131C15] transition-all duration-300 hover:border-[#058FD2] hover:text-[#058FD2]">
-             Learn More
-
-
-             <ArrowRight
-               size={16}
-               className="transition-transform duration-300 group-hover:translate-x-1"
-             />
-           </button> */}
           </div>
 
           {/* Bottom Stats */}

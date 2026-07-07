@@ -61,7 +61,7 @@ const TreatmentScope = ({ data }) => {
 
       <div className="relative mx-auto max-w-7xl px-3 pt-10 md:px-5 md:pt-20">
         {/* TOP */}
-        <div className="max-w-[900px]">
+        <div className="max-w-auto px-2">
           {/* Badge */}
           <div className="mb-5 flex w-fit items-center gap-2 rounded-full border border-[#dceaf3] bg-[#f8fcfe] px-4 py-2">
             <div className="h-2 w-2 rounded-full bg-[#058FD2]" />
@@ -78,7 +78,7 @@ const TreatmentScope = ({ data }) => {
         </div>
 
         {/* TABLES */}
-        <div className="mt-16 grid gap-6 xl:grid-cols-3">
+        <div className="mt-6 lg:mt-16 grid gap-6 xl:grid-cols-3">
           {data.tables?.map((table, index) => (
             <div
               key={index}
@@ -101,7 +101,7 @@ const TreatmentScope = ({ data }) => {
 
               {/* CONTENT */}
               <div className="p-4">
-                <div className="grid gap-3 xl:grid-cols-1 2xl:grid-cols-2">
+                <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2">
                   {table.items?.map((item, i) => (
                     <div
                       key={i}

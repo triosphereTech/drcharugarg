@@ -76,7 +76,7 @@ function Services() {
   return (
     <>
       {/* SERVICES */}
-      <section className="px-4  md:px-5">
+      <section className="px-0 md:px-5">
         <div className="">
           {/* TOP */}
           <div className="mx-auto text-center">
@@ -117,7 +117,7 @@ function Services() {
           </div>
 
           {/* SERVICES GRID */}
-          <div className="grid gap-5 pt-14 md:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-5 pt-5 md:pt-14 md:grid-cols-2 xl:grid-cols-3">
             {servicesData.map((item, index) => (
               <Link
                 href={item.link}
@@ -137,7 +137,7 @@ function Services() {
                 <div className="pt-6">
                   {/* TITLE */}
                   <div className="">
-                    <h3 className="text-3xl font-semibold leading-[115%] text-primary-dark">
+                    <h3 className="text-2xl lg:text-3xl font-semibold leading-[115%] text-primary-dark">
                       {item.title}
                     </h3>
 

@@ -9,7 +9,7 @@ const OurJourney = () => {
   return (
     <section className="py-16 lg:py-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="grid gap-14 lg:grid-cols-2">
+        <div className="grid md:gap-14 lg:grid-cols-2">
           {/* LEFT CONTENT */}
           <div>
             <h2 className="mb-5 text-4xl font-semibold leading-[105%] text-primary-dark md:text-5xl">
@@ -19,7 +19,16 @@ const OurJourney = () => {
               </span>
             </h2>
 
-            <div className="space-y-6 text-lg leading-8 text-gray-600">
+            <div className="block md:hidden overflow-hidden rounded-[32px]">
+              <Image
+                src={JourneyImage}
+                alt="Dr. Charu"
+                priority
+                className="h-auto w-full max-w-[520px] object-cover"
+              />
+            </div>
+
+            <div className=" space-y-6 text-lg mt-10 leading-8 text-gray-600">
               <p>
                 My journey in dermatology began with a fascination for the way
                 skin reflects our health, lifestyle, and individuality. I was
@@ -58,7 +67,7 @@ const OurJourney = () => {
           {/* RIGHT SIDE */}
           <div className="flex flex-col items-center lg:items-end">
             {/* IMAGE */}
-            <div className="overflow-hidden rounded-[32px]">
+            <div className="hidden md:block overflow-hidden rounded-[32px]">
               <Image
                 src={JourneyImage}
                 alt="Dr. Charu"
@@ -77,13 +86,13 @@ const OurJourney = () => {
                 <Image
                   src={BadgeOne}
                   alt="Alok Clinic"
-                  className="h-auto w-44 object-contain lg:w-48"
+                  className="h-auto w-32 md:w-44 object-contain lg:w-48"
                 />
 
                 <Image
                   src={BadgeTwo}
                   alt="GMC Surat"
-                  className="h-auto w-44 object-contain lg:w-48"
+                  className="h-auto w-32 md:w-44 object-contain lg:w-48"
                 />
               </div>
             </div>

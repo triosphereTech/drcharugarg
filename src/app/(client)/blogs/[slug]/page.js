@@ -148,7 +148,7 @@ function BlogOneSections({ blog }) {
         </section>
       )}
 
-      <hr className="my-10 border-slate-200" />
+      {/* <hr className="my-10 border-slate-200" /> */}
 
 {whyUsSection && (
   <section>
@@ -442,7 +442,7 @@ export default async function BlogPage({ params }) {
       )}
 
       {/* ─── ARTICLE BODY ─────────────────────────────────────────────── */}
-      <article className="max-w-3xl mx-auto px-5 py-12">
+      <article className="max-w-3xl mx-auto px-5 py-5">
 
         {isBlogOne
           ? <BlogOneSections blog={blog} />
