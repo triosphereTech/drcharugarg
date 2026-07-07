@@ -8,6 +8,8 @@ import { HiArrowUpRight } from "react-icons/hi2";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "@/redux/features/userSlice";
 import Logo from "../../../public/images/brand/LogoTop.png"
+import { GoArrowUpRight } from "react-icons/go";
+
 
 
 const Navbar = () => {
@@ -125,7 +127,7 @@ const Navbar = () => {
       : "absolute translate-y-0 bg-white opacity-100 scale-100"
   }`}
 >
-  <div className="flex mt-2 h-[62px] items-center rounded-[30px] bg-white/65 px-4 backdrop-blur-md transition-all duration-500 ease-in-out md:h-[84px] md:px-7 xl:px-10">
+  <div className="flex mt-2 h-[62px] items-center rounded-[30px] bg-white/65 px-1 backdrop-blur-md transition-all duration-500 ease-in-out md:h-[84px] md:px-7 xl:px-10">
     
     {/* LEFT */}
     {/* LEFT */}
@@ -184,10 +186,16 @@ const Navbar = () => {
       </Link>
     </div>
 
+      <div className="ml-auto flex items-center gap-3 xl:hidden">
+        <Link href="/book-appointment" className="flex items-center gap-1 px-3 py-2 bg-[#40b5c7] border border-gray-200 backdrop-blur-md text-white rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary-dark hover:text-white">
+ Make a Booking
+      <GoArrowUpRight />
+        </Link>
+      </div>
     {/* MOBILE MENU BUTTON */}
     <button
       onClick={() => setOpenMenu(true)}
-      className="ml-auto flex h-auto w-auto p-2 items-center justify-center rounded-full bg-primary-dark text-white xl:hidden"
+      className="ml-1 flex h-auto w-auto p-2 items-center justify-center rounded-full bg-primary-dark text-white xl:hidden"
     >
       <HiOutlineMenuAlt3 className="text-[24px]" />
     </button>

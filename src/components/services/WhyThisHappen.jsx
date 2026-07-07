@@ -28,12 +28,12 @@ const iconMap = {
 
 const WhyThisHappen = ({ data }) => {
  return (
-   <section className="relative overflow-hidden bg-linear-[120deg] from-[#315e95] via-[#039bd3] to-[#50b1a2] py-10 md:my-16 mx-5 rounded-4xl ">
+   <section className="relative overflow-hidden bg-linear-[120deg] from-[#315e95] via-[#039bd3] to-[#50b1a2] py-8 md:my-16 mx-5 rounded-2xl lg:rounded-4xl">
      {/* Background Blur */}
      {/* <div className="absolute left-0 top-30 h-80 w-[320px] rounded-full bg-[#dff2fc] blur-[110px]" /> */}
 
 
-     <div className="relative mx-auto max-w-7xl px-3 pt-0 md:px-5 lg:pt-10">
+     <div className="relative mx-auto max-w-7xl px-5 pt-0 md:px-5 lg:pt-10">
        <div className="grid gap-10 lg:grid-cols-[0.95fr_1fr] lg:items-center lg:gap-16">
          {/* LEFT */}
          <div>
@@ -102,10 +102,10 @@ const WhyThisHappen = ({ data }) => {
            {/* Main Image */}
            <div className="overflow-hidden rounded-[38px] bg-white p-3 shadow-[0_25px_70px_rgba(15,23,42,0.06)]">
              <img
-               src={data.image}
-               alt={data.title}
-               className="h-fit w-full rounded-[30px] object-cover md:h-fit"
-             />
+  src={data.image}
+  alt={data.title}
+  className="block h-auto w-full rounded-[30px]"
+/>
            </div>
          </div>
        </div>

@@ -12,7 +12,7 @@ const ServiceHero = ({ data }) => {
       {/* Background Blur */}
       <div className="pointer-events-none absolute -left-55 top-0 h-[300px] w-[300px] rounded-full bg-[#095c88] blur-[100px]" />
 
-      <div className="relative mx-auto grid w-full max-w-[1350px] grid-cols-1 gap-10 px-5 md:px-8 lg:grid-cols-[1fr_0.9fr] lg:items-center lg:gap-16 lg:px-10">
+      <div className="relative mx-auto grid w-full max-w-[1350px] grid-cols-1 gap-5 md:gap-10 px-5 md:px-8 lg:grid-cols-[1fr_0.9fr] lg:items-center lg:gap-16 lg:px-10">
         {/* Left Content */}
         <div className="min-w-0">
           {/* Badge */}
@@ -25,12 +25,12 @@ const ServiceHero = ({ data }) => {
           </div>
 
           {/* Heading */}
-          <h1 className="max-w-full break-words text-3xl font-semibold leading-[1.15] text-white sm:text-4xl md:text-5xl">
+          <h1 className="max-w-full text-2xl font-semibold leading-[1.15] text-white md:text-5xl">
             {data.title}
           </h1>
 
           {/* Description */}
-          <p className="mt-3 max-w-[620px] text-[15px] leading-8 text-white md:text-base">
+          <p className="mt-3 max-w-[620px] text-sm md:text-md lg:text-lg leading-8 text-white md:text-base">
             {data.description}
           </p>
 
@@ -58,28 +58,28 @@ const ServiceHero = ({ data }) => {
 
           {/* Bottom Stats */}
 {/* Bottom Stats */}
-<div className="mt-5 flex gap-4 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:overflow-visible sm:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-  <div className="w-[160px] shrink-0 rounded-[20px] border border-[#e5edf2] bg-white px-5 py-4 transition-all hover:scale-105 sm:w-auto">
-    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#F4F8FB]">
-      <FaFlask className="text-2xl text-[#2E7D5A]" />
+<div className="mt-3 flex gap-4 overflow-x-auto pb-2 sm:grid sm:grid-cols-3 sm:overflow-visible sm:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+  <div className="w-[160px] shrink-0 rounded-[20px] border border-[#e5edf2] bg-white px-5 py-3 transition-all hover:scale-105 sm:w-auto">
+    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#F4F8FB]">
+      <FaFlask className="text-xl md:text-2xl text-[#2E7D5A]" />
     </div>
     <h3 className="mt-4 text-base font-semibold text-[#131C15] sm:text-lg">
       Evidence-Based
     </h3>
   </div>
 
-  <div className="w-[160px] shrink-0 rounded-[20px] border border-[#e5edf2] bg-white px-5 py-4 transition-all hover:scale-105 sm:w-auto">
-    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#F4F8FB]">
-      <FaShieldAlt className="text-2xl text-[#2E7D5A]" />
+  <div className="w-[160px] shrink-0 rounded-[20px] border border-[#e5edf2] bg-white px-5 py-3 transition-all hover:scale-105 sm:w-auto">
+    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#F4F8FB]">
+      <FaShieldAlt className="text-xl md:text-2xl text-[#2E7D5A]" />
     </div>
     <h3 className="mt-4 text-base font-semibold text-[#131C15] sm:text-lg">
       Safe &amp; Effective
     </h3>
   </div>
 
-  <div className="w-[160px] shrink-0 rounded-[20px] border border-[#e5edf2] bg-white px-5 py-4 transition-all hover:scale-105 sm:w-auto">
-    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#F4F8FB]">
-      <FaUserMd className="text-2xl text-[#2E7D5A]" />
+  <div className="w-[160px] shrink-0 rounded-[20px] border border-[#e5edf2] bg-white px-5 py-3 transition-all hover:scale-105 sm:w-auto">
+    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#F4F8FB]">
+      <FaUserMd className="text-xl md:text-2xl text-[#2E7D5A]" />
     </div>
     <h3 className="mt-4 text-base font-semibold text-[#131C15] sm:text-lg">
       Expert Care
