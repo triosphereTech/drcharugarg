@@ -287,7 +287,7 @@ const HeroSection = () => {
                     initial={{ opacity: 0, y: 25 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.7 }}
-                    className="w-full max-w-xl 2xl:max-w-2xl shrink-0 mt-28 lg:mt-0 lg:ml-6 xl:ml-10 2xl:ml-0"
+                    className="w-full max-w-xl 2xl:max-w-2xl shrink-0 mt-10 lg:mt-0 lg:ml-6 xl:ml-10 2xl:ml-0"
                   >
                     <div className="mb-3 w-fit rounded-full border border-white/35 bg-white/15 px-3 py-1 text-xs sm:text-sm text-white backdrop-blur-md transition-all hover:bg-white hover:text-[#315e95]">
                       {slide.label}
