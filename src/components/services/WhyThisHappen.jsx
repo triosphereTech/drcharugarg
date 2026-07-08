@@ -28,7 +28,7 @@ const iconMap = {
 
 const WhyThisHappen = ({ data }) => {
  return (
-   <section className="relative overflow-hidden bg-linear-[120deg] from-[#315e95] via-[#039bd3] to-[#50b1a2] py-8 md:my-16 mx-5 rounded-2xl lg:rounded-4xl">
+   <section className="relative overflow-hidden bg-linear-[120deg] from-[#315e95] via-[#039bd3] to-[#50b1a2] py-4 md:my-16 mx-5 rounded-2xl lg:rounded-4xl">
      {/* Background Blur */}
      {/* <div className="absolute left-0 top-30 h-80 w-[320px] rounded-full bg-[#dff2fc] blur-[110px]" /> */}
 

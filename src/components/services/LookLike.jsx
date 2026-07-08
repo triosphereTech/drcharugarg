@@ -38,7 +38,7 @@ const LookLike = ({ data }) => {
         </div>
 
         {/* MAIN GRID */}
-        <div className="my-10 grid gap-5 md:grid-cols-2 xl:grid-cols-5">
+        <div className="my-10 grid gap-5 grid-cols-2 xl:grid-cols-5">
 
           {data.items?.map((item, index) => (
 
@@ -58,24 +58,24 @@ const LookLike = ({ data }) => {
                   <img
                     src={item.image}
                     alt={item.label}
-                    className="h-[240px] w-full object-cover transition-transform duration-700 group-hover:scale-105 md:h-[280px]"
+                    className="h-auto w-full object-cover transition-transform duration-700 group-hover:scale-105 md:h-[280px]"
                   />
                 </div>
               </div>
 
               {/* Content */}
-              <div className="relative px-6 pb-7">
+              <div className="relative px-4 pb-4">
 
                 
                 {/* Title */}
-                <h3 className="mt-2 text-[22px] font-semibold leading-snug tracking-[-0.02em] text-[#131C15]">
+                <h3 className="mt-2 text-sm md:text-md font-semibold leading-snug tracking-[-0.02em] text-[#131C15]">
                   {item.label}
                 </h3>
 
                 {/* Description */}
                 {item.description && (
 
-                  <p className="mt-3 text-[14px] leading-7 text-[#667085]">
+                  <p className="mt-3 text-sm leading-7 text-[#667085]">
                     {item.description}
                   </p>
                 )}

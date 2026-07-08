@@ -2,14 +2,14 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 // ─── Import all blog JSON files here ───────────────────────────────────────
-import BlogOne   from "@/components/blogs/data/BlogOne.json";
-import BlogTwo   from "@/components/blogs/data/BlogTwo.json";
+import BlogOne from "@/components/blogs/data/BlogOne.json";
+import BlogTwo from "@/components/blogs/data/BlogTwo.json";
 import BlogThree from "@/components/blogs/data/BlogThree.json";
 
 const blogMap = {
   "melasma-explained-causes-treatment-why-it-recurs": BlogOne,
-  "the-barrier-first-approach":                       BlogTwo,
-  "understand-pediatric-atopic-dermatitis":           BlogThree,
+  "the-barrier-first-approach": BlogTwo,
+  "understand-pediatric-atopic-dermatitis": BlogThree,
   // Add more: "slug": BlogData
 };
 
@@ -65,7 +65,7 @@ function HighlightBox({ label, children }) {
       <div className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-cyan-200/20 blur-3xl" />
 
       <div className="relative z-10">
-        
+
         {children}
       </div>
     </div>
@@ -78,10 +78,10 @@ function HighlightBox({ label, children }) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 function BlogOneSections({ blog }) {
-  const causesSection     = blog.sections.find((s) => s.id === "causes");
-  const treatmentSection  = blog.sections.find((s) => s.id === "treatment");
+  const causesSection = blog.sections.find((s) => s.id === "causes");
+  const treatmentSection = blog.sections.find((s) => s.id === "treatment");
   const recurrenceSection = blog.sections.find((s) => s.id === "recurrence");
-  const whyUsSection      = blog.sections.find((s) => s.id === "why-us");
+  const whyUsSection = blog.sections.find((s) => s.id === "why-us");
 
   return (
     <>
@@ -150,43 +150,43 @@ function BlogOneSections({ blog }) {
 
       {/* <hr className="my-10 border-slate-200" /> */}
 
-{whyUsSection && (
-  <section>
-    <HighlightBox label="Take Home Message">
-      <h2 className="text-2xl font-bold text-white">
-        {whyUsSection.heading}
-      </h2>
+      {whyUsSection && (
+        <section>
+          <HighlightBox label="Take Home Message">
+            <h2 className="text-2xl font-bold text-white">
+              {whyUsSection.heading}
+            </h2>
 
-      <p className="mt-4 text-white/85 leading-[1.85]">
-        {whyUsSection.content}
-      </p>
+            <p className="mt-4 text-white/85 leading-[1.85]">
+              {whyUsSection.content}
+            </p>
 
-      {(whyUsSection.points ?? []).length > 0 && (
-        <ul className="mt-6 grid gap-4 sm:grid-cols-2">
-          {whyUsSection.points.map((point, i) => (
-            <li key={i} className="flex gap-3 rounded-xl bg-white/10 ring-1 ring-white/15 p-4">
-              <svg
-                className="mt-1 h-5 w-5 shrink-0 text-cyan-200"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                />
-              </svg>
+            {(whyUsSection.points ?? []).length > 0 && (
+              <ul className="mt-6 grid gap-4 sm:grid-cols-2">
+                {whyUsSection.points.map((point, i) => (
+                  <li key={i} className="flex gap-3 rounded-xl bg-white/10 ring-1 ring-white/15 p-4">
+                    <svg
+                      className="mt-1 h-5 w-5 shrink-0 text-cyan-200"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      />
+                    </svg>
 
-              <span className="text-sm leading-6 text-white/85">
-                {point}
-              </span>
-            </li>
-          ))}
-        </ul>
+                    <span className="text-sm leading-6 text-white/85">
+                      {point}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </HighlightBox>
+        </section>
       )}
-    </HighlightBox>
-  </section>
-)}
     </>
   );
 }
@@ -208,8 +208,8 @@ function DynamicSection({ section, dark = false }) {
           )}
           {Array.isArray(section.paragraphs) && section.paragraphs.length > 0
             ? section.paragraphs.map((p, i) => (
-                <p key={i} className="mt-4 first:mt-0 text-slate-700 leading-[1.85]">{p}</p>
-              ))
+              <p key={i} className="mt-4 first:mt-0 text-slate-700 leading-[1.85]">{p}</p>
+            ))
             : section.content
               ? <p className="text-slate-700 leading-[1.85]">{section.content}</p>
               : null
@@ -450,32 +450,32 @@ export default async function BlogPage({ params }) {
         }
 
         {/* ─── CTA ──────────────────────────────────────────────────── */}
-       <div className="relative mt-16 overflow-hidden rounded-3xl border border-[#058FD2]/10 bg-linear-to-br from-[#082c62] via-[#0A3C84] to-[#0C7A72] p-8 text-center shadow-sm">
-  {/* Background Glow */}
-  <div className="absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[#058FD2]/10 blur-3xl" />
-  <div className="absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-cyan-200/20 blur-3xl" />
+        <div className="relative mt-16 overflow-hidden rounded-3xl border border-[#058FD2]/10 bg-linear-to-br from-[#082c62] via-[#0A3C84] to-[#0C7A72] p-8 text-center shadow-sm">
+          {/* Background Glow */}
+          <div className="absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[#058FD2]/10 blur-3xl" />
+          <div className="absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-cyan-200/20 blur-3xl" />
 
-  <div className="relative z-10">
-    <h3 className="text-xl font-bold text-white">
-      Ready to Start Your Treatment?
-    </h3>
-    <div className="mt-6 flex flex-col items-center justify-center gap-4 sm:flex-row">
-      <Link
-        href="/book-appointment"
-        className="inline-flex w-full items-center justify-center rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-black transition-all duration-300 hover:bg-[#047ab8] hover:text-white hover:shadow-lg sm:w-auto"
-      >
-        Book Your Consultation
-      </Link>
+          <div className="relative z-10">
+            <h3 className="text-xl font-bold text-white">
+              Ready to Start Your Treatment?
+            </h3>
+            <div className="mt-6 flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <Link
+                href="/book-appointment"
+                className="inline-flex w-full items-center justify-center rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-black transition-all duration-300 hover:bg-[#047ab8] hover:text-white hover:shadow-lg sm:w-auto"
+              >
+                Book Your Consultation
+              </Link>
 
-      <Link
-        href="/contact"
-        className="inline-flex w-full items-center justify-center rounded-full border border-[#058FD2] bg-white px-8 py-3.5 text-sm font-semibold text-[#00496d] backdrop-blur-sm transition-all duration-300 hover:bg-white hover:shadow-md sm:w-auto"
-      >
-        Contact Us
-      </Link>
-    </div>
-  </div>
-</div>
+              <Link
+                href="/contact"
+                className="inline-flex w-full items-center justify-center rounded-full border border-[#058FD2] bg-white px-8 py-3.5 text-sm font-semibold text-[#00496d] backdrop-blur-sm transition-all duration-300 hover:bg-white hover:shadow-md sm:w-auto"
+              >
+                Contact Us
+              </Link>
+            </div>
+          </div>
+        </div>
       </article>
     </main>
   );

@@ -103,10 +103,10 @@ const expertise = [
       {/* ========================= */}
 
       <div className="px-2 lg:px-10 py-0 md:py-20">
-        <div className="mx-auto max-w-7xl overflow-hidden rounded-[40px] bg-linear-to-br from-[#082c62] via-[#0A3C84] to-[#0C7A72]">
+        <div className="mx-auto max-w-7xl overflow-hidden rounded-[30px] md:rounded-[40px] bg-linear-to-br from-[#082c62] via-[#0A3C84] to-[#0C7A72]">
           <div className="grid lg:grid-cols-[1.2fr_.8fr]">
             {/* Left Content */}
-            <div className="px-4lg:px-0 p-0 md:p-12 lg:p-16 text-white">
+            <div className="px-4 lg:px-10 p-0 md:p-12 lg:p-16 text-white">
               {/* <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 backdrop-blur px-4 py-2">
                 <span className="h-2 w-2 rounded-full bg-emerald-400" />
                 <span className="text-sm">
@@ -114,7 +114,7 @@ const expertise = [
                 </span>
               </div> */}
 
-              <h2 className="mt-8 text-4xl md:text-5xl font-bold">
+              <h2 className="mt-5 text-4xl md:text-5xl font-bold">
                 Dr. Charu Garg
               </h2>
 
@@ -122,7 +122,7 @@ const expertise = [
                 MBBS, M.D. (Dermatology)
               </p>
 
-              <div className="mt-8 space-y-5 pb-5 text-blue-50 leading-relaxed">
+              <div className="mt-3 text-sm md:text-base space-y-5 pb-5 text-blue-50 leading-relaxed">
                 <p>
                   A Consultant Dermatologist graduated from Government Medical College, Surat. She excelled in dermatology, securing the top position at Government Medical College,Surat and New Civil Hospital  and completed a fellowship in Clinical Dermatology & Lasers at Alok Dermatology Institute,Mumbai.
                 </p>
@@ -192,7 +192,7 @@ const expertise = [
           {/* Left Content */}
           <div>
             {/* Expertise */}
-            <div className="rounded-[32px] border border-slate-200 bg-white px-5 md:py-8 py-8 md:py-10">
+            <div className="rounded-[32px] border border-slate-200 bg-white px-5 py-5 md:py-5">
               <div className="mb-8">
                 {/* <span className="text-sm font-medium text-cyan-700">
                   Areas of Expertise
@@ -224,9 +224,9 @@ const expertise = [
             </div>
 
             {/* Publications */}
-            <div className="mt-8 rounded-[32px] border border-slate-200 bg-white px-5 md:px-8 py-5 md:py-8">
-              <div className="mb-8">
-                <h3 className="mt-2 text-3xl font-bold text-slate-900">
+            <div className="mt-5 rounded-[32px] border border-slate-200 bg-white px-5 md:px-8 py-5 md:py-8">
+              <div className="mb-5">
+                <h3 className="mt-2 text-2xl font-bold text-slate-900">
                   Notable publications
                 </h3>
               </div>
@@ -237,7 +237,7 @@ const expertise = [
                     key={index}
                     className="rounded-2xl border border-slate-200 p-5 transition-all hover:shadow-md"
                   >
-                    <h4 className="font-semibold text-slate-900 leading-relaxed">
+                    <h4 className="font-semibold text-sm md:text-base text-slate-900 leading-relaxed">
                       {publication.title}
                     </h4>
 

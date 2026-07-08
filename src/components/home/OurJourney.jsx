@@ -28,7 +28,7 @@ const OurJourney = () => {
               />
             </div>
 
-            <div className=" space-y-6 text-lg mt-10 leading-8 text-gray-600">
+            <div className=" space-y-6 text-sm md:text-lg mt-10 leading-8 text-gray-600">
               <p>
                 My journey in dermatology began with a fascination for the way
                 skin reflects our health, lifestyle, and individuality. I was
