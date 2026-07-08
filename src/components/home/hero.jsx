@@ -97,12 +97,14 @@ const slides = [
     color: "#315e95",
     blend: "#039bd3",
     accent: "#50b1a2",
+    contentmt2xl: "mt-20",
     imageConfig: {
       base: { height: "42vh", scale: 1.20, x: "0px", y: "0px" },
       sm: { height: "48vh", scale: 1.12, x: "0px", y: "0px" },
       md: { height: "58vh", scale: 1.18, x: "0px", y: "0px" },
       lg: { height: "100vh", scale: 1, x: "0px", y: "0px" },
-      "2xl": { height: "110vh", scale: 1.45, x: "0px", y: "0px" },
+      xl: { height: "100vh", scale: 1, x: "150px", y: "0px" },
+      "2xl": { height: "110vh", scale: 1, x: "180px", y: "0px" },
     },
     stats: [
       { number: "12+", label: "Years Experience" },
@@ -127,7 +129,7 @@ const slides = [
       sm: { height: "42vh", scale: 1.15, x: "0px", y: "30px" },
       md: { height: "50vh", scale: 1.3, x: "0px", y: "40px" },
       lg: { height: "80vh", scale: 1.2, x: "0px", y: "70px" },
-      "2xl": { height: "88vh", scale: 1.5, x: "0px", y: "50px" },
+      "2xl": { height: "88vh", scale: 1.1, x: "30px", y: "50px" },
     },
     stats: [
       { number: "15+", label: "Advanced Treatments" },
@@ -152,7 +154,7 @@ const slides = [
       sm: { height: "46vh", scale: 1.14, x: "0px", y: "20px" },
       md: { height: "58vh", scale: 1.2, x: "0px", y: "30px" },
       lg: { height: "70vh", scale: 1.2, x: "-80px", y: "40px" },
-      "2xl": { height: "100vh", scale: 1.48, x: "0px", y: "-20px" },
+      "2xl": { height: "100vh", scale: 0.95, x: "0px", y: "-20px" },
     },
     stats: [
       { number: "10+", label: "Skin Specialists" },
@@ -287,13 +289,15 @@ const HeroSection = () => {
                     initial={{ opacity: 0, y: 25 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.7 }}
-                    className="w-full max-w-xl 2xl:max-w-2xl shrink-0 mt-10 lg:mt-0 lg:ml-6 xl:ml-10 2xl:ml-0"
+                    className={`w-full max-w-xl 2xl:max-w-2xl shrink-0 lg:ml-6 xl:ml-10 2xl:ml-0 ${
+    slide.id === 1 ? "mt-20 lg:mt-0 2xl:-mt-26" : "mt-10 lg:mt-0"
+  }`}
                   >
-                    <div className="mb-3 w-fit rounded-full border border-white/35 bg-white/15 px-3 py-1 text-xs sm:text-sm text-white backdrop-blur-md transition-all hover:bg-white hover:text-[#315e95]">
+                    <div className={`mb-3 w-fit rounded-full border border-white/35 bg-white/15 px-3 py-1 text-xs sm:text-sm text-white backdrop-blur-md transition-all hover:bg-white hover:text-[#315e95]`}>
                       {slide.label}
                     </div>
 
-                    <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-semibold leading-[1.15] text-white">
+                    <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-6xl font-semibold leading-[1.15] text-white">
                       {slide.title1}
                       {slide.title2 && (
                         <>
