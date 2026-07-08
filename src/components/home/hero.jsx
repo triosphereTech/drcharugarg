@@ -102,7 +102,7 @@ const slides = [
     blend: "#039bd3",
     accent: "#50b1a2",
     imageConfig: {
-      base: { height: "42vh", scale: 1.20, x: "0px", y: "0px" },
+      base: { height: "42vh", scale: 1.35, x: "20px", y: "0px" },
       sm: { height: "48vh", scale: 1.12, x: "0px", y: "0px" },
       md: { height: "58vh", scale: 1.18, x: "0px", y: "0px" },
       ipadPro: { height: "78vh", scale: 1.1,x: "150px",y: "-130px"},
@@ -129,7 +129,7 @@ const slides = [
     blend: "#315e95",
     accent: "#50b1a2",
     imageConfig: {
-      base: { height: "46vh", scale: 0.90, x: "0px", y: "-30px" },
+      base: { height: "46vh", scale: 1.01, x: "10px", y: "-30px" },
       sm: { height: "42vh", scale: 1.15, x: "0px", y: "30px" },
       md: { height: "50vh", scale: 1.3, x: "0px", y: "40px" },
       lg: { height: "80vh", scale: 1.2, x: "0px", y: "70px" },

@@ -173,7 +173,7 @@ const ServiceCard = ({ service, iconKey }) => {
 const ServicesScroller = () => {
   const doubled = [...services, ...services];
   return (
-    <div className="relative mt-16 overflow-hidden">
+    <div className="relative mt-5 lg:mt-8 overflow-hidden">
       {/* Fade edges */}
       <div className="pointer-events-none absolute inset-y-0 left-0 w-20 z-10 bg-gradient-to-r from-white to-transparent" />
       <div className="pointer-events-none absolute inset-y-0 right-0 w-20 z-10 bg-gradient-to-l from-white to-transparent" />
@@ -204,7 +204,7 @@ const AboutHero = () => {
         <div className="absolute hidden md:block bottom-0 left-1/2 h-[300px] w-[300px] -translate-x-1/2 rounded-full bg-cyan-100 blur-3xl opacity-50" />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-6 pt-28 pb-16 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-6 pt-28 pb-5 lg:px-8">
         {/* Badge */}
        <motion.div
   className="flex justify-center"
@@ -219,7 +219,7 @@ const AboutHero = () => {
        </motion.div>
         {/* Heading */}
        <motion.div
-  className="mx-auto mt-8 max-w-4xl text-center"
+  className="mx-auto mt-5 lg:mt-8 max-w-4xl text-center"
   variants={fadeUp}
   initial="hidden"
   whileInView="visible"

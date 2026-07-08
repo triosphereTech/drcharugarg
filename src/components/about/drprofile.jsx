@@ -237,7 +237,7 @@ const expertise = [
             {/* Expertise */}
             <div className="rounded-[32px] border border-slate-200 bg-white px-5 py-5 md:py-5">
               <motion.div
-                className="mb-8"
+                className="mb-4"
                 variants={fadeUp}
                 initial="hidden"
                 whileInView="visible"
