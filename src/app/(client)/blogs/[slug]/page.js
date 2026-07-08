@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import FadeInSection from "@/components/blogs/FadeInSection";
 
 // ─── Import all blog JSON files here ───────────────────────────────────────
 import BlogOne from "@/components/blogs/data/BlogOne.json";
@@ -408,7 +409,7 @@ export default async function BlogPage({ params }) {
     <main className="bg-linear-to-b from-white to-[#eef7fb] min-h-screen pt-10 md:pt-16">
 
       {/* ─── TITLE BLOCK ──────────────────────────────────────────────── */}
-      <div className="max-w-3xl mx-auto px-5 pt-14 pb-8">
+      <FadeInSection className="max-w-3xl mx-auto px-5 pt-14 pb-8" amount={0.5}>
         <span className="inline-block rounded-full bg-[#eef7fb] px-3 py-1 text-xs font-semibold uppercase tracking-widest text-[#058FD2]">
           {blog.category}
         </span>
@@ -424,13 +425,13 @@ export default async function BlogPage({ params }) {
           <span className="text-slate-300">·</span>
           <span>{blog.readTime} read</span>
         </div>
-      </div>
+      </FadeInSection>
 
       {/* ─── HERO IMAGE ───────────────────────────────────────────────── */}
       {/* Skipped when blog.hideHeroImage is true (e.g. Blog Two, which shows
           its image only in the middle "inline-image" section instead). */}
       {!blog.hideHeroImage && (
-        <div className="max-w-3xl mx-auto px-5">
+        <FadeInSection className="max-w-3xl mx-auto px-5" variant="in" amount={0.3}>
           <div className="relative w-full h-[260px] sm:h-[400px] rounded-2xl overflow-hidden">
             <img
               src={blog.heroImage}
@@ -438,7 +439,7 @@ export default async function BlogPage({ params }) {
               className="w-full h-full object-cover"
             />
           </div>
-        </div>
+        </FadeInSection>
       )}
 
       {/* ─── ARTICLE BODY ─────────────────────────────────────────────── */}
@@ -450,7 +451,7 @@ export default async function BlogPage({ params }) {
         }
 
         {/* ─── CTA ──────────────────────────────────────────────────── */}
-        <div className="relative mt-16 overflow-hidden rounded-3xl border border-[#058FD2]/10 bg-linear-to-br from-[#082c62] via-[#0A3C84] to-[#0C7A72] p-8 text-center shadow-sm">
+        <FadeInSection className="relative mt-16 overflow-hidden rounded-3xl border border-[#058FD2]/10 bg-linear-to-br from-[#082c62] via-[#0A3C84] to-[#0C7A72] p-8 text-center shadow-sm" amount={0.4}>
           {/* Background Glow */}
           <div className="absolute -top-20 -left-20 h-56 w-56 rounded-full bg-[#058FD2]/10 blur-3xl" />
           <div className="absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-cyan-200/20 blur-3xl" />
@@ -475,7 +476,7 @@ export default async function BlogPage({ params }) {
               </Link>
             </div>
           </div>
-        </div>
+        </FadeInSection>
       </article>
     </main>
   );

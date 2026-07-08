@@ -4,6 +4,16 @@
 
 import React from "react";
 import { ShieldCheck, ArrowUpRight } from "lucide-react";
+import { motion } from "framer-motion";
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 35 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
+  },
+};
 
 const DoctorMini = ({ data }) => {
   return (
@@ -13,7 +23,13 @@ const DoctorMini = ({ data }) => {
 
       <div className="relative mx-auto max-w-7xl px-3 pt-0 md:px-5 lg:pt-0">
 
-        <div className="relative overflow-hidden rounded-[28px] border border-[#dceaf3] bg-[#f8fbfd] p-4 md:rounded-[40px] md:p-7">
+        <motion.div
+          className="relative overflow-hidden rounded-[28px] border border-[#dceaf3] bg-[#f8fbfd] p-4 md:rounded-[40px] md:p-7"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.4 }}
+        >
 
           {/* Soft Glow */}
           <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-[#dff2fc] blur-[90px]" />
@@ -82,7 +98,7 @@ const DoctorMini = ({ data }) => {
               />
             </button>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -1,6 +1,26 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { HiOutlineMapPin, HiOutlinePhone, HiOutlineEnvelope } from "react-icons/hi2";
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 35 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const staggerContainer = {
+  hidden: {},
+  visible: {
+    transition: {
+      delayChildren: 0.1,
+      staggerChildren: 0.15,
+    },
+  },
+};
 
 const ContactFormSection = () => {
   return (
@@ -8,7 +28,13 @@ const ContactFormSection = () => {
       <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
 
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-12">
+        <motion.div
+          className="text-center max-w-2xl mx-auto mb-12"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.5 }}
+        >
           <span className="inline-flex items-center px-4 py-2 rounded-full bg-[#058FD2]/10 text-[#058FD2] text-sm font-medium mb-4">
             Appointment Request
           </span>
@@ -18,12 +44,21 @@ const ContactFormSection = () => {
           </h2>
 
          
-        </div>
+        </motion.div>
 
-        <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-8">
+        <motion.div
+          className="grid lg:grid-cols-[1.1fr_0.9fr] gap-8"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+        >
 
           {/* Form Card */}
-          <div className="bg-white rounded-[32px] border border-slate-200 p-6 md:p-8">
+          <motion.div
+            variants={fadeUp}
+            className="bg-white rounded-[32px] border border-slate-200 p-6 md:p-8"
+          >
 
             <form className="space-y-5">
 
@@ -97,10 +132,10 @@ const ContactFormSection = () => {
               </button>
 
             </form>
-          </div>
+          </motion.div>
 
           {/* Map + Contact Card */}
-          <div className="space-y-6">
+          <motion.div variants={fadeUp} className="space-y-6">
 
             {/* Map */}
             <div className="h-[400px] overflow-hidden rounded-[32px] border border-slate-200 bg-white">
@@ -167,9 +202,9 @@ const ContactFormSection = () => {
   </div>
 </div>
 
-          </div>
+          </motion.div>
 
-        </div>
+        </motion.div>
       </div>
     </section>
   );

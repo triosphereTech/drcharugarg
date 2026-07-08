@@ -63,7 +63,7 @@ export default function Home() {
         <section className="max-w-7xl mx-auto" id="faqs">
           <OnlineConsultationFAQ />
         </section>
-        <section className="max-w-7xl mx-auto pt-10 lg:pt-20" id="cta">
+        <section className="max-w-7xl mx-auto pt-10 lg:pt-10" id="cta">
           <AboutCTA />
         </section>
       </div>

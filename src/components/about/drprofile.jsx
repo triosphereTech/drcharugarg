@@ -1,6 +1,9 @@
+"use client";
+
 import React from "react";
 import Image from "next/image"
 import Charu from "../../../public/images/drcharu.jpeg"
+import { motion } from "framer-motion";
 import {
   GiHairStrands,
   GiNails,
@@ -24,6 +27,34 @@ import {
   BsScissors,
   BsEar,
 } from "react-icons/bs";
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 35 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const fadeIn = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const staggerContainer = {
+  hidden: {},
+  visible: {
+    transition: {
+      delayChildren: 0.1,
+      staggerChildren: 0.1,
+    },
+  },
+};
 
 const DrProfile = () => {
 const expertise = [
@@ -106,7 +137,13 @@ const expertise = [
         <div className="mx-auto max-w-7xl overflow-hidden rounded-[30px] md:rounded-[40px] bg-linear-to-br from-[#082c62] via-[#0A3C84] to-[#0C7A72]">
           <div className="grid lg:grid-cols-[1.2fr_.8fr]">
             {/* Left Content */}
-            <div className="px-4 lg:px-10 p-0 md:p-12 lg:p-16 text-white">
+            <motion.div
+              className="px-4 lg:px-10 p-0 md:p-12 lg:p-16 text-white"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+            >
               {/* <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 backdrop-blur px-4 py-2">
                 <span className="h-2 w-2 rounded-full bg-emerald-400" />
                 <span className="text-sm">
@@ -114,15 +151,15 @@ const expertise = [
                 </span>
               </div> */}
 
-              <h2 className="mt-5 text-4xl md:text-5xl font-bold">
+              <motion.h2 variants={fadeUp} className="mt-5 text-4xl md:text-5xl font-bold">
                 Dr. Charu Garg
-              </h2>
+              </motion.h2>
 
-              <p className="mt-3 text-lg text-blue-100">
+              <motion.p variants={fadeUp} className="mt-3 text-lg text-blue-100">
                 MBBS, M.D. (Dermatology)
-              </p>
+              </motion.p>
 
-              <div className="mt-3 text-sm md:text-base space-y-5 pb-5 text-blue-50 leading-relaxed">
+              <motion.div variants={fadeUp} className="mt-3 text-sm md:text-base space-y-5 pb-5 text-blue-50 leading-relaxed">
                 <p>
                   A Consultant Dermatologist graduated from Government Medical College, Surat. She excelled in dermatology, securing the top position at Government Medical College,Surat and New Civil Hospital  and completed a fellowship in Clinical Dermatology & Lasers at Alok Dermatology Institute,Mumbai.
                 </p>
@@ -132,7 +169,7 @@ const expertise = [
                 </p>
 
                 
-              </div>
+              </motion.div>
 
               {/* Stats */}
               {/* <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -164,10 +201,16 @@ const expertise = [
                   </p>
                 </div>
               </div> */}
-            </div>
+            </motion.div>
 
             {/* Right Image */}
-            <div className="relative min-h-[450px] lg:min-h-full">
+            <motion.div
+              className="relative min-h-[450px] lg:min-h-full"
+              variants={fadeIn}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+            >
               <div className="absolute inset-0 bg-linear-to-t from-black/10 to-transparent" />
 
               <Image
@@ -178,7 +221,7 @@ const expertise = [
 
               {/* Floating Badge */}
              
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
@@ -193,48 +236,74 @@ const expertise = [
           <div>
             {/* Expertise */}
             <div className="rounded-[32px] border border-slate-200 bg-white px-5 py-5 md:py-5">
-              <div className="mb-8">
+              <motion.div
+                className="mb-8"
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.6 }}
+              >
                 {/* <span className="text-sm font-medium text-cyan-700">
                   Areas of Expertise
                 </span> */}
 
-                <h3 className="mt-2 text-3xl font-bold text-slate-900">
+                <span className="mt-2 text-3xl font-bold text-slate-900">
                   Areas of Expertise
-                </h3>
-              </div>
+                </span>
+              </motion.div>
 
-                <div className="grid md:grid-cols-2 gap-4">
+                <motion.div
+                  className="grid md:grid-cols-2 gap-3"
+                  variants={staggerContainer}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.1 }}
+                >
   {expertise.map((item, index) => (
-    <div
+    <motion.div
       key={index}
-      className="group rounded-2xl border border-slate-200 p-4 transition-all hover:border-cyan-300 hover:shadow-md hover:-translate-y-1"
+      variants={fadeUp}
+      className="group rounded-2xl border border-slate-200 p-3 transition-all hover:border-cyan-300 hover:shadow-md hover:-translate-y-1"
     >
       <div className="flex items-center gap-4">
-        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-50 text-cyan-700 text-xl transition-all group-hover:bg-cyan-100">
+        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-cyan-50 text-cyan-700 text-lg transition-all group-hover:bg-cyan-100">
           {item.icon}
         </div>
 
-        <p className="text-md text-slate-700">
+        <p className="text-sm md:text-md lg:text-lg text-slate-700">
           {item.title}
         </p>
       </div>
-    </div>
+    </motion.div>
   ))}
-</div>
+</motion.div>
             </div>
 
             {/* Publications */}
             <div className="mt-5 rounded-[32px] border border-slate-200 bg-white px-5 md:px-8 py-5 md:py-8">
-              <div className="mb-5">
+              <motion.div
+                className="mb-5"
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.6 }}
+              >
                 <h3 className="mt-2 text-2xl font-bold text-slate-900">
                   Notable publications
                 </h3>
-              </div>
+              </motion.div>
 
-              <div className="space-y-5">
+              <motion.div
+                className="space-y-5"
+                variants={staggerContainer}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.1 }}
+              >
                 {publications.map((publication, index) => (
-                  <div
+                  <motion.div
                     key={index}
+                    variants={fadeUp}
                     className="rounded-2xl border border-slate-200 p-5 transition-all hover:shadow-md"
                   >
                     <h4 className="font-semibold text-sm md:text-base text-slate-900 leading-relaxed">
@@ -244,16 +313,22 @@ const expertise = [
                     <p className="mt-3 text-sm text-cyan-700 font-medium">
                       {publication.journal}
                     </p>
-                  </div>
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             </div>
           </div>
 
           {/* Sticky Form */}
           <div className="relative">
             <div className="lg:sticky lg:top-24">
-              <div className="overflow-hidden rounded-[32px] border border-emerald-100 bg-linear-to-br from-[#082c62] via-[#0A3C84] to-[#0C7A72] p-8">
+              <motion.div
+                className="overflow-hidden rounded-[32px] border border-emerald-100 bg-linear-to-br from-[#082c62] via-[#0A3C84] to-[#0C7A72] p-8"
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
+              >
                 <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white shadow-sm">
                   ✉️
                 </div>
@@ -325,7 +400,7 @@ const expertise = [
                     Usually responds within 24 hours
                   </p>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>

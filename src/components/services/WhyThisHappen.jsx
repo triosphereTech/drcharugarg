@@ -5,6 +5,7 @@
 
 
 import React from "react";
+import { motion } from "framer-motion";
 
 
 import {
@@ -25,10 +26,38 @@ const iconMap = {
  stress: <Brain size={22} />,
 };
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 35 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const fadeIn = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const staggerContainer = {
+  hidden: {},
+  visible: {
+    transition: {
+      delayChildren: 0.1,
+      staggerChildren: 0.12,
+    },
+  },
+};
+
 
 const WhyThisHappen = ({ data }) => {
  return (
-   <section className="relative overflow-hidden bg-linear-[120deg] from-[#315e95] via-[#039bd3] to-[#50b1a2] py-4 md:my-16 mx-5 rounded-2xl lg:rounded-4xl">
+   <section className="relative overflow-hidden bg-linear-[120deg] from-[#315e95] via-[#039bd3] to-[#50b1a2] py-4 md:my-5 mx-5 rounded-2xl lg:rounded-4xl">
      {/* Background Blur */}
      {/* <div className="absolute left-0 top-30 h-80 w-[320px] rounded-full bg-[#dff2fc] blur-[110px]" /> */}
 
@@ -36,22 +65,33 @@ const WhyThisHappen = ({ data }) => {
      <div className="relative mx-auto max-w-7xl px-5 pt-0 md:px-5 lg:pt-10">
        <div className="grid gap-10 lg:grid-cols-[0.95fr_1fr] lg:items-center lg:gap-16">
          {/* LEFT */}
-         <div>
+         <motion.div
+           variants={staggerContainer}
+           initial="hidden"
+           whileInView="visible"
+           viewport={{ once: true, amount: 0.25 }}
+         >
            {/* Badge */}
-           <div className="mb-5 flex w-fit items-center gap-2 rounded-full border border-[#dceaf3] bg-white/20 px-4 py-2">
+           <motion.div
+             variants={fadeUp}
+             className="mb-5 flex w-fit items-center gap-2 rounded-full border border-[#dceaf3] bg-white/20 px-4 py-2"
+           >
              <div className="h-2 w-2 rounded-full bg-white" />
 
 
              <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-white">
               {data.badge}
              </p>
-           </div>
+           </motion.div>
 
 
            {/* Heading */}
-           <h2 className="max-w-[620px] text-3xl font-semibold leading-[1.05] text-white md:text-4xl lg:text-5xl">
+           <motion.h2
+             variants={fadeUp}
+             className="max-w-[620px] text-3xl font-semibold leading-[1.05] text-white md:text-4xl lg:text-5xl"
+           >
              {data.title}
-           </h2>
+           </motion.h2>
 
 
            {/* Paragraph */}
@@ -61,10 +101,14 @@ const WhyThisHappen = ({ data }) => {
 
 
            {/* Compact Points */}
-           <div className="mt-10 grid gird-cols-1 md:grid-cols-2 gap-4">
+           <motion.div
+             variants={staggerContainer}
+             className="mt-10 grid gird-cols-1 md:grid-cols-2 gap-4"
+           >
              {data.points?.map((item, index) => (
-               <div
+               <motion.div
                  key={index}
+                 variants={fadeUp}
                  className="group flex flex-col items-start gap-4 rounded-[24px] border border-[#dceaf3] bg-white/70 p-4 transition-all duration-500 hover:border-[#cfe4f2] hover:shadow-[0_15px_40px_rgba(15,23,42,0.05)]"
                >
                  <div className="flex items-center gap-4">
@@ -80,25 +124,33 @@ const WhyThisHappen = ({ data }) => {
                  <p className="text-[14px] leading-7 text-[#272727]">
                    {item.description}
                  </p>
-               </div>
+               </motion.div>
              ))}
-           </div>
+           </motion.div>
 
 
            
 
-           <Link href="/book-appointment" className="group mt-10 w-fit flex items-center gap-2 rounded-2xl bg-[#131C15] px-6 py-3.5 text-sm font-medium text-white transition-all duration-300 hover:bg-[#e6f7ff] hover:text-blue-600 active:scale-95">
-               Book Consultation
-               <ArrowUpRight
-                 size={16}
-                 className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-               />
-             </Link>
-         </div>
+           <motion.div variants={fadeUp}>
+             <Link href="/book-appointment" className="group mt-10 w-fit flex items-center gap-2 rounded-2xl bg-[#131C15] px-6 py-3.5 text-sm font-medium text-white transition-all duration-300 hover:bg-[#e6f7ff] hover:text-blue-600 active:scale-95">
+                 Book Consultation
+                 <ArrowUpRight
+                   size={16}
+                   className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                 />
+               </Link>
+           </motion.div>
+         </motion.div>
 
 
          {/* RIGHT IMAGE */}
-         <div className="relative">
+         <motion.div
+           className="relative"
+           variants={fadeIn}
+           initial="hidden"
+           whileInView="visible"
+           viewport={{ once: true, amount: 0.3 }}
+         >
            {/* Main Image */}
            <div className="overflow-hidden rounded-[38px] bg-white p-3 shadow-[0_25px_70px_rgba(15,23,42,0.06)]">
              <img
@@ -107,7 +159,7 @@ const WhyThisHappen = ({ data }) => {
   className="block h-auto w-full rounded-[30px]"
 />
            </div>
-         </div>
+         </motion.div>
        </div>
      </div>
    </section>
@@ -116,7 +168,3 @@ const WhyThisHappen = ({ data }) => {
 
 
 export default WhyThisHappen;
-
-
-
-

@@ -1,3 +1,6 @@
+"use client";
+
+import { motion } from "framer-motion";
 import {
   HiOutlineShieldCheck,
   HiOutlineLockClosed,
@@ -7,7 +10,30 @@ import {
 import { MdOutlineMedication } from "react-icons/md";
 import { LuClipboardList } from "react-icons/lu";
 
+const fadeUp = {
+  hidden: {
+    opacity: 0,
+    y: 35,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.65,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
 
+const staggerContainer = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.1,
+    },
+  },
+};
 const valuesData = [
   {
     icon: <HiOutlineShieldCheck />,
@@ -58,7 +84,13 @@ function WhyChooseUs() {
       <section className="px-4 py-10 md:px-5 md:py-0 md:pt-20">
         <div className="">
           {/* TOP */}
-          <div className="text-center">
+        <motion.div
+  className="text-center"
+  variants={fadeUp}
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: true, amount: 0.4 }}
+>
             {/* LABEL */}
             <div className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-2">
               <div className="h-2 w-2 rounded-full bg-primary-accent" />
@@ -77,15 +109,22 @@ function WhyChooseUs() {
                 </span>
               </h2>
             </div>
-          </div>
+        </motion.div>
 
           {/* CARDS */}
-          <div className="grid grid-cols-2 gap-3 pt-8 md:grid-cols-2 md:gap-4 md:pt-14 xl:grid-cols-3">
+          <motion.div
+  className="grid grid-cols-2 gap-3 pt-8 md:grid-cols-2 md:gap-4 md:pt-14 xl:grid-cols-3"
+  variants={staggerContainer}
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: true, amount: 0.15 }}
+>
             {valuesData.map((item, index) => (
-              <div
-                key={index}
-                className="group rounded-[18px] bg-white p-3 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg md:rounded-[30px] md:p-5"
-              >
+              <motion.div
+  key={index}
+  variants={fadeUp}
+  className="group rounded-[18px] bg-white p-3 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg md:rounded-[30px] md:p-5"
+>
                 {/* TOP */}
                 <div className="flex items-center justify-between gap-2 md:gap-5">
                   {/* TITLE */}
@@ -108,9 +147,9 @@ function WhyChooseUs() {
                 <p className="pt-2 text-xs font-medium leading-[160%] text-primary-dark/60 md:pt-6 md:text-[15px] md:leading-[190%] md:text-md">
                   {item.description}
                 </p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+         </motion.div>
         </div>
       </section>
     </>

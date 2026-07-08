@@ -88,7 +88,7 @@ const Page = async ({ params }) => {
 
 
 {data.followUpSection && (
-  <section className="py-10">
+  <section className="py-5">
     <ServiceCTA/>
   </section>
 )}

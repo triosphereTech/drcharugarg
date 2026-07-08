@@ -3,6 +3,7 @@
 "use client";
 
 import React from "react";
+import { motion } from "framer-motion";
 
 import { Upload, ScanSearch, FileText } from "lucide-react";
 
@@ -12,15 +13,40 @@ const iconMap = {
   plan: <FileText size={34} />,
 };
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 35 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const staggerContainer = {
+  hidden: {},
+  visible: {
+    transition: {
+      delayChildren: 0.1,
+      staggerChildren: 0.15,
+    },
+  },
+};
+
 const HOTW = ({ data }) => {
   return (
     <section className="relative overflow-hidden bg-linear-to-b from-[#eef7fb] to-[#ffffff] ">
       {/* Blur */}
       <div className="absolute right-0 top-0 h-[320px] w-[320px] rounded-full bg-[#eef7fb] blur-[120px]" />
 
-      <div className="relative mx-auto max-w-7xl px-3 pt-5 md:px-5 lg:pt-20">
+      <div className="relative mx-auto max-w-7xl px-3 pt-5 md:px-5 lg:pt-10">
         {/* Heading */}
-        <div className="mx-auto max-w-[920px] text-center">
+        <motion.div
+          className="mx-auto max-w-[920px] text-center"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.5 }}
+        >
           {/* Badge */}
           <div className="mb-5 flex justify-center">
             {/* <div className="flex items-center gap-2 rounded-full border border-[#dceaf3] bg-[#f8fcfe] px-4 py-2">
@@ -39,10 +65,10 @@ const HOTW = ({ data }) => {
 
           {/* Description */}
           
-        </div>
+        </motion.div>
 
         {/* Timeline */}
-        <div className="relative mt-20">
+        <div className="relative mt-10">
           {/* Curved Connection Line */}
           <div className="absolute left-1/2 top-[62px] hidden w-[78%] -translate-x-1/2 lg:block">
             <svg
@@ -90,10 +116,17 @@ const HOTW = ({ data }) => {
           </div>
 
           {/* Cards */}
-          <div className="grid gap-10 grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
+          <motion.div
+            className="grid gap-10 grid-cols-1 md:grid-cols-3 lg:grid-cols-3"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+          >
             {data.steps?.map((item, index) => (
-              <div
+              <motion.div
                 key={index}
+                variants={fadeUp}
                 className={`group relative flex flex-col items-center text-center ${
                   index === 1 ? "lg:mt-10" : "mt-0"
                 }`}
@@ -129,9 +162,9 @@ const HOTW = ({ data }) => {
                     {item.description}
                   </p>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
 
         {/* Bottom Line */}

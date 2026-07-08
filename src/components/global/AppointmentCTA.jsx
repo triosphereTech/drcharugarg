@@ -1,7 +1,40 @@
+"use client";
+
+import { motion } from "framer-motion";
 import { HiArrowUpRight } from "react-icons/hi2";
 import Image from "next/image";
 import Link from "next/link";
 import Charu from "../../../public/images/DrDesk.jpg";
+
+const fadeUp = {
+  hidden: {
+    opacity: 0,
+    y: 40,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.7,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
+
+const fadeRight = {
+  hidden: {
+    opacity: 0,
+    x: 50,
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.8,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
 
 const AppointmentCTA = () => {
   return (
@@ -34,7 +67,13 @@ const AppointmentCTA = () => {
         {/* Content */}
         <div className="relative z-10 grid items-center gap-6 px-6 py-7 md:px-8 md:py-8 xl:grid-cols-[1.05fr_0.95fr] xl:px-10 xl:py-8">
           {/* Left */}
-          <div className="max-w-[560px]">
+         <motion.div
+  className="max-w-[560px]"
+  variants={fadeUp}
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: true, amount: 0.35 }}
+>
             {/* Badge */}
             <div className="inline-flex rounded-full border border-[#BFE9FF] bg-white/90 px-3.5 py-1 backdrop-blur-md">
               <span className="text-[10px] font-semibold uppercase tracking-[2px] text-[#058FD2]">
@@ -75,12 +114,18 @@ const AppointmentCTA = () => {
     Contact Us
   </Link>
 </div>
-          </div>
+          </motion.div>
 
           {/* Spacer for desktop image */}
-          <div className="relative hidden h-[320px] xl:block">
+         <motion.div
+  className="relative hidden h-[320px] xl:block"
+  variants={fadeRight}
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: true, amount: 0.3 }}
+>
             {/* <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#EAFBFF] via-[#EAFBFF]/20 to-transparent" /> */}
-          </div>
+          </motion.div>
 
           {/* Mobile Image */}
           <div className="hidden relative mt-10 h-[130px] overflow-hidden rounded-3xl xl:hidden">

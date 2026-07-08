@@ -3,6 +3,7 @@
 "use client";
 
 import React from "react";
+import { motion } from "framer-motion";
 
 import {
   ShieldPlus,
@@ -53,6 +54,35 @@ const pointIcons = {
   Exosomes: <Activity size={16} />,
 };
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 35 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const staggerContainer = {
+  hidden: {},
+  visible: {
+    transition: {
+      delayChildren: 0.1,
+      staggerChildren: 0.15,
+    },
+  },
+};
+
+const cardVariant = {
+  hidden: { opacity: 0, y: 40, scale: 0.97 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
 const TreatmentScope = ({ data }) => {
   return (
     <section className="relative overflow-hidden bg-linear-to-b from-white to-[#eef7fb] ">
@@ -61,7 +91,13 @@ const TreatmentScope = ({ data }) => {
 
       <div className="relative mx-auto max-w-7xl px-3 pt-10 md:px-5 md:pt-20">
         {/* TOP */}
-        <div className="max-w-auto px-2">
+        <motion.div
+          className="max-w-auto px-2"
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.5 }}
+        >
           {/* Badge */}
           <div className="mb-5 flex w-fit items-center gap-2 rounded-full border border-[#dceaf3] bg-[#f8fcfe] px-4 py-2">
             <div className="h-2 w-2 rounded-full bg-[#058FD2]" />
@@ -75,13 +111,20 @@ const TreatmentScope = ({ data }) => {
           <h2 className="text-3xl font-semibold leading-[1.05] text-[#131C15] md:text-4xl lg:text-5xl">
             Diagnosis & Treatment Approach
           </h2>
-        </div>
+        </motion.div>
 
         {/* TABLES */}
-        <div className="mt-6 lg:mt-16 grid gap-6 xl:grid-cols-3">
+        <motion.div
+          className="mt-6 lg:mt-16 grid gap-6 xl:grid-cols-3"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.15 }}
+        >
           {data.tables?.map((table, index) => (
-            <div
+            <motion.div
               key={index}
+              variants={cardVariant}
               className="group relative overflow-hidden rounded-[38px] border border-[#e4edf2] bg-[#fbfdfe] transition-all duration-500 hover:-translate-y-1 hover:border-[#cfe4f2] hover:bg-white hover:shadow-[0_20px_60px_rgba(15,23,42,0.06)]"
             >
               {/* Glow */}
@@ -92,7 +135,7 @@ const TreatmentScope = ({ data }) => {
                 <div className="flex items-start gap-4">
                   {/* Title */}
                   <div>
-                    <h3 className="text-[28px] font-semibold leading-tight text-[#131C15]">
+                    <h3 className="text-[22px] font-semibold leading-tight text-[#131C15]">
                       {table.title}
                     </h3>
                   </div>
@@ -110,23 +153,23 @@ const TreatmentScope = ({ data }) => {
                       {/* Icon */}
                       <div className="relative flex h-6 w-6 items-center justify-center shrink-0">
                         {/* Background circle */}
-                        <div className="absolute h-6 w-6 rounded-full bg-[#058FD2]/15" />
+                        <div className="absolute h-4 w-4 rounded-full bg-[#058FD2]/15" />
 
                         {/* Blue dot */}
-                        <div className="relative h-2.5 w-2.5 rounded-full bg-[#058FD2]" />
+                        <div className="relative h-2 w-2 rounded-full bg-[#058FD2]" />
                       </div>
 
                       {/* Text */}
-                      <p className="text-[16px] font-medium leading-6 text-[#4b5563]">
+                      <p className="text-[14px] font-medium leading-6 text-[#4b5563]">
                         {item}
                       </p>
                     </div>
                   ))}
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

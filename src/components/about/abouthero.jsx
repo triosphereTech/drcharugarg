@@ -1,5 +1,6 @@
 "use client"
 import React, { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 
 const services = [
   { icon: "🔬", label: "Acne & Scar Treatment", sub: "Medical & Surgical Methods", theme: "sky" },
@@ -15,6 +16,34 @@ const services = [
   { icon: "🩺", label: "Wound Care", sub: "Dermal healing", theme: "emerald-solid" },
   { icon: "⏱️", label: "Skin Consultations", sub: "Evidence-based advice", theme: "cyan-solid" },
 ];
+
+const fadeUp = {
+  hidden: {
+    opacity: 0,
+    y: 40,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.7,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
+
+const fadeIn = {
+  hidden: {
+    opacity: 0,
+  },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 0.8,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
 
 const themeStyles = {
   sky: {
@@ -177,14 +206,26 @@ const AboutHero = () => {
 
       <div className="relative mx-auto max-w-7xl px-6 pt-28 pb-16 lg:px-8">
         {/* Badge */}
-        <div className="flex justify-center">
+       <motion.div
+  className="flex justify-center"
+  variants={fadeUp}
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: true, amount: 0.7 }}
+>
           <div className="rounded-full border border-sky-100 bg-white/80 backdrop-blur px-5 py-2 text-sm font-medium text-sky-700 shadow-sm">
             About Dr. Charu Garg
           </div>
-        </div>
-
+       </motion.div>
         {/* Heading */}
-        <div className="mx-auto mt-8 max-w-4xl text-center">
+       <motion.div
+  className="mx-auto mt-8 max-w-4xl text-center"
+  variants={fadeUp}
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: true, amount: 0.5 }}
+  transition={{ delay: 0.15 }}
+>
           <h1 className="text-4xl font-bold tracking-tight text-[#082f68] sm:text-5xl md:text-6xl">
             We Prioritize Your
             <span className="block bg-linear-to-r from-sky-700 via-cyan-600 to-emerald-600 bg-clip-text text-transparent">
@@ -196,7 +237,7 @@ const AboutHero = () => {
             treatments, evidence-based approaches, and compassionate support
             tailored to your unique needs.
           </p> */}
-        </div>
+       </motion.div>
 
        
 

@@ -1,9 +1,47 @@
 "use client";
 
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { HiArrowUpRight } from "react-icons/hi2";
 import DoctorImage from "../../../public/images/ContactCharu.png";
 import Link from "next/link";
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 35 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const fadeIn = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const staggerContainer = {
+  hidden: {},
+  visible: {
+    transition: {
+      delayChildren: 0.1,
+      staggerChildren: 0.12,
+    },
+  },
+};
+
+const badgeFade = {
+  hidden: { opacity: 0, y: 12 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+  },
+};
 
 const ContactHero = () => {
   return (
@@ -15,33 +53,46 @@ const ContactHero = () => {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
 
           {/* Left Content */}
-          <div>
-            <span className="inline-flex items-center px-4 py-2 rounded-full bg-[#058FD2]/10 text-[#058FD2] text-sm font-medium mb-5">
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            animate="visible"
+          >
+            <motion.span
+              variants={fadeUp}
+              className="inline-flex items-center px-4 py-2 rounded-full bg-[#058FD2]/10 text-[#058FD2] text-sm font-medium mb-5"
+            >
               Contact Dr. Charu Garg
-            </span>
+            </motion.span>
 
-            <h1 className="text-4xl md:text-5xl lg:text-5xl font-semibold leading-tight text-[#131C15]">
+            <motion.h1
+              variants={fadeUp}
+              className="text-4xl md:text-5xl lg:text-5xl font-semibold leading-tight text-[#131C15]"
+            >
               Let's Discuss Your
               <span className="block text-[#058FD2]">
                 Skin, Hair & Nail Concerns
               </span>
-            </h1>
+            </motion.h1>
 
-            <p className="mt-6 max-w-xl text-[17px] leading-relaxed text-gray-600">
+            <motion.p
+              variants={fadeUp}
+              className="mt-6 max-w-xl text-[17px] leading-relaxed text-gray-600"
+            >
               Whether you have questions about a skin, hair, or nail concern, need expert advice on the right treatment, or wish to schedule a consultation, our team is here to provide compassionate, personalized dermatology care tailored to your unique needs.
 
-            </p>
+            </motion.p>
 
-            <div className="flex flex-wrap gap-4 mt-8">
+            <motion.div variants={fadeUp} className="flex flex-wrap gap-4 mt-8">
               <Link href="/book-appointment" className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#058FD2] text-white font-medium transition-all hover:-translate-y-0.5">
                 Book Consultation
                 <HiArrowUpRight className="text-lg transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
               </Link>
-            </div>
+            </motion.div>
 
             {/* Contact Cards */}
-           <div className="mt-10 grid gap-4 sm:grid-cols-2">
-  <div className="rounded-3xl border border-slate-200 bg-white p-5">
+           <motion.div variants={staggerContainer} className="mt-10 grid gap-4 sm:grid-cols-2">
+  <motion.div variants={fadeUp} className="rounded-3xl border border-slate-200 bg-white p-5">
     <p className="text-sm text-gray-500">Phone</p>
     <a
       href="tel:+918460407471"
@@ -49,9 +100,9 @@ const ContactHero = () => {
     >
       +91 84604 07471
     </a>
-  </div>
+  </motion.div>
 
-  <div className="rounded-3xl border border-slate-200 bg-white p-5">
+  <motion.div variants={fadeUp} className="rounded-3xl border border-slate-200 bg-white p-5">
     <p className="text-sm text-gray-500">Email</p>
     <a
       href="mailto:teleconsult.drcharugarg@gmail.com"
@@ -59,26 +110,32 @@ const ContactHero = () => {
     >
       teleconsult.drcharugarg@gmail.com
     </a>
-  </div>
+  </motion.div>
 
-  <div className="rounded-3xl border border-slate-200 bg-white p-5">
+  <motion.div variants={fadeUp} className="rounded-3xl border border-slate-200 bg-white p-5">
     <p className="text-sm text-gray-500">Clinic Hours</p>
     <p className="mt-1 font-semibold text-[#131C15]">
       Mon - Sat, 10 AM - 7 PM
     </p>
-  </div>
+  </motion.div>
 
-  <div className="rounded-3xl border border-slate-200 bg-white p-5">
+  <motion.div variants={fadeUp} className="rounded-3xl border border-slate-200 bg-white p-5">
     <p className="text-sm text-gray-500">Location</p>
     <p className="mt-1 font-semibold text-[#131C15]">
       Ahmedabad, Gujarat
     </p>
-  </div>
-</div>
-          </div>
+  </motion.div>
+</motion.div>
+          </motion.div>
 
           {/* Right Image */}
-          <div className="relative flex justify-center lg:justify-end">
+          <motion.div
+            className="relative flex justify-center lg:justify-end"
+            variants={fadeIn}
+            initial="hidden"
+            animate="visible"
+            transition={{ delay: 0.2 }}
+          >
 
             {/* Glow */}
             <div className="absolute w-[420px] h-[420px] rounded-full bg-[#058FD2]/10 blur-3xl" />
@@ -94,26 +151,44 @@ const ContactHero = () => {
               />
 
               {/* Floating Cards */}
-              <div className="hidden xl:absolute top-8 -left-4 bg-white rounded-2xl px-4 py-3 shadow-sm border border-slate-100">
+              <motion.div
+                variants={badgeFade}
+                initial="hidden"
+                animate="visible"
+                transition={{ delay: 0.6 }}
+                className="hidden xl:absolute top-8 -left-4 bg-white rounded-2xl px-4 py-3 shadow-sm border border-slate-100"
+              >
                 <p className="text-sm font-medium text-[#131C15]">
                   ✓ Expert Dermatology Care
                 </p>
-              </div>
+              </motion.div>
 
-              <div className="hidden xl:absolute bottom-24 -right-4 bg-white rounded-2xl px-4 py-3 shadow-sm border border-slate-100">
+              <motion.div
+                variants={badgeFade}
+                initial="hidden"
+                animate="visible"
+                transition={{ delay: 0.75 }}
+                className="hidden xl:absolute bottom-24 -right-4 bg-white rounded-2xl px-4 py-3 shadow-sm border border-slate-100"
+              >
                 <p className="text-sm font-medium text-[#131C15]">
                   ✓ Personalized Treatments
                 </p>
-              </div>
+              </motion.div>
 
-              <div className="hidden xl:absolute bottom-8 left-6 bg-white rounded-2xl px-4 py-3 shadow-sm border border-slate-100">
+              <motion.div
+                variants={badgeFade}
+                initial="hidden"
+                animate="visible"
+                transition={{ delay: 0.9 }}
+                className="hidden xl:absolute bottom-8 left-6 bg-white rounded-2xl px-4 py-3 shadow-sm border border-slate-100"
+              >
                 <p className="text-sm font-medium text-[#131C15]">
                   ✓ Skin • Hair • Nail Specialist
                 </p>
-              </div>
+              </motion.div>
 
             </div>
-          </div>
+          </motion.div>
 
         </div>
       </div>

@@ -3,6 +3,36 @@
 'use client'
 
 import React from "react";
+import { motion } from "framer-motion";
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 35 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const staggerContainer = {
+  hidden: {},
+  visible: {
+    transition: {
+      delayChildren: 0.1,
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const cardVariant = {
+  hidden: { opacity: 0, y: 40, scale: 0.96 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+  },
+};
 
 const LookLike = ({ data }) => {
   return (
@@ -11,39 +41,57 @@ const LookLike = ({ data }) => {
       {/* Soft Background */}
       <div className="absolute left-1/2 top-0 h-[320px] w-[320px] -translate-x-1/2 rounded-full bg-[#eef7fb] blur-[110px]" />
 
-      <div className="relative mx-auto max-w-7xl px-3 pt-10 md:px-5 md:pt-20">
+      <div className="relative mx-auto max-w-7xl px-3 pt-5 md:px-5 md:pt-16">
 
         {/* TOP */}
-        <div>
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.5 }}
+        >
 
           {/* Badge */}
-          <div className="mb-5 flex w-fit items-center gap-2 rounded-full border border-[#dceaf3] bg-[#f8fcfe] px-4 py-2">
+          <motion.div
+            variants={fadeUp}
+            className="mb-5 flex w-fit items-center gap-2 rounded-full border border-[#dceaf3] bg-[#f8fcfe] px-4 py-2"
+          >
 
             <div className="h-2 w-2 rounded-full bg-[#058FD2]" />
 
             <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-[#058FD2]">
               Common Signs & Symptoms
             </p>
-          </div>
+          </motion.div>
 
           {/* Heading */}
-          <h2 className="text-3xl px-2 font-semibold leading-[1.05] text-[#131C15] md:text-5xl lg:text-[4  2px]">
+          <motion.h2
+            variants={fadeUp}
+            className="text-3xl px-2 font-semibold leading-[1.05] text-[#131C15] md:text-5xl lg:text-[4  2px]"
+          >
             {data.title}
-          </h2>
+          </motion.h2>
 
           {/* Description */}
           {/* <p className="mt-3 max-w-3xl text-[15px] leading-8 text-[#667085] md:text-[17px]">
             Early identification of symptoms helps create a more accurate, personalized treatment strategy for long-term hair restoration.
           </p> */}
-        </div>
+        </motion.div>
 
         {/* MAIN GRID */}
-        <div className="my-10 grid gap-5 grid-cols-2 xl:grid-cols-5">
+        <motion.div
+          className="my-5 grid gap-4 grid-cols-2 xl:grid-cols-5"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+        >
 
           {data.items?.map((item, index) => (
 
-            <div
+            <motion.div
               key={index}
+              variants={cardVariant}
               className="group relative overflow-hidden rounded-[26px] border border-[#e4edf2] bg-[#fbfdfe] transition-all duration-500 hover:-translate-y-1 hover:border-[#cfe4f2] hover:bg-white hover:shadow-[0_22px_70px_rgba(15,23,42,0.06)]"
             >
 
@@ -80,9 +128,9 @@ const LookLike = ({ data }) => {
                   </p>
                 )}
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Bottom Content */}
         <div className="mt-0">

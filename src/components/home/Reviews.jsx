@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Quote } from "lucide-react";
+import { motion } from "framer-motion";
 
 const reviews = [
   {
@@ -31,6 +32,34 @@ const reviews = [
   },
 ];
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 35 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const staggerContainer = {
+  hidden: {},
+  visible: {
+    transition: {
+      delayChildren: 0.1,
+      staggerChildren: 0.12,
+    },
+  },
+};
+
+const fadeIn = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
 const Reviews = () => {
   const duplicatedReviews = [...reviews, ...reviews];
 
@@ -43,9 +72,18 @@ const Reviews = () => {
       <div className="relative mx-auto px-5 md:px-8 lg:px-0">
 
         {/* Heading */}
-        <div className="mx-auto max-w-full text-center">
+        <motion.div
+          className="mx-auto max-w-full text-center"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.5 }}
+        >
 
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#d8eaf4]/40 bg-white/30 px-4 py-2">
+          <motion.div
+            className="inline-flex items-center gap-2 rounded-full border border-[#d8eaf4]/40 bg-white/30 px-4 py-2"
+            variants={fadeUp}
+          >
 
             <div className="h-2 w-2 rounded-full bg-white" />
 
@@ -53,16 +91,25 @@ const Reviews = () => {
               Testimonials
             </p>
 
-          </div>
+          </motion.div>
 
-          <h2 className="mt-6 text-3xl font-semibold leading-[1.1] text-white md:text-5xl lg:text-[58px]">
+          <motion.h2
+            className="mt-6 text-3xl font-semibold leading-[1.1] text-white md:text-5xl lg:text-[58px]"
+            variants={fadeUp}
+          >
             Words from Our Patients
-          </h2>
+          </motion.h2>
 
-        </div>
+        </motion.div>
 
         {/* Reviews */}
-        <div className="relative mt-5 md:mt-16">
+        <motion.div
+          className="relative mt-5 md:mt-16"
+          variants={fadeIn}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.15 }}
+        >
 
           {/* Mobile: plain swipeable row, no animation. Desktop (lg+): original auto-scrolling marquee */}
           <div className="marquee-wrap overflow-x-auto lg:overflow-visible snap-x snap-mandatory lg:snap-none">
@@ -136,7 +183,7 @@ const Reviews = () => {
               ))}
             </div>
           </div>
-        </div>
+        </motion.div>
 
       </div>
 

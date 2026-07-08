@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import { Plus, Minus } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import Faq from "../../../public/images/Faq.png";
+import { motion } from "framer-motion";
+import Faq from "../../../public/images/NurseF.png";
 
 const faqs = [
   {
@@ -43,6 +44,25 @@ const faqs = [
   },
 ];
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 35 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const staggerContainer = {
+  hidden: {},
+  visible: {
+    transition: {
+      delayChildren: 0.1,
+      staggerChildren: 0.12,
+    },
+  },
+};
+
 const OnlineConsultationFAQ = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -58,27 +78,45 @@ const OnlineConsultationFAQ = () => {
       <div className="relative mx-auto max-w-[1280px]">
         <div className="grid items-start gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:gap-14 xl:gap-20">
           {/* Left Content */}
-          <div className="lg:sticky lg:top-24 h-fit">
-            <p className="mb-3 text-sm font-medium uppercase tracking-[0.22em] text-[#058FD2]">
+          <motion.div
+            className="lg:sticky lg:top-24 h-fit"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+          >
+            <motion.p
+              className="mb-3 text-sm font-medium uppercase tracking-[0.22em] text-[#058FD2]"
+              variants={fadeUp}
+            >
               FAQs
-            </p>
+            </motion.p>
 
-            <h2 className="max-w-[520px] text-3xl font-semibold leading-tight text-[#131C15] md:text-5xl">
+            <motion.h2
+              className="max-w-[520px] text-3xl font-semibold leading-tight text-[#131C15] md:text-5xl"
+              variants={fadeUp}
+            >
               Frequently Asked Questions
-            </h2>
+            </motion.h2>
 
             {/* Doctor Image */}
-            <div className="mt-8 overflow-hidden rounded-[34px]">
+            <motion.div
+              className="mt-8 overflow-hidden rounded-[34px]"
+              variants={fadeUp}
+            >
               <Image
                 src={Faq}
                 alt="Online Consultation"
                 className="h-[420px] w-full object-cover"
                 priority
               />
-            </div>
+            </motion.div>
 
             {/* CTA Card */}
-            <div className=" mt-6 rounded-[34px] bg-[#0F3D73] px-8 py-8">
+            <motion.div
+              className=" mt-6 rounded-[34px] bg-[#0F3D73] px-8 py-8"
+              variants={fadeUp}
+            >
               <h3 className="text-3xl font-semibold text-white">
                 Any Inquiries?
               </h3>
@@ -102,17 +140,24 @@ const OnlineConsultationFAQ = () => {
                   Contact Us
                 </Link>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* FAQ List */}
-          <div className="space-y-4 lg:pr-2">
+          <motion.div
+            className="space-y-4 lg:pr-2"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+          >
             {faqs.map((faq, index) => {
               const isActive = activeIndex === index;
 
               return (
-                <div
+                <motion.div
                   key={index}
+                  variants={fadeUp}
                   className={`overflow-hidden rounded-[28px] border transition-all duration-500 ${
                     isActive
                       ? "border-[#cfe9f5] bg-[#eef7fb]"
@@ -171,10 +216,10 @@ const OnlineConsultationFAQ = () => {
                       </div>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
