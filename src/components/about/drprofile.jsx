@@ -106,7 +106,7 @@ const expertise = [
         <div className="mx-auto max-w-7xl overflow-hidden rounded-[40px] bg-linear-to-br from-[#082c62] via-[#0A3C84] to-[#0C7A72]">
           <div className="grid lg:grid-cols-[1.2fr_.8fr]">
             {/* Left Content */}
-            <div className="px-4 md:px-0 p-0 md:p-12 lg:p-16 text-white">
+            <div className="px-4lg:px-0 p-0 md:p-12 lg:p-16 text-white">
               {/* <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 backdrop-blur px-4 py-2">
                 <span className="h-2 w-2 rounded-full bg-emerald-400" />
                 <span className="text-sm">

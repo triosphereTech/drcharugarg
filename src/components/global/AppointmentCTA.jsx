@@ -5,10 +5,10 @@ import Charu from "../../../public/images/DrDesk.jpg";
 
 const AppointmentCTA = () => {
   return (
-    <section className="pt-2 px-5 md:px-0 md:pt-12">
+    <section className="pt-2 px-5 xl:px-0 md:pt-12">
       <div className="relative overflow-hidden rounded-[36px] border border-[#7DD3FC] bg-white">
         {/* Right Background Image */}
-        <div className="absolute inset-y-0 right-0 hidden w-[52%] lg:block">
+        <div className="absolute inset-y-0 right-0 hidden w-[52%] xl:block">
           <Image
             src={Charu}
             alt="Dr Charu Garg Clinic"
@@ -18,7 +18,7 @@ const AppointmentCTA = () => {
           />
 
           {/* Fade */}
-          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/75 via-25% to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-r from-white via-white/75 via-25% to-transparent" />
 
           {/* Glows */}
           <div className="absolute bottom-0 right-0 h-56 w-56 rounded-full bg-[#12D6C5]/20 blur-[90px]" />
@@ -78,12 +78,12 @@ const AppointmentCTA = () => {
           </div>
 
           {/* Spacer for desktop image */}
-          <div className="relative hidden h-[320px] lg:block">
+          <div className="relative hidden h-[320px] xl:block">
             {/* <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#EAFBFF] via-[#EAFBFF]/20 to-transparent" /> */}
           </div>
 
           {/* Mobile Image */}
-          <div className="hidden relative mt-10 h-[130px] overflow-hidden rounded-3xl lg:hidden">
+          <div className="hidden relative mt-10 h-[130px] overflow-hidden rounded-3xl xl:hidden">
             <Image
               src={Charu}
               alt="Dr Charu Garg Clinic"

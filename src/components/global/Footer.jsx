@@ -67,7 +67,7 @@ function Footer() {
       <footer className="px-3 pt-5 pb-3 md:px-5 md:pt-10">
         <div className="overflow-hidden rounded-[36px] bg-white border border-gray-100">
           {/* MIDDLE */}
-          <div className="grid gap-12 p-5 md:p-7 xl:grid-cols-[1fr_1fr] xl:p-10">
+          <div className="grid gap-12 p-5 md:p-7 lg:grid-cols-[1fr_1fr] lg:p-10">
             {/* BRAND */}
             <div>
               {/* LOGO */}
@@ -141,18 +141,18 @@ function Footer() {
       </a>
     </div>
 
-    <div className="flex flex-wrap">
-      <p className="text-sm font-semibold uppercase tracking-[2px] text-gray-400">
-        Email
-      </p>
+    <div>
+  <p className="text-sm font-semibold uppercase tracking-[2px] text-gray-400">
+    Email
+  </p>
 
-      <a
-        href="mailto:teleconsult.drcharugarg@gmail.com"
-        className="block pt-2 text-md font-medium text-gray-600 transition-colors hover:text-primary-accent break-words"
-      >
-        teleconsult.drcharugarg@gmail.com
-      </a>
-    </div>
+  <a
+    href="mailto:teleconsult.drcharugarg@gmail.com"
+    className="mt-2 block max-w-full break-all text-md font-medium text-gray-600 transition-colors hover:text-primary-accent"
+  >
+    teleconsult.drcharugarg@gmail.com
+  </a>
+</div>
 
     <div>
       <p className="text-sm font-semibold uppercase tracking-[2px] text-gray-400">

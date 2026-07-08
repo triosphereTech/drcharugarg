@@ -55,7 +55,7 @@ const ContactHero = () => {
     <p className="text-sm text-gray-500">Email</p>
     <a
       href="mailto:teleconsult.drcharugarg@gmail.com"
-      className="mt-1 block font-semibold text-[#131C15] transition-colors hover:text-primary-accent"
+      className="mt-1 block max-w-full break-all font-semibold text-[#131C15] transition-colors hover:text-primary-accent"
     >
       teleconsult.drcharugarg@gmail.com
     </a>
@@ -94,19 +94,19 @@ const ContactHero = () => {
               />
 
               {/* Floating Cards */}
-              <div className="absolute top-8 -left-4 bg-white rounded-2xl px-4 py-3 shadow-sm border border-slate-100">
+              <div className="hidden xl:absolute top-8 -left-4 bg-white rounded-2xl px-4 py-3 shadow-sm border border-slate-100">
                 <p className="text-sm font-medium text-[#131C15]">
                   ✓ Expert Dermatology Care
                 </p>
               </div>
 
-              <div className="absolute bottom-24 -right-4 bg-white rounded-2xl px-4 py-3 shadow-sm border border-slate-100">
+              <div className="hidden xl:absolute bottom-24 -right-4 bg-white rounded-2xl px-4 py-3 shadow-sm border border-slate-100">
                 <p className="text-sm font-medium text-[#131C15]">
                   ✓ Personalized Treatments
                 </p>
               </div>
 
-              <div className="absolute bottom-8 left-6 bg-white rounded-2xl px-4 py-3 shadow-sm border border-slate-100">
+              <div className="hidden xl:absolute bottom-8 left-6 bg-white rounded-2xl px-4 py-3 shadow-sm border border-slate-100">
                 <p className="text-sm font-medium text-[#131C15]">
                   ✓ Skin • Hair • Nail Specialist
                 </p>

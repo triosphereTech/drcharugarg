@@ -63,3 +63,9 @@ body {
   --font-heading: var(--font-aptos-display);
 }
 
+@media (min-width: 1024px) and (max-width: 1024px) and (orientation: portrait) {
+  .hero-layout {
+    display: flex !important;
+    flex-direction: column;
+  }
+}

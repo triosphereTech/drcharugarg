@@ -15,13 +15,27 @@ function about() {
               {/* IMAGE WRAPPER */}
               <div className="relative overflow-hidden rounded-[30px]">
                 <Image
-                  src={Dr}
-                  alt="Dr Charu Garg"
-                  className="h-[420px] w-full object-cover md:h-[520px] xl:h-[620px]"
-                />
+  src={Dr}
+  alt="Dr Charu Garg"
+  className="h-[420px] w-full object-cover md:h-auto xl:h-[620px]"
+/>
 
                 {/* EXPERIENCE */}
-                <div className="absolute -right-2 bottom-3 md:-right-22 md:bottom-120 z-20 rounded-[24px] border border-white/20 bg-white/90 px-5 py-4 md:w-[240px] shadow-xl backdrop-blur-xl">
+                <div
+  className="
+    absolute
+    top-4 right-4
+    lg:top-6 lg:right-6
+    xl:top-8 xl:right-8
+    z-20
+    rounded-[24px]
+    border border-white/20
+    bg-white/90
+    px-5 py-4
+    shadow-xl
+    backdrop-blur-xl
+  "
+>
   <h3 className="text-xl md:text-4xl font-semibold leading-none text-primary-dark">
     5+
   </h3>

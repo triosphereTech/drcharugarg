@@ -35,7 +35,7 @@ const marqueeItems = [
  * Breakpoint order used for the image sizing fallback chain.
  * Matches Tailwind's default breakpoints.
  */
-const BP_ORDER = ["base", "sm", "md", "lg", "xl", "2xl"];
+const BP_ORDER = ["base", "sm", "md", "lg","ipadPro", "xl", "2xl"];
 
 /**
  * Reads window width and returns the current breakpoint bucket.
@@ -46,6 +46,9 @@ function useBreakpoint() {
 
   useEffect(() => {
     const mqs = {
+      ipadPro: window.matchMedia(
+    "(min-width: 1024px) and (max-width: 1024px) and (min-height: 1366px)"
+  ),
       "2xl": window.matchMedia("(min-width: 1536px)"),
       xl: window.matchMedia("(min-width: 1280px)"),
       lg: window.matchMedia("(min-width: 1024px)"),
@@ -56,6 +59,7 @@ function useBreakpoint() {
     const compute = () => {
       if (mqs["2xl"].matches) return "2xl";
       if (mqs.xl.matches) return "xl";
+      if (mqs.ipadPro.matches) return "ipadPro";
       if (mqs.lg.matches) return "lg";
       if (mqs.md.matches) return "md";
       if (mqs.sm.matches) return "sm";
@@ -97,11 +101,11 @@ const slides = [
     color: "#315e95",
     blend: "#039bd3",
     accent: "#50b1a2",
-    contentmt2xl: "mt-20",
     imageConfig: {
       base: { height: "42vh", scale: 1.20, x: "0px", y: "0px" },
       sm: { height: "48vh", scale: 1.12, x: "0px", y: "0px" },
       md: { height: "58vh", scale: 1.18, x: "0px", y: "0px" },
+      ipadPro: { height: "78vh", scale: 1.1,x: "150px",y: "-130px"},
       lg: { height: "100vh", scale: 1, x: "0px", y: "0px" },
       xl: { height: "100vh", scale: 1, x: "150px", y: "0px" },
       "2xl": { height: "110vh", scale: 1, x: "180px", y: "0px" },
@@ -129,6 +133,7 @@ const slides = [
       sm: { height: "42vh", scale: 1.15, x: "0px", y: "30px" },
       md: { height: "50vh", scale: 1.3, x: "0px", y: "40px" },
       lg: { height: "80vh", scale: 1.2, x: "0px", y: "70px" },
+      ipadPro: { height: "75vh", scale: 1,x: "170px",y: "-200px"},
       "2xl": { height: "88vh", scale: 1.1, x: "30px", y: "50px" },
     },
     stats: [
@@ -154,6 +159,7 @@ const slides = [
       sm: { height: "46vh", scale: 1.14, x: "0px", y: "20px" },
       md: { height: "58vh", scale: 1.2, x: "0px", y: "30px" },
       lg: { height: "70vh", scale: 1.2, x: "-80px", y: "40px" },
+      ipadPro: { height: "78vh", scale: 0.95,x: "50px",y: "-250px"},
       "2xl": { height: "100vh", scale: 0.95, x: "0px", y: "-20px" },
     },
     stats: [
@@ -166,6 +172,7 @@ const slides = [
 
 const HeroSection = () => {
   const bp = useBreakpoint();
+  const isIpadPro = bp === "ipadPro";
 
   return (
     <section className="relative h-[100svh] overflow-hidden bg-[#315e95] font-sans">
@@ -283,7 +290,7 @@ const HeroSection = () => {
                   - lg+: real 2-col grid, text on the left, image block fills
                     full slide height and stays bottom-aligned on the right.
                 */}
-                <div className="relative z-10 mx-auto flex w-full max-w-7xl 2xl:max-w-[96rem] flex-1 flex-col lg:grid lg:grid-cols-2 lg:items-center lg:gap-10 xl:gap-16 2xl:gap-20 lg:min-h-[calc(100vh-8rem)]">
+                <div className="hero-layout relative z-10 mx-auto flex w-full max-w-7xl 2xl:max-w-[96rem] flex-1 flex-col lg:grid lg:grid-cols-2 lg:items-center lg:gap-10 xl:gap-16 2xl:gap-20 lg:min-h-[calc(100vh-8rem)]">
                   {/* TEXT CONTENT */}
                   <motion.div
                     initial={{ opacity: 0, y: 25 }}
@@ -292,6 +299,9 @@ const HeroSection = () => {
                     className={`w-full max-w-xl 2xl:max-w-2xl shrink-0 lg:ml-6 xl:ml-10 2xl:ml-0 ${
                         slide.id === 1 ? "mt-10 lg:mt-0 2xl:-mt-26" : "mt-10 lg:mt-0"
                       }`}
+                      style={{
+    marginTop: isIpadPro ? "80px" : undefined,
+  }}
                   >
                     <div className={`mb-3 w-fit rounded-full border border-white/35 bg-white/15 px-3 py-1 text-xs sm:text-sm text-white backdrop-blur-md transition-all hover:bg-white hover:text-[#315e95]`}>
                       {slide.label}
