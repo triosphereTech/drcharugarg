@@ -181,7 +181,7 @@ const HeroSection = () => {
               {marqueeItems.map((item, index) => (
                 <div
                   key={`${group}-${item}`}
-                  className="flex items-center gap-2 sm:gap-3 text-xs sm:text-md font-medium text-slate-800"
+                  className="flex items-center gap-2 sm:gap-3 text-sm xl:text-lg 2xl:text-xl font-medium text-slate-800"
                 >
                   <span className="flex h-5 w-5 sm:h-6 sm:w-6 shrink-0 items-center justify-center rounded-full bg-[#039bd3]/10 text-[#039bd3]">
                     {index === 0 ? (
