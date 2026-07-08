@@ -125,51 +125,49 @@ function Services() {
             viewport={{ once: true, amount: 0.15 }}
           >
             {servicesData.map((item, index) => (
-  <motion.div
-    key={index}
-    variants={fadeUp}
-  >
-    <Link
-      href={item.link}
-      className="group block rounded-[32px] bg-white/80 p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-    >
-                  {/* IMAGE */}
-                  <div className="overflow-hidden rounded-[26px]">
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="h-[240px] w-full object-cover transition-all duration-700 group-hover:scale-105"
-                    />
-                  </div>
+              <motion.div key={index} variants={fadeUp}>
+               <Link
+  href={item.link}
+  className="group flex h-full min-h-[470px] flex-col rounded-[32px] bg-white/80 p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+>
+  {/* IMAGE */}
+  <div className="overflow-hidden rounded-[26px]">
+    <img
+      src={item.image}
+      alt={item.title}
+      className="h-[240px] w-full object-cover transition-all duration-700 group-hover:scale-105"
+    />
+  </div>
 
-                  {/* CONTENT */}
-                  <div className="pt-6">
-                    {/* TITLE */}
-                    <div className="">
-                      <h3 className="text-2xl lg:text-2xl font-semibold leading-[115%] text-primary-dark">
-                        {item.title}
-                      </h3>
+  {/* CONTENT */}
+  <div className="flex flex-1 flex-col pt-6">
+    {/* TITLE */}
+    <div>
+      <h3 className="text-2xl font-semibold leading-[115%] text-primary-dark">
+        {item.title}
+      </h3>
 
-                      <p className="pt-4 text-sm font-medium leading-[190%] text-primary-dark/60 md:text-[15px]">
-                        {item.description}
-                      </p>
-                    </div>
-                    {/* TOP ROW */}
-                    <div className="flex items-center justify-between gap-4 pt-5">
-                      <div className="inline-flex items-center gap-2 rounded-full bg-[#f8f8f5] px-3 py-2">
-                        <div className="h-2 w-2 rounded-full bg-primary-accent" />
+      <p className="pt-4 text-sm font-medium leading-[190%] text-primary-dark/60 md:text-[15px]">
+        {item.description}
+      </p>
+    </div>
 
-                        <p className="text-[10px] font-semibold uppercase tracking-[2px] text-primary-dark/50">
-                          Read More
-                        </p>
-                      </div>
+    {/* BOTTOM STRIPE */}
+    <div className="mt-auto flex items-center justify-between gap-4 pt-5">
+      <div className="inline-flex items-center gap-2 rounded-full bg-[#f8f8f5] px-3 py-2">
+        <div className="h-2 w-2 rounded-full bg-primary-accent" />
 
-                      <button className="flex h-11 w-11 items-center cursor-pointer justify-center rounded-full bg-[#f8f8f5] text-primary-dark transition-all duration-300 group-hover:bg-primary-accent group-hover:text-white">
-                        <HiArrowUpRight className="text-lg" />
-                      </button>
-                    </div>
-                  </div>
-                </Link>
+        <p className="text-[10px] font-semibold uppercase tracking-[2px] text-primary-dark/50">
+          Read More
+        </p>
+      </div>
+
+      <button className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-[#f8f8f5] text-primary-dark transition-all duration-300 group-hover:bg-primary-accent group-hover:text-white">
+        <HiArrowUpRight className="text-lg" />
+      </button>
+    </div>
+  </div>
+</Link>
               </motion.div>
             ))}
           </motion.div>
