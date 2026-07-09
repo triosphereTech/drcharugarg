@@ -73,7 +73,7 @@ export const acneoily = {
   whyThisHappenSection: {
     badge: "Contributing factors",
 
-    title: "WHY ACNE HAPPENS?",
+    title: "Why Acne Happens?",
 
     description: "", // TODO: not provided in your content — please share if needed
 

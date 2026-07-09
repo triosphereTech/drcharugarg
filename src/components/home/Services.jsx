@@ -33,7 +33,7 @@ const servicesData = [
 
   {
     image: "/images/services/Infaction/hero/hero.png",
-    title: "Skin allergy",
+    title: "Skin allergy, Rashes & Infections",
     description: "Diagnosis and management of skin infections and dermatitis.",
 
     link: "/services/skin-infection",
