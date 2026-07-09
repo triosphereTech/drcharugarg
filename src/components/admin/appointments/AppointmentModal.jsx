@@ -14,6 +14,32 @@ function isImageUrl(url) {
   return /\.(png|jpe?g|webp|gif|avif)$/i.test(url || "");
 }
 
+function getAttachmentUrl(attachment) {
+  return typeof attachment === "string" ? attachment : attachment?.url || "";
+}
+
+function getAttachmentOwner(attachment) {
+  if (typeof attachment === "string") {
+    return "patient";
+  }
+
+  return attachment?.uploadedBy === "doctor" ? "doctor" : "patient";
+}
+
+function createDraftFileId() {
+  if (typeof globalThis.crypto?.randomUUID === "function") {
+    return globalThis.crypto.randomUUID();
+  }
+
+  if (typeof globalThis.crypto?.getRandomValues === "function") {
+    const bytes = new Uint32Array(2);
+    globalThis.crypto.getRandomValues(bytes);
+    return `draft-${bytes[0].toString(36)}-${bytes[1].toString(36)}`;
+  }
+
+  return `draft-${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
+}
+
 export function AppointmentModal({ appointment, onClose, onStatusChange }) {
   const [message, setMessage] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
@@ -28,22 +54,64 @@ export function AppointmentModal({ appointment, onClose, onStatusChange }) {
 
   const conversation = useMemo(() => {
     const items = appointment?.patient?.conversation || [];
+    const attachments = appointment?.attachments || [];
+    const patientAttachments = attachments.filter(
+      (attachment) => getAttachmentOwner(attachment) === "patient"
+    );
+    const doctorAttachments = attachments.filter(
+      (attachment) => getAttachmentOwner(attachment) === "doctor"
+    );
+    const messages = [];
 
-    if (!appointment?.prescription) {
-      return items;
+    const patientNote = appointment?.patientNote?.trim();
+
+    if (patientNote) {
+      messages.push({
+        id: `${appointment._id}-patient-note`,
+        sender: "patient",
+        type: "patientNote",
+        title: "Patient Note",
+        text: patientNote,
+        createdAt: appointment.createdAt,
+      });
     }
 
-    return [
-      ...items,
-      {
+    if (patientAttachments.length > 0) {
+      messages.push({
+        id: `${appointment._id}-patient-attachments`,
+        sender: "patient",
+        type: "attachments",
+        title: "Patient Attachments",
+        attachments: patientAttachments,
+        createdAt: patientAttachments[0]?.uploadedAt || appointment.createdAt,
+      });
+    }
+
+    messages.push(...items);
+
+    if (appointment?.prescription) {
+      messages.push({
         id: `${appointment._id}-prescription`,
         sender: "doctor",
         type: "prescription",
         title: "Prescription",
         text: appointment.prescription,
         createdAt: appointment.updatedAt || appointment.createdAt,
-      },
-    ];
+      });
+    }
+
+    if (doctorAttachments.length > 0) {
+      messages.push({
+        id: `${appointment._id}-doctor-attachments`,
+        sender: "doctor",
+        type: "attachments",
+        title: "Doctor Attachments",
+        attachments: doctorAttachments,
+        createdAt: doctorAttachments[0]?.uploadedAt || appointment.updatedAt || appointment.createdAt,
+      });
+    }
+
+    return messages;
   }, [appointment]);
 
   useEffect(() => {
@@ -120,7 +188,6 @@ export function AppointmentModal({ appointment, onClose, onStatusChange }) {
   }
 
   const patient = appointment.patient || {};
-  const attachments = appointment.attachments || [];
 
   return (
     <>
@@ -192,39 +259,6 @@ export function AppointmentModal({ appointment, onClose, onStatusChange }) {
                 </div>
               </div>
 
-              {attachments.length > 0 && (
-                <div className="bg-white border border-[#DDEAF2] rounded-3xl p-4 shadow-sm">
-                  <p className="text-[12px] font-semibold text-[#131C15] mb-3">
-                    Attachments
-                  </p>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    {attachments.map((attachment, index) => {
-                      const url = attachment.url || attachment;
-                      return isImageUrl(url) ? (
-                        <button
-                          key={`${url}-${index}`}
-                          type="button"
-                          onClick={() => setSelectedImage(url)}
-                          className="overflow-hidden rounded-xl border border-[#DDEAF2]"
-                        >
-                          <img src={url} alt="" className="w-full h-28 object-cover" />
-                        </button>
-                      ) : (
-                        <a
-                          key={`${url}-${index}`}
-                          href={url}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="h-28 rounded-xl border border-[#DDEAF2] flex items-center justify-center text-[12px] font-medium text-[#058FD2] bg-[#F8FBFD]"
-                        >
-                          View PDF
-                        </a>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-
               {conversation.map((item) => {
                 if (item.type === "system") {
                   return (
@@ -275,6 +309,67 @@ export function AppointmentModal({ appointment, onClose, onStatusChange }) {
                                 <img src={image} alt="" className="w-full h-32 object-cover hover:scale-105 transition-transform" />
                               </button>
                             ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {item.type === "attachments" && (
+                        <div className={`rounded-[24px] p-3 shadow-sm ${isPatient ? "bg-white border border-[#DDEAF2] rounded-bl-md" : "bg-[#058FD2] rounded-br-md"}`}>
+                          <p className={`text-[12px] font-semibold mb-3 ${isPatient ? "text-[#131C15]" : "text-white"}`}>
+                            {item.title}
+                          </p>
+                          <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                            {item.attachments?.map((attachment, index) => {
+                              const url = getAttachmentUrl(attachment);
+
+                              return isImageUrl(url) ? (
+                                <button
+                                  key={`${url}-${index}`}
+                                  type="button"
+                                  onClick={() => setSelectedImage(url)}
+                                  className="overflow-hidden rounded-xl border border-white/30 bg-white"
+                                >
+                                  <img src={url} alt="" className="w-full h-32 object-cover hover:scale-105 transition-transform" />
+                                </button>
+                              ) : (
+                                <a
+                                  key={`${url}-${index}`}
+                                  href={url}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className={`h-32 rounded-xl border flex items-center justify-center text-[12px] font-medium ${isPatient ? "border-[#DDEAF2] text-[#058FD2] bg-[#F8FBFD]" : "border-white/30 text-white bg-white/10"}`}
+                                >
+                                  View PDF
+                                </a>
+                              );
+                            })}
+                          </div>
+                          <p className={`text-[11px] mt-2 ${isPatient ? "text-zinc-400" : "text-white/70"}`}>
+                            {new Date(item.createdAt).toLocaleTimeString([], {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}
+                          </p>
+                        </div>
+                      )}
+
+                      {item.type === "patientNote" && (
+                        <div className="bg-white border border-[#DDEAF2] rounded-3xl overflow-hidden shadow-sm w-full max-w-[520px] rounded-bl-md">
+                          <div className="bg-[#EEF7FB] border-b border-[#DDEAF2] px-4 py-3">
+                            <h4 className="text-[13px] font-semibold text-[#058FD2]">
+                              {item.title || "Patient Note"}
+                            </h4>
+                          </div>
+                          <div className="p-4">
+                            <pre className="whitespace-pre-wrap font-sans text-[13px] text-zinc-700 leading-relaxed">
+                              {item.text}
+                            </pre>
+                            <p className="text-[11px] mt-3 text-zinc-400">
+                              {new Date(item.createdAt).toLocaleTimeString([], {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              })}
+                            </p>
                           </div>
                         </div>
                       )}
@@ -343,7 +438,7 @@ export function AppointmentModal({ appointment, onClose, onStatusChange }) {
                   onChange={(e) => {
                     const files = Array.from(e.target.files || []);
                     const previews = files.map((file) => ({
-                      id: crypto.randomUUID(),
+                      id: createDraftFileId(),
                       file,
                       preview: file.type.startsWith("image/") ? URL.createObjectURL(file) : "",
                     }));
@@ -390,6 +485,9 @@ export function AppointmentModal({ appointment, onClose, onStatusChange }) {
                   <LuSendHorizontal />
                 </button>
               </div>
+              <p className="mt-3 text-center text-[12px] text-red-500">
+                This appointment closes after one doctor/admin response.
+              </p>
             </div>
           ) : (
             <div className="bg-white border-t border-[#DDEAF2] py-5 text-center">

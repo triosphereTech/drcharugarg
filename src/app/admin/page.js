@@ -76,7 +76,7 @@ export default function DashboardPage() {
       />
 
       <div className="flex-1 p-7 space-y-6">
-        {/* <div className="grid grid-cols-4 gap-3.5">
+        <div className="grid grid-cols-4 gap-3.5">
           <StatCard
             label="Today"
             value={stats.total}
@@ -108,7 +108,7 @@ export default function DashboardPage() {
             accentColor="#EF4444"
             icon="analytics"
           />
-        </div> */}
+        </div>
 
         <div className=" items-start">
           <MainTable />

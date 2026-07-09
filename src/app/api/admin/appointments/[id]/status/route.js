@@ -112,6 +112,8 @@ export async function PATCH(req, { params }) {
 
           attachments.push({
             url: `/uploads/appointments/${fileName}`,
+            uploadedBy: "doctor",
+            uploadedAt: new Date(),
           });
         } else if (file.type === "application/pdf") {
           const fileName = `${timestamp}-${random}.pdf`;
@@ -121,6 +123,8 @@ export async function PATCH(req, { params }) {
 
           attachments.push({
             url: `/uploads/appointments/${fileName}`,
+            uploadedBy: "doctor",
+            uploadedAt: new Date(),
           });
         }
       }
@@ -139,7 +143,10 @@ export async function PATCH(req, { params }) {
       appointment.attachments.push(...attachments);
     }
 
+    console.log(appointment)
+
     await appointment.save();
+
 
     return Response.json(
       {

@@ -23,6 +23,7 @@ export async function POST(request) {
     const service  = formData.get("service");
     const date     = formData.get("date");
     const timeSlot = formData.get("timeSlot");
+    const patientNote = formData.get("patientNote") || "";
 
     if (!service || !date || !timeSlot) {
       return Response.json(
@@ -78,12 +79,20 @@ export async function POST(request) {
           .webp({ quality: 78 })
           .toBuffer();
         await fs.writeFile(path.join(uploadDir, fileName), outputBuffer);
-        attachments.push({ url: `/uploads/appointments/${fileName}` });
+        attachments.push({
+          url: `/uploads/appointments/${fileName}`,
+          uploadedBy: "patient",
+          uploadedAt: new Date(),
+        });
 
       } else if (file.type === "application/pdf") {
         const fileName = `${timestamp}-${random}.pdf`;
         await fs.writeFile(path.join(uploadDir, fileName), buffer);
-        attachments.push({ url: `/uploads/appointments/${fileName}` });
+        attachments.push({
+          url: `/uploads/appointments/${fileName}`,
+          uploadedBy: "patient",
+          uploadedAt: new Date(),
+        });
       }
     }
 
@@ -93,6 +102,7 @@ export async function POST(request) {
       service,
       date:          new Date(date),
       timeSlot,
+      patientNote:   patientNote.trim(),
       attachments,
       paymentStatus: "unpaid",
     });

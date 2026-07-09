@@ -5,8 +5,7 @@ import Patient from "@/models/Patient";
 export async function GET(request) {
   try {
     const auth = await requireAuth(request);
-    
-    if (auth.error) {
+    if (!auth.success) {
       return Response.json(
         {
           success:false,
@@ -34,6 +33,7 @@ export async function GET(request) {
       patient,
     });
   } catch (error) {
+    console.log(error)
     return Response.json(
       {
         success: false,

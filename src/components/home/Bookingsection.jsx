@@ -312,7 +312,19 @@ function Step3({ selectedTime, setSelectedTime, onBack, onNext, slotAvailability
 }
 
 /* ─── Step 4 ─── */
-function Step4({ selectedService, selectedDate, selectedTime, files, setFiles, onBack, onSubmit, isSubmitting, submitError }) {
+function Step4({
+  selectedService,
+  selectedDate,
+  selectedTime,
+  files,
+  setFiles,
+  patientNote,
+  setPatientNote,
+  onBack,
+  onSubmit,
+  isSubmitting,
+  submitError,
+}) {
   const [drag, setDrag] = useState(false);
   const inputRef        = useRef(null);
   const addFiles = (inc) => {
@@ -360,6 +372,22 @@ function Step4({ selectedService, selectedDate, selectedTime, files, setFiles, o
             ))}
           </div>
         )}
+        <div>
+          <label htmlFor="patient-note" className="block text-xs font-semibold text-slate-600 mb-1.5">
+            Notes for doctor
+          </label>
+          <textarea
+            id="patient-note"
+            value={patientNote}
+            onChange={(e) => setPatientNote(e.target.value)}
+            placeholder="Describe your concern, symptoms, or anything you want the doctor to know..."
+            maxLength={1000}
+            className="w-full min-h-[92px] rounded-xl border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-700 outline-none resize-none focus:border-[#058FD2] focus:ring-4 focus:ring-[#058FD2]/10 transition-all"
+          />
+          <p className="mt-1 text-[11px] text-slate-400 text-right">
+            {patientNote.length}/1000
+          </p>
+        </div>
         <div className="bg-slate-50 border border-slate-100 rounded-xl p-4">
           <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-3">Booking summary</p>
           {[
@@ -442,6 +470,7 @@ export default function BookingSection() {
   const [selectedTime,    setSelectedTime]    = useState(null);
   const [booked,          setBooked]          = useState(false);
   const [files,           setFiles]           = useState([]);
+  const [patientNote,     setPatientNote]     = useState("");
   const [isLoggedIn,      setIsLoggedIn]      = useState(false);
   const [isCheckingAuth,  setIsCheckingAuth]  = useState(true);
   const [isSubmitting,    setIsSubmitting]    = useState(false);
@@ -492,6 +521,7 @@ export default function BookingSection() {
     setSelectedDate(null);
     setSelectedTime(null);
     setFiles([]);
+    setPatientNote("");
     setSubmitError("");
     setBooked(false);
     setSlotAvailability([]);
@@ -511,6 +541,7 @@ export default function BookingSection() {
     formData.append("service",  SERVICES.find(s => s.id === selectedService)?.label || selectedService);
     formData.append("date",     formatDateForApi(selectedDate));
     formData.append("timeSlot", selectedTime);
+    formData.append("patientNote", patientNote.trim());
     files.forEach(file => formData.append("attachments", file));
 
     let appointmentId;
@@ -663,6 +694,8 @@ export default function BookingSection() {
                   selectedTime={selectedTime}
                   files={files}
                   setFiles={setFiles}
+                  patientNote={patientNote}
+                  setPatientNote={setPatientNote}
                   onBack={() => {
                     setSubmitError();
                     setStep(3);

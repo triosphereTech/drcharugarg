@@ -7,6 +7,15 @@ const AttachmentSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    uploadedBy: {
+      type: String,
+      enum: ["patient", "doctor"],
+      default: "patient",
+    },
+    uploadedAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
   { _id: false }
 );
@@ -39,6 +48,12 @@ const AppointmentSchema = new mongoose.Schema(
     attachments: {
       type: [AttachmentSchema],
       default: [],
+    },
+
+    patientNote: {
+      type: String,
+      trim: true,
+      default: "",
     },
     
     prescription: {

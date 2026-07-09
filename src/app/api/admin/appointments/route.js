@@ -5,7 +5,6 @@ import mongoose from "mongoose";
 
 import { connectDB } from "@/lib/db";
 import Appointment from "@/models/Appointment";
-import { requireAuth } from "@/lib/auth";
 
 export async function POST(request) {
   try {
@@ -13,17 +12,6 @@ export async function POST(request) {
     // CONNECT DATABASE
     await connectDB();
 
-    // AUTH USER
-    const auth = await requireAuth();
-    if (!auth.success) {
-      return Response.json(
-        {
-          success: false,
-          message: "Unauthorized",
-        },
-        { status: 401 }
-      );
-    }
 
     // GET FORM DATA
     const formData = await request.formData();
@@ -89,6 +77,8 @@ export async function POST(request) {
 
         attachments.push({
           url: `/uploads/appointments/${fileName}`,
+          uploadedBy: "patient",
+          uploadedAt: new Date(),
         });
 
       }
@@ -104,6 +94,8 @@ export async function POST(request) {
 
         attachments.push({
           url: `/uploads/appointments/${fileName}`,
+          uploadedBy: "patient",
+          uploadedAt: new Date(),
         });
       }
     }
