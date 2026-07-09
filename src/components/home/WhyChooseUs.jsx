@@ -13,13 +13,13 @@ import { LuClipboardList } from "react-icons/lu";
 const fadeUp = {
   hidden: {
     opacity: 0,
-    y: 35,
+    y: 60,
   },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.65,
+      duration: 1.8,
       ease: [0.22, 1, 0.36, 1],
     },
   },
@@ -29,8 +29,8 @@ const staggerContainer = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.1,
+      delayChildren: 0.6,
+      staggerChildren: 0.2,
     },
   },
 };

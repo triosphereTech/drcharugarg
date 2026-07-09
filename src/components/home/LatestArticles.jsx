@@ -8,13 +8,13 @@ import Link from "next/link";
 const fadeUp = {
   hidden: {
     opacity: 0,
-    y: 35,
+    y: 60,
   },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.65,
+      duration: 1.4,
       ease: [0.22, 1, 0.36, 1],
     },
   },
@@ -24,8 +24,8 @@ const staggerContainer = {
   hidden: {},
   visible: {
     transition: {
-      delayChildren: 0.1,
-      staggerChildren: 0.12,
+      delayChildren: 0.25,
+      staggerChildren: 0.18,
     },
   },
 };

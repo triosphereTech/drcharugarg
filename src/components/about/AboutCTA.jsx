@@ -12,11 +12,17 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 35 },
+  hidden: {
+    opacity: 0,
+    y: 80,
+  },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
+    transition: {
+      duration: 1.8,
+      ease: [0.22, 1, 0.36, 1],
+    },
   },
 };
 
@@ -24,8 +30,8 @@ const staggerContainer = {
   hidden: {},
   visible: {
     transition: {
-      delayChildren: 0.15,
-      staggerChildren: 0.12,
+      delayChildren: 0.4,
+      staggerChildren: 0.25,
     },
   },
 };

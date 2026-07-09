@@ -110,7 +110,7 @@ items: [
    badge: "Contributing Factors",
 
 
-   title: "Why Pigmentation Develops",
+   title: "Why Pigmentation Develops?",
 
 
    description:

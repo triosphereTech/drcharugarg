@@ -27,20 +27,32 @@ const iconMap = {
 };
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 35 },
+  hidden: {
+    opacity: 0,
+    y: 70,
+  },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
+    transition: {
+      duration: 1.6,
+      ease: [0.22, 1, 0.36, 1],
+    },
   },
 };
 
 const fadeIn = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: {
+    opacity: 0,
+    y: 40,
+  },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+    transition: {
+      duration: 1.9,
+      ease: [0.22, 1, 0.36, 1],
+    },
   },
 };
 
@@ -48,8 +60,8 @@ const staggerContainer = {
   hidden: {},
   visible: {
     transition: {
-      delayChildren: 0.1,
-      staggerChildren: 0.12,
+      delayChildren: 0.3,
+      staggerChildren: 0.2,
     },
   },
 };

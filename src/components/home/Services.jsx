@@ -59,13 +59,13 @@ const servicesData = [
 const fadeUp = {
   hidden: {
     opacity: 0,
-    y: 40,
+    y: 50,
   },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.7,
+      duration: 1.8,
       ease: [0.22, 1, 0.36, 1],
     },
   },
@@ -75,7 +75,7 @@ const staggerContainer = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.12,
+      staggerChildren: 0.2,
     },
   },
 };
@@ -128,7 +128,7 @@ function Services() {
               <motion.div key={index} variants={fadeUp}>
                <Link
   href={item.link}
-  className="group flex h-full min-h-[470px] flex-col rounded-[32px] bg-white/80 p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+  className="group flex h-full lg:min-h-[470px] flex-col rounded-[32px] bg-white/80 p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
 >
   {/* IMAGE */}
   <div className="overflow-hidden rounded-[26px]">

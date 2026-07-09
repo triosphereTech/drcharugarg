@@ -16,7 +16,7 @@ const fadeLeft = {
     opacity: 1,
     x: 0,
     transition: {
-      duration: 0.8,
+      duration: 2,
       ease: [0.22, 1, 0.36, 1],
     },
   },
@@ -31,7 +31,7 @@ const fadeUp = {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.8,
+      duration: 2,
       ease: [0.22, 1, 0.36, 1],
     },
   },
@@ -46,7 +46,7 @@ const scaleIn = {
     opacity: 1,
     scale: 1,
     transition: {
-      duration: 0.6,
+      duration: 0.9,
       ease: [0.22, 1, 0.36, 1],
     },
   },

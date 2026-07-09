@@ -9,20 +9,32 @@ import BadgeOne from "../../../public/images/journey/j1.png";
 import BadgeTwo from "../../../public/images/journey/j2.png";
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 35 },
+  hidden: {
+    opacity: 0,
+    y: 60,
+  },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
+    transition: {
+      duration: 1.4,
+      ease: [0.22, 1, 0.36, 1],
+    },
   },
 };
 
 const fadeIn = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: {
+    opacity: 0,
+    y: 40,
+  },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+    transition: {
+      duration: 1.8,
+      ease: [0.22, 1, 0.36, 1],
+    },
   },
 };
 

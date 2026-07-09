@@ -78,7 +78,7 @@ showFloatingCard: false,
    badge: "Follow-up Importance",
 
 
-   title: "Why Ongoing Follow-up Is Necessary",
+   title: "Why Ongoing Follow-up Is Necessary?",
 
 
    description:

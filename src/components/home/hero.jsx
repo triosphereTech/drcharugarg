@@ -353,7 +353,7 @@ const HeroSection = () => {
                   <motion.div
                     initial={{ opacity: 0, scale: 0.96 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.8 }}
+                    transition={{ duration: 1.3 }}
                     className="relative flex w-full flex-1 items-end justify-center overflow-visible p-0 m-0 lg:h-full lg:flex-none lg:justify-end lg:self-end"
                   >
                     <div

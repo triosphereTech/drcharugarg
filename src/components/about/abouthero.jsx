@@ -16,17 +16,16 @@ const services = [
   { icon: "🩺", label: "Wound Care", sub: "Dermal healing", theme: "emerald-solid" },
   { icon: "⏱️", label: "Skin Consultations", sub: "Evidence-based advice", theme: "cyan-solid" },
 ];
-
 const fadeUp = {
   hidden: {
     opacity: 0,
-    y: 40,
+    y: 70,
   },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.7,
+      duration: 1.5,
       ease: [0.22, 1, 0.36, 1],
     },
   },
@@ -39,7 +38,7 @@ const fadeIn = {
   visible: {
     opacity: 1,
     transition: {
-      duration: 0.8,
+      duration: 1.8,
       ease: [0.22, 1, 0.36, 1],
     },
   },

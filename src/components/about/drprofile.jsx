@@ -29,20 +29,32 @@ import {
 } from "react-icons/bs";
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 35 },
+  hidden: {
+    opacity: 0,
+    y: 60,
+  },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
+    transition: {
+      duration: 1.4,
+      ease: [0.22, 1, 0.36, 1],
+    },
   },
 };
 
 const fadeIn = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: {
+    opacity: 0,
+    y: 40,
+  },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+    transition: {
+      duration: 1.8,
+      ease: [0.22, 1, 0.36, 1],
+    },
   },
 };
 
@@ -50,8 +62,8 @@ const staggerContainer = {
   hidden: {},
   visible: {
     transition: {
-      delayChildren: 0.1,
-      staggerChildren: 0.1,
+      delayChildren: 0.25,
+      staggerChildren: 0.18,
     },
   },
 };

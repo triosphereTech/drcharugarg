@@ -106,7 +106,7 @@ items: [
    badge: "Contributing Factors",
 
 
-   title: "Why Skin Rashes & Infections Develop",
+   title: "Why Skin Rashes & Infections Develop?",
 
 
    description:

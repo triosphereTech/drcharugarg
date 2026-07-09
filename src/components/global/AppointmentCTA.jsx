@@ -9,13 +9,13 @@ import Charu from "../../../public/images/DrDesk.jpg";
 const fadeUp = {
   hidden: {
     opacity: 0,
-    y: 40,
+    y: 80,
   },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.7,
+      duration: 1.8,
       ease: [0.22, 1, 0.36, 1],
     },
   },
@@ -24,13 +24,13 @@ const fadeUp = {
 const fadeRight = {
   hidden: {
     opacity: 0,
-    x: 50,
+    x: 80,
   },
   visible: {
     opacity: 1,
     x: 0,
     transition: {
-      duration: 0.8,
+      duration: 1.8,
       ease: [0.22, 1, 0.36, 1],
     },
   },

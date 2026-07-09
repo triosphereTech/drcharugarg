@@ -205,7 +205,7 @@ function TimelineItem({ item, index, timelineProgress, totalItems }) {
           <motion.div
             initial={{ opacity: 0, x: isEven ? -40 : 40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 1.3, ease: [0.22, 1, 0.36, 1] }}
             className="relative select-none"
           >
             <span

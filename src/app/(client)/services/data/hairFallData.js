@@ -12,7 +12,7 @@ heroSection: {
 
 
  description:
-   "Understanding the cause. Treating the concern. Supporting healthier hair",
+   "Understanding the cause. Treating the concern. Supporting healthier hair.",
 
 
  image:
@@ -109,7 +109,7 @@ items: [
    badge: "Contributing Factors",
 
 
-   title: "Why Hair Fall Happens",
+   title: "Why Hair Fall Happens?",
 
 
    description:
@@ -224,7 +224,7 @@ items: [
 
 
        description:
-         "Dr. Charu carefully reviews your scalp condition, hair history, and submitted photos in detail.",
+         "Dr. Charu carefully reviews your scalp condition, medical history, and submitted photos in detail.",
      },
 
 

@@ -8,9 +8,9 @@ import Faq from "../../../public/images/NurseF.png";
 
 const faqs = [
   {
-    question: "How can I book an online dermatologist consultation?",
+    question: "How can I book an online consultation consultation?",
     answer:
-      "You can book your online dermatologist consultation by filling in your details on our website and completing the payment. Once confirmed, you will receive all consultation details on your registered email.",
+      "You can book your online consultation consultation by filling in your details on our website and completing the payment. Once confirmed, you will receive all consultation details on your registered email.",
   },
   {
     question: "How does the teleconsultation process work?",
@@ -35,21 +35,27 @@ const faqs = [
   {
     question: "How long is the follow-up consultation valid?",
     answer:
-      "Your follow-up consultation is valid for 1 month from your initial appointment. After this period, a new consultation will be required for further evaluation and treatment.",
+      "Your follow-up consultation is valid for 7 days from your initial appointment. After this period, a new consultation will be required for further evaluation and treatment.",
   },
   {
     question: "Can I contact for follow-up during this period?",
     answer:
-      "Yes, you can reach out for follow-up queries within 1 month as guided during your consultation, ensuring proper treatment continuity.",
+      "Yes, you can reach out for follow-up queries within 1 week.During these 7 days, you can send follow-up messages or upload prescribed diagnostic reports to your doctor.",
   },
 ];
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 35 },
+  hidden: {
+    opacity: 0,
+    y: 80,
+  },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
+    transition: {
+      duration: 1.8,
+      ease: [0.22, 1, 0.36, 1],
+    },
   },
 };
 
@@ -57,8 +63,8 @@ const staggerContainer = {
   hidden: {},
   visible: {
     transition: {
-      delayChildren: 0.1,
-      staggerChildren: 0.12,
+      delayChildren: 0.4,
+      staggerChildren: 0.25,
     },
   },
 };
