@@ -4,9 +4,16 @@ import sharp from "sharp";
 import mongoose from "mongoose";
 
 import { connectDB } from "@/lib/db";
+import {
+  requireAdminAuth,
+  unauthorizedAdminResponse,
+} from "@/lib/adminAuth";
 import Appointment from "@/models/Appointment";
 
 export async function POST(request) {
+  const auth = await requireAdminAuth();
+  if (!auth.success) return unauthorizedAdminResponse();
+
   try {
 
     // CONNECT DATABASE
@@ -132,6 +139,9 @@ export async function POST(request) {
 }
 
 export async function GET(req) {
+  const auth = await requireAdminAuth();
+  if (!auth.success) return unauthorizedAdminResponse();
+
   try {
     await connectDB();
 
@@ -149,9 +159,14 @@ export async function GET(req) {
 
     const patientId = searchParams.get("patientId");
 
-    const page = Number(searchParams.get("page")) || 1;
+    const countOnly = searchParams.get("countOnly") === "true";
 
-    const limit = Number(searchParams.get("limit")) || 10;
+    const hasPagination =
+      searchParams.has("page") || searchParams.has("limit");
+
+    const page = Math.max(Number(searchParams.get("page")) || 1, 1);
+
+    const limit = Math.max(Number(searchParams.get("limit")) || 10, 1);
 
     const query = {};
 
@@ -215,11 +230,46 @@ export async function GET(req) {
       };
     }
 
+    if (countOnly) {
+      const statusCounts = await Appointment.aggregate([
+        { $match: query },
+        {
+          $group: {
+            _id: "$status",
+            count: { $sum: 1 },
+          },
+        },
+      ]);
+
+      const counts = {
+        total: 0,
+        pending: 0,
+        attended: 0,
+        cancelled: 0,
+      };
+
+      for (const item of statusCounts) {
+        counts.total += item.count;
+
+        if (Object.hasOwn(counts, item._id)) {
+          counts[item._id] = item.count;
+        }
+      }
+
+      return Response.json(
+        {
+          success: true,
+          countOnly: true,
+          counts,
+        },
+        { status: 200 }
+      );
+    }
+
     // PAGINATION
     const skip = (page - 1) * limit;
 
-    const [appointments, total] = await Promise.all([
-      Appointment.find(query)
+    const appointmentsQuery = Appointment.find(query)
         .populate({
           path: "patient",
           select: "name email mobileNumber",
@@ -228,9 +278,14 @@ export async function GET(req) {
           date: -1,
           createdAt: -1,
         })
-        .skip(skip)
-        .limit(limit)
-        .lean(),
+        .lean();
+
+    if (hasPagination) {
+      appointmentsQuery.skip(skip).limit(limit);
+    }
+
+    const [appointments, total] = await Promise.all([
+      appointmentsQuery,
 
       Appointment.countDocuments(query),
     ]);
@@ -239,9 +294,9 @@ export async function GET(req) {
       {
         success: true,
         total,
-        page,
-        limit,
-        totalPages: Math.ceil(total / limit),
+        page: hasPagination ? page : null,
+        limit: hasPagination ? limit : null,
+        totalPages: hasPagination ? Math.ceil(total / limit) : 1,
         count: appointments.length,
         data: appointments,
       },

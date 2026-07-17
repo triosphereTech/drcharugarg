@@ -27,6 +27,12 @@ export default function AdminOtpPage() {
   const formattedSeconds = String(seconds).padStart(2, "0");
 
   useEffect(() => {
+    if (!sessionStorage.getItem("adminLoginEmail")) {
+      router.replace("/admin/login");
+    }
+  }, [router]);
+
+  useEffect(() => {
     if (seconds <= 0) return;
 
     const timer = setInterval(() => {
@@ -153,6 +159,8 @@ export default function AdminOtpPage() {
     sessionStorage.removeItem("adminLoginEmail");
     router.push("/admin/login");
   }
+
+  if (!email) return null;
 
   return (
     <div className="min-h-screen bg-[#f8fbfd] overflow-hidden font-sans">

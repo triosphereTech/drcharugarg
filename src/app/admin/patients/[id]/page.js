@@ -149,7 +149,7 @@ export default function PatientDetailPage() {
     <>
       <Topbar />
 
-      <div className="flex-1 p-6 bg-[#EEF7FB] overflow-y-auto overflow-hidden">
+      <div className="flex-1 p-6 bg-white overflow-y-auto overflow-hidden">
         <Link
           href="/admin/patients"
           className="inline-flex items-center gap-2 text-[13px] text-zinc-500 hover:text-[#058FD2] transition-colors mb-5"
@@ -167,7 +167,7 @@ export default function PatientDetailPage() {
         </Link>
 
         <div className="grid grid-cols-1 xl:grid-cols-[340px_1fr] gap-6">
-          <div className="md:sticky top-6 bg-white border border-[#DDEAF2] rounded-[28px] p-6 h-fit">
+          <div className="md:sticky top-6 bg-white border-2 border-gray-200 rounded-2xl p-6 h-fit">
             {patient ? (
               <>
                 <div className="flex flex-col items-center text-center">
@@ -179,7 +179,7 @@ export default function PatientDetailPage() {
                 </div>
 
                 <div className="mt-8 space-y-5">
-                  <div className="grid grid-cols-2 gap-5">
+                  <div className="grid grid-rows-2 gap-5">
                     <div>
                       <p className="text-[11px] uppercase tracking-wider text-zinc-400">
                         Email Address
@@ -215,7 +215,7 @@ export default function PatientDetailPage() {
             </div>
           </div>
 
-          <div className="bg-white border border-[#DDEAF2] rounded-[28px] overflow-hidden shadow-sm flex flex-col">
+          <div className="bg-white border-2 border-gray-200 rounded-2xl overflow-hidden flex flex-col">
             <div className="px-6 py-5 border-b border-[#DDEAF2] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
                 <h3 className="text-[18px] font-semibold text-[#131C15]">
@@ -242,7 +242,7 @@ export default function PatientDetailPage() {
               </select>
             </div>
 
-            <div className="flex-1 px-3 py-3 max-h-[650px] overflow-y-auto">
+            <div className="flex-1  max-h-[650px] overflow-y-auto">
               {loading ? (
                 <div className="py-20 text-center">
                   <p className="text-zinc-400 text-[14px]">Loading appointments...</p>

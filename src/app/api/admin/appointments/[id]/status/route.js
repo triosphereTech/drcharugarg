@@ -6,8 +6,15 @@ import sharp from "sharp";
 
 import Appointment from "@/models/Appointment";
 import { connectDB } from "@/lib/db";
+import {
+  requireAdminAuth,
+  unauthorizedAdminResponse,
+} from "@/lib/adminAuth";
 
 export async function PATCH(req, { params }) {
+  const auth = await requireAdminAuth();
+  if (!auth.success) return unauthorizedAdminResponse();
+
   try {
     await connectDB();
 

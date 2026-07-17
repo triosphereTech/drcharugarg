@@ -61,24 +61,24 @@ const XIcon = () => (
 // ── Appointment badge colour scale ─────────────────────────────────────────
 function apptBadge(count) {
   if (count === 0) return { bg: "#F1F5F9", text: "#64748B" };
-  if (count <= 2)  return { bg: "#EFF6FF", text: "#2563EB" };
-  if (count <= 5)  return { bg: "#F0FDF4", text: "#16A34A" };
-  return              { bg: "#FFF7ED", text: "#EA580C" };
+  if (count <= 2) return { bg: "#EFF6FF", text: "#2563EB" };
+  if (count <= 5) return { bg: "#F0FDF4", text: "#16A34A" };
+  return { bg: "#FFF7ED", text: "#EA580C" };
 }
 
 // ── Main page ──────────────────────────────────────────────────────────────
 export default function PatientsPage() {
   const router = useRouter();
 
-  const [patients,        setPatients]        = useState([]);
-  const [search,          setSearch]          = useState("");
+  const [patients, setPatients] = useState([]);
+  const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
-  const [page,            setPage]            = useState(1);
-  const [total,           setTotal]           = useState(0);
-  const [totalPages,      setTotalPages]      = useState(1);
-  const [loading,         setLoading]         = useState(true);
-  const [patientStats,    setPatientStats]    = useState({});
-  const [error,           setError]           = useState("");
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [patientStats, setPatientStats] = useState({});
+  const [error, setError] = useState("");
 
   // Debounce search
   useEffect(() => {
@@ -168,13 +168,13 @@ export default function PatientsPage() {
   const PaginationBar = () =>
     !loading && patients.length > 0 ? (
       <div style={{
-        padding: "11px 20px",
+        padding: "3px 20px",
         background: "#FAFCFF",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
       }}>
-        <span style={{ fontSize: 12.5, color: "#64748B" }}>
+        <span style={{ fontSize: 14.5, color: "#64748B" }}>
           Showing{" "}
           <strong style={{ color: "#1E293B" }}>
             {(page - 1) * 10 + 1}–{Math.min(page * 10, total)}
@@ -237,105 +237,94 @@ export default function PatientsPage() {
         subtitle={`${total} registered patient${total !== 1 ? "s" : ""}`}
       />
 
-      <div className="patients-wrap flex-1 p-6">
+      <div className="patients-wrap flex-1 p-6 px-12 bg-white ">
         {/* ── Page header ─────────────────────────────────────── */}
-        
 
-        {/* ── Card ─────────────────────────────────────────────── */}
+        {/* Search bar */}
         <div style={{
-          background: "#fff",
-          border: "1px solid #E2EDF8",
-          borderRadius: 16,
-          overflow: "hidden",
-          boxShadow: "0 2px 16px rgba(59,130,246,0.06)",
+          padding: "14px 0px",
+          
+          display: "flex",
+          alignItems: "center",
+          gap: 12,
         }}>
-
-          {/* Search bar */}
-          <div style={{
-            padding: "14px 20px",
-            borderBottom: "1px solid #EFF6FF",
-            background: "#FAFCFF",
-            display: "flex",
-            alignItems: "center",
-            gap: 12,
-          }}>
-            <div style={{ position: "relative", flex: 1, maxWidth: 380 }}>
-              <span style={{
-                position: "absolute", left: 13, top: "50%", transform: "translateY(-50%)",
-                color: "#94A3B8", pointerEvents: "none", display: "flex",
-              }}>
-                <SearchIcon />
-              </span>
-              <input
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search patients by name…"
+          <div style={{ position: "relative", flex: 1, maxWidth: 380 }}>
+            <span style={{
+              position: "absolute", left: 13, top: "50%", transform: "translateY(-50%)",
+              color: "#94A3B8", pointerEvents: "none", display: "flex",
+            }}>
+              <SearchIcon />
+            </span>
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search patients by name…"
+              style={{
+                width: "100%",
+                paddingLeft: 38, paddingRight: search ? 36 : 14,
+                paddingTop: 9, paddingBottom: 9,
+                borderRadius: 10,
+                border: "1.5px solid #E2EDF8",
+                fontSize: 13.5,
+                color: "#0F172A",
+                background: "#fff",
+                outline: "none",
+                transition: "border-color 0.15s",
+                boxSizing: "border-box",
+                fontFamily: "inherit",
+              }}
+              onFocus={e => e.target.style.borderColor = "#93C5FD"}
+              onBlur={e => e.target.style.borderColor = "#E2EDF8"}
+            />
+            {search && (
+              <button
+                className="search-clear"
+                onClick={() => setSearch("")}
                 style={{
-                  width: "100%",
-                  paddingLeft: 38, paddingRight: search ? 36 : 14,
-                  paddingTop: 9, paddingBottom: 9,
-                  borderRadius: 10,
-                  border: "1.5px solid #E2EDF8",
-                  fontSize: 13.5,
-                  color: "#0F172A",
-                  background: "#fff",
-                  outline: "none",
-                  transition: "border-color 0.15s",
-                  boxSizing: "border-box",
-                  fontFamily: "inherit",
+                  position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)",
+                  background: "#E2EDF8", border: "none", cursor: "pointer",
+                  borderRadius: "50%", width: 20, height: 20,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  color: "#64748B",
                 }}
-                onFocus={e => e.target.style.borderColor = "#93C5FD"}
-                onBlur={e => e.target.style.borderColor = "#E2EDF8"}
-              />
-              {search && (
-                <button
-                  className="search-clear"
-                  onClick={() => setSearch("")}
-                  style={{
-                    position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)",
-                    background: "#E2EDF8", border: "none", cursor: "pointer",
-                    borderRadius: "50%", width: 20, height: 20,
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    color: "#64748B",
-                  }}
-                >
-                  <XIcon />
-                </button>
-              )}
-            </div>
-
-            {/* Result count pill */}
-            {debouncedSearch && (
-              <span style={{
-                fontSize: 12, color: "#2563EB",
-                background: "#EFF6FF", border: "1px solid #BFDBFE",
-                borderRadius: 20, padding: "3px 10px", fontWeight: 500,
-              }}>
-                {total} result{total !== 1 ? "s" : ""}
-              </span>
+              >
+                <XIcon />
+              </button>
             )}
           </div>
 
-          {/* ── TOP Pagination ─────────────────────────────── */}
-          {!loading && patients.length > 0 && (
-            <div style={{ borderBottom: "1px solid #EEF4FB" }}>
-              <PaginationBar />
-            </div>
+          {/* Result count pill */}
+          {debouncedSearch && (
+            <span style={{
+              fontSize: 12, color: "#2563EB",
+              background: "#EFF6FF", border: "1px solid #BFDBFE",
+              borderRadius: 20, padding: "3px 10px", fontWeight: 500,
+            }}>
+              {total} result{total !== 1 ? "s" : ""}
+            </span>
           )}
+        </div>
+        {/* ── Card ─────────────────────────────────────────────── */}
+        <div className="border-2 border-gray-200 rounded-2xl overflow-hidden" style={{
+          background: "#fff",
+          overflow: "hidden",
+         
+        }}>
+
 
           {/* Table */}
-          <div style={{ overflowX: "auto" }}>
+          <div className="max-h-[48vh]" style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse" }}>
               <thead>
-                <tr style={{ borderBottom: "1px solid #EFF6FF", background: "#FAFCFF" }}>
+                <tr style={{ borderBottom: "1px solid #EFF6FF", background: "#ffffff" }}>
                   {[
-                    { label: "Patient",      width: "20%" },
-                    { label: "Email",        width: "22%" },
-                    { label: "Mobile",       width: "16%" },
+                    { label: "Patient", width: "20%" },
+                    { label: "Email", width: "22%" },
+                    { label: "Mobile", width: "16%" },
                     { label: "Appointments", width: "13%" },
-                    { label: "Last Visit",   width: "18%" },
-                    { label: "",             width: "11%" },
+                    { label: "Last Visit", width: "18%" },
+                    { label: "Action", width: "11%" },
                   ].map(({ label, width }) => (
                     <th key={label} style={{
                       width,
@@ -345,7 +334,7 @@ export default function PatientsPage() {
                       letterSpacing: "0.06em",
                       textTransform: "uppercase",
                       color: "#232323",
-                      padding: "11px 20px",
+                      padding: "20px 20px",
                     }}>
                       {label}
                     </th>
@@ -366,7 +355,7 @@ export default function PatientsPage() {
                 ))}
 
                 {/* Empty */}
-                 {!loading && error && (
+                {!loading && error && (
                   <tr>
                     <td colSpan={6} style={{ textAlign: "center", padding: "72px 20px" }}>
                       <p style={{ fontSize: 14, fontWeight: 500, color: "#EF4444", margin: 0 }}>
@@ -405,10 +394,10 @@ export default function PatientsPage() {
                 )}
 
                 {/* Rows */}
-                   {!loading && !error && patients.map((patient, idx) => {
-                  const count    = patientStats[patient._id]?.count || 0;
+                {!loading && !error && patients.map((patient, idx) => {
+                  const count = patientStats[patient._id]?.count || 0;
                   const lastVisit = patientStats[patient._id]?.lastVisit || null;
-                  const badge    = apptBadge(count);
+                  const badge = apptBadge(count);
 
                   return (
                     <tr
@@ -487,7 +476,7 @@ export default function PatientsPage() {
                       </td>
 
                       {/* View — always visible, fills solid blue on row hover */}
-                      <td style={{ padding: "14px 20px", textAlign: "right" }}>
+                      <td style={{ padding: "14px 20px", textAlign: "left" }}>
                         <button
                           className="pt-view-btn"
                           onClick={(e) => {

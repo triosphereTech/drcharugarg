@@ -14,8 +14,8 @@ export function AppointmentItem({
   return (
     <>
       {showDateHeader && (
-        <div className="sticky top-0 z-10 bg-[#ffffff]/80 backdrop-blur-xs border-y border-[#E7EEF3] px-5 py-3">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-red-500">
+        <div className=" top-0 z-10s bg-gray-100 backdrop-blur-xs border-y border-[#E7EEF3] px-5 py-3">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-olive-800">
             {new Date(
               appointment.date
             ).toLocaleDateString("en-IN", {
@@ -44,8 +44,8 @@ export function AppointmentItem({
 
           {/* Service */}
 
-          <div className="min-w-0">
-            <h4 className="text-[14px] font-semibold text-[#131C15] truncate group-hover:text-[#058FD2] transition-colors">
+          <div className="min-w-0 cursor-pointer">
+            <h4 className="text-[14px] font-semibold truncate text-[#058FD2] transition-colors">
               {appointment.service}
             </h4>
 

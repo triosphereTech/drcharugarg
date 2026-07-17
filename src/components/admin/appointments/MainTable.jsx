@@ -6,26 +6,28 @@ import { AppointmentItem } from "@/components/admin/appointments/AppointmentItem
 import { AppointmentModal } from "@/components/admin/appointments/AppointmentModal";
 import { Pagination } from "@/components/admin/ui/Pagination";
 import { SERVICES, TIME_SLOTS } from "@/lib/data";
+import { motion } from "framer-motion";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 const STATUS_TABS = [
-  { label: "All",       value: "all",       dot: null         },
-  { label: "Pending",   value: "pending",   dot: "bg-amber-400" },
-  { label: "Attended",  value: "attended",  dot: "bg-emerald-400" },
-  { label: "Cancelled", value: "cancelled", dot: "bg-red-400"  },
+  { label: "All", value: "all", dot: null },
+  { label: "Pending", value: "pending", dot: "bg-amber-400" },
+  { label: "Attended", value: "attended", dot: "bg-emerald-400" },
+  { label: "Cancelled", value: "cancelled", dot: "bg-red-400" },
 ];
 
-export default function AppointmentsPage() {
+export default function AppointmentsPage({ onDataChange }) {
   const [appointments, setAppointments] = useState([]);
-  const [total, setTotal]               = useState(0);
-  const [totalPages, setTotalPages]     = useState(1);
-  const [page, setPage]                 = useState(1);
+  const [total, setTotal] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+  const [page, setPage] = useState(1);
 
   // Filters
-  const [statusFilter,   setStatusFilter]   = useState("all");
-  const [serviceFilter,  setServiceFilter]  = useState("");
-  const [dateFrom,       setDateFrom]       = useState("");
-  const [dateTo,         setDateTo]         = useState("");
-  const [selectedSlots,  setSelectedSlots]  = useState([]);
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [serviceFilter, setServiceFilter] = useState("");
+  const [dateFrom, setDateFrom] = useState("");
+  const [dateTo, setDateTo] = useState("");
+  const [selectedSlots, setSelectedSlots] = useState([]);
   const [showSlotPicker, setShowSlotPicker] = useState(false);
 
   const [selectedAppt, setSelectedAppt] = useState(null);
@@ -46,9 +48,12 @@ export default function AppointmentsPage() {
       if (serviceFilter) params.set("services", serviceFilter);
       if (dateFrom) params.set("startDate", dateFrom);
       if (dateTo) params.set("endDate", dateTo);
-      if (selectedSlots.length) params.set("timeSlots", selectedSlots.join(","));
+      if (selectedSlots.length)
+        params.set("timeSlots", selectedSlots.join(","));
 
-      const response = await fetch(`/api/admin/appointments?${params.toString()}`);
+      const response = await fetch(
+        `/api/admin/appointments?${params.toString()}`,
+      );
       const res = await response.json();
 
       if (!response.ok) {
@@ -58,6 +63,7 @@ export default function AppointmentsPage() {
       setAppointments(res.data || []);
       setTotal(res.total || 0);
       setTotalPages(res.totalPages || 1);
+            await onDataChange?.();
     } catch (err) {
       setError(err.message);
       setAppointments([]);
@@ -68,25 +74,40 @@ export default function AppointmentsPage() {
     }
   }, [statusFilter, serviceFilter, dateFrom, dateTo, selectedSlots, page]);
 
-  useEffect(() => { loadAppointments(); }, [loadAppointments]);
-  useEffect(() => { setPage(1); }, [statusFilter, serviceFilter, dateFrom, dateTo, selectedSlots]);
+  useEffect(() => {
+    loadAppointments();
+  }, [loadAppointments]);
+  useEffect(() => {
+    setPage(1);
+  }, [statusFilter, serviceFilter, dateFrom, dateTo, selectedSlots]);
 
   function handleStatusChange(id, status, prescription, updatedAppointment) {
     setAppointments((prev) =>
       prev.map((a) =>
         a._id === id
-          ? { ...a, ...(updatedAppointment || {}), status, ...(prescription ? { prescription } : {}) }
-          : a
-      )
+          ? {
+              ...a,
+              ...(updatedAppointment || {}),
+              status,
+              ...(prescription ? { prescription } : {}),
+            }
+          : a,
+      ),
     );
 
     if (selectedAppt?._id === id) {
       setSelectedAppt((prev) =>
         prev
-          ? { ...prev, ...(updatedAppointment || {}), status, ...(prescription ? { prescription } : {}) }
-          : prev
+          ? {
+              ...prev,
+              ...(updatedAppointment || {}),
+              status,
+              ...(prescription ? { prescription } : {}),
+            }
+          : prev,
       );
     }
+     loadAppointments();
   }
   function clearFilters() {
     setStatusFilter("all");
@@ -97,42 +118,69 @@ export default function AppointmentsPage() {
   }
 
   const hasActiveFilters =
-    statusFilter !== "all" || serviceFilter || dateFrom || dateTo || selectedSlots.length;
+    statusFilter !== "all" ||
+    serviceFilter ||
+    dateFrom ||
+    dateTo ||
+    selectedSlots.length;
 
   return (
     <>
-      
-
       <div className="flex-1">
-        <div className="bg-white border border-[#D4E9F2] rounded-2xl overflow-hidden shadow-sm">
-
+        <div className="pb-3 px-2">
+          <p className="text-[22px] font-semibold text-[--primary-dark]">
+          All Appointments
+        </p>
+        </div>
+        
+        <div className="bg-white border-2 border-gray-200 rounded-2xl overflow-hidden">
           {/* ── Table header: tabs left · filters right ── */}
+          
           <div className="px-5 py-3.5 border-b border-[#D4E9F2] flex items-center justify-between gap-4 flex-wrap">
-
             {/* Left — status tab group */}
             <nav
-              className="flex items-center gap-0.5 bg-[--soft-bg] p-1 rounded-xl border border-[#D4E9F2]"
+              className="flex items-center gap-0.5 bg-[--soft-bg] p-1 px-1.5 rounded-full border border-[#D4E9F2]"
               aria-label="Filter by status"
             >
               {STATUS_TABS.map((tab) => {
                 const active = statusFilter === tab.value;
+
                 return (
                   <button
                     key={tab.value}
                     onClick={() => setStatusFilter(tab.value)}
-                    className={`
-                      relative inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg
-                      text-[12.5px] font-medium transition-all duration-150 select-none
-                      ${active
-                        ? "bg-white text-[--primary-dark] shadow-sm border border-[#D4E9F2]"
-                        : "text-zinc-400 hover:text-zinc-600 border border-transparent"
-                      }
-                    `}
+                    className="relative cursor-pointer inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[12.5px] font-medium select-none"
                   >
-                    {tab.dot && (
-                      <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${tab.dot}`} />
+                    {active && (
+                      <motion.span
+                        layoutId="status-pill"
+                        transition={{
+                          type: "spring",
+                          stiffness: 500,
+                          damping: 35,
+                          mass: 0.7,
+                        }}
+                        className="absolute inset-0 rounded-full bg-black text-white border border-[#D4E9F2] shadow-sm"
+                      />
                     )}
-                    {tab.label}
+
+                    <span className="relative z-10 flex items-center gap-1.5">
+                      {tab.dot && (
+                        <span
+                          className={`w-1.5 h-1.5 rounded-full shrink-0 ${tab.dot}`}
+                        />
+                      )}
+
+                      <span
+                        className={`transition-colors duration-200 ${
+                          active
+                            ? "text-white"
+                            : "text-zinc-400 hover:text-zinc-600"
+                        }`}
+                      >
+                        {tab.label}
+                      </span>
+                    </span>
                   </button>
                 );
               })}
@@ -154,15 +202,24 @@ export default function AppointmentsPage() {
                 >
                   <option value="">All services</option>
                   {SERVICES.map((s) => (
-                    <option key={s} value={s}>{s}</option>
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
                   ))}
                 </select>
                 {/* Custom chevron */}
                 <svg
                   className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 w-3 h-3 text-zinc-400"
-                  fill="none" viewBox="0 0 12 12" stroke="currentColor" strokeWidth={2}
+                  fill="none"
+                  viewBox="0 0 12 12"
+                  stroke="currentColor"
+                  strokeWidth={2}
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="m3 4.5 3 3 3-3" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m3 4.5 3 3 3-3"
+                  />
                 </svg>
               </div>
 
@@ -179,7 +236,9 @@ export default function AppointmentsPage() {
                     hover:border-[--primary-accent]/60 transition-colors font-[inherit]
                   "
                 />
-                <span className="text-zinc-300 text-[11px] font-medium select-none">→</span>
+                <span className="text-zinc-300 text-[11px] font-medium select-none">
+                  →
+                </span>
                 <input
                   type="date"
                   value={dateTo}
@@ -200,14 +259,22 @@ export default function AppointmentsPage() {
                   className={`
                     inline-flex items-center gap-1.5 border rounded-lg px-3 py-2
                     text-[12.5px] text-zinc-600 bg-[--soft-bg] transition-all duration-150
-                    ${showSlotPicker
-                      ? "border-[--primary-accent] text-[--primary-dark]"
-                      : "border-[#D4E9F2] hover:border-[--primary-accent]/60"
+                    ${
+                      showSlotPicker
+                        ? "border-[--primary-accent] text-[--primary-dark]"
+                        : "border-[#D4E9F2] hover:border-[--primary-accent]/60"
                     }
                   `}
                 >
-                  <svg className="w-3.5 h-3.5 text-zinc-400" fill="none" viewBox="0 0 16 16" stroke="currentColor" strokeWidth={1.8}>
-                    <circle cx="8" cy="8" r="6" /><path strokeLinecap="round" d="M8 5v3l2 2" />
+                  <svg
+                    className="w-3.5 h-3.5 text-zinc-400"
+                    fill="none"
+                    viewBox="0 0 16 16"
+                    stroke="currentColor"
+                    strokeWidth={1.8}
+                  >
+                    <circle cx="8" cy="8" r="6" />
+                    <path strokeLinecap="round" d="M8 5v3l2 2" />
                   </svg>
                   Time slots
                   {selectedSlots.length > 0 && (
@@ -217,9 +284,16 @@ export default function AppointmentsPage() {
                   )}
                   <svg
                     className={`w-2.5 h-2.5 text-zinc-400 transition-transform duration-150 ${showSlotPicker ? "rotate-180" : ""}`}
-                    fill="none" viewBox="0 0 10 10" stroke="currentColor" strokeWidth={2}
+                    fill="none"
+                    viewBox="0 0 10 10"
+                    stroke="currentColor"
+                    strokeWidth={2}
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="m2 3.5 3 3 3-3" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="m2 3.5 3 3 3-3"
+                    />
                   </svg>
                 </button>
 
@@ -235,7 +309,9 @@ export default function AppointmentsPage() {
                           checked={selectedSlots.includes(slot)}
                           onChange={(e) =>
                             setSelectedSlots((prev) =>
-                              e.target.checked ? [...prev, slot] : prev.filter((s) => s !== slot)
+                              e.target.checked
+                                ? [...prev, slot]
+                                : prev.filter((s) => s !== slot),
                             )
                           }
                           className="accent-[#058FD2] w-3.5 h-3.5"
@@ -248,7 +324,7 @@ export default function AppointmentsPage() {
               </div>
 
               {/* Clear filters */}
-              {hasActiveFilters && (
+              {hasActiveFilters ? (
                 <button
                   onClick={clearFilters}
                   className="
@@ -257,23 +333,34 @@ export default function AppointmentsPage() {
                     hover:bg-red-50 transition-all duration-150
                   "
                 >
-                  <svg className="w-3 h-3" fill="none" viewBox="0 0 12 12" stroke="currentColor" strokeWidth={2}>
+                  <svg
+                    className="w-3 h-3"
+                    fill="none"
+                    viewBox="0 0 12 12"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
                     <path strokeLinecap="round" d="m3 3 6 6M9 3l-6 6" />
                   </svg>
                   Clear
                 </button>
+              ):
+              (
+                ""
               )}
             </div>
           </div>
 
           {/* ── Appointment list ── */}
           <div
-            className="px-2 py-2 max-h-[560px] overflow-y-auto"
+            className=" max-h-[43vh] overflow-y-auto"
             onClick={() => setShowSlotPicker(false)}
           >
-              {loading ? (
+            {loading ? (
               <div className="flex flex-col items-center justify-center py-20 gap-3">
-                <p className="text-zinc-400 text-[13px]">Loading appointments...</p>
+                <p className="text-zinc-400 text-[13px]">
+                  Loading appointments...
+                </p>
               </div>
             ) : error ? (
               <div className="flex flex-col items-center justify-center py-20 gap-3">
@@ -281,8 +368,16 @@ export default function AppointmentsPage() {
               </div>
             ) : appointments.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-20 gap-3">
-                <span className="text-3xl select-none">🗓️</span>
-                <p className="text-zinc-400 text-[13px]">No appointments match the current filters</p>
+                <div className="w-56 h-56">
+                  <DotLottieReact
+                    src="https://lottie.host/a835a2d1-d4a0-427e-b2fe-aa244ab03374/632or4NZbG.lottie"
+                    autoplay
+                  />
+                </div>
+
+                <p className="text-zinc-400 text-[13px]">
+                  No appointments match the current filters
+                </p>
               </div>
             ) : (
               appointments.map((appt, i) => (

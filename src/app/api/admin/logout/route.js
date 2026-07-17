@@ -1,9 +1,17 @@
 import { cookies } from "next/headers";
+import {
+  ADMIN_COOKIE_NAME,
+  requireAdminAuth,
+  unauthorizedAdminResponse,
+} from "@/lib/adminAuth";
 
 export async function POST() {
+  const auth = await requireAdminAuth();
+  if (!auth.success) return unauthorizedAdminResponse();
+
   const cookieStore = await cookies();
 
-  cookieStore.set("accessToken", "", {
+  cookieStore.set(ADMIN_COOKIE_NAME, "", {
     httpOnly: true,
     sameSite: "strict",
     secure: process.env.NODE_ENV === "production",

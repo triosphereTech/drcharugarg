@@ -1,9 +1,15 @@
 import { connectDB } from "@/lib/db";
-
+import {
+  requireAdminAuth,
+  unauthorizedAdminResponse,
+} from "@/lib/adminAuth";
 
 import Patient from "@/models/Patient";
 
 export async function GET(req) {
+  const auth = await requireAdminAuth();
+  if (!auth.success) return unauthorizedAdminResponse();
+
   try {
     await connectDB();
 

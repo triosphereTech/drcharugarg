@@ -1,6 +1,9 @@
 import { cookies } from "next/headers";
 
-import { createAccessToken } from "@/lib/auth";
+import {
+  ADMIN_COOKIE_NAME,
+  createAdminAccessToken,
+} from "@/lib/adminAuth";
 
 import { connectDB } from "@/lib/db";
 
@@ -60,11 +63,11 @@ export async function POST(request) {
       );
     }
 
-    const accessToken = createAccessToken(admin);
+    const accessToken = createAdminAccessToken(admin);
 
     const cookieStore = await cookies();
 
-    cookieStore.set("accessToken", accessToken, {
+    cookieStore.set(ADMIN_COOKIE_NAME, accessToken, {
       httpOnly: true,
       sameSite: "strict",
       secure: process.env.NODE_ENV === "production",
