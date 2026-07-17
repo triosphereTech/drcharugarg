@@ -159,70 +159,88 @@ export function AppointmentModal({ appointment, onClose, onStatusChange }) {
   useEffect(() => {
     setMessage("");
     setDraftFiles([]);
-    toast.success("Appointment updated successfully.", {
-  position: "top-right",
-  autoClose: 2500,
-});
     setError("");
     setExpanded(false);
   }, [appointment?._id]);
 
   if (!appointment) return null;
 
-  async function submitConsultation() {
-    setError("");
+async function submitConsultation() {
+  setError("");
 
-    if (!message.trim() && draftFiles.length === 0) {
-  toast.error("Add prescription notes or an attachment before submitting.", {
-    position: "bottom-right",
-    autoClose: 3000,
-  });
-  return;
-}
-
-    setIsSubmitting(true);
-
-    try {
-      const formData = new FormData();
-      formData.append("status", "attended");
-      formData.append("prescription", message.trim());
-
-      draftFiles.forEach((item) => {
-        formData.append("attachments", item.file);
-      });
-
-      const response = await fetch(
-        `/api/admin/appointments/${appointment._id}/status`,
-        {
-          method: "PATCH",
-          body: formData,
-        },
-      );
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Unable to update appointment.");
+  if (!message.trim() && draftFiles.length === 0) {
+    toast.error(
+      "Add prescription notes or an attachment before submitting.",
+      {
+        position: "top-right",
+        autoClose: 3000,
       }
-
-      onStatusChange?.(appointment._id, "attended", message.trim(), data.data);
-      draftFiles.forEach((item) => {
-        if (item.preview) {
-          URL.revokeObjectURL(item.preview);
-        }
-      });
-      setMessage("");
-      setDraftFiles([]);
-    } catch (err) {
-      setError(err.message);
-
-toast.error(err.message || "Something went wrong.", {
-  position: "top-right",
-  autoClose: 3000,
-});
-    } finally {
-      setIsSubmitting(false);
-    }
+    );
+    return;
   }
+
+  setIsSubmitting(true);
+
+  try {
+    const formData = new FormData();
+    formData.append("status", "attended");
+    formData.append("prescription", message.trim());
+
+    draftFiles.forEach((item) => {
+      formData.append("attachments", item.file);
+    });
+
+    const response = await fetch(
+      `/api/admin/appointments/${appointment._id}/status`,
+      {
+        method: "PATCH",
+        body: formData,
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Unable to update appointment.");
+    }
+
+    // Notify parent
+    onStatusChange?.(
+      appointment._id,
+      "attended",
+      message.trim(),
+      data.data
+    );
+
+    // Cleanup preview URLs
+    draftFiles.forEach((item) => {
+      if (item.preview) {
+        URL.revokeObjectURL(item.preview);
+      }
+    });
+
+    // Reset form
+    setMessage("");
+    setDraftFiles([]);
+    setError("");
+    setExpanded(false);
+
+    // Show success toast ONCE
+    toast.success("Appointment updated successfully.", {
+      position: "top-right",
+      autoClose: 2500,
+    });
+  } catch (err) {
+    setError(err.message);
+
+    toast.error(err.message || "Something went wrong.", {
+      position: "top-right",
+      autoClose: 3000,
+    });
+  } finally {
+    setIsSubmitting(false);
+  }
+}
 
   const patient = appointment.patient || {};
 
@@ -665,8 +683,6 @@ toast.error(err.message || "Something went wrong.", {
             ${expanded ? "h-[240px]" : "h-[40px]"}
           `}
                     />
-
-                    
                   </div>
 
                   {error && (

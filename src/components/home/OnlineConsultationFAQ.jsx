@@ -8,9 +8,9 @@ import Faq from "../../../public/images/NurseF.png";
 
 const faqs = [
   {
-    question: "How can I book an online consultation consultation?",
+    question: "How can I book an online consultation?",
     answer:
-      "You can book your online consultation consultation by filling in your details on our website and completing the payment. Once confirmed, you will receive all consultation details on your registered email.",
+      "You can book your online consultation by filling in your details on our website and completing the payment. Once confirmed, you will receive all consultation details on your registered email.",
   },
   {
     question: "How does the teleconsultation process work?",

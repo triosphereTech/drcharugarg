@@ -353,7 +353,7 @@ export default function AppointmentsPage({ onDataChange }) {
 
           {/* ── Appointment list ── */}
           <div
-            className=" max-h-[43vh] overflow-y-auto"
+            className=" max-h-[43vh] min-h-[50vh] overflow-y-auto"
             onClick={() => setShowSlotPicker(false)}
           >
             {loading ? (
@@ -367,8 +367,8 @@ export default function AppointmentsPage({ onDataChange }) {
                 <p className="text-red-500 text-[13px]">{error}</p>
               </div>
             ) : appointments.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-20 gap-3">
-                <div className="w-56 h-56">
+              <div className="flex flex-col items-center justify-center gap-3">
+                <div className="">
                   <DotLottieReact
                     src="https://lottie.host/a835a2d1-d4a0-427e-b2fe-aa244ab03374/632or4NZbG.lottie"
                     autoplay

@@ -13,7 +13,7 @@ import { AppointmentModal } from "@/components/admin/appointments/AppointmentMod
 import { Pagination } from "@/components/admin/ui/Pagination";
 
 const STATUS_OPTIONS = [
-  { label: "All statuses", value: "all" },
+  { label: "All status", value: "all" },
   { label: "Pending", value: "pending" },
   { label: "Attended", value: "attended" },
   { label: "Cancelled", value: "cancelled" },
@@ -147,10 +147,10 @@ export default function PatientDetailPage() {
 
   return (
     <>
-      <Topbar />
+      <Topbar title={"Patient Profile"} />
 
       <div className="flex-1 p-6 bg-white overflow-y-auto overflow-hidden">
-        <Link
+                            <Link
           href="/admin/patients"
           className="inline-flex items-center gap-2 text-[13px] text-zinc-500 hover:text-[#058FD2] transition-colors mb-5"
         >
@@ -167,7 +167,7 @@ export default function PatientDetailPage() {
         </Link>
 
         <div className="grid grid-cols-1 xl:grid-cols-[340px_1fr] gap-6">
-          <div className="md:sticky top-6 bg-white border-2 border-gray-200 rounded-2xl p-6 h-fit">
+          <div className="top-6 bg-white border-2 border-gray-200 rounded-2xl p-6 h-fit">
             {patient ? (
               <>
                 <div className="flex flex-col items-center text-center">
@@ -242,7 +242,7 @@ export default function PatientDetailPage() {
               </select>
             </div>
 
-            <div className="flex-1  max-h-[650px] overflow-y-auto">
+            <div className="flex-1  max-h-[60vh] overflow-y-auto">
               {loading ? (
                 <div className="py-20 text-center">
                   <p className="text-zinc-400 text-[14px]">Loading appointments...</p>

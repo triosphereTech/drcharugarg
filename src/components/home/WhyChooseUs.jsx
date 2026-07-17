@@ -51,7 +51,7 @@ const valuesData = [
 
   {
     icon: <HiOutlineUserGroup />,
-    title: "Evidence-based Practise",
+    title: "Evidence-based Practice",
     description:
       "Scientifically guided treatments based on latest medical evidence.",
   },

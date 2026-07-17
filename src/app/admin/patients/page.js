@@ -314,33 +314,53 @@ export default function PatientsPage() {
 
 
           {/* Table */}
-          <div className="max-h-[48vh]" style={{ overflowX: "auto" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse" }}>
-              <thead>
-                <tr style={{ borderBottom: "1px solid #EFF6FF", background: "#ffffff" }}>
-                  {[
-                    { label: "Patient", width: "20%" },
-                    { label: "Email", width: "22%" },
-                    { label: "Mobile", width: "16%" },
-                    { label: "Appointments", width: "13%" },
-                    { label: "Last Visit", width: "18%" },
-                    { label: "Action", width: "11%" },
-                  ].map(({ label, width }) => (
-                    <th key={label} style={{
-                      width,
-                      textAlign: "left",
-                      fontSize: 13,
-                      fontWeight: 600,
-                      letterSpacing: "0.06em",
-                      textTransform: "uppercase",
-                      color: "#232323",
-                      padding: "20px 20px",
-                    }}>
-                      {label}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
+<div
+  className="max-h-[48vh]"
+  style={{
+    overflowY: "auto",
+    overflowX: "auto",
+  }}
+>
+  <table
+    style={{
+      width: "100%",
+      borderCollapse: "separate", // better for sticky headers
+      borderSpacing: 0,
+    }}
+  >
+      <thead>
+        <tr>
+          {[
+            { label: "Patient", width: "20%" },
+            { label: "Email", width: "22%" },
+            { label: "Mobile", width: "16%" },
+            { label: "Appointments", width: "13%" },
+            { label: "Last Visit", width: "18%" },
+            { label: "Action", width: "11%" },
+          ].map(({ label, width }) => (
+            <th
+              key={label}
+              style={{
+                width,
+                textAlign: "left",
+                fontSize: 13,
+                fontWeight: 600,
+                letterSpacing: "0.06em",
+                textTransform: "uppercase",
+                color: "#232323",
+                padding: "20px",
+                position: "sticky",
+                top: 0,
+                zIndex: 10,
+                background: "#fff",
+                borderBottom: "1px solid #EFF6FF",
+              }}
+            >
+              {label}
+            </th>
+          ))}
+        </tr>
+      </thead>
 
               <tbody>
                 {/* Loading skeletons */}
