@@ -1,22 +1,18 @@
-import Navbar from "@/components/global/Navbar";
-import Footer from "@/components/global/Footer";
-import Providers from "@/redux/Providers";
-import AuthProvider from "@/components/providers/AuthProvider";
-import { aptosDisplay } from "../fonts";
 
+import "../globals.css";
+import ClientLayout from "./ClientLayout";
 
-export default function ClientLayout({ children }) {
+export const metadata = {
+  title: "Your Website",
+  description: "Your Website Description",
+};
+
+export default function RootLayout({ children }) {
   return (
-    <Providers>
-      <AuthProvider>
-        <Navbar />
-
-        <div  className={aptosDisplay.variable}>
-          {children}
-        </div>
-
-        <Footer />
-      </AuthProvider>
-    </Providers>
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <ClientLayout>{children}</ClientLayout>
+      </body>
+    </html>
   );
 }
