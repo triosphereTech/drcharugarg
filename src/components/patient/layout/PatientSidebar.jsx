@@ -1,8 +1,7 @@
 "use client"
 
 import React, { useState } from "react"
-import { LayoutDashboard, CalendarDays, User, ChevronDown } from "lucide-react"
-
+import { LayoutDashboard, CalendarDays, User, ChevronDown, LogOut } from "lucide-react"
 export const PATIENT_NAV = [
   { key: "overview", label: "Dashboard", icon: LayoutDashboard, type: "link" },
   {
@@ -23,15 +22,16 @@ export const PATIENT_NAV = [
 const findParentKey = (key) =>
   PATIENT_NAV.find((s) => s.type === "group" && s.children.some((c) => c.key === key))?.key
 
-export const PatientSidebar = ({ activeKey, onSelect }) => {
-  const [openGroup, setOpenGroup] = useState(findParentKey(activeKey) || "appointments-group")
+export const PatientSidebar = ({ activeKey, onSelect, onLogout }) => {
+    const [openGroup, setOpenGroup] = useState(findParentKey(activeKey) || "appointments-group")
 
   const toggleGroup = (key) => setOpenGroup((prev) => (prev === key ? "" : key))
 
   return (
     <aside className="hidden lg:block w-64 shrink-0">
-      <div className="p-2 sticky top-6 space-y-1">
-        {PATIENT_NAV.map((item) => {
+<div className="p-2 sticky top-6 space-y-1 flex flex-col h-[calc(100vh-3rem)]">
+         <div className="flex-1">
+          {PATIENT_NAV.map((item) => {
           const Icon = item.icon
 
           if (item.type === "link") {
@@ -103,6 +103,15 @@ export const PatientSidebar = ({ activeKey, onSelect }) => {
             </div>
           )
         })}
+        <button
+  type="button"
+  onClick={onLogout}
+  className="w-full flex items-center gap-3 px-3 py-3 rounded-xl text-[15px] font-bold text-red-500 hover:bg-red-50 cursor-pointer active:scale-95 transition-all duration-150"
+>
+  <LogOut size={19} strokeWidth={1.75} />
+  Logout
+</button>
+        </div>
       </div>
     </aside>
   )

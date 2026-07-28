@@ -34,12 +34,12 @@ export const SettingsContent = () => {
             templates={templates}
           />
         )
-      case "initialFee":
-        return <InitialFeeSection generalFees={generalFees} setGeneralFees={setGeneralFees} />
+      // case "initialFee":
+      //   return <InitialFeeSection generalFees={generalFees} setGeneralFees={setGeneralFees} />
       case "serviceFees":
         return <ServicesSection services={services} setServices={setServices} />
-      case "reappointmentFee":
-        return <ReappointmentFeeSection generalFees={generalFees} setGeneralFees={setGeneralFees} />
+      // case "reappointmentFee":
+      //   return <ReappointmentFeeSection generalFees={generalFees} setGeneralFees={setGeneralFees} />
       default:
         return null
     }

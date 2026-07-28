@@ -2,7 +2,7 @@
 const nextConfig = {
   /* config options here */
   reactCompiler: true,
-  allowedDevOrigins: ['192.168.1.18','192.168.1.87']
+  allowedDevOrigins: ['192.168.1.18','192.168.1.87','192.168.1.13']
 };
 
 export default nextConfig;

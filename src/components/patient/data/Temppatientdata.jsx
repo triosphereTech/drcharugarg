@@ -10,11 +10,20 @@ export const generatePatientId = (prefix = "id") => `${prefix}-${idCounter++}-${
 
 export const currency = (n) => `₹${Number(n || 0).toLocaleString("en-IN")}`
 
-export const formatDateLong = (dateKey) => {
-  if (!dateKey) return ""
-  const d = new Date(`${dateKey}T00:00:00`)
-  return d.toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long", year: "numeric" })
-}
+export const formatDateLong = (date) => {
+  if (!date) return "";
+
+  const d = date.includes("T")
+    ? new Date(date)
+    : new Date(`${date}T00:00:00`);
+
+  return d.toLocaleDateString("en-IN", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+};
 
 export const formatDateShort = (dateKey) => {
   if (!dateKey) return ""

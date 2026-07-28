@@ -179,42 +179,6 @@ export const ServicesSection = ({ services, setServices }) => {
         </button>
       </div>
 
-      {/* Quick stats */}
-      {/* <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gray-900" />
-          <div className="flex items-center justify-between mb-2">
-            <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">Total Services</p>
-            <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 text-gray-600">
-              <Layers size={15} />
-            </span>
-          </div>
-          <p className="text-2xl font-bold text-gray-900">{stats.count}</p>
-        </div>
-
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gray-900" />
-          <div className="flex items-center justify-between mb-2">
-            <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">Avg. Initial Fee</p>
-            <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 text-gray-600">
-              <Wallet size={15} />
-            </span>
-          </div>
-          <p className="text-2xl font-bold text-gray-900">{currency(Math.round(stats.avgInitial))}</p>
-        </div>
-
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gray-900" />
-          <div className="flex items-center justify-between mb-2">
-            <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">Avg. Follow-up Fee</p>
-            <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 text-gray-600">
-              <TrendingUp size={15} />
-            </span>
-          </div>
-          <p className="text-2xl font-bold text-gray-900">{currency(Math.round(stats.avgFollowUp))}</p>
-        </div>
-      </div> */}
-
       {services.length === 0 ? (
         <div className="border border-dashed border-gray-200 rounded-2xl py-16 text-center text-gray-400 text-sm bg-white">
           No services yet. Add your first consultation service to get started.

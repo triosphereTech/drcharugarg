@@ -162,9 +162,9 @@ export const SETTINGS_SECTIONS = [
     label: "Fees",
     icon: "IndianRupee",
     children: [
-      { key: "initialFee", label: "Initial Consultation Fee" },
+      // { key: "initialFee", label: "Initial Consultation Fee" },
       { key: "serviceFees", label: "Consultation Services & Fees" },
-      { key: "reappointmentFee", label: "Re-appointment Charge" },
+      // { key: "reappointmentFee", label: "Re-appointment Charge" },
     ],
   },
 ]

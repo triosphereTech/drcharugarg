@@ -1,8 +1,9 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState,useEffect } from "react"
 import { Pencil, Mail, Phone, Cake, Droplet, MapPin, VenetianMask, Check, IdCard } from "lucide-react"
 import { PatientModal } from "./Patientmodal"
+import { formatDateLong } from "../data/Temppatientdata"
 
 const initials = (name) =>
   name
@@ -21,11 +22,42 @@ export const ProfileSection = ({ patient, setPatient }) => {
     setModalOpen(true)
   }
 
-  const save = () => {
-    if (!draft.name.trim() || !draft.email.trim() || !draft.phone.trim()) return
-    setPatient(draft)
-    setModalOpen(false)
+  useEffect(() => {
+  setDraft(patient);
+}, [patient]);
+
+const save = async () => {
+  if (
+    !draft.name.trim() ||
+    !draft.email.trim() ||
+    !draft.mobileNumber.trim()
+  ) {
+    return;
   }
+
+  try {
+    const res = await fetch("/api/patient/profile", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(draft),
+    });
+
+    const data = await res.json();
+    
+    if (data.success) {
+      setPatient(data.patient);
+      setDraft(data.patient);
+      setModalOpen(false);
+    } else {
+      console.log(data.message);
+    }
+
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   const field = (key, value) => setDraft((prev) => ({ ...prev, [key]: value }))
 
@@ -56,16 +88,13 @@ export const ProfileSection = ({ patient, setPatient }) => {
             </span>
             <div className="pb-1">
               <p className="text-lg font-bold text-gray-900">{patient.name}</p>
-              <p className="flex items-center gap-1 text-xs text-gray-400">
-                <IdCard size={12} /> Patient ID: {patient.id}
-              </p>
             </div>
           </div>
 
           {/* Personal information */}
           <p className="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-3">Personal Information</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
-            <InfoRow icon={Cake} label="Date of Birth" value={patient.dob} />
+            <InfoRow icon={Cake} label="Date of Birth" value={formatDateLong(patient.dob)} />
             <InfoRow icon={VenetianMask} label="Gender" value={patient.gender} />
             <InfoRow icon={Droplet} label="Blood Group" value={patient.bloodGroup} />
           </div>
@@ -74,7 +103,7 @@ export const ProfileSection = ({ patient, setPatient }) => {
           <p className="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-3">Contact Information</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <InfoRow icon={Mail} label="Email" value={patient.email} />
-            <InfoRow icon={Phone} label="Mobile" value={patient.phone} />
+            <InfoRow icon={Phone} label="Mobile" value={patient.mobileNumber} />
             <InfoRow icon={MapPin} label="Address" value={patient.address} span />
           </div>
         </div>
@@ -108,7 +137,7 @@ export const ProfileSection = ({ patient, setPatient }) => {
             <Field label="Full Name" value={draft.name} onChange={(v) => field("name", v)} />
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Field label="Email" value={draft.email} onChange={(v) => field("email", v)} type="email" />
-              <Field label="Mobile" value={draft.phone} onChange={(v) => field("phone", v)} />
+              <Field label="Mobile" value={draft.mobileNumber} onChange={(v) => field("mobileNumber", v)} />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Field label="Date of Birth" value={draft.dob} onChange={(v) => field("dob", v)} type="date" />
@@ -117,13 +146,14 @@ export const ProfileSection = ({ patient, setPatient }) => {
                   Gender
                 </label>
                 <select
-                  value={draft.gender}
+                  value={draft.gender || ""}
                   onChange={(e) => field("gender", e.target.value)}
                   className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 bg-white text-sm text-gray-700 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400"
                 >
-                  <option>Male</option>
-                  <option>Female</option>
-                  <option>Other</option>
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
                 </select>
               </div>
             </div>
