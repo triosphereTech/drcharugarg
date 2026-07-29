@@ -7,9 +7,7 @@ import { DashboardOverview } from "./layout/DashboardOverview";
 import { AppointmentHistory } from "./layout/AppointmentHistory";
 import { BookFollowUp } from "./layout/BookFollowUp";
 import { ProfileSection } from "./layout/ProfileSection";
-import { initialPatient, initialAppointments } from "./data/Temppatientdata";
 import { useEffect } from "react";
-import { LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { clearUser } from "@/redux/features/userSlice";
 import { useDispatch } from "react-redux";
@@ -43,10 +41,7 @@ export const PatientDashboardContent = () => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    loadDashboard();
-  }, []);
+const [selectedAppointmentId, setSelectedAppointmentId] = useState(null);
 
   const loadDashboard = async () => {
     try {
@@ -75,6 +70,15 @@ export const PatientDashboardContent = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    void loadDashboard();
+  }, []);
+const handleFollowUp = (appointment) => {
+  setSelectedAppointmentId(appointment._id);
+  setActiveKey("followup");
+};
   const handleLogout = async () => {
     try {
       const res = await fetch("/api/auth/logout", {
@@ -95,7 +99,18 @@ export const PatientDashboardContent = () => {
       console.log("Logout error:", error);
     }
   };
+const refreshAppointments = async () => {
+  try {
+    const res = await fetch("/api/patient/appointments");
+    const data = await res.json();
 
+    if (data.success) {
+      setAppointments(data.appointments);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
   const renderContent = () => {
     if (APPOINTMENT_FILTER_KEYS[activeKey]) {
       return (
@@ -103,6 +118,8 @@ export const PatientDashboardContent = () => {
           appointments={appointments}
           filter={APPOINTMENT_FILTER_KEYS[activeKey]}
           onNavigate={setActiveKey}
+            onFollowUp={handleFollowUp}
+
         />
       );
     }
@@ -117,12 +134,22 @@ export const PatientDashboardContent = () => {
           />
         );
       case "book":
-        return (
-          <BookFollowUp
-            setAppointments={setAppointments}
-            onNavigate={setActiveKey}
-          />
-        );
+  return (
+    <BookingSection
+      setAppointments={setAppointments}
+      onNavigate={setActiveKey}
+    />
+  );
+
+case "followup":
+  return (
+    <BookFollowUp
+      parentAppointmentId={selectedAppointmentId}
+      setAppointments={setAppointments}
+      onNavigate={setActiveKey}
+      refreshAppointments={refreshAppointments}
+    />
+  );
       case "profile":
         return <ProfileSection patient={patient} setPatient={setPatient} />;
       default:

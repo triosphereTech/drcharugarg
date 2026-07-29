@@ -50,7 +50,7 @@ export function AppointmentItem({
             </h4>
 
             <p className="text-[12px] text-zinc-500 mt-1">
-              Consultation
+              {appointment.appointmentType === "followup" ? "Follow-up consultation" : "Initial consultation"}
             </p>
           </div>
 

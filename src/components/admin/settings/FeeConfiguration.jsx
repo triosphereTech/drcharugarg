@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useMemo, useState } from "react"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
 import {
   IndianRupee,
   Wallet,
@@ -14,7 +14,6 @@ import {
   Layers,
   TrendingUp,
 } from "lucide-react"
-import { generateId, SERVICE_CATEGORIES } from "./data/Tempsettingsdata"
 import { SettingsModal } from "./SettingsModal"
 
 const currency = (n) => `₹${Number(n || 0).toLocaleString("en-IN")}`
@@ -104,7 +103,6 @@ export const InitialFeeSection = ({ generalFees, setGeneralFees }) => {
 const emptyServiceDraft = () => ({
   id: null,
   name: "",
-  category: SERVICE_CATEGORIES[0],
   initialFee: "",
   followUpFee: "",
   description: "",
@@ -114,6 +112,9 @@ export const ServicesSection = ({ services, setServices }) => {
   const [modalOpen, setModalOpen] = useState(false)
   const [draft, setDraft] = useState(emptyServiceDraft())
   const [confirmDeleteId, setConfirmDeleteId] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
+  const [saving, setSaving] = useState(false)
 
   const stats = useMemo(() => {
     const count = services.length
@@ -122,13 +123,43 @@ export const ServicesSection = ({ services, setServices }) => {
     return { count, avgInitial, avgFollowUp }
   }, [services])
 
+  const fetchServices = useCallback(async () => {
+    setLoading(true)
+    setError("")
+    try {
+      const res = await fetch("/api/admin/services")
+      const data = await res.json()
+      if (!res.ok || !data.success) throw new Error(data.message || "Failed to load services")
+      setServices(data.services || [])
+    } catch (err) {
+      setError(err.message || "Could not load services")
+    } finally {
+      setLoading(false)
+    }
+  }, [setServices])
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      void fetchServices()
+    }, 0)
+
+    return () => window.clearTimeout(timer)
+  }, [fetchServices])
+
   const openCreate = () => {
     setDraft(emptyServiceDraft())
     setModalOpen(true)
   }
 
   const openEdit = (service) => {
-    setDraft({ ...service })
+    setDraft({
+      id: service._id || service.id,
+      name: service.name || "",
+      initialFee: service.initialFee ?? "",
+      followUpFee: service.followUpFee ?? "",
+      description: service.description || "",
+      isActive: service.isActive ?? true,
+    })
     setModalOpen(true)
   }
 
@@ -139,25 +170,58 @@ export const ServicesSection = ({ services, setServices }) => {
     !Number.isNaN(Number(draft.initialFee)) &&
     !Number.isNaN(Number(draft.followUpFee))
 
-  const saveDraft = () => {
+  const saveDraft = async () => {
     if (!isValid) return
+
+    setSaving(true)
+    setError("")
+
     const payload = {
-      ...draft,
+      name: draft.name.trim(),
       initialFee: Number(draft.initialFee),
       followUpFee: Number(draft.followUpFee),
+      description: draft.description.trim(),
+      isActive: typeof draft.isActive === "boolean" ? draft.isActive : true,
     }
 
-    if (draft.id) {
-      setServices((prev) => prev.map((s) => (s.id === draft.id ? payload : s)))
-    } else {
-      setServices((prev) => [...prev, { ...payload, id: generateId("svc") }])
+    try {
+      const res = draft.id
+        ? await fetch(`/api/admin/services/${draft.id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          })
+        : await fetch("/api/admin/services", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          })
+
+      const data = await res.json()
+      if (!res.ok || !data.success) throw new Error(data.message || "Unable to save service")
+      await fetchServices()
+      setModalOpen(false)
+    } catch (err) {
+      setError(err.message || "Unable to save service")
+    } finally {
+      setSaving(false)
     }
-    setModalOpen(false)
   }
 
-  const deleteService = (id) => {
-    setServices((prev) => prev.filter((s) => s.id !== id))
-    setConfirmDeleteId(null)
+  const deleteService = async (id) => {
+    setSaving(true)
+    setError("")
+    try {
+      const res = await fetch(`/api/admin/services/${id}`, { method: "DELETE" })
+      const data = await res.json()
+      if (!res.ok || !data.success) throw new Error(data.message || "Unable to delete service")
+      await fetchServices()
+      setConfirmDeleteId(null)
+    } catch (err) {
+      setError(err.message || "Unable to delete service")
+    } finally {
+      setSaving(false)
+    }
   }
 
   return (
@@ -179,7 +243,17 @@ export const ServicesSection = ({ services, setServices }) => {
         </button>
       </div>
 
-      {services.length === 0 ? (
+      {error && (
+        <div className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+          {error}
+        </div>
+      )}
+
+      {loading ? (
+        <div className="border border-dashed border-gray-200 rounded-2xl py-16 text-center text-gray-400 text-sm bg-white">
+          Loading services…
+        </div>
+      ) : services.length === 0 ? (
         <div className="border border-dashed border-gray-200 rounded-2xl py-16 text-center text-gray-400 text-sm bg-white">
           No services yet. Add your first consultation service to get started.
         </div>
@@ -187,15 +261,15 @@ export const ServicesSection = ({ services, setServices }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {services.map((service) => (
             <div
-              key={service.id}
+              key={service._id || service.id}
               className="bg-white rounded-2xl border border-gray-300 p-5 flex flex-col"
             >
               <div className="flex items-start justify-between mb-2">
                 <div>
-                  <h3 className="font-bold text-gray-900 text-sm">{service.name}</h3>
-                  <span className="inline-block mt-1 text-[11px] font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded-md">
-                    {service.category}
-                  </span>
+                  <span className="font-bold  text-gray-900 text-sm">{service.name}</span>
+                  {service.description && (
+                    <p className="text-xs text-gray-400 leading-relaxed ">{service.description}</p>
+                  )}
                 </div>
                 <div className="flex items-center gap-1 shrink-0">
                   <button
@@ -207,7 +281,7 @@ export const ServicesSection = ({ services, setServices }) => {
                   </button>
                   <button
                     type="button"
-                    onClick={() => setConfirmDeleteId(service.id)}
+                    onClick={() => setConfirmDeleteId(service._id || service.id)}
                     className="p-2 rounded-lg text-gray-400 hover:bg-red-50 hover:text-red-600 cursor-pointer active:scale-95 transition-all duration-150"
                   >
                     <Trash2 size={15} />
@@ -215,9 +289,6 @@ export const ServicesSection = ({ services, setServices }) => {
                 </div>
               </div>
 
-              {service.description && (
-                <p className="text-xs text-gray-400 leading-relaxed mb-4">{service.description}</p>
-              )}
 
               <div className="mt-auto grid grid-cols-2 gap-3 pt-3 border-t border-gray-100">
                 <div className="bg-gray-50 rounded-xl px-3 py-2.5">
@@ -242,7 +313,7 @@ export const ServicesSection = ({ services, setServices }) => {
       {modalOpen && (
         <SettingsModal
           title={draft.id ? "Edit Service" : "Add Consultation Service"}
-          subtitle="Set the name, category, fees and a short description"
+          subtitle="Set the name, fees and a short description"
           onClose={() => setModalOpen(false)}
           footer={
             <>
@@ -256,10 +327,10 @@ export const ServicesSection = ({ services, setServices }) => {
               <button
                 type="button"
                 onClick={saveDraft}
-                disabled={!isValid}
+                disabled={!isValid || saving}
                 className="px-5 py-2.5 rounded-xl text-sm font-semibold bg-gray-900 hover:bg-gray-800 disabled:bg-gray-200 disabled:text-gray-400 text-white cursor-pointer disabled:cursor-not-allowed active:scale-95 disabled:active:scale-100 transition-all duration-150"
               >
-                {draft.id ? "Save Changes" : "Add Service"}
+                {saving ? "Saving..." : draft.id ? "Save Changes" : "Add Service"}
               </button>
             </>
           }
@@ -278,22 +349,7 @@ export const ServicesSection = ({ services, setServices }) => {
               />
             </div>
 
-            <div>
-              <label className="block text-xs font-semibold uppercase tracking-wide text-gray-400 mb-1.5">
-                Category
-              </label>
-              <select
-                value={draft.category}
-                onChange={(e) => setDraft((prev) => ({ ...prev, category: e.target.value }))}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 bg-white text-sm text-gray-700 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400"
-              >
-                {SERVICE_CATEGORIES.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-                ))}
-              </select>
-            </div>
+           
 
             <div className="grid grid-cols-2 gap-3">
               <div>
@@ -365,9 +421,10 @@ export const ServicesSection = ({ services, setServices }) => {
               <button
                 type="button"
                 onClick={() => deleteService(confirmDeleteId)}
-                className="px-5 py-2.5 rounded-xl text-sm font-semibold bg-red-600 hover:bg-red-700 text-white cursor-pointer active:scale-95 transition-all duration-150"
+                disabled={saving}
+                className="px-5 py-2.5 rounded-xl text-sm font-semibold bg-red-600 hover:bg-red-700 disabled:bg-red-300 text-white cursor-pointer active:scale-95 transition-all duration-150"
               >
-                Delete
+                {saving ? "Deleting..." : "Delete"}
               </button>
             </>
           }
@@ -480,7 +537,7 @@ export const ReappointmentFeeSection = ({ generalFees, setGeneralFees }) => {
             </div>
             <div className="flex items-start gap-2 text-xs text-gray-500 bg-gray-50 rounded-xl px-3.5 py-2.5">
               <Info size={14} className="text-gray-400 mt-0.5 shrink-0" />
-              Valid for {generalFees.reappointmentValidityDays} days from the patient's last visit. After that,
+              Valid for {generalFees.reappointmentValidityDays} days from the patient&apos;s last visit. After that,
               the standard consultation fee applies.
             </div>
           </>

@@ -10,12 +10,38 @@ export const generatePatientId = (prefix = "id") => `${prefix}-${idCounter++}-${
 
 export const currency = (n) => `₹${Number(n || 0).toLocaleString("en-IN")}`
 
+// export const formatDateLong = (date) => {
+//   if (!date) return "";
+
+//   const d = date.includes("T")
+//     ? new Date(date)
+//     : new Date(`${date}T00:00:00`);
+
+//   return d.toLocaleDateString("en-IN", {
+//     weekday: "long",
+//     day: "numeric",
+//     month: "long",
+//     year: "numeric",
+//   });
+// };
+
 export const formatDateLong = (date) => {
+
   if (!date) return "";
 
-  const d = date.includes("T")
-    ? new Date(date)
-    : new Date(`${date}T00:00:00`);
+  let d;
+
+  if (date instanceof Date) {
+    d = date;
+  } else if (typeof date === "string") {
+    d = date.includes("T")
+      ? new Date(date)
+      : new Date(`${date}T00:00:00`);
+  } else {
+    d = new Date(date);
+  }
+
+  if (Number.isNaN(d.getTime())) return "";
 
   return d.toLocaleDateString("en-IN", {
     weekday: "long",
@@ -30,6 +56,16 @@ export const formatDateShort = (dateKey) => {
   const d = new Date(`${dateKey}T00:00:00`)
   return d.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })
 }
+
+export const formatDateForInput = (date) => {
+  if (!date) return "";
+
+  const d = new Date(date);
+
+  if (Number.isNaN(d.getTime())) return "";
+
+  return d.toISOString().split("T")[0];
+};
 
 // ── Logged-in patient profile ───────────────────────────────
 export const initialPatient = {

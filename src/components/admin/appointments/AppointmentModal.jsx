@@ -307,6 +307,11 @@ async function submitConsultation() {
                   {appointment.timeSlot}
                 </span>
 
+                <span className="inline-flex items-center gap-1.5 px-3 py-2 font-semibold border border-[#bbebff] rounded-xl bg-[#EEF7FB] text-[#058FD2] text-[12px] capitalize">
+                  <HiOutlineTag className="w-3.5 h-3.5" />
+                  {appointment.appointmentType === "followup" ? "Follow-up" : "Initial"}
+                </span>
+
                 <span className="inline-flex items-center gap-1.5 px-3 py-2 font-semibold border border-zinc-200 rounded-xl bg-zinc-50 text-zinc-600 text-[12px] capitalize">
                   <HiOutlineCheckCircle className="w-3.5 h-3.5" />
                   {appointment.status}

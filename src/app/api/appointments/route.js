@@ -5,7 +5,9 @@ import sharp from "sharp";
 
 import { connectDB } from "@/lib/db";
 import Appointment from "@/models/Appointment";
+import Service from "@/models/Service";
 import { requireAuth } from "@/lib/auth";
+import { buildAppointmentGroupId, getAppointmentFee, resolveFollowUpBookingContext } from "@/lib/appointmentGroup";
 
 const TIME_SLOTS   = ["09:00 AM","10:00 AM","11:00 AM","02:00 PM","03:00 PM","04:00 PM"];
 const MAX_PER_SLOT = 5;
@@ -20,14 +22,31 @@ export async function POST(request) {
     }
 
     const formData = await request.formData();
-    const service  = formData.get("service");
-    const date     = formData.get("date");
-    const timeSlot = formData.get("timeSlot");
+    const serviceName = formData.get("service")?.toString().trim();
+    const serviceId = formData.get("serviceId")?.toString().trim();
+    const parentAppointmentId = formData.get("parentAppointmentId")?.toString().trim();
+    const appointmentType = (formData.get("appointmentType")?.toString().trim() || (parentAppointmentId ? "followup" : "initial")).toLowerCase();
+    const date = formData.get("date")?.toString().trim();
+    const timeSlot = formData.get("timeSlot")?.toString().trim();
     const patientNote = formData.get("patientNote") || "";
 
-    if (!service || !date || !timeSlot) {
+    if (appointmentType !== "followup" && !serviceName && !serviceId) {
       return Response.json(
         { success: false, message: "Service, date, and time slot are required." },
+        { status: 400 }
+      );
+    }
+
+    if (!date || !timeSlot) {
+      return Response.json(
+        { success: false, message: "Date and time slot are required." },
+        { status: 400 }
+      );
+    }
+
+    if (!['initial', 'followup'].includes(appointmentType)) {
+      return Response.json(
+        { success: false, message: "Invalid appointment type." },
         { status: 400 }
       );
     }
@@ -96,27 +115,96 @@ export async function POST(request) {
       }
     }
 
-    // Create appointment — paymentStatus starts as "unpaid"
+    let service = null;
+    let parentAppointment = null;
+    let appointmentGroupId = buildAppointmentGroupId();
+
+    if (appointmentType === "followup") {
+      if (!parentAppointmentId) {
+        return Response.json(
+          { success: false, message: "A parent appointment is required for follow-up bookings." },
+          { status: 400 }
+        );
+      }
+
+      parentAppointment = await Appointment.findOne({
+        _id: parentAppointmentId,
+        patient: auth.user.id,
+      }).lean();
+
+      if (!parentAppointment) {
+        return Response.json(
+          { success: false, message: "Parent appointment not found." },
+          { status: 404 }
+        );
+      }
+
+      service = await Service.findOne({
+        $or: [{ _id: parentAppointment.serviceId }, { name: parentAppointment.service }],
+        isActive: true,
+      });
+
+      if (!service) {
+        return Response.json(
+          { success: false, message: "The parent consultation service is not available anymore." },
+          { status: 404 }
+        );
+      }
+
+      const followUpContext = resolveFollowUpBookingContext(parentAppointment, service);
+service.name = followUpContext.serviceName || service.name;
+      appointmentGroupId = followUpContext.appointmentGroupId || buildAppointmentGroupId();
+    } else {
+      if (serviceId) {
+        service = await Service.findById(serviceId);
+      } else if (serviceName) {
+        service = await Service.findOne({ name: serviceName, isActive: true });
+      }
+
+      if (!service) {
+        return Response.json(
+          { success: false, message: "Selected service is not available." },
+          { status: 404 }
+        );
+      }
+    }
+console.log("appointmentType =", appointmentType);
+console.log("service._id =", service._id);
+console.log("service.initialFee =", service.initialFee);
+console.log("service.followUpFee =", service.followUpFee);
+
+const fee = getAppointmentFee(service, appointmentType);
+
+console.log("calculated fee =", fee);
+    
     const appointment = await Appointment.create({
-      patient:       auth.user.id,
-      service,
-      date:          new Date(date),
+      patient: auth.user.id,
+      service: service.name,
+      serviceId: service._id,
+      parentAppointmentId: parentAppointment?._id || null,
+      appointmentGroupId,
+      appointmentType,
+      date: new Date(date),
       timeSlot,
-      patientNote:   patientNote.trim(),
+      patientNote: patientNote.trim(),
       attachments,
+      fee,
       paymentStatus: "unpaid",
     });
 
     return Response.json(
       {
-        success:       true,
-        message:       "Appointment created. Proceed to payment.",
+        success: true,
+        message: "Appointment created. Proceed to payment.",
         appointmentId: appointment._id.toString(),
+        appointmentGroupId,
       },
       { status: 201 }
     );
 
   } catch (error) {
+    console.log("this is error in follow up booking",error);
+    
     return Response.json(
       { success: false, message: "Something went wrong.", error: error.message },
       { status: 500 }

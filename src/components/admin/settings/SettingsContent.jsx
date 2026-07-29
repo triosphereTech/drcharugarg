@@ -9,8 +9,6 @@ import { InitialFeeSection, ServicesSection, ReappointmentFeeSection } from "./F
 import {
   initialTimeSlotTemplates,
   initialAvailability,
-  initialServices,
-  initialGeneralFees,
 } from "./data/Tempsettingsdata"
 
 export const SettingsContent = () => {
@@ -19,8 +17,7 @@ export const SettingsContent = () => {
   // Shared, in-memory (temp) state for the whole settings page
   const [templates, setTemplates] = useState(initialTimeSlotTemplates)
   const [availability, setAvailability] = useState(initialAvailability)
-  const [services, setServices] = useState(initialServices)
-  const [generalFees, setGeneralFees] = useState(initialGeneralFees)
+  const [services, setServices] = useState([])
 
   const renderContent = () => {
     switch (activeKey) {

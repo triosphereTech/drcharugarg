@@ -50,7 +50,7 @@ export const DashboardOverview = ({ patient, appointments, onNavigate }) => {
     () => ({
       all: appointments.length,
       upcoming: appointments.filter((a) => a.status === "pending").length,
-      completed: appointments.filter((a) => a.status === "completed").length,
+      completed: appointments.filter((a) => a.status === "attended").length,
       cancelled: appointments.filter((a) => a.status === "cancelled").length,
     }),
     [appointments],
@@ -144,22 +144,15 @@ export const DashboardOverview = ({ patient, appointments, onNavigate }) => {
           </div>
         ) : (
           <div className="bg-white rounded-2xl border border-dashed border-gray-200 p-6 text-center">
-            <p className="text-sm text-gray-400 mb-3">
+            <p className="text-sm text-gray-400 ">
               You have no upcoming appointments.
             </p>
-            <button
-              type="button"
-              onClick={() => onNavigate("book")}
-              className="inline-flex items-center gap-1.5 bg-gray-900 hover:bg-gray-800 text-white text-sm font-semibold px-4 py-2.5 rounded-xl cursor-pointer active:scale-95 transition-all duration-150"
-            >
-              Book Follow-up Consultation
-            </button>
           </div>
         )}
       </div>
 
       {/* Quick actions */}
-      <div>
+      {/* <div>
         <p className="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-3">
           Quick Actions
         </p>
@@ -192,7 +185,7 @@ export const DashboardOverview = ({ patient, appointments, onNavigate }) => {
             <p className="text-xs text-gray-400">Update your information</p>
           </button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -3,7 +3,7 @@
 import React, { useState,useEffect } from "react"
 import { Pencil, Mail, Phone, Cake, Droplet, MapPin, VenetianMask, Check, IdCard } from "lucide-react"
 import { PatientModal } from "./Patientmodal"
-import { formatDateLong } from "../data/Temppatientdata"
+import { formatDateForInput, formatDateLong } from "../data/Temppatientdata"
 
 const initials = (name) =>
   name
@@ -140,7 +140,7 @@ const save = async () => {
               <Field label="Mobile" value={draft.mobileNumber} onChange={(v) => field("mobileNumber", v)} />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Field label="Date of Birth" value={draft.dob} onChange={(v) => field("dob", v)} type="date" />
+              <Field label="Date of Birth" value={formatDateForInput(draft.dob)} onChange={(v) => field("dob", v)} type="date" />
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wide text-gray-400 mb-1.5">
                   Gender

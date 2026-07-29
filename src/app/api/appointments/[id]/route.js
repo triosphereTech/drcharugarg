@@ -3,7 +3,46 @@ import fs from "fs/promises";
 import path from "path";
 import { connectDB } from "@/lib/db";
 import Appointment from "@/models/Appointment";
+import Service from "@/models/Service";
 import { requireAuth } from "@/lib/auth";
+
+export async function GET(request, { params }) {
+  try {
+    await connectDB();
+
+    const auth = await requireAuth();
+    if (!auth.success) {
+      return Response.json({ success: false, message: "Unauthorized" }, { status: 401 });
+    }
+
+    const { id } = await params;
+
+    const appointment = await Appointment.findOne({
+      _id: id,
+      patient: auth.user.id,
+    }).lean();
+
+    if (!appointment) {
+      return Response.json({ success: false, message: "Appointment not found." }, { status: 404 });
+    }
+
+    const service = await Service.findOne({ name: appointment.service, isActive: true }).lean();
+
+    return Response.json({
+      success: true,
+      appointment: {
+        ...appointment,
+        followUpFee: service?.followUpFee || 0,
+      },
+    });
+  } catch (error) {
+    return Response.json(
+      { success: false, message: "Could not load appointment.", error: error.message },
+      { status: 500 }
+    );
+  }
+}
+
 // delete appointment 
 export async function DELETE(request, { params }) {
   try {

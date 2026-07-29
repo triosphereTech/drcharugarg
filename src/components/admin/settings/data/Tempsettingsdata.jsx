@@ -84,68 +84,6 @@ export const initialAvailability = {
   "2026-07-29": { templateId: "tpl-evening", isOff: false },
 }
 
-// ── Services / per-consultation fees ────────────────────────
-export const SERVICE_CATEGORIES = ["Skin", "Hair", "Nails", "General"]
-
-export const initialServices = [
-  {
-    id: "skin-care",
-    name: "Skin Care",
-    category: "Skin",
-    initialFee: 800,
-    followUpFee: 500,
-    description: "General skin health check-up, routine care and product guidance.",
-  },
-  {
-    id: "hair-scalp",
-    name: "Hair & Scalp",
-    category: "Hair",
-    initialFee: 900,
-    followUpFee: 600,
-    description: "Hair fall, dandruff and scalp related consultations.",
-  },
-  {
-    id: "nails",
-    name: "Nails",
-    category: "Nails",
-    initialFee: 700,
-    followUpFee: 450,
-    description: "Nail health, infections and cosmetic nail concerns.",
-  },
-  {
-    id: "pigmentation",
-    name: "Pigmentation",
-    category: "Skin",
-    initialFee: 1000,
-    followUpFee: 650,
-    description: "Dark spots, melasma and uneven skin tone treatment.",
-  },
-  {
-    id: "acne-treatment",
-    name: "Acne Treatment",
-    category: "Skin",
-    initialFee: 850,
-    followUpFee: 550,
-    description: "Acne, scarring and breakout management plans.",
-  },
-  {
-    id: "anti-aging",
-    name: "Anti-Aging",
-    category: "Skin",
-    initialFee: 1200,
-    followUpFee: 800,
-    description: "Fine lines, wrinkles and skin rejuvenation treatments.",
-  },
-]
-
-// ── General fee settings ────────────────────────────────────
-export const initialGeneralFees = {
-  // Default fee charged for a first-time / initial consultation booking
-  initialConsultationFee: 800,
-  // Fee charged when a patient re-books within the validity window
-  reappointmentFee: 300,
-  reappointmentValidityDays: 15,
-}
 
 export const SETTINGS_SECTIONS = [
   {
@@ -162,9 +100,7 @@ export const SETTINGS_SECTIONS = [
     label: "Fees",
     icon: "IndianRupee",
     children: [
-      // { key: "initialFee", label: "Initial Consultation Fee" },
       { key: "serviceFees", label: "Consultation Services & Fees" },
-      // { key: "reappointmentFee", label: "Re-appointment Charge" },
     ],
   },
 ]

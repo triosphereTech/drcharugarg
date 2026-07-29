@@ -3,19 +3,14 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import Script from "next/script";
 import {
-  FaStethoscope, FaClipboardList, FaMicroscope, FaBolt,
-  FaCalendarAlt, FaClock, FaImages, FaCheck,
+  FaStethoscope, FaCalendarAlt, FaClock, FaImages, FaCheck,
   FaChevronLeft, FaChevronRight, FaUpload, FaTimes,
   FaInfoCircle, FaWhatsapp, FaRedo, FaCalendar,
   FaExclamationTriangle, FaCreditCard,
 } from "react-icons/fa";
+import { deleteAppointment } from "@/lib/appointmentUtils";
 
-const SERVICES = [
-  { id: "initial",  label: "Initial Consultation", icon: FaStethoscope,   duration: "30 min", desc: "First-time patient evaluation" },
-  { id: "followup", label: "Follow-up Visit",       icon: FaClipboardList, duration: "20 min", desc: "Review & progress check" },
-  { id: "scalp",    label: "Scalp Analysis",         icon: FaMicroscope,   duration: "25 min", desc: "Detailed scalp examination" },
-  { id: "laser",    label: "Laser Consultation",     icon: FaBolt,         duration: "40 min", desc: "Laser treatment planning" },
-];
+const DEFAULT_SERVICE_ICON = FaStethoscope;
 
 const TIME_SLOTS = ["09:00 AM","10:00 AM","11:00 AM","02:00 PM","03:00 PM","04:00 PM"];
 const MONTHS     = ["January","February","March","April","May","June","July","August","September","October","November","December"];
@@ -43,18 +38,18 @@ function formatDateForApi(d) {
 }
 
 // Delete a temporary appointment + its files when payment fails/dismissed
-async function deleteAppointment(appointmentId) {
-  try {
-    await fetch(`/api/appointments/${appointmentId}`, { method: "DELETE" });
-  } catch {
-    // best-effort, don't surface to user
-  }
-}
+// async function deleteAppointment(appointmentId) {
+//   try {
+//     await fetch(`/api/appointments/${appointmentId}`, { method: "DELETE" });
+//   } catch {
+//     // best-effort, don't surface to user
+//   }
+// }
 
 /* ─── Left sidebar ─── */
-function LeftPanel({ step, selectedService, selectedDate, selectedTime, booked }) {
+function LeftPanel({ step, selectedService, selectedDate, selectedTime, booked, services }) {
   const getVal = (n) => {
-    if (n === 1) return selectedService ? SERVICES.find(s => s.id === selectedService)?.label : "";
+    if (n === 1) return selectedService ? services.find(s => (s._id || s.id) === selectedService)?.name || "" : "";
     if (n === 2) return selectedDate ? `${MONTHS[selectedDate.m].slice(0,3)} ${selectedDate.d}, ${selectedDate.y}` : "";
     if (n === 3) return selectedTime || "";
     return "";
@@ -162,31 +157,47 @@ function Footer({ onBack, onNext, nextLabel = "Continue", nextDisabled = false, 
 }
 
 /* ─── Step 1 ─── */
-function Step1({ selectedService, setSelectedService, onNext }) {
+function Step1({ selectedService, setSelectedService, onNext, services, loading, error }) {
   return (
     <>
       <RightHeader step={1} title="Select a service" subtitle="Choose the type of appointment you need" />
-      <div className="px-6 md:px-7 pt-5 pb-3 grid grid-cols-2 gap-3 flex-1">
-        {SERVICES.map(s => {
-          const Icon = s.icon, sel = selectedService === s.id;
-          return (
-            <button key={s.id} onClick={() => setSelectedService(s.id)}
-              className={`group p-4 rounded-xl border-[1.5px] text-left transition-all duration-150
-                ${sel ? "border-[#058FD2] bg-[#E8F6FD]" : "border-slate-200 bg-white hover:border-[#058FD2]/50 hover:bg-[#E8F6FD]/40"}`}
-            >
-              <div className="flex items-start justify-between mb-3">
-                <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors
-                  ${sel ? "bg-[#058FD2] text-white" : "bg-slate-100 text-slate-400 group-hover:bg-[#058FD2] group-hover:text-white"}`}>
-                  <Icon className="w-3.5 h-3.5" />
-                </div>
-                {sel && <div className="w-5 h-5 rounded-full bg-[#058FD2] flex items-center justify-center"><FaCheck className="w-2.5 h-2.5 text-white" /></div>}
-              </div>
-              <p className={`text-sm font-semibold mb-0.5 ${sel ? "text-[#065F8F]" : "text-slate-700"}`}>{s.label}</p>
-              <p className="text-xs text-slate-400 mb-2">{s.desc}</p>
-              <span className="text-xs font-medium text-[#058FD2] bg-[#058FD2]/10 px-2 py-0.5 rounded-md">{s.duration}</span>
-            </button>
-          );
-        })}
+      <div className="px-6 md:px-7 pt-5 pb-3 flex-1">
+        {loading ? (
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-6 text-center text-sm text-slate-500">
+            Loading services…
+          </div>
+        ) : error ? (
+          <div className="rounded-xl border border-red-200 bg-red-50 p-6 text-center text-sm text-red-600">
+            {error}
+          </div>
+        ) : services.length === 0 ? (
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-6 text-center text-sm text-slate-500">
+            No services are currently available. Please check back later.
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-3">
+            {services.map((service) => {
+              const serviceId = service._id || service.id;
+              const sel = selectedService === serviceId;
+              return (
+                <button key={serviceId} onClick={() => setSelectedService(serviceId)}
+                  className={`group p-4 rounded-xl border-[1.5px] text-left transition-all duration-150
+                    ${sel ? "border-[#058FD2] bg-[#E8F6FD]" : "border-slate-200 bg-white hover:border-[#058FD2]/50 hover:bg-[#E8F6FD]/40"}`}
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors
+                      ${sel ? "bg-[#058FD2] text-white" : "bg-slate-100 text-slate-400 group-hover:bg-[#058FD2] group-hover:text-white"}`}>
+                      <DEFAULT_SERVICE_ICON className="w-3.5 h-3.5" />
+                    </div>
+                    {sel && <div className="w-5 h-5 rounded-full bg-[#058FD2] flex items-center justify-center"><FaCheck className="w-2.5 h-2.5 text-white" /></div>}
+                  </div>
+                  <p className={`text-sm font-semibold mb-0.5 ${sel ? "text-[#065F8F]" : "text-slate-700"}`}>{service.name}</p>
+                  <p className="text-xs text-slate-400 mb-2">{service.description || "Consultation service"}</p>
+                </button>
+              );
+            })}
+          </div>
+        )}
       </div>
       <Footer onNext={onNext} nextDisabled={!selectedService} />
     </>
@@ -324,6 +335,7 @@ function Step4({
   onSubmit,
   isSubmitting,
   submitError,
+  services,
 }) {
   const [drag, setDrag] = useState(false);
   const inputRef        = useRef(null);
@@ -332,7 +344,7 @@ function Step4({
     setFiles(p => [...p, ...allowed].slice(0, 5));
   };
   const removeFile = (i) => setFiles(f => f.filter((_, idx) => idx !== i));
-  const svc = SERVICES.find(s => s.id === selectedService);
+  const svc = services.find((service) => (service._id || service.id) === selectedService);
 
   return (
     <>
@@ -391,7 +403,7 @@ function Step4({
         <div className="bg-slate-50 border border-slate-100 rounded-xl p-4">
           <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-3">Booking summary</p>
           {[
-            { label: "Service", value: svc?.label },
+            { label: "Service", value: svc?.name },
             { label: "Date",    value: selectedDate ? `${MONTHS[selectedDate.m]} ${selectedDate.d}, ${selectedDate.y}` : "—" },
             { label: "Time",    value: selectedTime },
           ].map(row => (
@@ -429,8 +441,8 @@ function Step4({
 }
 
 /* ─── Success ─── */
-function SuccessScreen({ selectedService, selectedDate, selectedTime, onReset }) {
-  const svc = SERVICES.find(s => s.id === selectedService);
+function SuccessScreen({ selectedService, selectedDate, selectedTime, onReset, services }) {
+  const svc = services.find((service) => (service._id || service.id) === selectedService);
   return (
     <div className="flex flex-col items-center justify-center flex-1 py-10 px-6 text-center">
       <div className="w-16 h-16 bg-[#E8F6FD] rounded-full flex items-center justify-center mb-5">
@@ -440,7 +452,7 @@ function SuccessScreen({ selectedService, selectedDate, selectedTime, onReset })
       <p className="text-sm text-slate-400 mb-6">Payment received. You will receive a confirmation shortly.</p>
       <div className="bg-slate-50 border border-slate-100 rounded-xl p-4 text-left w-full max-w-xs mb-6">
         {[
-          { label: "Service", value: svc?.label },
+          { label: "Service", value: svc?.name },
           { label: "Date",    value: selectedDate ? `${MONTHS[selectedDate.m]} ${selectedDate.d}, ${selectedDate.y}` : "" },
           { label: "Time",    value: selectedTime },
         ].map(row => (
@@ -475,6 +487,9 @@ export default function BookingSection() {
   const [isCheckingAuth,  setIsCheckingAuth]  = useState(true);
   const [isSubmitting,    setIsSubmitting]    = useState(false);
   const [submitError,     setSubmitError]     = useState("");
+  const [services,        setServices]        = useState([]);
+  const [servicesLoading, setServicesLoading]  = useState(true);
+  const [servicesError,   setServicesError]   = useState("");
 
   // Availability
   const [slotAvailability,    setSlotAvailability]    = useState([]);
@@ -494,6 +509,25 @@ export default function BookingSection() {
       }
     };
     checkAuth();
+  }, []);
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      setServicesLoading(true);
+      setServicesError("");
+      try {
+        const res = await fetch("/api/services");
+        const data = await res.json();
+        if (!res.ok || !data.success) throw new Error(data.message || "Could not load services.");
+        setServices(data.services || []);
+      } catch (err) {
+        setServicesError(err.message || "Could not load services.");
+      } finally {
+        setServicesLoading(false);
+      }
+    };
+
+    fetchServices();
   }, []);
 
   const fetchAvailability = useCallback(async (dateObj) => {
@@ -537,8 +571,11 @@ export default function BookingSection() {
     setSubmitError("");
 
     // ── Step A: Create appointment (uploads files, holds slot) ──
+    const selectedServiceData = services.find((service) => (service._id || service.id) === selectedService);
     const formData = new FormData();
-    formData.append("service",  SERVICES.find(s => s.id === selectedService)?.label || selectedService);
+    formData.append("service", selectedServiceData?.name || selectedService);
+    formData.append("serviceId", selectedServiceData?._id || selectedServiceData?.id || selectedService);
+    formData.append("appointmentType", "initial");
     formData.append("date",     formatDateForApi(selectedDate));
     formData.append("timeSlot", selectedTime);
     formData.append("patientNote", patientNote.trim());
@@ -581,7 +618,7 @@ export default function BookingSection() {
       amount:      orderData.amount,
       currency:    orderData.currency,
       name:        "Hair & Scalp Clinic",
-      description: `Consultation — ${SERVICES.find(s => s.id === selectedService)?.label}`,
+      description: `Consultation — ${services.find((service) => (service._id || service.id) === selectedService)?.name || selectedService}`,
       order_id:    orderData.orderId,
 
       handler: async (response) => {
@@ -641,7 +678,6 @@ export default function BookingSection() {
     <>
       {/* Load Razorpay SDK once */}
       <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
-
       <section  className="min-h-screen flex items-center justify-center p-4 md:py-8">
         <div className="relative w-full max-w-7xl">
           <div className={`w-full bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden flex flex-col md:flex-row min-h-[560px] transition-all ${!isCheckingAuth && !isLoggedIn ? "blur-sm pointer-events-none select-none" : ""}`}>
@@ -652,6 +688,7 @@ export default function BookingSection() {
               selectedDate={selectedDate}
               selectedTime={selectedTime}
               booked={booked}
+              services={services}
             />
 
             <div className="flex flex-col flex-1 min-w-0">
@@ -661,12 +698,16 @@ export default function BookingSection() {
                   selectedDate={selectedDate}
                   selectedTime={selectedTime}
                   onReset={reset}
+                  services={services}
                 />
               ) : step === 1 ? (
                 <Step1
                   selectedService={selectedService}
                   setSelectedService={setSelectedService}
                   onNext={() => setStep(2)}
+                  services={services}
+                  loading={servicesLoading}
+                  error={servicesError}
                 />
               ) : step === 2 ? (
                 <Step2
@@ -703,6 +744,7 @@ export default function BookingSection() {
                   onSubmit={submitBooking}
                   isSubmitting={isSubmitting}
                   submitError={submitError}
+                  services={services}
                 />
               )}
             </div>
