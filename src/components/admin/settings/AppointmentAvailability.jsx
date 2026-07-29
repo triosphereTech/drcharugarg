@@ -12,7 +12,7 @@ const startOfToday = () => {
   return d
 }
 
-export const AppointmentAvailability = ({ availability, setAvailability, templates }) => {
+export const AppointmentAvailability = ({ availability, templates, onChanged, onError }) => {
   const [monthCursor, setMonthCursor] = useState(() => {
     const d = new Date()
     d.setDate(1)
@@ -57,30 +57,29 @@ export const AppointmentAvailability = ({ availability, setAvailability, templat
     setDraftIsOff(existing?.isOff || false)
   }
 
-  const saveOverride = () => {
+  const saveOverride = async () => {
     if (!selectedKey) return
-    setAvailability((prev) => {
-      const next = { ...prev }
-      if (!draftIsOff && !draftTemplateId) {
-        delete next[selectedKey]
-      } else {
-        next[selectedKey] = { templateId: draftIsOff ? null : draftTemplateId, isOff: draftIsOff }
-      }
-      return next
-    })
-    setSelectedKey(null)
+    try {
+      if (!draftIsOff && !draftTemplateId) return clearOverride(selectedKey)
+      const response = await fetch("/api/admin/availability", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ date: selectedKey, templateId: draftTemplateId || null, isOff: draftIsOff }) })
+      const data = await response.json()
+      if (!response.ok || !data.success) throw new Error(data.message || "Unable to save availability.")
+      await onChanged()
+      setSelectedKey(null)
+    } catch (error) { onError(error.message || "Unable to save availability.") }
   }
 
-  const clearOverride = (key) => {
-    setAvailability((prev) => {
-      const next = { ...prev }
-      delete next[key]
-      return next
-    })
-    if (selectedKey === key) setSelectedKey(null)
+  const clearOverride = async (key) => {
+    try {
+      const response = await fetch(`/api/admin/availability?date=${key}`, { method: "DELETE" })
+      const data = await response.json()
+      if (!response.ok || !data.success) throw new Error(data.message || "Unable to reset availability.")
+      await onChanged()
+      if (selectedKey === key) setSelectedKey(null)
+    } catch (error) { onError(error.message || "Unable to reset availability.") }
   }
 
-  const templateName = (id) => templates.find((t) => t.id === id)?.name || "—"
+  const templateName = (id) => templates.find((t) => t._id === id)?.name || "—"
 
   const upcomingOverrides = useMemo(() => {
     return Object.entries(availability)
@@ -224,7 +223,7 @@ export const AppointmentAvailability = ({ availability, setAvailability, templat
                   >
                     <option value="">No template assigned</option>
                     {templates.map((t) => (
-                      <option key={t.id} value={t.id}>
+                      <option key={t._id} value={t._id}>
                         {t.name} ({t.slots.length} slots)
                       </option>
                     ))}

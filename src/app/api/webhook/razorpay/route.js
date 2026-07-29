@@ -78,7 +78,9 @@ export async function POST(request) {
           name:    appointment.patient.name,
           service: appointment.service,
           date:    appointment.date,
-          time:    appointment.timeSlot,
+          time: appointment.slotStartTime && appointment.slotEndTime
+            ? `${appointment.slotStartTime} - ${appointment.slotEndTime}`
+            : appointment.timeSlot,
         });
       }
 

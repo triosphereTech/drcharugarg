@@ -62,7 +62,15 @@ function createDraftFileId() {
   return `draft-${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
 }
 
-export function AppointmentModal({ appointment, onClose, onStatusChange }) {
+export function AppointmentModal({
+  appointment: selectedAppointment,
+  appointments = [],
+  onClose,
+  onStatusChange,
+}) {
+  const [activeAppointment, setActiveAppointment] =
+    useState(selectedAppointment);
+  const appointment = activeAppointment || selectedAppointment;
   const [message, setMessage] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
   const [draftFiles, setDraftFiles] = useState([]);
@@ -72,7 +80,16 @@ export function AppointmentModal({ appointment, onClose, onStatusChange }) {
   const chatRef = useRef(null);
   const fileInputRef = useRef(null);
 
-  const appointmentClosed = appointment?.status === "attended";
+  const groupHistory = useMemo(() => {
+    return [...appointments].sort(
+      (a, b) =>
+        new Date(a.date) - new Date(b.date) ||
+        new Date(a.createdAt) - new Date(b.createdAt),
+    );
+  }, [appointments]);
+
+  const appointmentClosed =
+    appointment?.status === "attended" || appointment?.status === "cancelled";
 
   const conversation = useMemo(() => {
     const items = appointment?.patient?.conversation || [];
@@ -151,6 +168,13 @@ export function AppointmentModal({ appointment, onClose, onStatusChange }) {
   }, [onClose]);
 
   useEffect(() => {
+    // Only reset when the parent explicitly opens a different appointment;
+    // group refreshes should not interrupt sidebar navigation.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setActiveAppointment(selectedAppointment);
+  }, [selectedAppointment?._id]);
+
+  useEffect(() => {
     if (chatRef.current) {
       chatRef.current.scrollTop = chatRef.current.scrollHeight;
     }
@@ -165,82 +189,82 @@ export function AppointmentModal({ appointment, onClose, onStatusChange }) {
 
   if (!appointment) return null;
 
-async function submitConsultation() {
-  setError("");
+  async function submitConsultation() {
+    setError("");
 
-  if (!message.trim() && draftFiles.length === 0) {
-    toast.error(
-      "Add prescription notes or an attachment before submitting.",
-      {
-        position: "top-right",
-        autoClose: 3000,
-      }
-    );
-    return;
-  }
-
-  setIsSubmitting(true);
-
-  try {
-    const formData = new FormData();
-    formData.append("status", "attended");
-    formData.append("prescription", message.trim());
-
-    draftFiles.forEach((item) => {
-      formData.append("attachments", item.file);
-    });
-
-    const response = await fetch(
-      `/api/admin/appointments/${appointment._id}/status`,
-      {
-        method: "PATCH",
-        body: formData,
-      }
-    );
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message || "Unable to update appointment.");
+    if (!message.trim() && draftFiles.length === 0) {
+      toast.error(
+        "Add prescription notes or an attachment before submitting.",
+        {
+          position: "top-right",
+          autoClose: 3000,
+        },
+      );
+      return;
     }
 
-    // Notify parent
-    onStatusChange?.(
-      appointment._id,
-      "attended",
-      message.trim(),
-      data.data
-    );
+    setIsSubmitting(true);
 
-    // Cleanup preview URLs
-    draftFiles.forEach((item) => {
-      if (item.preview) {
-        URL.revokeObjectURL(item.preview);
+    try {
+      const formData = new FormData();
+      formData.append("status", "attended");
+      formData.append("prescription", message.trim());
+
+      draftFiles.forEach((item) => {
+        formData.append("attachments", item.file);
+      });
+
+      const response = await fetch(
+        `/api/admin/appointments/${appointment._id}/status`,
+        {
+          method: "PATCH",
+          body: formData,
+        },
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Unable to update appointment.");
       }
-    });
 
-    // Reset form
-    setMessage("");
-    setDraftFiles([]);
-    setError("");
-    setExpanded(false);
+      // Notify parent
+      onStatusChange?.(appointment._id, "attended", message.trim(), data.data);
+      setActiveAppointment((previous) => ({
+        ...previous,
+        ...data.data,
+        patient: previous?.patient || data.data.patient,
+      }));
 
-    // Show success toast ONCE
-    toast.success("Appointment updated successfully.", {
-      position: "top-right",
-      autoClose: 2500,
-    });
-  } catch (err) {
-    setError(err.message);
+      // Cleanup preview URLs
+      draftFiles.forEach((item) => {
+        if (item.preview) {
+          URL.revokeObjectURL(item.preview);
+        }
+      });
 
-    toast.error(err.message || "Something went wrong.", {
-      position: "top-right",
-      autoClose: 3000,
-    });
-  } finally {
-    setIsSubmitting(false);
+      // Reset form
+      setMessage("");
+      setDraftFiles([]);
+      setError("");
+      setExpanded(false);
+
+      // Show success toast ONCE
+      toast.success("Appointment updated successfully.", {
+        position: "top-right",
+        autoClose: 2500,
+      });
+    } catch (err) {
+      setError(err.message);
+
+      toast.error(err.message || "Something went wrong.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   }
-}
 
   const patient = appointment.patient || {};
 
@@ -304,12 +328,16 @@ async function submitConsultation() {
 
                 <span className="inline-flex items-center gap-1.5 px-3 py-2 font-semibold border border-zinc-200 rounded-xl bg-zinc-100 text-zinc-600 text-[12px]">
                   <HiOutlineClock className="w-3.5 h-3.5" />
-                  {appointment.timeSlot}
+                  {appointment.slotStartTime && appointment.slotEndTime
+                    ? `${appointment.slotStartTime} - ${appointment.slotEndTime}`
+                    : appointment.timeSlot}
                 </span>
 
                 <span className="inline-flex items-center gap-1.5 px-3 py-2 font-semibold border border-[#bbebff] rounded-xl bg-[#EEF7FB] text-[#058FD2] text-[12px] capitalize">
                   <HiOutlineTag className="w-3.5 h-3.5" />
-                  {appointment.appointmentType === "followup" ? "Follow-up" : "Initial"}
+                  {appointment.appointmentType === "followup"
+                    ? "Follow-up"
+                    : "Initial"}
                 </span>
 
                 <span className="inline-flex items-center gap-1.5 px-3 py-2 font-semibold border border-zinc-200 rounded-xl bg-zinc-50 text-zinc-600 text-[12px] capitalize">
@@ -331,188 +359,119 @@ async function submitConsultation() {
             ref={chatRef}
             className="flex-1 overflow-y-auto bg-gradient-to-b from-[#F8FBFD] via-[#F5FAFD] to-[#F0F8FC] px-6 py-6"
           >
-            <div className="max-w-[900px] mx-auto space-y-6">
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-                className="flex justify-center"
-              >
-                <div className="flex items-center gap-2 bg-white/90 backdrop-blur border border-[#DDEAF2] rounded-2xl px-5 py-3 text-center shadow-md shadow-[#058FD2]/5">
-                  {/* <HiCalendarDays className="w-4 h-4 text-[#058FD2] shrink-0" /> */}
-                  <div>
-                    <p className="text-[12px] font-semibold text-zinc-700 tracking-wide">
-                      Appointment Created
-                    </p>
-                    <p className="text-[12px] text-zinc-500 mt-0.5">
-                      {appointment.service} | {formatDate(appointment.date)} |{" "}
-                      {appointment.timeSlot}
-                    </p>
-                  </div>
+            <div className="max-w-[1080px] mx-auto flex gap-6 items-start">
+              <aside className="w-56 shrink-0 sticky top-0 rounded-2xl border border-[#DDEAF2] bg-white p-3 shadow-sm">
+                <p className="px-2 pb-2 text-[11px] font-semibold uppercase tracking-wide text-zinc-400">
+                  Appointment journey
+                </p>
+                <div className="space-y-2">
+                  {groupHistory.map((appt) => {
+                    const isActive = appt._id === appointment._id;
+                    return (
+                      <button
+                        key={appt._id}
+                        type="button"
+                        onClick={() => setActiveAppointment(appt)}
+                        className={`w-full rounded-xl border p-3 text-left transition-colors ${isActive ? "border-[#058FD2] bg-[#EEF7FB]" : "border-transparent hover:border-[#DDEAF2] hover:bg-[#F8FBFD]"}`}
+                      >
+                        <p className="text-xs font-semibold text-[#131C15]">
+                          {appt.appointmentType === "followup"
+                            ? "Follow-up"
+                            : "Initial Consultation"}
+                        </p>
+                        <p className="mt-1 text-[11px] text-zinc-500">
+                          {formatDate(appt.date)}
+                        </p>
+                        <span
+                          className={`mt-2 inline-flex rounded-full px-2 py-0.5 text-[10px] font-semibold capitalize ${appt.status === "attended" ? "bg-emerald-50 text-emerald-700" : appt.status === "cancelled" ? "bg-red-50 text-red-600" : "bg-amber-50 text-amber-700"}`}
+                        >
+                          {appt.status}
+                        </span>
+                      </button>
+                    );
+                  })}
                 </div>
-              </motion.div>
+              </aside>
+              <div className="min-w-0 flex-1 space-y-6">
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4 }}
+                  className="flex justify-center"
+                >
+                  <div className="flex items-center gap-2 bg-white/90 backdrop-blur border border-[#DDEAF2] rounded-2xl px-5 py-3 text-center shadow-md shadow-[#058FD2]/5">
+                    {/* <HiCalendarDays className="w-4 h-4 text-[#058FD2] shrink-0" /> */}
+                    <div>
+                      <p className="text-[12px] font-semibold text-zinc-700 tracking-wide">
+                        Appointment Created
+                      </p>
+                      <p className="text-[12px] text-zinc-500 mt-0.5">
+                        {appointment.service} | {formatDate(appointment.date)} |{" "}
+                        {appointment.slotStartTime && appointment.slotEndTime
+                          ? `${appointment.slotStartTime} - ${appointment.slotEndTime}`
+                          : appointment.timeSlot}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
 
-              <AnimatePresence initial={false}>
-                {conversation.map((item) => {
-                  if (item.type === "system") {
+                <AnimatePresence initial={false}>
+                  {conversation.map((item) => {
+                    if (item.type === "system") {
+                      return (
+                        <motion.div
+                          key={item.id}
+                          initial={{ opacity: 0, scale: 0.95, y: -8 }}
+                          animate={{ opacity: 1, scale: 1, y: 0 }}
+                          transition={{ duration: 0.35, ease: "easeOut" }}
+                          className="flex justify-center"
+                        >
+                          <div className="flex items-center gap-2 bg-emerald-50/90 backdrop-blur border border-emerald-200 rounded-2xl px-5 py-3 text-center shadow-md shadow-emerald-500/10">
+                            <HiCheckBadge className="w-5 h-5 text-emerald-600 shrink-0" />
+                            <div>
+                              <p className="text-[12px] font-semibold text-emerald-700 tracking-wide">
+                                Appointment Marked Attended
+                              </p>
+                              <p className="text-[11px] text-emerald-500 mt-0.5">
+                                Case Closed Successfully
+                              </p>
+                            </div>
+                          </div>
+                        </motion.div>
+                      );
+                    }
+
+                    const isPatient = item.sender === "patient";
+
                     return (
                       <motion.div
                         key={item.id}
-                        initial={{ opacity: 0, scale: 0.95, y: -8 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        transition={{ duration: 0.35, ease: "easeOut" }}
-                        className="flex justify-center"
+                        initial={{ opacity: 0, y: 16, scale: 0.98 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{ duration: 0.3, ease: "easeOut" }}
+                        className={`flex items-end gap-2.5 ${isPatient ? "justify-start" : "justify-end"}`}
                       >
-                        <div className="flex items-center gap-2 bg-emerald-50/90 backdrop-blur border border-emerald-200 rounded-2xl px-5 py-3 text-center shadow-md shadow-emerald-500/10">
-                          <HiCheckBadge className="w-5 h-5 text-emerald-600 shrink-0" />
-                          <div>
-                            <p className="text-[12px] font-semibold text-emerald-700 tracking-wide">
-                              Appointment Marked Attended
-                            </p>
-                            <p className="text-[11px] text-emerald-500 mt-0.5">
-                              Case Closed Successfully
-                            </p>
-                          </div>
-                        </div>
-                      </motion.div>
-                    );
-                  }
-
-                  const isPatient = item.sender === "patient";
-
-                  return (
-                    <motion.div
-                      key={item.id}
-                      initial={{ opacity: 0, y: 16, scale: 0.98 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      transition={{ duration: 0.3, ease: "easeOut" }}
-                      className={`flex items-end gap-2.5 ${isPatient ? "justify-start" : "justify-end"}`}
-                    >
-                      {isPatient && (
-                        <div className="w-8 h-8 rounded-full bg-[#EEF7FB] border border-[#DDEAF2] flex items-center justify-center shrink-0 shadow-sm">
-                          <HiOutlineUserCircle className="w-5 h-5 text-[#058FD2]" />
-                        </div>
-                      )}
-
-                      <div
-                        className={`max-w-[65%] ${!isPatient ? "flex flex-col items-end" : ""}`}
-                      >
-                        {/* <div className={`flex items-center gap-1.5 text-[11px] font-semibold mb-1.5 ${isPatient ? "text-[#058FD2]" : "text-emerald-600"}`}>
-                {isPatient ? <HiOutlineUserCircle className="w-3.5 h-3.5" /> : <HiUserCircle className="w-3.5 h-3.5" />}
-                <span className="tracking-wide">{isPatient ? "Patient" : "Doctor"}</span>
-              </div> */}
-
-                        {item.type === "text" && (
-                          <div
-                            className={`rounded-[10px] px-4 py-3 shadow-md transition-shadow duration-200 hover:shadow-lg ${isPatient ? "bg-white border border-[#DDEAF2] rounded-bl-md shadow-black/5" : "bg-gradient-to-br from-[#058FD2] to-[#0480BC] text-white rounded-br-md shadow-[#058FD2]/25"}`}
-                          >
-                            <div className="whitespace-pre-wrap leading-7">
-                              {item.text}
-                            </div>
-                            <p
-                              className={`text-[11px] mt-2 text-right ${isPatient ? "text-zinc-400" : "text-white/70"}`}
-                            >
-                              {new Date(item.createdAt).toLocaleTimeString([], {
-                                hour: "2-digit",
-                                minute: "2-digit",
-                              })}
-                            </p>
+                        {isPatient && (
+                          <div className="w-8 h-8 rounded-full bg-[#EEF7FB] border border-[#DDEAF2] flex items-center justify-center shrink-0 shadow-sm">
+                            <HiOutlineUserCircle className="w-5 h-5 text-[#058FD2]" />
                           </div>
                         )}
 
-                        {item.type === "images" && (
-                          <div
-                            className={`rounded-[24px] p-3 shadow-md transition-shadow duration-200 hover:shadow-lg ${isPatient ? "bg-white border border-[#DDEAF2]" : "bg-gradient-to-br from-[#058FD2] to-[#0480BC]"}`}
-                          >
-                            <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5">
-                              {item.images?.map((image, index) => (
-                                <button
-                                  key={index}
-                                  type="button"
-                                  onClick={() => setSelectedImage(image)}
-                                  className="group relative overflow-hidden rounded-xl shadow-sm ring-1 ring-black/5"
-                                >
-                                  <img
-                                    src={image}
-                                    alt=""
-                                    className="w-full h-32 object-cover transition-transform duration-300 group-hover:scale-110"
-                                  />
-                                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 flex items-center justify-center">
-                                    <HiPhoto className="w-5 h-5 text-white opacity-0 group-hover:opacity-90 transition-opacity duration-300" />
-                                  </div>
-                                </button>
-                              ))}
-                            </div>
-                          </div>
-                        )}
+                        <div
+                          className={`max-w-[65%] ${!isPatient ? "flex flex-col items-end" : ""}`}
+                        >
+                    
 
-                        {item.type === "attachments" && (
-                          <div
-                            className={`rounded-[16px] p-3 shadow-md transition-shadow duration-200 hover:shadow-lg ${isPatient ? "bg-white border border-[#DDEAF2] rounded-bl-md" : "bg-gradient-to-br from-[#058FD2] to-[#0480BC] rounded-br-md"}`}
-                          >
-                            <p
-                              className={`text-[12px] font-semibold mb-3 tracking-wide ${isPatient ? "text-[#131C15]" : "text-white"}`}
+                          {item.type === "text" && (
+                            <div
+                              className={`rounded-[10px] px-4 py-3 shadow-md transition-shadow duration-200 hover:shadow-lg ${isPatient ? "bg-white border border-[#DDEAF2] rounded-bl-md shadow-black/5" : "bg-gradient-to-br from-[#058FD2] to-[#0480BC] text-white rounded-br-md shadow-[#058FD2]/25"}`}
                             >
-                              {item.title}
-                            </p>
-                            <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5">
-                              {item.attachments?.map((attachment, index) => {
-                                const url = getAttachmentUrl(attachment);
-
-                                return isImageUrl(url) ? (
-                                  <button
-                                    key={`${url}-${index}`}
-                                    type="button"
-                                    onClick={() => setSelectedImage(url)}
-                                    className="group relative overflow-hidden rounded-xl border border-white/30 bg-white shadow-sm"
-                                  >
-                                    <img
-                                      src={url}
-                                      alt=""
-                                      className="w-full h-32 cursor-pointer object-cover transition-transform duration-300 group-hover:scale-110"
-                                    />
-                                  </button>
-                                ) : (
-                                  <a
-                                    key={`${url}-${index}`}
-                                    href={url}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className={`group h-32 p-5 rounded-xl border flex flex-col items-center justify-center gap-2 text-[12px] font-medium shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ${isPatient ? "border-[#DDEAF2] text-[#058FD2] bg-[#F8FBFD]" : "border-white/30 text-white bg-white/10"}`}
-                                  >
-                                    <HiDocumentText className="w-6 h-6" />
-                                    <span className="flex items-center gap-1">
-                                      Open Document
-                                      <HiArrowTopRightOnSquare className="w-3.5 h-3.5" />
-                                    </span>
-                                  </a>
-                                );
-                              })}
-                            </div>
-                            <p
-                              className={`text-[11px] mt-2 text-right ${isPatient ? "text-zinc-400" : "text-white/70"}`}
-                            >
-                              {new Date(item.createdAt).toLocaleTimeString([], {
-                                hour: "2-digit",
-                                minute: "2-digit",
-                              })}
-                            </p>
-                          </div>
-                        )}
-
-                        {item.type === "patientNote" && (
-                          <div className="bg-white border border-[#DDEAF2] rounded-[16px] overflow-hidden shadow-md transition-shadow duration-200 hover:shadow-lg w-full max-w-[520px] rounded-bl-md">
-                            <div className="flex items-center gap-2 bg-[#EEF7FB] border-b border-[#DDEAF2] px-4 py-3">
-                              <HiClipboardDocumentList className="w-4 h-4 text-[#058FD2]" />
-                              <h4 className="text-[13px] font-semibold text-[#058FD2] tracking-wide">
-                                {item.title || "Patient Note"}
-                              </h4>
-                            </div>
-                            <div className="p-4">
-                              <pre className="whitespace-pre-wrap font-sans text-[16px] text-zinc-700 leading-relaxed">
+                              <div className="whitespace-pre-wrap leading-7">
                                 {item.text}
-                              </pre>
-                              <p className="text-[11px] mt-3 text-zinc-400 text-right">
+                              </div>
+                              <p
+                                className={`text-[11px] mt-2 text-right ${isPatient ? "text-zinc-400" : "text-white/70"}`}
+                              >
                                 {new Date(item.createdAt).toLocaleTimeString(
                                   [],
                                   {
@@ -522,35 +481,143 @@ async function submitConsultation() {
                                 )}
                               </p>
                             </div>
-                          </div>
-                        )}
+                          )}
 
-                        {item.type === "prescription" && (
-                          <div className="bg-white border border-[#DDEAF2] rounded-[16px] overflow-hidden shadow-md transition-shadow duration-200 hover:shadow-lg w-full max-w-[520px]">
-                            <div className="flex items-center gap-2 bg-[#EEF7FB] border-b border-[#DDEAF2] px-4 py-3">
-                              <HiClipboardDocumentCheck className="w-4 h-4 text-[#058FD2]" />
-                              <h4 className="text-[13px] font-semibold text-[#058FD2] tracking-wide">
-                                {item.title || "Prescription"}
-                              </h4>
+                          {item.type === "images" && (
+                            <div
+                              className={`rounded-[24px] p-3 shadow-md transition-shadow duration-200 hover:shadow-lg ${isPatient ? "bg-white border border-[#DDEAF2]" : "bg-gradient-to-br from-[#058FD2] to-[#0480BC]"}`}
+                            >
+                              <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5">
+                                {item.images?.map((image, index) => (
+                                  <button
+                                    key={index}
+                                    type="button"
+                                    onClick={() => setSelectedImage(image)}
+                                    className="group relative overflow-hidden rounded-xl shadow-sm ring-1 ring-black/5"
+                                  >
+                                    <img
+                                      src={image}
+                                      alt=""
+                                      className="w-full h-32 object-cover transition-transform duration-300 group-hover:scale-110"
+                                    />
+                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 flex items-center justify-center">
+                                      <HiPhoto className="w-5 h-5 text-white opacity-0 group-hover:opacity-90 transition-opacity duration-300" />
+                                    </div>
+                                  </button>
+                                ))}
+                              </div>
                             </div>
-                            <div className="p-4">
-                              <pre className="whitespace-pre-wrap font-sans text-[16px] text-zinc-700 leading-relaxed">
-                                {item.text}
-                              </pre>
-                            </div>
-                          </div>
-                        )}
-                      </div>
+                          )}
 
-                      {!isPatient && (
-                        <div className="w-8 h-8 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center shrink-0 shadow-sm">
-                          <HiUserCircle className="w-5 h-5 text-emerald-600" />
+                          {item.type === "attachments" && (
+                            <div
+                              className={`rounded-[16px] p-3 shadow-md transition-shadow duration-200 hover:shadow-lg ${isPatient ? "bg-white border border-[#DDEAF2] rounded-bl-md" : "bg-gradient-to-br from-[#058FD2] to-[#0480BC] rounded-br-md"}`}
+                            >
+                              <p
+                                className={`text-[12px] font-semibold mb-3 tracking-wide ${isPatient ? "text-[#131C15]" : "text-white"}`}
+                              >
+                                {item.title}
+                              </p>
+                              <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5">
+                                {item.attachments?.map((attachment, index) => {
+                                  const url = getAttachmentUrl(attachment);
+
+                                  return isImageUrl(url) ? (
+                                    <button
+                                      key={`${url}-${index}`}
+                                      type="button"
+                                      onClick={() => setSelectedImage(url)}
+                                      className="group relative overflow-hidden rounded-xl border border-white/30 bg-white shadow-sm"
+                                    >
+                                      <img
+                                        src={url}
+                                        alt=""
+                                        className="w-full h-32 cursor-pointer object-cover transition-transform duration-300 group-hover:scale-110"
+                                      />
+                                    </button>
+                                  ) : (
+                                    <a
+                                      key={`${url}-${index}`}
+                                      href={url}
+                                      target="_blank"
+                                      rel="noreferrer"
+                                      className={`group h-32 p-5 rounded-xl border flex flex-col items-center justify-center gap-2 text-[12px] font-medium shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ${isPatient ? "border-[#DDEAF2] text-[#058FD2] bg-[#F8FBFD]" : "border-white/30 text-white bg-white/10"}`}
+                                    >
+                                      <HiDocumentText className="w-6 h-6" />
+                                      <span className="flex items-center gap-1">
+                                        Open Document
+                                        <HiArrowTopRightOnSquare className="w-3.5 h-3.5" />
+                                      </span>
+                                    </a>
+                                  );
+                                })}
+                              </div>
+                              <p
+                                className={`text-[11px] mt-2 text-right ${isPatient ? "text-zinc-400" : "text-white/70"}`}
+                              >
+                                {new Date(item.createdAt).toLocaleTimeString(
+                                  [],
+                                  {
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                  },
+                                )}
+                              </p>
+                            </div>
+                          )}
+
+                          {item.type === "patientNote" && (
+                            <div className="bg-white border border-[#DDEAF2] rounded-[16px] overflow-hidden shadow-md transition-shadow duration-200 hover:shadow-lg w-full max-w-[520px] rounded-bl-md">
+                              <div className="flex items-center gap-2 bg-[#EEF7FB] border-b border-[#DDEAF2] px-4 py-3">
+                                <HiClipboardDocumentList className="w-4 h-4 text-[#058FD2]" />
+                                <h4 className="text-[13px] font-semibold text-[#058FD2] tracking-wide">
+                                  {item.title || "Patient Note"}
+                                </h4>
+                              </div>
+                              <div className="p-4">
+                                <pre className="whitespace-pre-wrap font-sans text-[16px] text-zinc-700 leading-relaxed">
+                                  {item.text}
+                                </pre>
+                                <p className="text-[11px] mt-3 text-zinc-400 text-right">
+                                  {new Date(item.createdAt).toLocaleTimeString(
+                                    [],
+                                    {
+                                      hour: "2-digit",
+                                      minute: "2-digit",
+                                    },
+                                  )}
+                                </p>
+                              </div>
+                            </div>
+                          )}
+
+                          {item.type === "prescription" && (
+                            <div className="bg-white border border-[#DDEAF2] rounded-[16px] overflow-hidden shadow-md transition-shadow duration-200 hover:shadow-lg w-full max-w-[520px]">
+                              <div className="flex items-center gap-2 bg-[#EEF7FB] border-b border-[#DDEAF2] px-4 py-3">
+                                <HiClipboardDocumentCheck className="w-4 h-4 text-[#058FD2]" />
+                                <h4 className="text-[13px] font-semibold text-[#058FD2] tracking-wide">
+                                  {item.title || "Prescription"}
+                                </h4>
+                              </div>
+                              <div className="p-4">
+                                <pre className="whitespace-pre-wrap font-sans text-[16px] text-zinc-700 leading-relaxed">
+                                  {item.text}
+                                </pre>
+                              </div>
+                            </div>
+                          )}
                         </div>
-                      )}
-                    </motion.div>
-                  );
-                })}
-              </AnimatePresence>
+
+                        {!isPatient && (
+                          <div className="w-8 h-8 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center shrink-0 shadow-sm">
+                            <HiUserCircle className="w-5 h-5 text-emerald-600" />
+                          </div>
+                        )}
+                      </motion.div>
+                    );
+                  })}
+                </AnimatePresence>
+              </div>
             </div>
           </div>
 
@@ -715,21 +782,21 @@ async function submitConsultation() {
                   onClick={submitConsultation}
                   disabled={isSubmitting}
                   className="
-        h-11
-        px-6
-        rounded-xl
-        bg-[#058FD2]
-        hover:bg-[#047BB5]
-        disabled:bg-zinc-300
-        disabled:cursor-not-allowed
-        text-white
-        font-medium
-        shadow-inner
-        cursor-pointer
-        active:scale-95
-        transition-all duration-200
-        flex items-center gap-2
-      "
+                    h-11
+                    px-6
+                    rounded-xl
+                    bg-[#058FD2]
+                    hover:bg-[#047BB5]
+                    disabled:bg-zinc-300
+                    disabled:cursor-not-allowed
+                    text-white
+                    font-medium
+                    shadow-inner
+                    cursor-pointer
+                    active:scale-95
+                    transition-all duration-200
+                    flex items-center gap-2
+                  "
                 >
                   <LuSendHorizontal className="text-[17px]" />
                   {isSubmitting ? "Saving..." : "Submit"}
@@ -759,12 +826,28 @@ async function submitConsultation() {
             </div>
           ) : (
             <div className="bg-white border-t border-[#DDEAF2] py-5 text-center">
-              <p className="text-[13px] font-medium text-emerald-600">
-                Appointment Closed
-              </p>
-              <p className="text-[12px] text-zinc-500 mt-1">
-                Doctor response has been submitted.
-              </p>
+              {appointment?.status === "cancelled" ? (
+                <>
+                  <p className="text-[13px] font-medium text-red-600">
+                    Appointment Cancelled
+                  </p>
+
+                  <p className="text-[12px] text-zinc-500 mt-1">
+                    This appointment has been cancelled and can no longer be
+                    updated.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="text-[13px] font-medium text-emerald-600">
+                    Appointment Closed
+                  </p>
+
+                  <p className="text-[12px] text-zinc-500 mt-1">
+                    Doctor response has been submitted.
+                  </p>
+                </>
+              )}
             </div>
           )}
         </div>

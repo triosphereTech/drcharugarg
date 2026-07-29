@@ -5,9 +5,10 @@ import { Topbar } from "@/components/admin/layout/Topbar";
 import { AppointmentItem } from "@/components/admin/appointments/AppointmentItem";
 import { AppointmentModal } from "@/components/admin/appointments/AppointmentModal";
 import { Pagination } from "@/components/admin/ui/Pagination";
-import { SERVICES, TIME_SLOTS } from "@/lib/data";
+import { SERVICES } from "@/lib/data";
 import { motion } from "framer-motion";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import CancelAppointmentDialog from "./CancelAppointmentDialog";
 
 const STATUS_TABS = [
   { label: "All", value: "all", dot: null },
@@ -27,12 +28,47 @@ export default function AppointmentsPage({ onDataChange }) {
   const [serviceFilter, setServiceFilter] = useState("");
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
-  const [selectedSlots, setSelectedSlots] = useState([]);
-  const [showSlotPicker, setShowSlotPicker] = useState(false);
 
   const [selectedAppt, setSelectedAppt] = useState(null);
+  const [groupAppointments, setGroupAppointments] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  // Dialog box
+  const [showCancelDialog, setShowCancelDialog] = useState(false);
+  const [appointmentToCancel, setAppointmentToCancel] = useState(null);
+  const confirmCancelAppointment = async () => {
+    if (!appointmentToCancel) return;
+
+    try {
+      const res = await fetch(
+        `/api/admin/appointments/${appointmentToCancel._id}/status`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            status: "cancelled",
+          }),
+        },
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message);
+      }
+
+      loadAppointments();
+      loadStats();
+
+      setShowCancelDialog(false);
+      setAppointmentToCancel(null);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
   const loadAppointments = useCallback(async () => {
     setLoading(true);
@@ -48,14 +84,12 @@ export default function AppointmentsPage({ onDataChange }) {
       if (serviceFilter) params.set("services", serviceFilter);
       if (dateFrom) params.set("startDate", dateFrom);
       if (dateTo) params.set("endDate", dateTo);
-      if (selectedSlots.length)
-        params.set("timeSlots", selectedSlots.join(","));
-
       const response = await fetch(
         `/api/admin/appointments?${params.toString()}`,
       );
       const res = await response.json();
-
+      console.log("this is apppp",res);
+      
       if (!response.ok) {
         throw new Error(res.message || "Unable to load appointments.");
       }
@@ -63,7 +97,7 @@ export default function AppointmentsPage({ onDataChange }) {
       setAppointments(res.data || []);
       setTotal(res.total || 0);
       setTotalPages(res.totalPages || 1);
-            await onDataChange?.();
+      await onDataChange?.();
     } catch (err) {
       setError(err.message);
       setAppointments([]);
@@ -72,14 +106,14 @@ export default function AppointmentsPage({ onDataChange }) {
     } finally {
       setLoading(false);
     }
-  }, [statusFilter, serviceFilter, dateFrom, dateTo, selectedSlots, page]);
+  }, [statusFilter, serviceFilter, dateFrom, dateTo, page]);
 
   useEffect(() => {
     loadAppointments();
   }, [loadAppointments]);
   useEffect(() => {
     setPage(1);
-  }, [statusFilter, serviceFilter, dateFrom, dateTo, selectedSlots]);
+  }, [statusFilter, serviceFilter, dateFrom, dateTo]);
 
   function handleStatusChange(id, status, prescription, updatedAppointment) {
     setAppointments((prev) =>
@@ -107,35 +141,57 @@ export default function AppointmentsPage({ onDataChange }) {
           : prev,
       );
     }
-     loadAppointments();
+    setGroupAppointments((prev) =>
+      prev.map((appointment) => appointment._id === id ? { ...appointment, ...(updatedAppointment || {}), status, ...(prescription ? { prescription } : {}) } : appointment),
+    );
+    loadAppointments();
   }
+
+  const handleViewAppointment = useCallback(async (appointment) => {
+    setError("");
+    try {
+      if (!appointment.appointmentGroupId) {
+        setSelectedAppt(appointment);
+        setGroupAppointments([appointment]);
+        return;
+      }
+      const response = await fetch(`/api/admin/appointments/group/${encodeURIComponent(appointment.appointmentGroupId)}`);
+      const data = await response.json();
+      if (!response.ok || !data.success) throw new Error(data.message || "Unable to load appointment history.");
+      const group = data.data || [];
+      setGroupAppointments(group);
+      setSelectedAppt(group.find((item) => item._id === appointment._id) || appointment);
+    } catch (err) {
+      setError(err.message || "Unable to load appointment history.");
+    }
+  }, []);
   function clearFilters() {
     setStatusFilter("all");
     setServiceFilter("");
     setDateFrom("");
     setDateTo("");
-    setSelectedSlots([]);
   }
 
   const hasActiveFilters =
-    statusFilter !== "all" ||
-    serviceFilter ||
-    dateFrom ||
-    dateTo ||
-    selectedSlots.length;
+    statusFilter !== "all" || serviceFilter || dateFrom || dateTo || false;
+  const handleCancelAppointment = async (appointment) => {
+    setAppointmentToCancel(appointment);
+    setShowCancelDialog(true);
+    return;
+  };
 
   return (
     <>
       <div className="flex-1">
         <div className="pb-3 px-2">
           <p className="text-[22px] font-semibold text-[--primary-dark]">
-          All Appointments
-        </p>
+            All Appointments
+          </p>
         </div>
-        
+
         <div className="bg-white border-2 border-gray-200 rounded-2xl overflow-hidden">
           {/* ── Table header: tabs left · filters right ── */}
-          
+
           <div className="px-5 py-3.5 border-b border-[#D4E9F2] flex items-center justify-between gap-4 flex-wrap">
             {/* Left — status tab group */}
             <nav
@@ -252,77 +308,6 @@ export default function AppointmentsPage({ onDataChange }) {
                 />
               </div>
 
-              {/* Time slot multi-select */}
-              <div className="relative">
-                <button
-                  onClick={() => setShowSlotPicker((v) => !v)}
-                  className={`
-                    inline-flex items-center gap-1.5 border rounded-lg px-3 py-2
-                    text-[12.5px] text-zinc-600 bg-[--soft-bg] transition-all duration-150
-                    ${
-                      showSlotPicker
-                        ? "border-[--primary-accent] text-[--primary-dark]"
-                        : "border-[#D4E9F2] hover:border-[--primary-accent]/60"
-                    }
-                  `}
-                >
-                  <svg
-                    className="w-3.5 h-3.5 text-zinc-400"
-                    fill="none"
-                    viewBox="0 0 16 16"
-                    stroke="currentColor"
-                    strokeWidth={1.8}
-                  >
-                    <circle cx="8" cy="8" r="6" />
-                    <path strokeLinecap="round" d="M8 5v3l2 2" />
-                  </svg>
-                  Time slots
-                  {selectedSlots.length > 0 && (
-                    <span className="bg-[--primary-accent] text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center leading-none">
-                      {selectedSlots.length}
-                    </span>
-                  )}
-                  <svg
-                    className={`w-2.5 h-2.5 text-zinc-400 transition-transform duration-150 ${showSlotPicker ? "rotate-180" : ""}`}
-                    fill="none"
-                    viewBox="0 0 10 10"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="m2 3.5 3 3 3-3"
-                    />
-                  </svg>
-                </button>
-
-                {showSlotPicker && (
-                  <div className="absolute top-full right-0 mt-1.5 bg-white border border-[#D4E9F2] rounded-xl shadow-lg shadow-zinc-100 p-2 z-20 grid grid-cols-2 gap-0.5 w-56">
-                    {TIME_SLOTS.map((slot) => (
-                      <label
-                        key={slot}
-                        className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg hover:bg-[--soft-bg] cursor-pointer text-[12px] text-zinc-600 transition-colors"
-                      >
-                        <input
-                          type="checkbox"
-                          checked={selectedSlots.includes(slot)}
-                          onChange={(e) =>
-                            setSelectedSlots((prev) =>
-                              e.target.checked
-                                ? [...prev, slot]
-                                : prev.filter((s) => s !== slot),
-                            )
-                          }
-                          className="accent-[#058FD2] w-3.5 h-3.5"
-                        />
-                        {slot}
-                      </label>
-                    ))}
-                  </div>
-                )}
-              </div>
-
               {/* Clear filters */}
               {hasActiveFilters ? (
                 <button
@@ -344,18 +329,14 @@ export default function AppointmentsPage({ onDataChange }) {
                   </svg>
                   Clear
                 </button>
-              ):
-              (
+              ) : (
                 ""
               )}
             </div>
           </div>
 
           {/* ── Appointment list ── */}
-          <div
-            className=" max-h-[43vh] min-h-[50vh] overflow-y-auto"
-            onClick={() => setShowSlotPicker(false)}
-          >
+          <div className=" max-h-[43vh] min-h-[50vh] overflow-y-auto">
             {loading ? (
               <div className="flex flex-col items-center justify-center py-20 gap-3">
                 <p className="text-zinc-400 text-[13px]">
@@ -384,7 +365,8 @@ export default function AppointmentsPage({ onDataChange }) {
                 <AppointmentItem
                   key={appt._id}
                   appointment={appt}
-                  onClick={setSelectedAppt}
+                  onClick={handleViewAppointment}
+                  onCancel={handleCancelAppointment}
                   showDate
                   prevDate={i > 0 ? appointments[i - 1].date : undefined}
                 />
@@ -404,9 +386,18 @@ export default function AppointmentsPage({ onDataChange }) {
 
       <AppointmentModal
         appointment={selectedAppt}
-        onClose={() => setSelectedAppt(null)}
+        appointments={groupAppointments}
+        onClose={() => { setSelectedAppt(null); setGroupAppointments([]); }}
         onStatusChange={handleStatusChange}
       />
+    <CancelAppointmentDialog
+  open={showCancelDialog}
+  onClose={() => {
+    setShowCancelDialog(false);
+    setAppointmentToCancel(null);
+  }}
+  onConfirm={confirmCancelAppointment}
+/>
     </>
   );
 }

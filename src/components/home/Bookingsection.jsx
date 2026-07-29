@@ -12,7 +12,6 @@ import { deleteAppointment } from "@/lib/appointmentUtils";
 
 const DEFAULT_SERVICE_ICON = FaStethoscope;
 
-const TIME_SLOTS = ["09:00 AM","10:00 AM","11:00 AM","02:00 PM","03:00 PM","04:00 PM"];
 const MONTHS     = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 const DAY_NAMES  = ["SU","MO","TU","WE","TH","FR","SA"];
 
@@ -205,13 +204,17 @@ function Step1({ selectedService, setSelectedService, onNext, services, loading,
 }
 
 /* ─── Step 2 ─── */
-function Step2({ selectedDate, setSelectedDate, onBack, onNext, onDateConfirmed, availabilityLoading, availabilityError, allFull }) {
+function Step2({ selectedDate, setSelectedDate, onBack, onNext, onDateConfirmed, availabilityLoading, availabilityError, allFull, calendarAvailability, calendarLoading, calendarError, fetchCalendarAvailability }) {
   const today = new Date(); today.setHours(0, 0, 0, 0);
   const [year, setYear]   = useState(today.getFullYear());
   const [month, setMonth] = useState(today.getMonth());
   const prevMonth = () => { if (month === 0) { setMonth(11); setYear(y => y - 1); } else setMonth(m => m - 1); };
   const nextMonth = () => { if (month === 11) { setMonth(0); setYear(y => y + 1); } else setMonth(m => m + 1); };
   const days = getDaysInMonth(year, month), firstDay = getFirstDay(year, month);
+
+  useEffect(() => {
+    fetchCalendarAvailability(year, month + 1);
+  }, [year, month, fetchCalendarAvailability]);
 
   const handleDayClick = (d) => {
     const dateObj = { d, m: month, y: year };
@@ -220,7 +223,19 @@ function Step2({ selectedDate, setSelectedDate, onBack, onNext, onDateConfirmed,
   };
 
   const nextBlocked = !selectedDate || availabilityLoading || !!availabilityError || allFull;
+const statusStyles = {
+  available:
+    "bg-emerald-100 border border-emerald-300 text-emerald-700 hover:bg-emerald-100",
 
+  off:
+    "bg-red-100 border border-red-300 text-red-600 cursor-not-allowed",
+
+  full:
+    "bg-amber-100 border border-amber-300 text-amber-700 cursor-not-allowed",
+
+  unconfigured:
+    "text-slate-300 border border-transparent cursor-not-allowed",
+};
   return (
     <>
       <RightHeader step={2} title="Select a date" subtitle="Pick an available date for your appointment" />
@@ -242,19 +257,43 @@ function Step2({ selectedDate, setSelectedDate, onBack, onNext, onDateConfirmed,
             {Array.from({ length: firstDay }).map((_, i) => <div key={`e${i}`} />)}
             {Array.from({ length: days }).map((_, i) => {
               const d = i + 1, dt = new Date(year, month, d);
+              const key = formatDateForApi({ d, m: month, y: year });
+              const status = calendarAvailability[key] || "unconfigured";
               const past = dt < today, isToday = dt.getTime() === today.getTime();
+              const disabled = past || status !== "available";
+              const statusText = { available: "Available", off: "Clinic Closed", full: "All Slots Booked", unconfigured: "Availability Not Configured" }[status];
               const sel  = selectedDate?.d === d && selectedDate?.m === month && selectedDate?.y === year;
               return (
-                <button key={d} disabled={past} onClick={() => handleDayClick(d)}
-                  className={`mx-auto w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium transition-all
-                    ${sel      ? "bg-[#058FD2] text-white scale-110 font-semibold"
-                    : past     ? "text-slate-300 cursor-not-allowed"
-                    : isToday  ? "border-[1.5px] border-[#058FD2] text-[#058FD2] font-semibold hover:bg-[#E8F6FD]"
-                    :            "text-slate-600 hover:bg-[#E8F6FD] hover:text-[#058FD2]"}`}
-                >{d}</button>
+                <button key={d} disabled={disabled} title={past ? "Past date" : statusText} onClick={() => handleDayClick(d)}
+                className={`mx-auto w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold transition-all
+                ${
+                  sel
+                    ? "bg-[#058FD2] text-white border border-[#058FD2]"
+                    : past
+                    ? "text-slate-300 border border-transparent cursor-not-allowed"
+                    : statusStyles[status]
+                }`}
+                 
+                >
+                  {d}
+                </button>
               );
             })}
           </div>
+        </div>
+        <div className="flex flex-wrap justify-center gap-4 mt-4 text-xs text-slate-500">
+          <span className="flex items-center gap-1">
+            <span className="w-2 h-2 rounded-full bg-emerald-500" /> Available date
+          </span>
+          <span className="flex items-center gap-1">
+            <span className="w-2 h-2 rounded-full bg-red-500" /> Day off
+          </span>
+          <span className="flex items-center gap-1">
+            <span className="w-2 h-2 rounded-full bg-amber-400" /> All slots booked
+          </span>
+          {/* <span className="flex items-center gap-1">
+            <span className="w-2 h-2 rounded-full bg-slate-300" /> Availability not configured
+          </span> */}
         </div>
         {selectedDate && (
           <div className="mt-3 text-center">
@@ -282,6 +321,8 @@ function Step2({ selectedDate, setSelectedDate, onBack, onNext, onDateConfirmed,
             )}
           </div>
         )}
+        {calendarLoading && <p className="mt-3 text-center text-xs text-slate-400">Loading calendar availability…</p>}
+        {calendarError && <p className="mt-3 text-center text-xs text-red-500">{calendarError}</p>}
       </div>
       <Footer onBack={onBack} onNext={onNext} nextDisabled={nextBlocked} />
     </>
@@ -289,32 +330,49 @@ function Step2({ selectedDate, setSelectedDate, onBack, onNext, onDateConfirmed,
 }
 
 /* ─── Step 3 ─── */
-function Step3({ selectedTime, setSelectedTime, onBack, onNext, slotAvailability }) {
+function Step3({ selectedTime, setSelectedTime, setSelectedSlot, onBack, onNext, slotAvailability }) {
   return (
     <>
       <RightHeader step={3} title="Select a time" subtitle="Available slots for your chosen date" />
       <div className="px-6 md:px-7 pt-5 pb-3 flex-1">
-        <div className="grid grid-cols-3 gap-2.5 max-w-lg">
-          {TIME_SLOTS.map(t => {
-            const slotData = slotAvailability.find(s => s.slot === t);
-            const un  = slotData ? !slotData.available : false;
-            const sel = selectedTime === t;
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 max-w-lg">
+          {slotAvailability.map((slot) => {
+            const label = `${slot.startTime} - ${slot.endTime}`;
+            const sel = selectedTime === label;
             return (
-              <button key={t} disabled={un} onClick={() => setSelectedTime(t)}
-                className={`py-3 px-2 rounded-xl border-[1.5px] text-[13px] font-semibold transition-all
-                  ${un  ? "border-slate-100 bg-slate-50 text-slate-300 cursor-not-allowed line-through"
-                  : sel ? "border-[#058FD2] bg-[#058FD2] text-white scale-105"
-                  :       "border-slate-200 bg-white text-slate-600 hover:border-[#058FD2] hover:text-[#058FD2] hover:bg-[#E8F6FD]"}`}
+              <button
+                key={label}
+                type="button"
+                disabled={slot.isBooked}
+                onClick={() => {
+                  setSelectedTime(label);
+                  setSelectedSlot(slot);
+                }}
+                className={`py-3 px-2 rounded-xl border-[1.5px] text-[13px] font-semibold transition-all text-left min-h-[72px] ${
+                  slot.isBooked
+                    ? "border-slate-100 bg-slate-50 text-slate-300 cursor-not-allowed "
+                    : sel
+                    ? "border-[#058FD2] bg-[#058FD2] text-white scale-105"
+                    : "border-slate-200 bg-white text-slate-600 hover:border-[#058FD2] hover:text-[#058FD2] hover:bg-[#E8F6FD]"
+                }`}
               >
-                {t}
-                {un && <span className="block text-[10px] font-normal mt-0.5 opacity-70">Full</span>}
+                <div className="flex items-center justify-between">
+                  <span className={`${slot.isBooked ? "line-through": "" }`}>{label}</span>
+                  {slot.isBooked && (
+                    <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-red-500">
+                      Booked
+                    </span>
+                  )}
+                </div>
               </button>
             );
           })}
         </div>
         <div className="mt-4 max-w-sm bg-[#E8F6FD] rounded-xl px-4 py-3 flex gap-2 items-start">
           <FaInfoCircle className="w-3.5 h-3.5 text-[#058FD2] mt-0.5 flex-shrink-0" />
-          <p className="text-xs text-[#065F8F] leading-relaxed">Sessions last 20–30 minutes. Please arrive 5 minutes early.</p>
+          <p className="text-xs text-[#065F8F] leading-relaxed">
+            A meeting link will be shared after booking. Please join 5 minutes before your scheduled time.
+          </p>
         </div>
       </div>
       <Footer onBack={onBack} onNext={onNext} nextDisabled={!selectedTime} />
@@ -479,7 +537,8 @@ export default function BookingSection() {
   const [step,            setStep]            = useState(1);
   const [selectedService, setSelectedService] = useState(null);
   const [selectedDate,    setSelectedDate]    = useState(null);
-  const [selectedTime,    setSelectedTime]    = useState(null);
+  const [selectedTime,    setSelectedTime]    = useState("");
+  const [selectedSlot,    setSelectedSlot]    = useState(null);
   const [booked,          setBooked]          = useState(false);
   const [files,           setFiles]           = useState([]);
   const [patientNote,     setPatientNote]     = useState("");
@@ -492,10 +551,13 @@ export default function BookingSection() {
   const [servicesError,   setServicesError]   = useState("");
 
   // Availability
-  const [slotAvailability,    setSlotAvailability]    = useState([]);
-  const [allFull,             setAllFull]             = useState(false);
-  const [availabilityLoading, setAvailabilityLoading] = useState(false);
-  const [availabilityError,   setAvailabilityError]   = useState("");
+  const [slotAvailability,      setSlotAvailability]      = useState([]);
+  const [allFull,               setAllFull]               = useState(false);
+  const [availabilityLoading,   setAvailabilityLoading]   = useState(false);
+  const [availabilityError,     setAvailabilityError]     = useState("");
+  const [calendarAvailability,  setCalendarAvailability]  = useState({});
+  const [calendarLoading,       setCalendarLoading]       = useState(false);
+  const [calendarError,         setCalendarError]         = useState("");
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -535,13 +597,24 @@ export default function BookingSection() {
     setAvailabilityError("");
     setAllFull(false);
     setSlotAvailability([]);
-    setSelectedTime(null);
+    setSelectedTime("");
+    setSelectedSlot(null);
     try {
-      const res  = await fetch(`/api/appointments/availability?date=${formatDateForApi(dateObj)}`);
+      const res  = await fetch(`/api/availability?date=${formatDateForApi(dateObj)}`);
       const data = await res.json();
       if (!res.ok || !data.success) throw new Error(data.message || "Could not load availability.");
-      setSlotAvailability(data.slots);
-      setAllFull(data.allFull);
+      if (data.status === "off") {
+        setAvailabilityError("Clinic is closed on the selected date.");
+        setSlotAvailability([]);
+        setAllFull(true);
+      } else if (data.status === "unconfigured") {
+        setAvailabilityError("Availability is not configured for this date.");
+        setSlotAvailability([]);
+        setAllFull(true);
+      } else {
+        setSlotAvailability(data.slots || []);
+        setAllFull(data.allFull || false);
+      }
     } catch (err) {
       setAvailabilityError(err.message);
     } finally {
@@ -549,11 +622,28 @@ export default function BookingSection() {
     }
   }, []);
 
+  const fetchCalendarAvailability = useCallback(async (year, month) => {
+    setCalendarLoading(true);
+    setCalendarError("");
+    setCalendarAvailability({});
+    try {
+      const res = await fetch(`/api/availability/calendar?year=${year}&month=${month}`);
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.message || "Could not load calendar availability.");
+      setCalendarAvailability(Object.fromEntries((data.dates || []).map((item) => [item.date, item.status])));
+    } catch (err) {
+      setCalendarError(err.message || "Could not load calendar availability.");
+    } finally {
+      setCalendarLoading(false);
+    }
+  }, []);
+
   const reset = () => {
     setStep(1);
     setSelectedService(null);
     setSelectedDate(null);
-    setSelectedTime(null);
+    setSelectedTime("");
+    setSelectedSlot(null);
     setFiles([]);
     setPatientNote("");
     setSubmitError("");
@@ -562,10 +652,12 @@ export default function BookingSection() {
     setAllFull(false);
     setAvailabilityLoading(false);
     setAvailabilityError("");
+    setCalendarAvailability({});
+    setCalendarError("");
   };
 
   const submitBooking = async () => {
-    if (!selectedService || !selectedDate || !selectedTime) return;
+    if (!selectedService || !selectedDate || !selectedSlot) return;
 
     setIsSubmitting(true);
     setSubmitError("");
@@ -576,8 +668,9 @@ export default function BookingSection() {
     formData.append("service", selectedServiceData?.name || selectedService);
     formData.append("serviceId", selectedServiceData?._id || selectedServiceData?.id || selectedService);
     formData.append("appointmentType", "initial");
-    formData.append("date",     formatDateForApi(selectedDate));
-    formData.append("timeSlot", selectedTime);
+    formData.append("date", formatDateForApi(selectedDate));
+    formData.append("slotStartTime", selectedSlot.startTime);
+    formData.append("slotEndTime", selectedSlot.endTime);
     formData.append("patientNote", patientNote.trim());
     files.forEach(file => formData.append("attachments", file));
 
@@ -719,11 +812,16 @@ export default function BookingSection() {
                   availabilityLoading={availabilityLoading}
                   availabilityError={availabilityError}
                   allFull={allFull}
+                  calendarAvailability={calendarAvailability}
+                  calendarLoading={calendarLoading}
+                  calendarError={calendarError}
+                  fetchCalendarAvailability={fetchCalendarAvailability}
                 />
               ) : step === 3 ? (
                 <Step3
                   selectedTime={selectedTime}
                   setSelectedTime={setSelectedTime}
+                  setSelectedSlot={setSelectedSlot}
                   onBack={() => setStep(2)}
                   onNext={() => setStep(4)}
                   slotAvailability={slotAvailability}

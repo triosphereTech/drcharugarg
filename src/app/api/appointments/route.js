@@ -8,9 +8,7 @@ import Appointment from "@/models/Appointment";
 import Service from "@/models/Service";
 import { requireAuth } from "@/lib/auth";
 import { buildAppointmentGroupId, getAppointmentFee, resolveFollowUpBookingContext } from "@/lib/appointmentGroup";
-
-const TIME_SLOTS   = ["09:00 AM","10:00 AM","11:00 AM","02:00 PM","03:00 PM","04:00 PM"];
-const MAX_PER_SLOT = 5;
+import { validateBookingSlot } from "@/lib/availability";
 
 export async function POST(request) {
   try {
@@ -27,19 +25,20 @@ export async function POST(request) {
     const parentAppointmentId = formData.get("parentAppointmentId")?.toString().trim();
     const appointmentType = (formData.get("appointmentType")?.toString().trim() || (parentAppointmentId ? "followup" : "initial")).toLowerCase();
     const date = formData.get("date")?.toString().trim();
-    const timeSlot = formData.get("timeSlot")?.toString().trim();
+    const slotStartTime = formData.get("slotStartTime")?.toString().trim();
+    const slotEndTime = formData.get("slotEndTime")?.toString().trim();
     const patientNote = formData.get("patientNote") || "";
 
     if (appointmentType !== "followup" && !serviceName && !serviceId) {
       return Response.json(
-        { success: false, message: "Service, date, and time slot are required." },
+        { success: false, message: "Service, date, and slot times are required." },
         { status: 400 }
       );
     }
 
-    if (!date || !timeSlot) {
+    if (!date || !slotStartTime || !slotEndTime) {
       return Response.json(
-        { success: false, message: "Date and time slot are required." },
+        { success: false, message: "Date and slot times are required." },
         { status: 400 }
       );
     }
@@ -51,29 +50,16 @@ export async function POST(request) {
       );
     }
 
-    if (!TIME_SLOTS.includes(timeSlot)) {
-      return Response.json(
-        { success: false, message: "Invalid time slot." },
-        { status: 400 }
-      );
-    }
-
-    // Final slot re-check right before creating (server-side guard)
-    const startOfDay = new Date(date);
-    startOfDay.setUTCHours(0, 0, 0, 0);
-    const endOfDay = new Date(date);
-    endOfDay.setUTCHours(23, 59, 59, 999);
-
-    const slotCount = await Appointment.countDocuments({
-      date:          { $gte: startOfDay, $lte: endOfDay },
-      timeSlot,
-      paymentStatus: { $ne: "failed" }, // count unpaid + paid, not failed/deleted
+    const validation = await validateBookingSlot({
+      date,
+      slotStartTime,
+      slotEndTime,
     });
 
-    if (slotCount >= MAX_PER_SLOT) {
+    if (!validation.valid) {
       return Response.json(
-        { success: false, message: "This slot just filled up. Please choose another time." },
-        { status: 409 }
+        { success: false, message: validation.message },
+        { status: validation.status }
       );
     }
 
@@ -185,7 +171,8 @@ console.log("calculated fee =", fee);
       appointmentGroupId,
       appointmentType,
       date: new Date(date),
-      timeSlot,
+      slotStartTime,
+      slotEndTime,
       patientNote: patientNote.trim(),
       attachments,
       fee,

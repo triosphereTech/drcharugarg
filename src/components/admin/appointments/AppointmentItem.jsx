@@ -5,20 +5,18 @@ import { StatusBadge } from "@/components/admin/ui/StatusBadge";
 export function AppointmentItem({
   appointment,
   onClick,
+  onCancel,
   showDate,
   prevDate,
 }) {
-  const showDateHeader =
-    showDate && appointment.date !== prevDate;
+  const showDateHeader = showDate && appointment.date !== prevDate;
 
   return (
     <>
       {showDateHeader && (
         <div className=" top-0 z-10s bg-gray-100 backdrop-blur-xs border-y border-[#E7EEF3] px-5 py-3">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-olive-800">
-            {new Date(
-              appointment.date
-            ).toLocaleDateString("en-IN", {
+            {new Date(appointment.date).toLocaleDateString("en-IN", {
               weekday: "long",
               day: "2-digit",
               month: "long",
@@ -28,7 +26,7 @@ export function AppointmentItem({
         </div>
       )}
 
-      <button
+      <div
         onClick={() => onClick(appointment)}
         className="
           w-full
@@ -41,7 +39,6 @@ export function AppointmentItem({
         "
       >
         <div className="grid grid-cols-[1.8fr_120px_140px_120px] items-center gap-4 px-5 py-4">
-
           {/* Service */}
 
           <div className="min-w-0 cursor-pointer">
@@ -50,7 +47,9 @@ export function AppointmentItem({
             </h4>
 
             <p className="text-[12px] text-zinc-500 mt-1">
-              {appointment.appointmentType === "followup" ? "Follow-up consultation" : "Initial consultation"}
+              {appointment.appointmentType === "followup"
+                ? "Follow-up consultation"
+                : "Initial consultation"}
             </p>
           </div>
 
@@ -62,30 +61,36 @@ export function AppointmentItem({
             </p>
 
             <p className="text-[13px] font-medium text-[#131C15] mt-1">
-              {appointment.timeSlot}
+              {appointment.slotStartTime && appointment.slotEndTime
+                ? `${appointment.slotStartTime} - ${appointment.slotEndTime}`
+                : appointment.timeSlot}
             </p>
           </div>
 
           {/* Status */}
 
           <div>
-            <StatusBadge
-              status={appointment.status}
-            />
+            <StatusBadge status={appointment.status} />
           </div>
 
           {/* Action */}
 
-          <div className="flex justify-end">
+          <div className="flex justify-end gap-2">
+            {appointment.status === "pending" && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onCancel?.(appointment);
+                }}
+                className="px-3 py-1.5 text-xs font-medium rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-colors"
+              >
+                Cancel
+              </button>
+            )}
+
             <span className="inline-flex items-center gap-2 text-[13px] font-medium text-[#058FD2]">
               View
-
-              <svg
-                width="14"
-                height="14"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24">
                 <path
                   d="M5 12H19M19 12L13 6M19 12L13 18"
                   stroke="currentColor"
@@ -97,7 +102,7 @@ export function AppointmentItem({
             </span>
           </div>
         </div>
-      </button>
+      </div>
     </>
   );
 }

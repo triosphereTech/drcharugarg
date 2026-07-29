@@ -11,6 +11,7 @@ import { Avatar } from "@/components/admin/ui/Avatar";
 import { AppointmentItem } from "@/components/admin/appointments/AppointmentItem";
 import { AppointmentModal } from "@/components/admin/appointments/AppointmentModal";
 import { Pagination } from "@/components/admin/ui/Pagination";
+import CancelAppointmentDialog from "@/components/admin/appointments/CancelAppointmentDialog";
 
 const STATUS_OPTIONS = [
   { label: "All status", value: "all" },
@@ -37,6 +38,42 @@ export default function PatientDetailPage() {
     pending: 0,
     attended: 0,
   });
+  const [showCancelDialog, setShowCancelDialog] = useState(false);
+const [appointmentToCancel, setAppointmentToCancel] = useState(null);
+
+ const confirmCancelAppointment = async () => {
+    if (!appointmentToCancel) return;
+
+    try {
+      const res = await fetch(
+        `/api/admin/appointments/${appointmentToCancel._id}/status`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            status: "cancelled",
+          }),
+        },
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message);
+      }
+
+      loadAppointments();
+      loadStats();
+
+      setShowCancelDialog(false);
+      setAppointmentToCancel(null);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
 
   const loadAppointments = useCallback(async () => {
     setLoading(true);
@@ -144,6 +181,10 @@ export default function PatientDetailPage() {
 
     loadStats();
   }
+const handleCancelAppointment = (appointment) => {
+  setAppointmentToCancel(appointment);
+  setShowCancelDialog(true);
+};
 
   return (
     <>
@@ -261,6 +302,7 @@ export default function PatientDetailPage() {
                     key={appt._id}
                     appointment={appt}
                     onClick={setSelectedAppt}
+                    onCancel={handleCancelAppointment}
                     showDate
                     prevDate={index > 0 ? appointments[index - 1].date : undefined}
                   />
@@ -284,6 +326,14 @@ export default function PatientDetailPage() {
         onClose={() => setSelectedAppt(null)}
         onStatusChange={handleStatusChange}
       />
+      <CancelAppointmentDialog
+  open={showCancelDialog}
+  onClose={() => {
+    setShowCancelDialog(false);
+    setAppointmentToCancel(null);
+  }}
+  onConfirm={confirmCancelAppointment}
+/>
     </>
   );
 }

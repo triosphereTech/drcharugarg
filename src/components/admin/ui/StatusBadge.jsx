@@ -16,7 +16,7 @@ const CONFIG = {
   cancelled: {
     label: "Cancelled",
     className:
-      "bg-zinc-100 text-zinc-500 border border-zinc-200",
+      "bg-red-100 text-red-500 border border-red-200",
   },
 };
 

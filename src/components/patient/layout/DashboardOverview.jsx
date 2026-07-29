@@ -130,7 +130,7 @@ export const DashboardOverview = ({ patient, appointments, onNavigate }) => {
                   {formatDateLong(nextAppointment.date)}
                 </span>
                 <span className="flex items-center gap-1">
-                  <Clock size={13} /> {nextAppointment.timeSlot}
+                  <Clock size={13} /> {nextAppointment.slotStartTime && nextAppointment.slotEndTime ? `${nextAppointment.slotStartTime} - ${nextAppointment.slotEndTime}` : nextAppointment.timeSlot}
                 </span>
               </div>
             </div>

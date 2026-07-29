@@ -171,7 +171,9 @@ export const AppointmentHistory = ({
 
                     <span className="flex items-center gap-1">
                       <Clock size={13} />
-                      {latest.timeSlot}
+                      {latest.slotStartTime && latest.slotEndTime
+                        ? `${latest.slotStartTime} - ${latest.slotEndTime}`
+                        : latest.timeSlot}
                     </span>
                   </div>
                 </div>
@@ -263,7 +265,7 @@ export const AppointmentHistory = ({
                       {item.service}
                     </p>
                     <p className="text-xs text-gray-500 mt-1">
-                      {formatDateLong(item.date)} • {item.timeSlot}
+                      {formatDateLong(item.date)} • {item.slotStartTime && item.slotEndTime ? `${item.slotStartTime} - ${item.slotEndTime}` : item.timeSlot}
                     </p>
                   </div>
                   <span

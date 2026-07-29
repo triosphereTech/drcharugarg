@@ -11,6 +11,7 @@ import {
 import Appointment from "@/models/Appointment";
 
 export async function POST(request) {
+
   const auth = await requireAdminAuth();
   if (!auth.success) return unauthorizedAdminResponse();
 
@@ -139,6 +140,7 @@ export async function POST(request) {
 }
 
 export async function GET(req) {
+  
   const auth = await requireAdminAuth();
   if (!auth.success) return unauthorizedAdminResponse();
 
@@ -152,8 +154,6 @@ export async function GET(req) {
     const startDate = searchParams.get("startDate");
 
     const endDate = searchParams.get("endDate");
-
-    const timeSlots = searchParams.get("timeSlots");
 
     const services = searchParams.get("services");
 
@@ -206,17 +206,6 @@ export async function GET(req) {
 
         query.date.$lte = end;
       }
-    }
-
-    // TIMESLOT FILTER
-    if (timeSlots) {
-      const slotsArray = timeSlots
-        .split(",")
-        .map((slot) => slot.trim());
-
-      query.timeSlot = {
-        $in: slotsArray,
-      };
     }
 
     // SERVICE FILTER

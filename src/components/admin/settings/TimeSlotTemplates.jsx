@@ -28,7 +28,7 @@ const emptyDraft = () => ({
   slots: [{ id: generateId("slot"), start: "09:00", end: "09:30" }],
 })
 
-export const TimeSlotTemplates = ({ templates, setTemplates }) => {
+export const TimeSlotTemplates = ({ templates, onChanged, onError }) => {
   const [modalOpen, setModalOpen] = useState(false)
   const [draft, setDraft] = useState(emptyDraft())
   const [confirmDeleteId, setConfirmDeleteId] = useState(null)
@@ -39,7 +39,7 @@ export const TimeSlotTemplates = ({ templates, setTemplates }) => {
   }
 
   const openEdit = (template) => {
-    setDraft({ ...template, slots: template.slots.map((s) => ({ ...s })) })
+    setDraft({ id: template._id, name: template.name, color: template.color, slots: template.slots.map((s, index) => ({ id: `${template._id}-${index}`, start: s.startTime, end: s.endTime })) })
     setModalOpen(true)
   }
 
@@ -51,30 +51,61 @@ export const TimeSlotTemplates = ({ templates, setTemplates }) => {
   }
 
   const addSlot = () => {
-    setDraft((prev) => ({
+  setDraft((prev) => {
+    const lastSlot = prev.slots[prev.slots.length - 1];
+
+    const [hours, minutes] = lastSlot.end.split(":").map(Number);
+
+    const startDate = new Date();
+    startDate.setHours(hours, minutes, 0, 0);
+
+    const endDate = new Date(startDate);
+    endDate.setMinutes(endDate.getMinutes() + 30);
+
+    const format = (date) =>
+      `${String(date.getHours()).padStart(2, "0")}:${String(
+        date.getMinutes()
+      ).padStart(2, "0")}`;
+
+    return {
       ...prev,
-      slots: [...prev.slots, { id: generateId("slot"), start: "09:00", end: "09:30" }],
-    }))
-  }
+      slots: [
+        ...prev.slots,
+        {
+          id: generateId("slot"),
+          start: format(startDate),
+          end: format(endDate),
+        },
+      ],
+    };
+  });
+};
 
   const removeSlot = (slotId) => {
     setDraft((prev) => ({ ...prev, slots: prev.slots.filter((s) => s.id !== slotId) }))
   }
 
-  const saveDraft = () => {
+  const saveDraft = async () => {
     if (!draft.name.trim() || draft.slots.length === 0) return
+    try {
+      const response = await fetch(draft.id ? `/api/admin/availability/templates/${draft.id}` : "/api/admin/availability/templates", { method: draft.id ? "PUT" : "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name: draft.name, color: draft.color, slots: draft.slots.map((slot) => ({ startTime: slot.start, endTime: slot.end })) }) })
+      const data = await response.json()
+            console.log("UPDATE RESPONSE", data);
 
-    if (draft.id) {
-      setTemplates((prev) => prev.map((t) => (t.id === draft.id ? draft : t)))
-    } else {
-      setTemplates((prev) => [...prev, { ...draft, id: generateId("tpl") }])
-    }
-    setModalOpen(false)
+      if (!response.ok || !data.success) throw new Error(data.message || "Unable to save template.")
+      await onChanged()
+      setModalOpen(false)
+    } catch (error) { onError(error.message || "Unable to save template.") }
   }
 
-  const deleteTemplate = (id) => {
-    setTemplates((prev) => prev.filter((t) => t.id !== id))
-    setConfirmDeleteId(null)
+  const deleteTemplate = async (id) => {
+    try {
+      const response = await fetch(`/api/admin/availability/templates/${id}`, { method: "DELETE" })
+      const data = await response.json()
+      if (!response.ok || !data.success) throw new Error(data.message || "Unable to delete template.")
+      await onChanged()
+      setConfirmDeleteId(null)
+    } catch (error) { onError(error.message || "Unable to delete template.") }
   }
 
   return (
@@ -104,7 +135,7 @@ export const TimeSlotTemplates = ({ templates, setTemplates }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {templates.map((tpl) => (
             <div
-              key={tpl.id}
+              key={tpl._id}
               className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 relative overflow-hidden"
             >
               <div className={`absolute top-0 left-0 right-0 h-1 ${COLOR_BAR_MAP[tpl.color] || "bg-blue-400"}`} />
@@ -129,7 +160,7 @@ export const TimeSlotTemplates = ({ templates, setTemplates }) => {
                   </button>
                   <button
                     type="button"
-                    onClick={() => setConfirmDeleteId(tpl.id)}
+                    onClick={() => setConfirmDeleteId(tpl._id)}
                     className="p-2 rounded-lg text-gray-400 hover:bg-red-50 hover:text-red-600 cursor-pointer active:scale-95 transition-all duration-150"
                   >
                     <Trash2 size={15} />
@@ -138,12 +169,12 @@ export const TimeSlotTemplates = ({ templates, setTemplates }) => {
               </div>
 
               <div className="flex flex-wrap gap-2">
-                {tpl.slots.map((s) => (
+                {tpl.slots.map((s, index) => (
                   <span
-                    key={s.id}
+                    key={`${tpl._id}-${index}`}
                     className="text-xs font-medium bg-gray-100 border border-gray-200 text-gray-600 px-2.5 py-1 rounded-lg"
                   >
-                    {formatTime(s.start)} – {formatTime(s.end)}
+                    {formatTime(s.startTime)} – {formatTime(s.endTime)}
                   </span>
                 ))}
               </div>

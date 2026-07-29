@@ -1,11 +1,10 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Check,
   ChevronLeft,
-  CalendarDays,
-  Clock,
+  ChevronRight,
   CreditCard,
   ShieldCheck,
   PartyPopper,
@@ -19,6 +18,12 @@ import { deleteAppointment } from "@/lib/appointmentUtils";
 import Script from "next/script";
 
 const STEPS = ["Date & Time", "Payment", "Confirmation"];
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const DAY_NAMES = ["SU", "MO", "TU", "WE", "TH", "FR", "SA"];
+
+const getDaysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
+const getFirstDay = (year, month) => new Date(year, month, 1).getDay();
+const formatDateForApi = ({ year, month, day }) => `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 
 export const BookFollowUp = ({
   parentAppointmentId,
@@ -36,6 +41,15 @@ export const BookFollowUp = ({
   const [confirmedAppointment, setConfirmedAppointment] = useState(null);
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [slotAvailability, setSlotAvailability] = useState([]);
+  const [allFull, setAllFull] = useState(false);
+  const [availabilityLoading, setAvailabilityLoading] = useState(false);
+  const [availabilityError, setAvailabilityError] = useState("");
+  const [calendarAvailability, setCalendarAvailability] = useState({});
+  const [calendarLoading, setCalendarLoading] = useState(false);
+  const [calendarError, setCalendarError] = useState("");
+  const [calendarYear, setCalendarYear] = useState(() => new Date().getFullYear());
+  const [calendarMonth, setCalendarMonth] = useState(() => new Date().getMonth());
 
   const followUpFee = useMemo(
     () => parentAppointment?.followUpFee || 0,
@@ -52,7 +66,6 @@ export const BookFollowUp = ({
     if (!parentAppointmentId) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setParentAppointment(null);
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setParentError(
         "No consultation was selected. Please return to your appointments.",
       );
@@ -98,6 +111,57 @@ export const BookFollowUp = ({
     };
   }, [parentAppointmentId]);
 
+  const fetchAvailability = useCallback(async (selectedDate) => {
+    setAvailabilityLoading(true);
+    setAvailabilityError("");
+    setAllFull(false);
+    setSlotAvailability([]);
+    setTime(null);
+    try {
+      const res = await fetch(`/api/availability?date=${selectedDate}`);
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.message || "Could not load availability.");
+      if (data.status === "off") {
+        setAvailabilityError("Clinic Closed");
+        setAllFull(true);
+      } else if (data.status === "unconfigured") {
+        setAvailabilityError("Availability Not Configured");
+        setAllFull(true);
+      } else {
+        setSlotAvailability(data.slots || []);
+        setAllFull(data.allFull || false);
+        if (data.allFull) setAvailabilityError("All Slots Booked");
+      }
+    } catch (error) {
+      setAvailabilityError(error.message || "Could not load availability.");
+    } finally {
+      setAvailabilityLoading(false);
+    }
+  }, []);
+
+  const fetchCalendarAvailability = useCallback(async (year, month) => {
+    setCalendarLoading(true);
+    setCalendarError("");
+    setCalendarAvailability({});
+    try {
+      const res = await fetch(`/api/availability/calendar?year=${year}&month=${month}`);
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.message || "Could not load calendar availability.");
+      setCalendarAvailability(Object.fromEntries((data.dates || []).map((item) => [item.date, item.status])));
+    } catch (error) {
+      setCalendarError(error.message || "Could not load calendar availability.");
+    } finally {
+      setCalendarLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      fetchCalendarAvailability(calendarYear, calendarMonth + 1);
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, [calendarYear, calendarMonth, fetchCalendarAvailability]);
+
   const goNext = () => setStep((s) => Math.min(s + 1, STEPS.length - 1));
   const goBack = () => setStep((s) => Math.max(s - 1, 0));
 
@@ -121,7 +185,8 @@ export const BookFollowUp = ({
       formData.append("parentAppointmentId", parentAppointmentId);
       formData.append("appointmentType", "followup");
       formData.append("date", date);
-      formData.append("timeSlot", time);
+      formData.append("slotStartTime", time.startTime);
+      formData.append("slotEndTime", time.endTime);
 
       const res = await fetch("/api/appointments", {
         method: "POST",
@@ -200,7 +265,8 @@ export const BookFollowUp = ({
               _id: appointmentId,
               service: parentAppointment?.service,
               date: new Date(date),
-              timeSlot: time,
+              slotStartTime: time.startTime,
+              slotEndTime: time.endTime,
               status: "pending",
               fee: followUpFee,
               appointmentType: "followup",
@@ -269,6 +335,19 @@ export const BookFollowUp = ({
     restart();
     onNavigate("overview");
   };
+  const statusStyles = {
+  available:
+    "bg-emerald-100 border border-emerald-300 text-emerald-700 hover:bg-emerald-100",
+
+  off:
+    "bg-red-100 border border-red-300 text-red-600 cursor-not-allowed",
+
+  full:
+    "bg-amber-100 border border-amber-300 text-amber-700 cursor-not-allowed",
+
+  unconfigured:
+    "text-slate-300 border border-transparent cursor-not-allowed",
+};
 
   return (
     <>
@@ -342,66 +421,77 @@ export const BookFollowUp = ({
                 </div>
               </div>
             ) : null}
-
-            <p className="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-3">
-              Choose a date
-            </p>
-            <div className="flex flex-wrap gap-2 mb-6">
-              {[0, 1, 2, 3].map((offset) => {
-                const futureDate = new Date();
-                futureDate.setDate(futureDate.getDate() + offset);
-                const value = futureDate.toISOString().slice(0, 10);
-                return (
-                  <button
-                    key={value}
-                    type="button"
-                    onClick={() => {
-                      setDate(value);
-                      setTime(null);
-                    }}
-                    className={`flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-semibold cursor-pointer active:scale-95 transition-all duration-150 ${
-                      date === value
-                        ? "bg-gray-900 text-white"
-                        : "bg-white border border-gray-100 text-gray-600 hover:bg-gray-50"
-                    }`}
-                  >
-                    <CalendarDays size={14} />
-                    {formatDateLong(value).split(",").slice(0, 2).join(",")}
-                  </button>
-                );
-              })}
+<div className="xl:w-1/2 w-full gap-4 mx-auto">
+              <div className="bg-slate-50 border border-slate-100 rounded-2xl p-4  mb-5">
+              <div className="flex items-center justify-between mb-4">
+                <button type="button" onClick={() => calendarMonth === 0 ? (setCalendarMonth(11), setCalendarYear((value) => value - 1)) : setCalendarMonth((value) => value - 1)} className="w-7 h-7 rounded-lg border border-slate-200 flex items-center justify-center text-slate-400 hover:border-[#058FD2] hover:text-[#058FD2] hover:bg-[#E8F6FD] transition-all">
+                  <ChevronLeft size={14} />
+                </button>
+                <span className="text-sm font-semibold text-slate-800">{MONTHS[calendarMonth]} {calendarYear}</span>
+                <button type="button" onClick={() => calendarMonth === 11 ? (setCalendarMonth(0), setCalendarYear((value) => value + 1)) : setCalendarMonth((value) => value + 1)} className="w-7 h-7 rounded-lg border border-slate-200 flex items-center justify-center text-slate-400 hover:border-[#058FD2] hover:text-[#058FD2] hover:bg-[#E8F6FD] transition-all">
+                  <ChevronRight size={14} />
+                </button>
+              </div>
+              <div className="grid grid-cols-7 mb-1">{DAY_NAMES.map((day) => <div key={day} className="text-center text-[10px] font-semibold text-slate-400 py-1 tracking-wider">{day}</div>)}</div>
+              <div className="grid grid-cols-7 gap-y-0.5">
+                {Array.from({ length: getFirstDay(calendarYear, calendarMonth) }).map((_, index) => <div key={`empty-${index}`} />)}
+                {Array.from({ length: getDaysInMonth(calendarYear, calendarMonth) }).map((_, index) => {
+                  const day = index + 1;
+                  const value = formatDateForApi({ year: calendarYear, month: calendarMonth, day });
+                  const current = new Date(calendarYear, calendarMonth, day);
+                  const today = new Date(); today.setHours(0, 0, 0, 0);
+                  const past = current < today;
+                  const status = calendarAvailability[value] || "unconfigured";
+                  const disabled = past || status !== "available";
+                  const selected = date === value;
+                  const title = past ? "Past date" : ({ available: "Available", off: "Clinic Closed", full: "All Slots Booked", unconfigured: "Availability Not Configured" }[status]);
+                  return <button
+  key={value}
+  type="button"
+  title={title}
+  disabled={disabled}
+  onClick={() => {
+    setDate(value);
+    fetchAvailability(value);
+  }}
+  className={`mx-auto w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold transition-all
+    ${
+      selected
+        ? "bg-[#058FD2] text-white border border-[#058FD2]"
+        : past
+          ? "text-slate-300 border border-transparent cursor-not-allowed"
+          : statusStyles[status]
+    }`}
+>
+  {day}
+</button>;
+                })}
+              </div>
+            </div>
             </div>
 
+            <div className="flex flex-wrap justify-center gap-4 mb-5 text-xs text-slate-500">
+              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-500" /> Available date</span>
+              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-500" /> Day off</span>
+              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-400" /> All slots booked</span>
+              {/* <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-slate-300" /> Availability not configured</span> */}
+            </div>
+            {calendarLoading && <p className="mb-4 text-center text-xs text-slate-400">Loading calendar availability...</p>}
+            {calendarError && <p className="mb-4 text-center text-xs text-red-500">{calendarError}</p>}
+
             {date && (
-              <>
-                <p className="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-3">
-                  Available slots
-                </p>
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {[
-                    "09:00 AM",
-                    "10:00 AM",
-                    "11:00 AM",
-                    "02:00 PM",
-                    "03:00 PM",
-                    "04:00 PM",
-                  ].map((slot) => (
-                    <button
-                      key={slot}
-                      type="button"
-                      onClick={() => setTime(slot)}
-                      className={`flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-semibold cursor-pointer active:scale-95 transition-all duration-150 ${
-                        time === slot
-                          ? "bg-gray-900 text-white"
-                          : "bg-white border border-gray-100 text-gray-600 hover:bg-gray-50"
-                      }`}
-                    >
-                      <Clock size={14} />
-                      {slot}
-                    </button>
-                  ))}
-                </div>
-              </>
+              <div className="mb-6">
+                <p className="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-3">Available slots</p>
+                {availabilityLoading ? <p className="text-sm text-slate-400 flex items-center gap-2"><Loader2 size={15} className="animate-spin" /> Checking available slots...</p> : availabilityError ? <p className="text-sm text-red-500">{availabilityError}</p> : allFull ? <p className="text-sm text-red-500">All Slots Booked</p> : <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 max-w-lg">
+                  {slotAvailability.map((slot) => {
+                    const label = `${slot.startTime} - ${slot.endTime}`;
+                    const selected = time?.startTime === slot.startTime && time?.endTime === slot.endTime;
+                    return <button key={label} type="button" disabled={slot.isBooked} onClick={() => setTime(slot)} className={`py-3 px-2 rounded-xl border-[1.5px] text-[13px] font-semibold transition-all text-left min-h-[72px] ${slot.isBooked ? "border-slate-100 bg-slate-50 text-slate-300 cursor-not-allowed " : selected ? "border-[#058FD2] bg-[#058FD2] text-white scale-105" : "border-slate-200 bg-white text-slate-600 hover:border-[#058FD2] hover:text-[#058FD2] hover:bg-[#E8F6FD]"}`}>
+                      <div className="flex items-center justify-between"><span className={`${slot.isBooked ? "line-through" : "" }`}>{label}</span>{slot.isBooked && <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-red-500">Booked</span>}</div>
+                    </button>;
+                  })}
+                </div>}
+              </div>
             )}
 
             <StepFooter
@@ -424,7 +514,7 @@ export const BookFollowUp = ({
                   value={`${parentAppointment?.service || "Follow-up consultation"}`}
                 />
                 <SummaryRow label="Date" value={formatDateLong(date)} />
-                <SummaryRow label="Time" value={time} />
+                <SummaryRow label="Time" value={time ? `${time.startTime} - ${time.endTime}` : ""} />
                 <SummaryRow label="Doctor" value="Dr. Charu Garg" />
               </div>
               <div className="pt-4 border-t border-gray-100 flex items-center justify-between">
@@ -510,9 +600,7 @@ export const BookFollowUp = ({
                 />
                 <SummaryRow
                   label="Time"
-                  value={
-                    confirmedAppointment.timeSlot || confirmedAppointment.time
-                  }
+                  value={`${confirmedAppointment.slotStartTime} - ${confirmedAppointment.slotEndTime}`}
                 />
                 <SummaryRow
                   label="Amount paid"

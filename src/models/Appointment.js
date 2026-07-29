@@ -152,7 +152,13 @@ const AppointmentSchema = new mongoose.Schema(
       required: true,
     },
 
-    timeSlot: {
+    slotStartTime: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    slotEndTime: {
       type: String,
       required: true,
       trim: true,
@@ -214,6 +220,8 @@ const AppointmentSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+AppointmentSchema.index({ date: 1, slotStartTime: 1, slotEndTime: 1, status: 1 });
 
 const Appointment =
   mongoose.models.Appointment ||

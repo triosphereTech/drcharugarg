@@ -29,7 +29,9 @@ export async function confirmAppointment(orderId, paymentId) {
       name:    appointment.patient.name,
       service: appointment.service,
       date:    appointment.date,
-      time:    appointment.timeSlot,
+      time: appointment.slotStartTime && appointment.slotEndTime
+        ? `${appointment.slotStartTime} - ${appointment.slotEndTime}`
+        : appointment.timeSlot,
     });
   } catch (err) {
     // Don't crash if mail fails — appointment is already confirmed
