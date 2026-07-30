@@ -312,7 +312,7 @@
 
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   CalendarDays,
   Clock,
@@ -425,19 +425,19 @@ function buildConversation(appointment) {
     });
   }
 
-  // if (doctorAttachments.length > 0) {
-  //   items.push({
-  //     id: `${appointment._id}-doctor-attachments`,
-  //     sender: "doctor",
-  //     type: "attachments",
-  //     title: "Doctor Attachments",
-  //     attachments: doctorAttachments,
-  //     createdAt:
-  //       doctorAttachments[0]?.uploadedAt ||
-  //       appointment.updatedAt ||
-  //       appointment.createdAt,
-  //   });
-  // }
+  if (doctorAttachments.length > 0) {
+    items.push({
+      id: `${appointment._id}-doctor-attachments`,
+      sender: "doctor",
+      type: "attachments",
+      title: "Doctor Attachments",
+      attachments: doctorAttachments,
+      createdAt:
+        doctorAttachments[0]?.uploadedAt ||
+        appointment.updatedAt ||
+        appointment.createdAt,
+    });
+  }
 
   return items;
 }
@@ -571,7 +571,7 @@ const ConversationMessage = ({ item, onImageClick }) => {
             >
               {item.title}
             </p>
-            <div className="grid grid-cols-3 gap-2">
+            <div className={`grid grid-cols-${item.attachments.length > 3 ? '3' : item.attachments.length } gap-2`}>
               {(item.attachments || item.images || []).map((attachment, idx) => {
                 const url = getAttachmentUrl(attachment);
                 return isImageUrl(url) ? (
@@ -628,7 +628,28 @@ export const AppointmentHistory = ({
 }) => {
   const [selected, setSelected] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
+useEffect(() => {
+  const handleEscape = (event) => {
+    if (event.key !== "Escape") return;
 
+    // Close image first
+    if (selectedImage) {
+      setSelectedImage(null);
+      return;
+    }
+
+    // Then close modal
+    if (selected) {
+      setSelected(null);
+    }
+  };
+
+  document.addEventListener("keydown", handleEscape);
+
+  return () => {
+    document.removeEventListener("keydown", handleEscape);
+  };
+}, [selected, selectedImage]);
   const filtered = useMemo(() => {
     const list =
       filter === "all"
@@ -655,11 +676,8 @@ export const AppointmentHistory = ({
       apt.status === "pending",
   );
 
-  const modalLatestCompleted =
-    selected?.[selected.length - 1]?.status === "attended";
-
   const modalLatestPrescriptionPdf =
-    selected?.[selected.length - 1]?.prescriptionPdf;
+    selected?.[0]?.prescriptionPdf;
 
   return (
     <div>
@@ -856,7 +874,6 @@ export const AppointmentHistory = ({
                 </button>
               )}
 
-              {modalLatestCompleted && (
                 <button
                   type="button"
                   disabled={modalHasPendingAppointment}
@@ -876,7 +893,7 @@ export const AppointmentHistory = ({
                     ? "Follow-up Already Scheduled"
                     : "Book Follow-up"}
                 </button>
-              )}
+    
             </div>
           }
         >

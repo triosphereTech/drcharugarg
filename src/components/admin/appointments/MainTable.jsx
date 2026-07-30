@@ -5,7 +5,6 @@ import { Topbar } from "@/components/admin/layout/Topbar";
 import { AppointmentItem } from "@/components/admin/appointments/AppointmentItem";
 import { AppointmentModal } from "@/components/admin/appointments/AppointmentModal";
 import { Pagination } from "@/components/admin/ui/Pagination";
-import { SERVICES } from "@/lib/data";
 import { motion } from "framer-motion";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import CancelAppointmentDialog from "./CancelAppointmentDialog";
@@ -37,6 +36,28 @@ export default function AppointmentsPage({ onDataChange }) {
   // Dialog box
   const [showCancelDialog, setShowCancelDialog] = useState(false);
   const [appointmentToCancel, setAppointmentToCancel] = useState(null);
+
+  // dynamic service
+  const [servicesList, setServicesList] = useState([]);
+  // Fetch dynamic services for the filter dropdown
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const response = await fetch("/api/admin/services");
+        const data = await response.json();
+        
+        if (response.ok && data.success) {
+          setServicesList(data.services || []);
+        } else {
+          console.error("Failed to fetch services:", data.message);
+        }
+      } catch (err) {
+        console.error("Error fetching services:", err);
+      }
+    };
+
+    fetchServices();
+  }, []);
   const confirmCancelAppointment = async () => {
     if (!appointmentToCancel) return;
 
@@ -244,7 +265,7 @@ export default function AppointmentsPage({ onDataChange }) {
 
             {/* Right — secondary filters */}
             <div className="flex items-center gap-2 flex-wrap">
-              {/* Service select */}
+             {/* Service select */}
               <div className="relative">
                 <select
                   value={serviceFilter}
@@ -257,9 +278,9 @@ export default function AppointmentsPage({ onDataChange }) {
                   "
                 >
                   <option value="">All services</option>
-                  {SERVICES.map((s) => (
-                    <option key={s} value={s}>
-                      {s}
+                  {servicesList.map((s) => (
+                    <option key={s._id} value={s.name}>
+                      {s.name}
                     </option>
                   ))}
                 </select>

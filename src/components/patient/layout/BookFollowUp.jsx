@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Check,
   ChevronLeft,
@@ -11,19 +11,34 @@ import {
   Loader2,
   X,
   AlertTriangle,
+  Upload
 } from "lucide-react";
 import { formatDateLong, currency } from "../data/Temppatientdata";
 import { PatientModal } from "./Patientmodal";
 import { deleteAppointment } from "@/lib/appointmentUtils";
 import Script from "next/script";
 
-const STEPS = ["Date & Time", "Payment", "Confirmation"];
-const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const STEPS = ["Date & Time", "Details", "Payment", "Confirmation"];
+const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 const DAY_NAMES = ["SU", "MO", "TU", "WE", "TH", "FR", "SA"];
 
 const getDaysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
 const getFirstDay = (year, month) => new Date(year, month, 1).getDay();
-const formatDateForApi = ({ year, month, day }) => `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+const formatDateForApi = ({ year, month, day }) =>
+  `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 
 export const BookFollowUp = ({
   parentAppointmentId,
@@ -48,8 +63,25 @@ export const BookFollowUp = ({
   const [calendarAvailability, setCalendarAvailability] = useState({});
   const [calendarLoading, setCalendarLoading] = useState(false);
   const [calendarError, setCalendarError] = useState("");
-  const [calendarYear, setCalendarYear] = useState(() => new Date().getFullYear());
-  const [calendarMonth, setCalendarMonth] = useState(() => new Date().getMonth());
+  const [calendarYear, setCalendarYear] = useState(() =>
+    new Date().getFullYear(),
+  );
+  const [calendarMonth, setCalendarMonth] = useState(() =>
+    new Date().getMonth(),
+  );
+
+  // --- ADD THESE NEW STATES & HANDLERS ---
+  const [files, setFiles] = useState([]);
+  const [patientNote, setPatientNote] = useState("");
+  const [drag, setDrag] = useState(false);
+  const fileInputRef = useRef(null);
+
+  const addFiles = (inc) => {
+    const allowed = Array.from(inc).filter(f => f.type.startsWith("image/") || f.type === "application/pdf");
+    setFiles(p => [...p, ...allowed].slice(0, 5)); // Max 5 files
+  };
+  const removeFile = (i) => setFiles(f => f.filter((_, idx) => idx !== i));
+  // ---------------------------------------
 
   const followUpFee = useMemo(
     () => parentAppointment?.followUpFee || 0,
@@ -120,7 +152,8 @@ export const BookFollowUp = ({
     try {
       const res = await fetch(`/api/availability?date=${selectedDate}`);
       const data = await res.json();
-      if (!res.ok || !data.success) throw new Error(data.message || "Could not load availability.");
+      if (!res.ok || !data.success)
+        throw new Error(data.message || "Could not load availability.");
       if (data.status === "off") {
         setAvailabilityError("Clinic Closed");
         setAllFull(true);
@@ -144,12 +177,23 @@ export const BookFollowUp = ({
     setCalendarError("");
     setCalendarAvailability({});
     try {
-      const res = await fetch(`/api/availability/calendar?year=${year}&month=${month}`);
+      const res = await fetch(
+        `/api/availability/calendar?year=${year}&month=${month}`,
+      );
       const data = await res.json();
-      if (!res.ok || !data.success) throw new Error(data.message || "Could not load calendar availability.");
-      setCalendarAvailability(Object.fromEntries((data.dates || []).map((item) => [item.date, item.status])));
+      if (!res.ok || !data.success)
+        throw new Error(
+          data.message || "Could not load calendar availability.",
+        );
+      setCalendarAvailability(
+        Object.fromEntries(
+          (data.dates || []).map((item) => [item.date, item.status]),
+        ),
+      );
     } catch (error) {
-      setCalendarError(error.message || "Could not load calendar availability.");
+      setCalendarError(
+        error.message || "Could not load calendar availability.",
+      );
     } finally {
       setCalendarLoading(false);
     }
@@ -187,6 +231,11 @@ export const BookFollowUp = ({
       formData.append("date", date);
       formData.append("slotStartTime", time.startTime);
       formData.append("slotEndTime", time.endTime);
+
+      // --- ADD THESE TWO LINES ---
+      formData.append("patientNote", patientNote.trim());
+      files.forEach((file) => formData.append("attachments", file));
+      // ---------------------------
 
       const res = await fetch("/api/appointments", {
         method: "POST",
@@ -328,6 +377,9 @@ export const BookFollowUp = ({
     setTime(null);
     setConfirmedAppointment(null);
     setSubmitError("");
+    // --- ADD THESE ---
+    setFiles([]);
+    setPatientNote("");
   };
 
   const confirmCancelBooking = () => {
@@ -336,18 +388,15 @@ export const BookFollowUp = ({
     onNavigate("overview");
   };
   const statusStyles = {
-  available:
-    "bg-emerald-100 border border-emerald-300 text-emerald-700 hover:bg-emerald-100",
+    available:
+      "bg-emerald-100 border border-emerald-300 text-emerald-700 hover:bg-emerald-100",
 
-  off:
-    "bg-red-100 border border-red-300 text-red-600 cursor-not-allowed",
+    off: "bg-red-100 border border-red-300 text-red-600 cursor-not-allowed",
 
-  full:
-    "bg-amber-100 border border-amber-300 text-amber-700 cursor-not-allowed",
+    full: "bg-amber-100 border border-amber-300 text-amber-700 cursor-not-allowed",
 
-  unconfigured:
-    "text-slate-300 border border-transparent cursor-not-allowed",
-};
+    unconfigured: "text-slate-300 border border-transparent cursor-not-allowed",
+  };
 
   return (
     <>
@@ -421,76 +470,176 @@ export const BookFollowUp = ({
                 </div>
               </div>
             ) : null}
-<div className="xl:w-1/2 w-full gap-4 mx-auto">
+            <div className="xl:w-1/2 w-full gap-4 mx-auto">
               <div className="bg-slate-50 border border-slate-100 rounded-2xl p-4  mb-5">
-              <div className="flex items-center justify-between mb-4">
-                <button type="button" onClick={() => calendarMonth === 0 ? (setCalendarMonth(11), setCalendarYear((value) => value - 1)) : setCalendarMonth((value) => value - 1)} className="w-7 h-7 rounded-lg border border-slate-200 flex items-center justify-center text-slate-400 hover:border-[#058FD2] hover:text-[#058FD2] hover:bg-[#E8F6FD] transition-all">
-                  <ChevronLeft size={14} />
-                </button>
-                <span className="text-sm font-semibold text-slate-800">{MONTHS[calendarMonth]} {calendarYear}</span>
-                <button type="button" onClick={() => calendarMonth === 11 ? (setCalendarMonth(0), setCalendarYear((value) => value + 1)) : setCalendarMonth((value) => value + 1)} className="w-7 h-7 rounded-lg border border-slate-200 flex items-center justify-center text-slate-400 hover:border-[#058FD2] hover:text-[#058FD2] hover:bg-[#E8F6FD] transition-all">
-                  <ChevronRight size={14} />
-                </button>
+                <div className="flex items-center justify-between mb-4">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      calendarMonth === 0
+                        ? (setCalendarMonth(11),
+                          setCalendarYear((value) => value - 1))
+                        : setCalendarMonth((value) => value - 1)
+                    }
+                    className="w-7 h-7 rounded-lg border border-slate-200 flex items-center justify-center text-slate-400 hover:border-[#058FD2] hover:text-[#058FD2] hover:bg-[#E8F6FD] transition-all"
+                  >
+                    <ChevronLeft size={14} />
+                  </button>
+                  <span className="text-sm font-semibold text-slate-800">
+                    {MONTHS[calendarMonth]} {calendarYear}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      calendarMonth === 11
+                        ? (setCalendarMonth(0),
+                          setCalendarYear((value) => value + 1))
+                        : setCalendarMonth((value) => value + 1)
+                    }
+                    className="w-7 h-7 rounded-lg border border-slate-200 flex items-center justify-center text-slate-400 hover:border-[#058FD2] hover:text-[#058FD2] hover:bg-[#E8F6FD] transition-all"
+                  >
+                    <ChevronRight size={14} />
+                  </button>
+                </div>
+                <div className="grid grid-cols-7 mb-1">
+                  {DAY_NAMES.map((day) => (
+                    <div
+                      key={day}
+                      className="text-center text-[10px] font-semibold text-slate-400 py-1 tracking-wider"
+                    >
+                      {day}
+                    </div>
+                  ))}
+                </div>
+                <div className="grid grid-cols-7 gap-y-0.5">
+                  {Array.from({
+                    length: getFirstDay(calendarYear, calendarMonth),
+                  }).map((_, index) => (
+                    <div key={`empty-${index}`} />
+                  ))}
+                  {Array.from({
+                    length: getDaysInMonth(calendarYear, calendarMonth),
+                  }).map((_, index) => {
+                    const day = index + 1;
+                    const value = formatDateForApi({
+                      year: calendarYear,
+                      month: calendarMonth,
+                      day,
+                    });
+                    const current = new Date(calendarYear, calendarMonth, day);
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    const past = current <= today;
+                    const status =
+                      calendarAvailability[value] || "unconfigured";
+                    const disabled = past || status !== "available";
+                    const selected = date === value;
+                    const title = past
+                      ? "Past date"
+                      : {
+                          available: "Available",
+                          off: "Clinic Closed",
+                          full: "All Slots Booked",
+                          unconfigured: "Availability Not Configured",
+                        }[status];
+                    return (
+                      <button
+                        key={value}
+                        type="button"
+                        title={title}
+                        disabled={disabled}
+                        onClick={() => {
+                          setDate(value);
+                          fetchAvailability(value);
+                        }}
+                        className={`mx-auto w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold transition-all
+                          ${
+                            selected
+                              ? "bg-[#058FD2] text-white border border-[#058FD2]"
+                              : past
+                                ? "text-slate-300 border border-transparent cursor-not-allowed"
+                                : statusStyles[status]
+                          }`}
+                      >
+                        {day}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
-              <div className="grid grid-cols-7 mb-1">{DAY_NAMES.map((day) => <div key={day} className="text-center text-[10px] font-semibold text-slate-400 py-1 tracking-wider">{day}</div>)}</div>
-              <div className="grid grid-cols-7 gap-y-0.5">
-                {Array.from({ length: getFirstDay(calendarYear, calendarMonth) }).map((_, index) => <div key={`empty-${index}`} />)}
-                {Array.from({ length: getDaysInMonth(calendarYear, calendarMonth) }).map((_, index) => {
-                  const day = index + 1;
-                  const value = formatDateForApi({ year: calendarYear, month: calendarMonth, day });
-                  const current = new Date(calendarYear, calendarMonth, day);
-                  const today = new Date(); today.setHours(0, 0, 0, 0);
-                  const past = current <= today;
-                  const status = calendarAvailability[value] || "unconfigured";
-                  const disabled = past || status !== "available";
-                  const selected = date === value;
-                  const title = past ? "Past date" : ({ available: "Available", off: "Clinic Closed", full: "All Slots Booked", unconfigured: "Availability Not Configured" }[status]);
-                  return <button
-  key={value}
-  type="button"
-  title={title}
-  disabled={disabled}
-  onClick={() => {
-    setDate(value);
-    fetchAvailability(value);
-  }}
-  className={`mx-auto w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold transition-all
-    ${
-      selected
-        ? "bg-[#058FD2] text-white border border-[#058FD2]"
-        : past
-          ? "text-slate-300 border border-transparent cursor-not-allowed"
-          : statusStyles[status]
-    }`}
->
-  {day}
-</button>;
-                })}
-              </div>
-            </div>
             </div>
 
             <div className="flex flex-wrap justify-center gap-4 mb-5 text-xs text-slate-500">
-              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-500" /> Available date</span>
-              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-500" /> Day off</span>
-              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-400" /> All slots booked</span>
+              <span className="flex items-center gap-1">
+                <span className="w-2 h-2 rounded-full bg-emerald-500" />{" "}
+                Available date
+              </span>
+              <span className="flex items-center gap-1">
+                <span className="w-2 h-2 rounded-full bg-red-500" /> Day off
+              </span>
+              <span className="flex items-center gap-1">
+                <span className="w-2 h-2 rounded-full bg-amber-400" /> All slots
+                booked
+              </span>
               {/* <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-slate-300" /> Availability not configured</span> */}
             </div>
-            {calendarLoading && <p className="mb-4 text-center text-xs text-slate-400">Loading calendar availability...</p>}
-            {calendarError && <p className="mb-4 text-center text-xs text-red-500">{calendarError}</p>}
+            {calendarLoading && (
+              <p className="mb-4 text-center text-xs text-slate-400">
+                Loading calendar availability...
+              </p>
+            )}
+            {calendarError && (
+              <p className="mb-4 text-center text-xs text-red-500">
+                {calendarError}
+              </p>
+            )}
 
             {date && (
               <div className="mb-6">
-                <p className="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-3">Available slots</p>
-                {availabilityLoading ? <p className="text-sm text-slate-400 flex items-center gap-2"><Loader2 size={15} className="animate-spin" /> Checking available slots...</p> : availabilityError ? <p className="text-sm text-red-500">{availabilityError}</p> : allFull ? <p className="text-sm text-red-500">All Slots Booked</p> : <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 max-w-lg">
-                  {slotAvailability.map((slot) => {
-                    const label = `${slot.startTime} - ${slot.endTime}`;
-                    const selected = time?.startTime === slot.startTime && time?.endTime === slot.endTime;
-                    return <button key={label} type="button" disabled={slot.isBooked} onClick={() => setTime(slot)} className={`py-3 px-2 rounded-xl border-[1.5px] text-[13px] font-semibold transition-all text-left min-h-[72px] ${slot.isBooked ? "border-slate-100 bg-slate-50 text-slate-300 cursor-not-allowed " : selected ? "border-[#058FD2] bg-[#058FD2] text-white scale-105" : "border-slate-200 bg-white text-slate-600 hover:border-[#058FD2] hover:text-[#058FD2] hover:bg-[#E8F6FD]"}`}>
-                      <div className="flex items-center justify-between"><span className={`${slot.isBooked ? "line-through" : "" }`}>{label}</span>{slot.isBooked && <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-red-500">Booked</span>}</div>
-                    </button>;
-                  })}
-                </div>}
+                <p className="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-3">
+                  Available slots
+                </p>
+                {availabilityLoading ? (
+                  <p className="text-sm text-slate-400 flex items-center gap-2">
+                    <Loader2 size={15} className="animate-spin" /> Checking
+                    available slots...
+                  </p>
+                ) : availabilityError ? (
+                  <p className="text-sm text-red-500">{availabilityError}</p>
+                ) : allFull ? (
+                  <p className="text-sm text-red-500">All Slots Booked</p>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 max-w-lg">
+                    {slotAvailability.map((slot) => {
+                      const label = `${slot.startTime} - ${slot.endTime}`;
+                      const selected =
+                        time?.startTime === slot.startTime &&
+                        time?.endTime === slot.endTime;
+                      return (
+                        <button
+                          key={label}
+                          type="button"
+                          disabled={slot.isBooked}
+                          onClick={() => setTime(slot)}
+                          className={`py-3 px-2 rounded-xl border-[1.5px] text-[13px] font-semibold transition-all text-left min-h-[72px] ${slot.isBooked ? "border-slate-100 bg-slate-50 text-slate-300 cursor-not-allowed " : selected ? "border-[#058FD2] bg-[#058FD2] text-white scale-105" : "border-slate-200 bg-white text-slate-600 hover:border-[#058FD2] hover:text-[#058FD2] hover:bg-[#E8F6FD]"}`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <span
+                              className={`${slot.isBooked ? "line-through" : ""}`}
+                            >
+                              {label}
+                            </span>
+                            {slot.isBooked && (
+                              <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-red-500">
+                                Booked
+                              </span>
+                            )}
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             )}
 
@@ -501,8 +650,76 @@ export const BookFollowUp = ({
             />
           </div>
         )}
-
+{/* --- ADD THIS NEW STEP 1 FOR DETAILS --- */}
         {step === 1 && (
+          <div className="max-w-md">
+            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 mb-6">
+              <p className="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-4">
+                Upload attachments (Optional)
+              </p>
+              
+              <div
+                onDragOver={e => { e.preventDefault(); setDrag(true); }}
+                onDragLeave={() => setDrag(false)}
+                onDrop={e => { e.preventDefault(); setDrag(false); addFiles(e.dataTransfer.files); }}
+                onClick={() => fileInputRef.current?.click()}
+                className={`border-[1.5px] border-dashed rounded-xl p-6 text-center cursor-pointer transition-all mb-4
+                  ${drag ? "border-[#058FD2] bg-[#E8F6FD]" : "border-slate-200 hover:border-[#058FD2]/50 hover:bg-[#E8F6FD]/20"}`}
+              >
+                <input ref={fileInputRef} type="file" multiple accept="image/*,application/pdf" className="hidden" onChange={e => addFiles(e.target.files)} />
+                <div className="w-11 h-11 bg-[#E8F6FD] rounded-xl flex items-center justify-center mx-auto mb-2">
+                  <Upload className="w-5 h-5 text-[#058FD2]" />
+                </div>
+                <p className="text-sm font-semibold text-slate-700 mb-0.5">Drop attachments here</p>
+                <p className="text-xs text-slate-400">or <span className="text-[#058FD2] underline">browse files</span> - PNG, JPG, WebP, PDF</p>
+              </div>
+
+              {files.length > 0 && (
+                <div className="grid grid-cols-5 gap-2 mb-4">
+                  {files.map((file, i) => (
+                    <div key={i} className="relative group aspect-square rounded-xl border border-slate-200 overflow-hidden">
+                      {file.type === "application/pdf" ? (
+                        <div className="w-full h-full bg-slate-50 flex items-center justify-center px-2 text-center text-[10px] font-semibold text-slate-500">PDF</div>
+                      ) : (
+                        <img src={URL.createObjectURL(file)} alt="" className="w-full h-full object-cover" />
+                      )}
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all flex items-center justify-center">
+                        <button onClick={e => { e.stopPropagation(); removeFile(i); }}
+                          className="opacity-0 group-hover:opacity-100 w-6 h-6 bg-white rounded-full flex items-center justify-center shadow text-slate-600 transition-opacity" aria-label="Remove">
+                          <X className="w-3 h-3" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <div>
+                <label htmlFor="patient-note" className="block text-xs font-semibold text-slate-600 mb-1.5">
+                  Notes for doctor
+                </label>
+                <textarea
+                  id="patient-note"
+                  value={patientNote}
+                  onChange={(e) => setPatientNote(e.target.value)}
+                  placeholder="Describe your concern, symptoms, or any updates since your last visit..."
+                  maxLength={1000}
+                  className="w-full min-h-[92px] rounded-xl border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-700 outline-none resize-none focus:border-[#058FD2] focus:ring-4 focus:ring-[#058FD2]/10 transition-all"
+                />
+                <p className="mt-1 text-[11px] text-slate-400 text-right">
+                  {patientNote.length}/1000
+                </p>
+              </div>
+            </div>
+
+            <StepFooter
+              onBack={goBack}
+              onNext={goNext}
+              onCancel={() => setShowCancelConfirm(true)}
+            />
+          </div>
+        )}
+        {step === 2 && (
           <div className="max-w-md">
             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 mb-6">
               <p className="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-4">
@@ -514,7 +731,10 @@ export const BookFollowUp = ({
                   value={`${parentAppointment?.service || "Follow-up consultation"}`}
                 />
                 <SummaryRow label="Date" value={formatDateLong(date)} />
-                <SummaryRow label="Time" value={time ? `${time.startTime} - ${time.endTime}` : ""} />
+                <SummaryRow
+                  label="Time"
+                  value={time ? `${time.startTime} - ${time.endTime}` : ""}
+                />
                 <SummaryRow label="Doctor" value="Dr. Charu Garg" />
               </div>
               <div className="pt-4 border-t border-gray-100 flex items-center justify-between">
@@ -577,7 +797,7 @@ export const BookFollowUp = ({
           </div>
         )}
 
-        {step === 2 && confirmedAppointment && (
+        {step === 3 && confirmedAppointment && (
           <div className="max-w-md">
             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 text-center mb-6">
               <span className="flex items-center justify-center w-14 h-14 rounded-2xl bg-green-50 text-green-600 mx-auto mb-4">

@@ -162,20 +162,19 @@ export async function PATCH(req, { params }) {
         notes: prescriptionData.notes || "",
       };
 
-      // Generate Prescription PDF
-      const pdfUrl = await generatePrescriptionPdf(
-        appointment,
-        appointment.prescriptionData,
+      // 1. Check if there is any actual data in the prescriptionData object
+      const hasPrescriptionData = Object.values(appointment.prescriptionData).some(
+        (val) => val !== "" && val !== null
       );
+      // 2. Only generate the PDF and add the attachment if data exists
+      if (hasPrescriptionData) {
+        const pdfUrl = await generatePrescriptionPdf(
+          appointment,
+          appointment.prescriptionData,
+        );
 
-      appointment.prescriptionPdf = pdfUrl;
-
-      // Automatically show PDF in attachments section
-      appointment.attachments.push({
-        url: pdfUrl,
-        uploadedBy: "doctor",
-        uploadedAt: new Date(),
-      });
+        appointment.prescriptionPdf = pdfUrl;
+      }
     }
 
     if (attachments.length > 0) {

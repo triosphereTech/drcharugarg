@@ -157,12 +157,15 @@ export function AppointmentModal({
         id: `${appointment._id}-prescription`,
         sender: "doctor",
         type: "prescription",
-        title: "Prescription",
+        title: "Prescription Note",
         text: appointment.prescription,
         createdAt: appointment.updatedAt || appointment.createdAt,
       });
     }
+    console.log("thsi issi",appointment);
+    
     if (appointment?.prescriptionPdf) {
+      
       messages.push({
         id: `${appointment._id}-pdf`,
         sender: "doctor",
@@ -225,6 +228,10 @@ export function AppointmentModal({
 
   async function submitConsultation() {
     setError("");
+    // Check if any prescription field actually has a value
+    const hasPrescriptionData = Object.values(prescriptionData).some(
+      (val) => val !== "" && val !== null && val !== undefined
+    );
 
     if (!message.trim() && draftFiles.length === 0) {
       toast.error(
@@ -544,14 +551,14 @@ export function AppointmentModal({
 
                           {item.type === "attachments" && (
                             <div
-                              className={`rounded-[16px] p-3 shadow-md transition-shadow duration-200 hover:shadow-lg ${isPatient ? "bg-white border border-[#DDEAF2] rounded-bl-md" : "bg-gradient-to-br from-[#058FD2] to-[#0480BC] rounded-br-md"}`}
+                              className={`rounded-[16px] p-3 shadow-md transition-shadow duration-200 hover:shadow-lg  ${isPatient ? "bg-white border border-[#DDEAF2] rounded-bl-md" : "bg-gradient-to-br from-[#058FD2] to-[#0480BC] rounded-br-md"}`}
                             >
                               <p
                                 className={`text-[12px] font-semibold mb-3 tracking-wide ${isPatient ? "text-[#131C15]" : "text-white"}`}
                               >
                                 {item.title}
                               </p>
-                              <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5">
+                              <div className={`grid grid-cols-${item.attachments.length > 2 ? '2' : item.attachments.length } md:grid-cols-${item.attachments.length > 3 ? '3' : item.attachments.length } gap-2.5`}>
                                 {item.attachments?.map((attachment, index) => {
                                   const url = getAttachmentUrl(attachment);
 
@@ -639,6 +646,39 @@ export function AppointmentModal({
                               </div>
                             </div>
                           )}
+                          {/* ADD THIS NEW BLOCK FOR THE PDF */}
+                          {item.type === "prescriptionPdf" && (
+                            <div className="bg-white border border-[#DDEAF2] rounded-[16px] overflow-hidden shadow-md transition-shadow duration-200 hover:shadow-lg w-full min-w-[280px] max-w-[400px]">
+                              <div className="flex items-center gap-2 bg-[#EEF7FB] border-b border-[#DDEAF2] px-4 py-3">
+                                <HiDocumentText className="w-4 h-4 text-[#058FD2]" />
+                                <h4 className="text-[13px] font-semibold text-[#058FD2] tracking-wide">
+                                  {item.title || "Prescription PDF"}
+                                </h4>
+                              </div>
+                              <div className="p-4 flex flex-col gap-3">
+                                <a
+                                  href={item.url}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className="flex items-center justify-center gap-2 w-full py-2.5 bg-[#F8FBFD] border border-[#DDEAF2] text-[#058FD2] hover:bg-[#058FD2] hover:text-white rounded-xl text-[13px] font-semibold transition-all duration-200"
+                                >
+                                  <HiDocumentText className="w-4 h-4" />
+                                  Download Prescription
+                                  <HiArrowTopRightOnSquare className="w-3.5 h-3.5 ml-1" />
+                                </a>
+                                <p className="text-[11px] text-zinc-400 text-right">
+                                  {new Date(item.createdAt).toLocaleTimeString(
+                                    [],
+                                    {
+                                      hour: "2-digit",
+                                      minute: "2-digit",
+                                    },
+                                  )}
+                                </p>
+                              </div>
+                            </div>
+                          )}
+                          {/* END OF NEW BLOCK */}
                         </div>
 
                         {!isPatient && (
