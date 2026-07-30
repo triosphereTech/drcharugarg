@@ -440,7 +440,7 @@ export const BookFollowUp = ({
                   const value = formatDateForApi({ year: calendarYear, month: calendarMonth, day });
                   const current = new Date(calendarYear, calendarMonth, day);
                   const today = new Date(); today.setHours(0, 0, 0, 0);
-                  const past = current < today;
+                  const past = current <= today;
                   const status = calendarAvailability[value] || "unconfigured";
                   const disabled = past || status !== "available";
                   const selected = date === value;
@@ -610,13 +610,6 @@ export const BookFollowUp = ({
             </div>
 
             <div className="flex items-center gap-3">
-              <button
-                type="button"
-                onClick={restart}
-                className="flex-1 px-4 py-2.5 rounded-xl text-sm font-semibold text-gray-500 hover:bg-gray-100 cursor-pointer active:scale-95 transition-all duration-150"
-              >
-                Book another
-              </button>
               <button
                 type="button"
                 onClick={() => onNavigate("apt-upcoming")}

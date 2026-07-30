@@ -32,6 +32,7 @@ import {
   HiPhoto,
 } from "react-icons/hi2";
 import { toast, ToastContainer } from "react-toastify";
+import { X } from "lucide-react";
 
 function isImageUrl(url) {
   return /\.(png|jpe?g|webp|gif|avif)$/i.test(url || "");
@@ -92,13 +93,24 @@ export function AppointmentModal({
   const fileInputRef = useRef(null);
   const [showPrescription, setShowPrescription] = useState(false);
 
+  // const groupHistory = useMemo(() => {
+  //   return [...appointments].sort(
+  //     (a, b) =>
+  //       new Date(a.date) - new Date(b.date) ||
+  //       new Date(a.createdAt) - new Date(b.createdAt),
+  //   );
+  // }, [appointments]);
   const groupHistory = useMemo(() => {
+  if (appointments?.length > 0) {
     return [...appointments].sort(
       (a, b) =>
         new Date(a.date) - new Date(b.date) ||
         new Date(a.createdAt) - new Date(b.createdAt),
     );
-  }, [appointments]);
+  }
+
+  return appointment ? [appointment] : [];
+}, [appointments, appointment]);
 
   const appointmentClosed =
     appointment?.status === "attended" || appointment?.status === "cancelled";
@@ -206,6 +218,7 @@ export function AppointmentModal({
     setDraftFiles([]);
     setError("");
     setExpanded(false);
+    setShowPrescription(false);
   }, [appointment?._id]);
 
   if (!appointment) return null;
@@ -636,25 +649,6 @@ export function AppointmentModal({
                       </motion.div>
                     );
                   })}
-                  {(!showPrescription && appointment?.status === "pending") && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="flex justify-center my-6"
-                    >
-                      <button
-                        type="button"
-                        onClick={() => setShowPrescription(true)}
-                        className="group flex items-center gap-3 rounded-full bg-gradient-to-r from-[#058FD2] to-[#047BB6] px-6 py-3 text-white shadow-lg hover:shadow-xl transition-all hover:scale-[1.02]"
-                      >
-                        <HiClipboardDocumentCheck className="w-5 h-5" />
-
-                        <span className="font-medium">Create Prescription</span>
-
-                        <HiPlus className="w-4 h-4 group-hover:rotate-90 transition-transform" />
-                      </button>
-                    </motion.div>
-                  )}
                 </AnimatePresence>
                 <AnimatePresence>
                   {showPrescription && (
@@ -834,22 +828,6 @@ Medicine Name
                               }
                             />
                           </div>
-                          <div className="flex justify-end gap-3 mt-6">
-                            <button
-                              type="button"
-                              onClick={() => setShowPrescription(false)}
-                              className="px-5 py-2 rounded-xl border border-[#DDEAF2]"
-                            >
-                              Cancel
-                            </button>
-
-                            <button
-                              type="submit"
-                              className="px-5 py-2 rounded-xl bg-[#058FD2] text-white"
-                            >
-                              Save Prescription
-                            </button>
-                          </div>
                         </div>
                       </div>
                     </motion.div>
@@ -971,7 +949,37 @@ Medicine Name
                     <BiExpandAlt className="text-[18px]" />
                   )}
                 </button>
-
+                { appointment?.status === "pending" && (
+                  // <motion.div
+                  //   initial={{ opacity: 0, y: 20 }}
+                  //   animate={{ opacity: 1, y: 0 }}
+                  //   className="flex justify-center my-6"
+                  // >
+                  <button
+                    type="button"
+                    onClick={() => setShowPrescription((prev) => !prev)}
+                    className={`group flex items-center gap-3 rounded-full px-6 py-3 text-white shadow-lg hover:shadow-xl transition-all hover:scale-[1.02]
+                    ${
+                      showPrescription
+                        ? "bg-gradient-to-r from-red-500 to-red-600"
+                        : "bg-gradient-to-r from-[#058FD2] to-[#047BB6]"
+                    }`}
+                  >
+                    {showPrescription ? (
+                      <>
+                        <X className="w-5 h-5" />
+                        <span className="font-medium">Cancel Prescription</span>
+                      </>
+                    ) : (
+                      <>
+                        <HiClipboardDocumentCheck className="w-5 h-5" />
+                        <span className="font-medium">Create Prescription</span>
+                        <HiPlus className="w-4 h-4 group-hover:rotate-90 transition-transform" />
+                      </>
+                    )}
+                  </button>
+                  // </motion.div>
+                )}
                 {/* Composer */}
                 <div className="flex-1">
                   <div className="rounded-2xl border border-[#DDEAF2] bg-white shadow-inner overflow-hidden transition-all">
