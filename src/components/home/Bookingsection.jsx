@@ -9,6 +9,8 @@ import {
   FaExclamationTriangle, FaCreditCard,
 } from "react-icons/fa";
 import { deleteAppointment } from "@/lib/appointmentUtils";
+import { useRouter } from "next/navigation";
+import { LayoutDashboard} from "lucide-react"
 
 const DEFAULT_SERVICE_ICON = FaStethoscope;
 
@@ -192,6 +194,8 @@ function Step1({ selectedService, setSelectedService, onNext, services, loading,
                   </div>
                   <p className={`text-sm font-semibold mb-0.5 ${sel ? "text-[#065F8F]" : "text-slate-700"}`}>{service.name}</p>
                   <p className="text-xs text-slate-400 mb-2">{service.description || "Consultation service"}</p>
+                  <p className="text-xs text-slate-400 mb-2">Rs. {service.initialFee || ""}</p>
+
                 </button>
               );
             })}
@@ -259,7 +263,7 @@ const statusStyles = {
               const d = i + 1, dt = new Date(year, month, d);
               const key = formatDateForApi({ d, m: month, y: year });
               const status = calendarAvailability[key] || "unconfigured";
-              const past = dt < today, isToday = dt.getTime() === today.getTime();
+              const past = dt <= today, isToday = dt.getTime() === today.getTime();
               const disabled = past || status !== "available";
               const statusText = { available: "Available", off: "Clinic Closed", full: "All Slots Booked", unconfigured: "Availability Not Configured" }[status];
               const sel  = selectedDate?.d === d && selectedDate?.m === month && selectedDate?.y === year;
@@ -403,6 +407,7 @@ function Step4({
   };
   const removeFile = (i) => setFiles(f => f.filter((_, idx) => idx !== i));
   const svc = services.find((service) => (service._id || service.id) === selectedService);
+  
 
   return (
     <>
@@ -464,6 +469,7 @@ function Step4({
             { label: "Service", value: svc?.name },
             { label: "Date",    value: selectedDate ? `${MONTHS[selectedDate.m]} ${selectedDate.d}, ${selectedDate.y}` : "—" },
             { label: "Time",    value: selectedTime },
+            { label: "Fees",    value: svc?.initialFee},
           ].map(row => (
             <div key={row.label} className="flex justify-between items-center py-2 border-b border-slate-100 last:border-0">
               <span className="text-xs text-slate-400">{row.label}</span>
@@ -476,7 +482,7 @@ function Step4({
         <div className="bg-amber-50 border border-amber-100 rounded-xl px-4 py-3 flex gap-2 items-start">
           <FaCreditCard className="w-3.5 h-3.5 text-amber-500 mt-0.5 flex-shrink-0" />
           <p className="text-xs text-amber-700 leading-relaxed">
-            A consultation fee of <span className="font-semibold">₹500</span> is required to confirm your booking. You will be redirected to a secure payment page.
+            A consultation fee of <span className="font-semibold">₹ {svc?.initialFee}</span> is required to confirm your booking. You will be redirected to a secure payment page.
           </p>
         </div>
 
@@ -500,6 +506,7 @@ function Step4({
 
 /* ─── Success ─── */
 function SuccessScreen({ selectedService, selectedDate, selectedTime, onReset, services }) {
+  const router = useRouter();
   const svc = services.find((service) => (service._id || service.id) === selectedService);
   return (
     <div className="flex flex-col items-center justify-center flex-1 py-10 px-6 text-center">
@@ -520,11 +527,12 @@ function SuccessScreen({ selectedService, selectedDate, selectedTime, onReset, s
           </div>
         ))}
       </div>
-      <button onClick={onReset}
+      <button   
+      onClick={() => router.push("/dashboard")}
         className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#058FD2] text-white text-sm font-medium hover:bg-[#0A7AB8] active:scale-95 transition-all mb-4">
-        <FaRedo className="w-3.5 h-3.5" /> Book another appointment
+        <LayoutDashboard className="w-3.5 h-3.5" /> Go to Dashboard
       </button>
-      <a href="https://wa.me/1234567890"
+      <a href="https://wa.me/8460407471"
         className="inline-flex items-center gap-1.5 text-emerald-500 font-semibold text-sm underline underline-offset-2 hover:text-emerald-600 transition-colors">
         <FaWhatsapp className="w-4 h-4" /> Chat on WhatsApp instead
       </a>

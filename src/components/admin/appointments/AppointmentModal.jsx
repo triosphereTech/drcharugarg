@@ -17,6 +17,7 @@ import {
   HiOutlineTag,
   HiOutlineCheckCircle,
   HiOutlineXMark,
+  HiPlus,
 } from "react-icons/hi2";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -72,6 +73,16 @@ export function AppointmentModal({
     useState(selectedAppointment);
   const appointment = activeAppointment || selectedAppointment;
   const [message, setMessage] = useState("");
+  const [prescriptionData, setPrescriptionData] = useState({
+    primaryConcern: "",
+    clinicalFindings: "",
+    diagnosis: "",
+    treatmentPlan: "",
+    medications: "",
+    instructions: "",
+    followUpDays: "",
+    notes: "",
+  });
   const [selectedImage, setSelectedImage] = useState(null);
   const [draftFiles, setDraftFiles] = useState([]);
   const [expanded, setExpanded] = useState(false);
@@ -79,6 +90,7 @@ export function AppointmentModal({
   const [error, setError] = useState("");
   const chatRef = useRef(null);
   const fileInputRef = useRef(null);
+  const [showPrescription, setShowPrescription] = useState(false);
 
   const groupHistory = useMemo(() => {
     return [...appointments].sort(
@@ -138,7 +150,16 @@ export function AppointmentModal({
         createdAt: appointment.updatedAt || appointment.createdAt,
       });
     }
-
+    if (appointment?.prescriptionPdf) {
+      messages.push({
+        id: `${appointment._id}-pdf`,
+        sender: "doctor",
+        type: "prescriptionPdf",
+        url: appointment.prescriptionPdf,
+        title: "Prescription PDF",
+        createdAt: appointment.updatedAt || appointment.createdAt,
+      });
+    }
     if (doctorAttachments.length > 0) {
       messages.push({
         id: `${appointment._id}-doctor-attachments`,
@@ -209,6 +230,7 @@ export function AppointmentModal({
       const formData = new FormData();
       formData.append("status", "attended");
       formData.append("prescription", message.trim());
+      formData.append("prescriptionData", JSON.stringify(prescriptionData));
 
       draftFiles.forEach((item) => {
         formData.append("attachments", item.file);
@@ -460,8 +482,6 @@ export function AppointmentModal({
                         <div
                           className={`max-w-[65%] ${!isPatient ? "flex flex-col items-end" : ""}`}
                         >
-                    
-
                           {item.type === "text" && (
                             <div
                               className={`rounded-[10px] px-4 py-3 shadow-md transition-shadow duration-200 hover:shadow-lg ${isPatient ? "bg-white border border-[#DDEAF2] rounded-bl-md shadow-black/5" : "bg-gradient-to-br from-[#058FD2] to-[#0480BC] text-white rounded-br-md shadow-[#058FD2]/25"}`}
@@ -616,6 +636,224 @@ export function AppointmentModal({
                       </motion.div>
                     );
                   })}
+                  {(!showPrescription && appointment?.status === "pending") && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="flex justify-center my-6"
+                    >
+                      <button
+                        type="button"
+                        onClick={() => setShowPrescription(true)}
+                        className="group flex items-center gap-3 rounded-full bg-gradient-to-r from-[#058FD2] to-[#047BB6] px-6 py-3 text-white shadow-lg hover:shadow-xl transition-all hover:scale-[1.02]"
+                      >
+                        <HiClipboardDocumentCheck className="w-5 h-5" />
+
+                        <span className="font-medium">Create Prescription</span>
+
+                        <HiPlus className="w-4 h-4 group-hover:rotate-90 transition-transform" />
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+                <AnimatePresence>
+                  {showPrescription && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 25 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 25 }}
+                      transition={{ duration: 0.25 }}
+                      className="my-6"
+                    >
+                      <div className="bg-white rounded-2xl border border-[#DDEAF2] p-5">
+                        <h3 className="font-semibold text-lg mb-5">
+                          Prescription Details
+                        </h3>
+
+                        <div className="grid grid-cols-2 gap-5">
+                          {/* Primary Concern */}
+                          <div className="col-span-2">
+                            <label className="text-sm font-medium text-zinc-700 mb-2 block">
+                              Primary Concern
+                            </label>
+
+                            <textarea
+                              rows={3}
+                              className="w-full rounded-xl border border-[#DDEAF2] p-3 outline-none focus:border-[#058FD2]"
+                              placeholder="e.g. Hair fall since 6 months with dandruff"
+                              value={prescriptionData.primaryConcern}
+                              onChange={(e) =>
+                                setPrescriptionData((prev) => ({
+                                  ...prev,
+                                  primaryConcern: e.target.value,
+                                }))
+                              }
+                            />
+                          </div>
+
+                          {/* Clinical Findings */}
+                          <div className="col-span-2">
+                            <label className="text-sm font-medium text-zinc-700 mb-2 block">
+                              Clinical Findings
+                            </label>
+
+                            <textarea
+                              rows={3}
+                              className="w-full rounded-xl border border-[#DDEAF2] p-3 outline-none focus:border-[#058FD2]"
+                              placeholder="Clinical examination findings"
+                              value={prescriptionData.clinicalFindings}
+                              onChange={(e) =>
+                                setPrescriptionData((prev) => ({
+                                  ...prev,
+                                  clinicalFindings: e.target.value,
+                                }))
+                              }
+                            />
+                          </div>
+
+                          {/* Diagnosis */}
+                          <div className="col-span-2">
+                            <label className="text-sm font-medium text-zinc-700 mb-2 block">
+                              Diagnosis
+                            </label>
+
+                            <textarea
+                              rows={3}
+                              className="w-full rounded-xl border border-[#DDEAF2] p-3 outline-none focus:border-[#058FD2]"
+                              placeholder="Diagnosis"
+                              value={prescriptionData.diagnosis}
+                              onChange={(e) =>
+                                setPrescriptionData((prev) => ({
+                                  ...prev,
+                                  diagnosis: e.target.value,
+                                }))
+                              }
+                            />
+                          </div>
+
+                          {/* Treatment Plan */}
+                          <div className="col-span-2">
+                            <label className="text-sm font-medium text-zinc-700 mb-2 block">
+                              Treatment Plan
+                            </label>
+
+                            <textarea
+                              rows={4}
+                              className="w-full rounded-xl border border-[#DDEAF2] p-3 outline-none focus:border-[#058FD2]"
+                              placeholder="Treatment plan"
+                              value={prescriptionData.treatmentPlan}
+                              onChange={(e) =>
+                                setPrescriptionData((prev) => ({
+                                  ...prev,
+                                  treatmentPlan: e.target.value,
+                                }))
+                              }
+                            />
+                          </div>
+
+                          {/* Medications */}
+                          <div className="col-span-2">
+                            <label className="text-sm font-medium text-zinc-700 mb-2 block">
+                              Medicines
+                            </label>
+
+                            <textarea
+                              rows={5}
+                              className="w-full rounded-xl border border-[#DDEAF2] p-3 outline-none focus:border-[#058FD2] font-mono"
+                              placeholder={`Medicine Name
+1-0-1 after food x 5 days
+Medicine Name
+0-1-0 before dinner x 10 days`}
+                              value={prescriptionData.medications}
+                              onChange={(e) =>
+                                setPrescriptionData((prev) => ({
+                                  ...prev,
+                                  medications: e.target.value,
+                                }))
+                              }
+                            />
+                          </div>
+
+                          {/* Instructions */}
+                          <div className="col-span-2">
+                            <label className="text-sm font-medium text-zinc-700 mb-2 block">
+                              Patient Instructions
+                            </label>
+
+                            <textarea
+                              rows={4}
+                              className="w-full rounded-xl border border-[#DDEAF2] p-3 outline-none focus:border-[#058FD2]"
+                              placeholder="Diet, precautions, skincare, lifestyle advice..."
+                              value={prescriptionData.instructions}
+                              onChange={(e) =>
+                                setPrescriptionData((prev) => ({
+                                  ...prev,
+                                  instructions: e.target.value,
+                                }))
+                              }
+                            />
+                          </div>
+
+                          {/* Follow Up */}
+                          <div>
+                            <label className="text-sm font-medium text-zinc-700 mb-2 block">
+                              Follow-up After (Days)
+                            </label>
+
+                            <input
+                              type="number"
+                              min={0}
+                              className="w-full rounded-xl border border-[#DDEAF2] p-3 outline-none focus:border-[#058FD2]"
+                              placeholder="15"
+                              value={prescriptionData.followUpDays ?? ""}
+                              onChange={(e) =>
+                                setPrescriptionData((prev) => ({
+                                  ...prev,
+                                  followUpDays: Number(e.target.value),
+                                }))
+                              }
+                            />
+                          </div>
+
+                          {/* Notes */}
+                          <div>
+                            <label className="text-sm font-medium text-zinc-700 mb-2 block">
+                              Additional Notes
+                            </label>
+
+                            <textarea
+                              rows={4}
+                              className="w-full rounded-xl border border-[#DDEAF2] p-3 outline-none focus:border-[#058FD2]"
+                              placeholder="Optional notes"
+                              value={prescriptionData.notes}
+                              onChange={(e) =>
+                                setPrescriptionData((prev) => ({
+                                  ...prev,
+                                  notes: e.target.value,
+                                }))
+                              }
+                            />
+                          </div>
+                          <div className="flex justify-end gap-3 mt-6">
+                            <button
+                              type="button"
+                              onClick={() => setShowPrescription(false)}
+                              className="px-5 py-2 rounded-xl border border-[#DDEAF2]"
+                            >
+                              Cancel
+                            </button>
+
+                            <button
+                              type="submit"
+                              className="px-5 py-2 rounded-xl bg-[#058FD2] text-white"
+                            >
+                              Save Prescription
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
                 </AnimatePresence>
               </div>
             </div>

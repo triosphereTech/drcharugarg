@@ -181,6 +181,44 @@ const AppointmentSchema = new mongoose.Schema(
       default: "",
     },
 
+    prescriptionData: {
+  primaryConcern: {
+    type: String,
+    default: "",
+  },
+  clinicalFindings: {
+    type: String,
+    default: "",
+  },
+  diagnosis: {
+    type: String,
+    default: "",
+  },
+  treatmentPlan: {
+    type: String,
+    default: "",
+  },
+  medications: {
+    type: String,
+    default: "",
+  },
+  instructions: {
+    type: String,
+    default: "",
+  },
+  followUpDays: {
+    type: Number,
+    default: null,
+  },
+  notes: {
+    type: String,
+    default: "",
+  },
+},
+prescriptionPdf: {
+  type: String,
+  default: "",
+},
     status: {
       type: String,
       enum: ["pending", "attended", "cancelled"],

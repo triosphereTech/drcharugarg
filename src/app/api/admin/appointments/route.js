@@ -11,6 +11,7 @@ import {
 import Appointment from "@/models/Appointment";
 
 export async function POST(request) {
+console.log("abc");
 
   const auth = await requireAdminAuth();
   if (!auth.success) return unauthorizedAdminResponse();

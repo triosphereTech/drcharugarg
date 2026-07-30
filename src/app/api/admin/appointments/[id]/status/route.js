@@ -3,13 +3,10 @@ import fs from "fs/promises";
 import path from "path";
 import sharp from "sharp";
 
-
 import Appointment from "@/models/Appointment";
 import { connectDB } from "@/lib/db";
-import {
-  requireAdminAuth,
-  unauthorizedAdminResponse,
-} from "@/lib/adminAuth";
+import { requireAdminAuth, unauthorizedAdminResponse } from "@/lib/adminAuth";
+import { generatePrescriptionPdf } from "@/lib/generatePrescriptionPdf";
 
 export async function PATCH(req, { params }) {
   const auth = await requireAdminAuth();
@@ -27,24 +24,38 @@ export async function PATCH(req, { params }) {
           success: false,
           message: "Invalid appointment id",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
-     const contentType = req.headers.get("content-type") || "";
+    const contentType = req.headers.get("content-type") || "";
     let status;
     let prescription = "";
+    let prescriptionData = {};
     let files = [];
 
     if (contentType.includes("multipart/form-data")) {
       const formData = await req.formData();
+
       status = formData.get("status");
       prescription = formData.get("prescription") || "";
       files = formData.getAll("attachments");
+
+      const prescriptionDataRaw = formData.get("prescriptionData");
+
+      if (prescriptionDataRaw) {
+        try {
+          prescriptionData = JSON.parse(prescriptionDataRaw);
+        } catch {
+          prescriptionData = {};
+        }
+      }
     } else {
       const body = await req.json();
+
       status = body.status;
       prescription = body.prescription || "";
+      prescriptionData = body.prescriptionData || {};
     }
 
     // VALIDATE STATUS
@@ -54,11 +65,11 @@ export async function PATCH(req, { params }) {
           success: false,
           message: "Invalid status",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
-    const appointment = await Appointment.findById(id);
+    const appointment = await Appointment.findById(id).populate("patient");
 
     if (!appointment) {
       return Response.json(
@@ -66,7 +77,7 @@ export async function PATCH(req, { params }) {
           success: false,
           message: "Appointment not found",
         },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -75,20 +86,16 @@ export async function PATCH(req, { params }) {
       return Response.json(
         {
           success: false,
-          message:
-            "Only pending appointments can be updated",
+          message: "Only pending appointments can be updated",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
- const attachments = [];
+    const attachments = [];
 
     if (files.length > 0) {
-      const uploadDir = path.join(
-        process.cwd(),
-        "public/uploads/appointments"
-      );
+      const uploadDir = path.join(process.cwd(), "public/uploads/appointments");
 
       await fs.mkdir(uploadDir, { recursive: true });
 
@@ -142,18 +149,42 @@ export async function PATCH(req, { params }) {
 
     // SAVE PRESCRIPTION ONLY IF ATTENDED
     if (status === "attended") {
-      appointment.prescription =
-        prescription?.trim() || "";
+      appointment.prescription = prescription?.trim() || "";
+
+      appointment.prescriptionData = {
+        primaryConcern: prescriptionData.primaryConcern || "",
+        clinicalFindings: prescriptionData.clinicalFindings || "",
+        diagnosis: prescriptionData.diagnosis || "",
+        treatmentPlan: prescriptionData.treatmentPlan || "",
+        medications: prescriptionData.medications || "",
+        instructions: prescriptionData.instructions || "",
+        followUpDays: prescriptionData.followUpDays || null,
+        notes: prescriptionData.notes || "",
+      };
+
+      // Generate Prescription PDF
+      const pdfUrl = await generatePrescriptionPdf(
+        appointment,
+        appointment.prescriptionData,
+      );
+
+      appointment.prescriptionPdf = pdfUrl;
+
+      // Automatically show PDF in attachments section
+      appointment.attachments.push({
+        url: pdfUrl,
+        uploadedBy: "doctor",
+        uploadedAt: new Date(),
+      });
     }
 
     if (attachments.length > 0) {
       appointment.attachments.push(...attachments);
     }
 
-    console.log(appointment)
+    console.log(appointment);
 
     await appointment.save();
-
 
     return Response.json(
       {
@@ -161,16 +192,19 @@ export async function PATCH(req, { params }) {
         message: `Appointment marked as ${status}`,
         data: appointment,
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
+  console.error("Appointment Update Error:", error);
 
-    return Response.json(
-      {
-        success: false,
-        message: "Internal server error",
-      },
-      { status: 500 }
-    );
-  }
+  return Response.json(
+    {
+      success: false,
+      message: error.message || "Internal server error",
+    },
+    {
+      status: 500,
+    }
+  );
+}
 }
