@@ -1,7 +1,10 @@
 import { connectDB } from "@/lib/db";
 import { generateOtp } from "@/lib/otp";
 import { sendOtpEmail } from "@/lib/sendOtpEmail";
+import { generatePatientId } from "@/lib/generatePatientId";
 import Patient from "@/models/Patient";
+
+const patientId = await generatePatientId();
 
 export async function POST(request) {
   try {
@@ -36,12 +39,13 @@ export async function POST(request) {
     const otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
 
     const patient = await Patient.create({
-      name,
-      email,
-      mobileNumber,
-      otp,
-      otpExpiresAt,
-    });
+  patientId,
+  name,
+  email,
+  mobileNumber,
+  otp,
+  otpExpiresAt,
+});
 
     await sendOtpEmail({ email, otp });
 
@@ -51,9 +55,10 @@ export async function POST(request) {
         success: true,
         message: "Patient registered successfully. OTP generated for verification.",
         patient: {
-          email: patient.email,
-          otpExpiresAt: patient.otpExpiresAt,
-        },
+  patientId: patient.patientId,
+  email: patient.email,
+  otpExpiresAt: patient.otpExpiresAt,
+},
       },
       { status: 201 }
     );

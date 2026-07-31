@@ -37,7 +37,7 @@ export default function Emergency() {
           </div>
 
           {/* Right */}
-          <div className="w-full max-w-sm rounded-[30px] bg-white p-6 shadow-xl">
+          <div className="w-full max-w-md rounded-[30px] bg-white p-6 shadow-xl">
             <h3 className="text-xl font-semibold text-primary-dark">
               Emergency Contact
             </h3>
@@ -67,7 +67,7 @@ export default function Emergency() {
               </Link>
 
               <Link
-                href="mailto:info@drcharugarg.com"
+                href="mailto:teleconsult.drcharugarg@gmail.com"
                 className="flex items-center gap-4 rounded-2xl border border-gray-200 px-5 py-4 transition hover:border-[#0D8CE9] hover:bg-[#F4FAFF]"
               >
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#EAF6FF]">
@@ -80,7 +80,7 @@ export default function Emergency() {
                   </p>
 
                   <p className="font-semibold text-primary-dark">
-                    info@drcharugarg.com
+                    teleconsult.drcharugarg@gmail.com
                   </p>
                 </div>
               </Link>

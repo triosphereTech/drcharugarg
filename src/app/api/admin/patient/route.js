@@ -1,8 +1,5 @@
 import { connectDB } from "@/lib/db";
-import {
-  requireAdminAuth,
-  unauthorizedAdminResponse,
-} from "@/lib/adminAuth";
+import { requireAdminAuth, unauthorizedAdminResponse } from "@/lib/adminAuth";
 
 import Patient from "@/models/Patient";
 
@@ -12,7 +9,6 @@ export async function GET(req) {
 
   try {
     await connectDB();
-
 
     const { searchParams } = new URL(req.url);
 
@@ -29,12 +25,22 @@ export async function GET(req) {
     // QUERY
     const query = {};
 
-    // SEARCH BY PATIENT NAME
+    // SEARCH BY PATIENT NAME OR PATIENT ID
     if (search.trim()) {
-      query.name = {
-        $regex: search.trim(),
-        $options: "i", // case insensitive
-      };
+      query.$or = [
+        {
+          name: {
+            $regex: search.trim(),
+            $options: "i",
+          },
+        },
+        {
+          patientId: {
+            $regex: search.trim(),
+            $options: "i",
+          },
+        },
+      ];
     }
 
     const [patients, total] = await Promise.all([
@@ -57,16 +63,15 @@ export async function GET(req) {
         count: patients.length,
         data: patients,
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
-
     return Response.json(
       {
         success: false,
         message: "Internal server error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

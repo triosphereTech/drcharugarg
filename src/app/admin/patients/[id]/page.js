@@ -91,20 +91,17 @@ const [appointmentToCancel, setAppointmentToCancel] = useState(null);
       }
 
       const response = await fetch(`/api/admin/appointments?${params.toString()}`);
-      const res = await response.json();
-
+      const res = await response.json();      
       if (!response.ok) {
         throw new Error(res.message || "Unable to load appointment history.");
       }
 
-      const data = res.data || [];
+      const data = res.appointments || [];
       setAppointments(data);
       setTotal(res.total || 0);
       setTotalPages(res.totalPages || 1);
+      setPatient(res.patient || null);
 
-      if (data[0]?.patient) {
-        setPatient(data[0].patient);
-      }
     } catch (err) {
       setAppointments([]);
       setTotal(0);
@@ -214,32 +211,93 @@ const handleCancelAppointment = (appointment) => {
                 <div className="flex flex-col items-center text-center">
                   <Avatar name={patient.name} size="lg" className="w-24 h-24 text-[32px]" />
                   <h2 className="mt-4 text-[24px] font-bold text-[#131C15]">
-                    {patient.name}
-                  </h2>
-                  <p className="text-[13px] text-zinc-500 mt-1">Patient Profile</p>
+  {patient.name}
+</h2>
+
+<p className="text-[13px] text-zinc-500 mt-1">
+  {patient.patientId || "-"}
+</p>
                 </div>
 
-                <div className="mt-8 space-y-5">
-                  <div className="grid grid-rows-2 gap-5">
-                    <div>
-                      <p className="text-[11px] uppercase tracking-wider text-zinc-400">
-                        Email Address
-                      </p>
-                      <p className="text-[14px] font-medium text-[#131C15] mt-1 break-all">
-                        {patient.email}
-                      </p>
-                    </div>
+               <div className="mt-8 space-y-5">
+  <div className="grid gap-5">
 
-                    <div>
-                      <p className="text-[11px] uppercase tracking-wider text-zinc-400">
-                        Mobile Number
-                      </p>
-                      <p className="text-[14px] font-medium text-[#131C15] mt-1">
-                        {patient.mobileNumber}
-                      </p>
-                    </div>
-                  </div>
-                </div>
+
+    <div>
+      <p className="text-[11px] uppercase tracking-wider text-zinc-400">
+        Email Address
+      </p>
+      <p className="text-[14px] font-medium text-[#131C15] mt-1 break-all">
+        {patient.email || "-"}
+      </p>
+    </div>
+
+    <div>
+      <p className="text-[11px] uppercase tracking-wider text-zinc-400">
+        Mobile Number
+      </p>
+      <p className="text-[14px] font-medium text-[#131C15] mt-1">
+        {patient.mobileNumber || "-"}
+      </p>
+    </div>
+
+    <div>
+  <p className="text-[11px] uppercase tracking-wider text-zinc-400">
+    Date of Birth
+  </p>
+
+  <p className="text-[14px] font-medium text-[#131C15] mt-1">
+    {patient.dob
+      ? (() => {
+          const dob = new Date(patient.dob);
+
+          const age = new Date().getFullYear() - dob.getFullYear();
+          const monthDiff = new Date().getMonth() - dob.getMonth();
+
+          const actualAge =
+            monthDiff < 0 ||
+            (monthDiff === 0 && new Date().getDate() < dob.getDate())
+              ? age - 1
+              : age;
+
+          return `${dob.toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+          })} / Age ${actualAge}`;
+        })()
+      : "-"}
+  </p>
+</div>
+
+    <div>
+      <p className="text-[11px] uppercase tracking-wider text-zinc-400">
+        Gender
+      </p>
+      <p className="text-[14px] font-medium text-[#131C15] mt-1">
+        {patient.gender || "-"}
+      </p>
+    </div>
+
+    <div>
+      <p className="text-[11px] uppercase tracking-wider text-zinc-400">
+        Blood Group
+      </p>
+      <p className="text-[14px] font-medium text-[#131C15] mt-1">
+        {patient.bloodGroup || "-"}
+      </p>
+    </div>
+
+    <div>
+      <p className="text-[11px] uppercase tracking-wider text-zinc-400">
+        Address
+      </p>
+      <p className="text-[14px] font-medium text-[#131C15] mt-1 whitespace-pre-wrap">
+        {patient.address || "-"}
+      </p>
+    </div>
+  </div>
+</div>
               </>
             ) : (
               <div className="py-16 text-center">

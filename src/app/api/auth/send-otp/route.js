@@ -34,9 +34,10 @@ export async function POST(request) {
 
     const otp = generateOtp();
 
-    patient.otp = otp;
-    patient.otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
-    await patient.save();
+    await Patient.findByIdAndUpdate(patient._id, {
+      otp,
+      otpExpiresAt: new Date(Date.now() + 10 * 60 * 1000),
+    });
 
     await sendOtpEmail({ email, otp });
 
@@ -46,6 +47,8 @@ export async function POST(request) {
       email,
     });
   } catch (error) {
+    console.log("eerrrrrr",error);
+    
     return Response.json(
       {
         success: false,

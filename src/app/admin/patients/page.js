@@ -330,14 +330,15 @@ export default function PatientsPage() {
   >
       <thead>
         <tr>
-          {[
-            { label: "Patient", width: "20%" },
-            { label: "Email", width: "22%" },
-            { label: "Mobile", width: "16%" },
-            { label: "Appointments", width: "13%" },
-            { label: "Last Visit", width: "18%" },
-            { label: "Action", width: "11%" },
-          ].map(({ label, width }) => (
+         {[
+      { label: "Patient", width: "18%" },
+      { label: "Patient ID", width: "12%" },
+      { label: "Email", width: "20%" },
+      { label: "Mobile", width: "15%" },
+      { label: "Appointments", width: "12%" },
+      { label: "Last Visit", width: "14%" },
+      { label: "Action", width: "9%" },
+    ].map(({ label, width }) => (
             <th
               key={label}
               style={{
@@ -438,6 +439,25 @@ export default function PatientsPage() {
                             {patient.name}
                           </span>
                         </div>
+                      </td>
+                      {/* Patient ID */}
+                      <td style={{ padding: "14px 20px" }}>
+                        <span
+                          style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            padding: "5px 10px",
+                            borderRadius: 8,
+                            background: "#F8FAFC",
+                            border: "1px solid #E2E8F0",
+                            fontSize: 12,
+                            fontWeight: 600,
+                            color: "#475569",
+                            fontFamily: "monospace",
+                          }}
+                        >
+                          {patient.patientId || "—"}
+                        </span>
                       </td>
 
                       {/* Email — own column */}

@@ -79,6 +79,8 @@ export async function POST(request) {
       },
     });
   } catch (error) {
+    console.log("eeee",error);
+    
     return Response.json(
       {
         success: false,

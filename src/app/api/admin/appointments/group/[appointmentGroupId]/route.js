@@ -14,7 +14,7 @@ export async function GET(_request, { params }) {
     }
 
     const data = await Appointment.find({ appointmentGroupId })
-      .populate({ path: "patient", select: "name email mobileNumber conversation" })
+      .populate({ path: "patient", select: "patientId name email mobileNumber conversation" })
       .sort({ date: 1, createdAt: 1 })
       .lean();
 

@@ -13,16 +13,13 @@ import {
 
 const HEADER_LOGO_PATH = path.join(
   process.cwd(),
-  "public/images/brand/LogoTop.png"
+  "public/images/brand/LogoTop.png",
 );
 const WATERMARK_LOGO_PATH = path.join(
   process.cwd(),
-  "public/images/brand/WebsiteFooterLogo.png"
+  "public/images/brand/WebsiteFooterLogo.png",
 );
-const SIGN_LOGO_PATH = path.join(
-  process.cwd(),
-  "public/images/brand/Sign.png"
-);
+const SIGN_LOGO_PATH = path.join(process.cwd(), "public/images/brand/Sign.png");
 
 const COLORS = {
   primary: "#1e4d8c",
@@ -307,11 +304,12 @@ function Section({ label, value }) {
 }
 
 // Compact wrapping flow instead of one-per-line rows — saves vertical space
-function MedicationList({ raw }) {
+function RxList({ raw }) {
   if (!raw) return null;
+
   const lines = raw
     .split("\n")
-    .map((l) => l.trim())
+    .map((line) => line.trim())
     .filter(Boolean);
 
   if (lines.length === 0) return null;
@@ -320,14 +318,38 @@ function MedicationList({ raw }) {
     <View style={styles.section}>
       <View style={styles.rxRow}>
         <Text style={styles.rxSymbol}>℞</Text>
-        <Text style={styles.rxLabel}>Medications</Text>
+        <Text style={styles.rxLabel}>Rx</Text>
       </View>
-      <View style={styles.medFlow}>
-        {lines.map((line, i) => (
-          <Text style={styles.medChip} key={i}>
-            <Text style={styles.medIndex}>{i + 1}. </Text>
-            {line}
-          </Text>
+
+      <View style={{ marginTop: 4 }}>
+        {lines.map((line, index) => (
+          <View
+            key={index}
+            style={{
+              flexDirection: "row",
+              marginBottom: 4,
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 11,
+                marginRight: 6,
+              }}
+            >
+              •
+            </Text>
+
+            <Text
+              style={{
+                flex: 1,
+                fontSize: 11,
+                lineHeight: 1.5,
+                color: "#111827",
+              }}
+            >
+              {line}
+            </Text>
+          </View>
         ))}
       </View>
     </View>
@@ -345,11 +367,24 @@ function formatDate(date) {
 
 // ---------- MAIN DOCUMENT ----------
 
-function PrescriptionDocument({ appointment, prescriptionData, doctor, clinic }) {
+function PrescriptionDocument({
+  appointment,
+  prescriptionData,
+  doctor,
+  clinic,
+}) {
   const patientName = appointment?.patient?.name || "-";
-  const age = appointment?.patient?.age;
+  const dob = appointment?.patient?.dob;
+
+  const age = dob
+    ? Math.floor(
+        (Date.now() - new Date(dob).getTime()) / (1000 * 60 * 60 * 24 * 365.25),
+      )
+    : null;
   const gender = appointment?.patient?.gender;
-  const ageGender = [age ? `${age} yrs` : null, gender].filter(Boolean).join(" / ");
+  const ageGender = [age ? `${age} yrs` : null, gender]
+    .filter(Boolean)
+    .join(" / ");
 
   return (
     <Document>
@@ -380,31 +415,27 @@ function PrescriptionDocument({ appointment, prescriptionData, doctor, clinic })
           </View>
           <View style={styles.metaItem}>
             <Text style={styles.metaLabel}>Date</Text>
-            <Text style={styles.metaValue}>{formatDate(appointment?.date)}</Text>
+            <Text style={styles.metaValue}>
+              {formatDate(appointment?.date)}
+            </Text>
+          </View>
+          <View style={styles.metaItem}>
+            <Text style={styles.metaLabel}>Reg. ID</Text>
+            <Text style={styles.metaValue}>
+              {appointment?.patient?.patientId || "-"}
+            </Text>
           </View>
         </View>
 
-        <Section label="Primary Concern" value={prescriptionData?.primaryConcern} />
-        <Section label="Clinical Findings" value={prescriptionData?.clinicalFindings} />
+        <Section label="History" value={prescriptionData?.primaryConcern} />
+
+        <Section label="Inv." value={prescriptionData?.clinicalFindings} />
+
         <Section label="Diagnosis" value={prescriptionData?.diagnosis} />
-        <Section label="Treatment Plan" value={prescriptionData?.treatmentPlan} />
 
-        <MedicationList raw={prescriptionData?.medications} />
+        <RxList raw={prescriptionData?.treatmentPlan} />
 
-        <Section label="Instructions" value={prescriptionData?.instructions} />
-
-        {prescriptionData?.followUpDays ? (
-          <View style={styles.section}>
-            <Text style={styles.sectionLabel}>Follow Up</Text>
-            <View style={styles.followUpBadge}>
-              <Text style={styles.followUpText}>
-                Review after {prescriptionData.followUpDays} days
-              </Text>
-            </View>
-          </View>
-        ) : null}
-
-        <Section label="Additional Notes" value={prescriptionData?.notes} />
+        <Section label="Follow Up Advice" value={prescriptionData?.notes} />
 
         {/* Signature */}
         <View style={styles.signatureBlock}>
@@ -433,7 +464,7 @@ export async function generatePrescriptionPdf(
   appointment,
   prescriptionData,
   doctor = {},
-  clinic = {}
+  clinic = {},
 ) {
   const uploadDir = path.join(process.cwd(), "public/uploads/appointments");
   await fs.mkdir(uploadDir, { recursive: true });
@@ -447,7 +478,7 @@ export async function generatePrescriptionPdf(
       prescriptionData={prescriptionData}
       doctor={doctor}
       clinic={clinic}
-    />
+    />,
   ).toBuffer();
 
   await fs.writeFile(filePath, pdfBlob);

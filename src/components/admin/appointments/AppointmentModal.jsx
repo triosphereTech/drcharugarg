@@ -89,15 +89,12 @@ export function AppointmentModal({
   const appointment = activeAppointment || selectedAppointment;
   const [message, setMessage] = useState("");
   const [prescriptionData, setPrescriptionData] = useState({
-    primaryConcern: "",
-    clinicalFindings: "",
-    diagnosis: "",
-    treatmentPlan: "",
-    medications: "",
-    instructions: "",
-    followUpDays: "",
-    notes: "",
-  });
+  primaryConcern: "",
+  clinicalFindings: "",
+  diagnosis: "",
+  treatmentPlan: "",
+  notes: "",
+});
   const [selectedImage, setSelectedImage] = useState(null);
   const [draftFiles, setDraftFiles] = useState([]);
   const [expanded, setExpanded] = useState(false);
@@ -338,9 +335,6 @@ export function AppointmentModal({
         clinicalFindings: "",
         diagnosis: "",
         treatmentPlan: "",
-        medications: "",
-        instructions: "",
-        followUpDays: "",
         notes: "",
       });
       setDraftFiles([]);
@@ -773,16 +767,16 @@ export function AppointmentModal({
                         </h3>
 
                         <div className="grid grid-cols-2 gap-5">
-                          {/* Primary Concern */}
+                          {/* Primary Concern - History*/}
                           <div className="col-span-2">
                             <label className="text-sm font-medium text-zinc-700 mb-2 block">
-                              Primary Concern
+                              History
                             </label>
 
                             <textarea
                               rows={1}
                               className="w-full rounded-xl border border-[#DDEAF2] p-3 outline-none focus:border-[#058FD2]"
-                              placeholder="e.g. Hair fall since 6 months with dandruff"
+                              placeholder="History"
                               value={prescriptionData.primaryConcern}
                               onChange={(e) =>
                                 setPrescriptionData((prev) => ({
@@ -793,16 +787,16 @@ export function AppointmentModal({
                             />
                           </div>
 
-                          {/* Clinical Findings */}
+                          {/* Clinical Findings -Investigation (Inv.) */}
                           <div className="col-span-2">
                             <label className="text-sm font-medium text-zinc-700 mb-2 block">
-                              Clinical Findings
+                              Inv.
                             </label>
 
                             <textarea
                               rows={1}
                               className="w-full rounded-xl border border-[#DDEAF2] p-3 outline-none focus:border-[#058FD2]"
-                              placeholder="Clinical examination findings"
+                              placeholder="Inv."
                               value={prescriptionData.clinicalFindings}
                               onChange={(e) =>
                                 setPrescriptionData((prev) => ({
@@ -833,16 +827,16 @@ export function AppointmentModal({
                             />
                           </div>
 
-                          {/* Treatment Plan */}
+                          {/* Treatment Plan - Rx */}
                           <div className="col-span-2">
                             <label className="text-sm font-medium text-zinc-700 mb-2 block">
-                              Treatment Plan
+                              Rx
                             </label>
 
                             <textarea
                               rows={1}
                               className="w-full rounded-xl border border-[#DDEAF2] p-3 outline-none focus:border-[#058FD2]"
-                              placeholder="Treatment plan"
+                              placeholder="Rx"
                               value={prescriptionData.treatmentPlan}
                               onChange={(e) =>
                                 setPrescriptionData((prev) => ({
@@ -853,80 +847,16 @@ export function AppointmentModal({
                             />
                           </div>
 
-                          {/* Medications */}
+                          {/* Notes -Follow-up Advice */}
                           <div className="col-span-2">
                             <label className="text-sm font-medium text-zinc-700 mb-2 block">
-                              Medicines
-                            </label>
-
-                            <textarea
-                              rows={5}
-                              className="w-full rounded-xl border border-[#DDEAF2] p-3 outline-none focus:border-[#058FD2] font-mono"
-                              placeholder={`Medicine Name
-1-0-1 after food x 5 days
-Medicine Name
-0-1-0 before dinner x 10 days`}
-                              value={prescriptionData.medications}
-                              onChange={(e) =>
-                                setPrescriptionData((prev) => ({
-                                  ...prev,
-                                  medications: e.target.value,
-                                }))
-                              }
-                            />
-                          </div>
-
-                          {/* Instructions */}
-                          <div className="col-span-2">
-                            <label className="text-sm font-medium text-zinc-700 mb-2 block">
-                              Patient Instructions
+                              Follow-up Advice
                             </label>
 
                             <textarea
                               rows={1}
                               className="w-full rounded-xl border border-[#DDEAF2] p-3 outline-none focus:border-[#058FD2]"
-                              placeholder="Diet, precautions, skincare, lifestyle advice..."
-                              value={prescriptionData.instructions}
-                              onChange={(e) =>
-                                setPrescriptionData((prev) => ({
-                                  ...prev,
-                                  instructions: e.target.value,
-                                }))
-                              }
-                            />
-                          </div>
-
-                          {/* Follow Up */}
-                          <div>
-                            <label className="text-sm font-medium text-zinc-700 mb-2 block">
-                              Follow-up After (Days)
-                            </label>
-
-                            <input
-                              type="number"
-                              min={0}
-                              className="w-full rounded-xl border border-[#DDEAF2] p-3 outline-none focus:border-[#058FD2]"
-                              placeholder="15"
-                              value={prescriptionData.followUpDays ?? ""}
-                              onChange={(e) =>
-                                setPrescriptionData((prev) => ({
-                                  ...prev,
-                                  followUpDays: Number(e.target.value),
-                                }))
-                              }
-                            />
-                          </div>
-
-                          {/* Notes */}
-                          <div>
-                            <label className="text-sm font-medium text-zinc-700 mb-2 block">
-                              Additional Notes
-                            </label>
-
-                            <textarea
-                              rows={1}
-                              className="w-full rounded-xl border border-[#DDEAF2] p-3 outline-none focus:border-[#058FD2]"
-                              placeholder="Optional notes"
+                              placeholder="Follow-up Advice"
                               value={prescriptionData.notes}
                               onChange={(e) =>
                                 setPrescriptionData((prev) => ({

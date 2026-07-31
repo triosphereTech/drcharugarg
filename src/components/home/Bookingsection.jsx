@@ -58,9 +58,9 @@ function LeftPanel({ step, selectedService, selectedDate, selectedTime, booked, 
   const hint = booked ? null : HINTS[step - 1];
   return (
     <aside className="w-full md:w-[260px] lg:w-[400px] flex-shrink-0 bg-slate-50/70 border-b md:border-b-0 md:border-r border-slate-100 p-5 md:p-7 flex flex-col gap-0">
-      <div className="inline-flex items-center gap-1.5 text-[10px] font-semibold tracking-widest text-[#058FD2] uppercase bg-[#E8F6FD] px-3 py-1.5 rounded-full mb-3 w-fit">
+      {/* <div className="inline-flex items-center gap-1.5 text-[10px] font-semibold tracking-widest text-[#058FD2] uppercase bg-[#E8F6FD] px-3 py-1.5 rounded-full mb-3 w-fit">
         <FaCalendarAlt className="w-3 h-3" /> Online Booking
-      </div>
+      </div> */}
       <h1 className="text-lg md:text-3xl font-bold text-slate-800 leading-snug mb-1">Book your appointment</h1>
       <p className="text-md text-slate-400 mb-4 md:mb-5">Quick, easy, and confirmed instantly.</p>
       <div className="h-px bg-slate-200 mb-4 md:mb-5 hidden md:block" />
@@ -529,11 +529,11 @@ function SuccessScreen({ selectedService, selectedDate, selectedTime, onReset, s
       </div>
       <button   
       onClick={() => router.push("/dashboard")}
-        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#058FD2] text-white text-sm font-medium hover:bg-[#0A7AB8] active:scale-95 transition-all mb-4">
+        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#058FD2] cursor-pointer text-white text-sm font-medium hover:bg-[#0A7AB8] active:scale-95 transition-all mb-4">
         <LayoutDashboard className="w-3.5 h-3.5" /> Go to Dashboard
       </button>
       <a href="https://wa.me/8460407471"
-        className="inline-flex items-center gap-1.5 text-emerald-500 font-semibold text-sm underline underline-offset-2 hover:text-emerald-600 transition-colors">
+        className="inline-flex items-center gap-1.5 bg-emerald-500 text-white px-2 py-2 rounded-xl font-semibold text-sm  hover:text-white/90 active:scale-95  transition-all duration-300">
         <FaWhatsapp className="w-4 h-4" /> Chat on WhatsApp instead
       </a>
     </div>
@@ -779,9 +779,17 @@ export default function BookingSection() {
     <>
       {/* Load Razorpay SDK once */}
       <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
-      <section  className="min-h-screen flex items-center justify-center p-4 md:py-8">
+      <section  className="min-h-screen flex items-center justify-center py-4 md:py-8">
         <div className="relative w-full max-w-7xl">
-          <div className={`w-full bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden flex flex-col md:flex-row min-h-[560px] transition-all ${!isCheckingAuth && !isLoggedIn ? "blur-sm pointer-events-none select-none" : ""}`}>
+          <div
+            className={`w-full bg-white rounded-2xl shadow-slate-200/60 border border-slate-200 overflow-hidden flex flex-col md:flex-row min-h-[560px] transition-all ${
+              !isCheckingAuth && !isLoggedIn
+                ? "blur-sm pointer-events-none select-none"
+                : isSubmitting
+                  ? "opacity-35 pointer-events-none select-none"
+                  : ""
+            }`}
+          >
 
             <LeftPanel
               step={step}
@@ -856,6 +864,20 @@ export default function BookingSection() {
             </div>
 
           </div>
+
+          {isSubmitting && (
+            <div className="absolute inset-0 z-20 flex items-center justify-center px-4">
+              <div className="flex flex-col items-center justify-center rounded-2xl border border-slate-100 bg-white/95 px-8 py-7 text-center shadow-xl shadow-slate-200/70 backdrop-blur-md">
+                <div className="mb-4 h-11 w-11 animate-spin rounded-full border-4 border-slate-200 border-t-[#058FD2]" />
+                <p className="text-base font-semibold text-slate-800">
+                  Preparing payment
+                </p>
+                <p className="mt-1 text-sm text-slate-500">
+                  Please wait while we process your booking.
+                </p>
+              </div>
+            </div>
+          )}
 
           {!isCheckingAuth && !isLoggedIn && (
             <div className="absolute inset-0 z-10 flex items-center justify-center px-4">

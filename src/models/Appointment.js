@@ -185,40 +185,32 @@ const AppointmentSchema = new mongoose.Schema(
   primaryConcern: {
     type: String,
     default: "",
-  },
+  }, // History
+
   clinicalFindings: {
     type: String,
     default: "",
-  },
+  }, // Inv.
+
   diagnosis: {
     type: String,
     default: "",
   },
+
   treatmentPlan: {
     type: String,
     default: "",
-  },
-  medications: {
-    type: String,
-    default: "",
-  },
-  instructions: {
-    type: String,
-    default: "",
-  },
-  followUpDays: {
-    type: Number,
-    default: null,
-  },
+  }, // Rx
+
   notes: {
     type: String,
     default: "",
-  },
+  }, // Follow up advice
 },
-prescriptionPdf: {
-  type: String,
-  default: "",
-},
+    prescriptionPdf: {
+      type: String,
+      default: "",
+    },
     status: {
       type: String,
       enum: ["pending", "attended", "cancelled"],

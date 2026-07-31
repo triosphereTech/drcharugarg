@@ -374,35 +374,55 @@ const Navbar = () => {
             </div>
 
             {/* NAVIGATION — now scrollable so it never overflows/hides the bottom card on shorter screens */}
-            <div className="flex min-h-0 flex-1 flex-col justify-between overflow-y-auto pt-8">
+            <div className="flex min-h-0 flex-1 flex-col justify-between overflow-y-auto pt-5">
               {/* LINKS */}
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-1.5">
                 {NAV_LINKS.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
                     onClick={() => setOpenMenu(false)}
-                    className="flex items-center justify-between rounded-[28px] bg-white px-5 py-5"
+                    className="flex items-center justify-between rounded-[22px] bg-white px-4 py-3.5"
                   >
-                    <span className="text-[28px] font-semibold leading-none text-primary-dark">
+                    <span className="text-[21px] font-semibold leading-none text-primary-dark">
                       {item.label}
                     </span>
 
-                    <HiArrowUpRight className="text-[24px] text-primary-dark" />
+                    <HiArrowUpRight className="text-[20px] text-primary-dark" />
                   </Link>
                 ))}
               </div>
 
               {/* BOTTOM CARD */}
-              <div className="mb-5 shrink-0">
+              <div className="mb-4 mt-4 shrink-0 space-y-2">
                 <Link
                   href="/book-appointment"
                   onClick={() => setOpenMenu(false)}
-                  className="flex w-full items-center justify-center gap-2 rounded-full bg-primary-dark py-4 text-[16px] font-medium text-white"
+                  className="flex w-full items-center justify-center gap-2 rounded-full bg-primary-dark py-3 text-[14px] font-medium text-white"
                 >
                   Book Appointment
-                  <HiArrowUpRight className="text-[20px]" />
+                  <HiArrowUpRight className="text-[18px]" />
                 </Link>
+                {user && (
+                  <>
+                    <Link
+                      href="/dashboard"
+                      onClick={() => setOpenMenu(false)}
+                      className="flex w-full items-center justify-center gap-2 rounded-full border border-gray-200 bg-white py-3 text-[14px] font-semibold text-primary-dark"
+                    >
+                      <HiOutlineUserCircle className="text-[18px]" />
+                      Profile
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={handleLogout}
+                      className="flex w-full items-center justify-center gap-2 rounded-full border border-red-100 bg-white py-3 text-[14px] font-semibold text-red-500"
+                    >
+                      <HiOutlineArrowRightOnRectangle className="text-[18px]" />
+                      Logout
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </div>

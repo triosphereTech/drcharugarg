@@ -43,6 +43,12 @@ import mongoose from "mongoose";
 
 const PatientSchema = new mongoose.Schema(
   {
+    patientId: {
+      type: String,
+      required: true,
+      unique: true,
+      index: true,
+    },
     name: {
       type: String,
       required: true,

@@ -156,9 +156,6 @@ export async function PATCH(req, { params }) {
         clinicalFindings: prescriptionData.clinicalFindings || "",
         diagnosis: prescriptionData.diagnosis || "",
         treatmentPlan: prescriptionData.treatmentPlan || "",
-        medications: prescriptionData.medications || "",
-        instructions: prescriptionData.instructions || "",
-        followUpDays: prescriptionData.followUpDays || null,
         notes: prescriptionData.notes || "",
       };
 

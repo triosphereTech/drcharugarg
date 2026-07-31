@@ -7,10 +7,12 @@ import { DashboardOverview } from "./layout/DashboardOverview";
 import { AppointmentHistory } from "./layout/AppointmentHistory";
 import { BookFollowUp } from "./layout/BookFollowUp";
 import { ProfileSection } from "./layout/ProfileSection";
+import BookingSection from "@/components/home/Bookingsection";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { clearUser } from "@/redux/features/userSlice";
 import { useDispatch } from "react-redux";
+import { ChevronDown, LogOut } from "lucide-react";
 
 const initials = (name) =>
   name
@@ -40,7 +42,7 @@ export const PatientDashboardContent = () => {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  const [message, setMessage] = useState("");
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
 const [selectedAppointmentId, setSelectedAppointmentId] = useState(null);
 
   const loadDashboard = async () => {
@@ -92,7 +94,6 @@ const handleFollowUp = (appointment) => {
         throw new Error(data.message || "Unable to logout.");
       }
       dispatch(clearUser()); // Clear user from Redux store
-      setMessage(data.message || "Logout successful.");
 
       window.location.href = "/"; // Redirect to login page after logout
     } catch (error) {
@@ -177,20 +178,49 @@ case "followup":
               Manage your appointments and profile
             </p>
           </div>
-          <button
-            type="button"
-            onClick={() => setActiveKey("profile")}
-            className="flex items-center gap-2.5 pl-1.5 pr-1.5 py-1.5 rounded-full border border-gray-100 bg-white shadow-sm hover:bg-gray-50 cursor-pointer active:scale-95 transition-all duration-150 shrink-0"
-          >
-            <span className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-900 text-white text-xs font-bold">
-              {/* {initials(patient.name)} */}
-              {patient ? initials(patient.name) : ""}
-            </span>
-            <span className="text-sm font-semibold text-gray-700 hidden sm:block">
-              {/* {patient.name.split(" ")[0]} */}
-              {patient?.name?.split(" ")[0]}
-            </span>
-          </button>
+          <div className="relative shrink-0">
+            <button
+              type="button"
+              aria-expanded={profileMenuOpen}
+              onClick={() => {
+                setActiveKey("profile");
+                setProfileMenuOpen((open) => !open);
+              }}
+              className="flex items-center gap-2.5 pl-1.5 pr-1.5 py-1.5 rounded-full border border-gray-100 bg-white shadow-sm hover:bg-gray-50 cursor-pointer active:scale-95 transition-all duration-150 shrink-0"
+            >
+              <span className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-900 text-white text-xs font-bold">
+                {/* {initials(patient.name)} */}
+                {patient ? initials(patient.name) : ""}
+              </span>
+              <span className="text-sm font-semibold text-gray-700 hidden sm:block">
+                {/* {patient.name.split(" ")[0]} */}
+                {patient?.name?.split(" ")[0]}
+              </span>
+              <ChevronDown
+                size={15}
+                className={`text-gray-400 sm:hidden transition-transform duration-200 ${
+                  profileMenuOpen ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+
+            <div
+              className={`sm:hidden absolute right-0 top-[calc(100%+8px)] z-30 w-44 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-xl shadow-gray-200/70 transition-all duration-200 ${
+                profileMenuOpen
+                  ? "translate-y-0 opacity-100"
+                  : "-translate-y-2 opacity-0 pointer-events-none"
+              }`}
+            >
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="flex w-full items-center gap-2.5 px-4 py-3 text-left text-sm font-semibold text-red-500 hover:bg-red-50 active:scale-95 transition-all duration-150"
+              >
+                <LogOut size={17} strokeWidth={1.8} />
+                Logout
+              </button>
+            </div>
+          </div>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-6">

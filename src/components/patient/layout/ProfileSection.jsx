@@ -70,7 +70,7 @@ const save = async () => {
 
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm max-w-2xl overflow-hidden">
         {/* Banner + avatar */}
-        <div className="relative h-24 mb-4 bg-gray-900">
+        <div className="relative h-24 mb-4 bg-linear-to-r from-[#0D8CE9] via-[#169BD7] to-[#1E6EB5]">
           <button
             type="button"
             onClick={openEdit}
@@ -83,7 +83,7 @@ const save = async () => {
 
         <div className="relative px-6 pb-6">
           <div className="flex items-end gap-4 -mt-10 mb-6">
-            <span className="flex items-center justify-center w-20 h-20 rounded-2xl bg-gray-900 text-white text-2xl font-bold ring-4 ring-white shrink-0">
+            <span className="flex items-center justify-center w-20 h-20 rounded-2xl bg-linear-to-tl from-[#0D8CE9] via-[#169BD7] to-[#1E6EB5] text-white text-2xl font-bold ring-4 ring-white shrink-0">
               {initials(patient.name)}
             </span>
             <div className="pb-1">

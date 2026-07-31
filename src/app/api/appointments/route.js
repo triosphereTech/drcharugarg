@@ -154,14 +154,10 @@ service.name = followUpContext.serviceName || service.name;
         );
       }
     }
-console.log("appointmentType =", appointmentType);
-console.log("service._id =", service._id);
-console.log("service.initialFee =", service.initialFee);
-console.log("service.followUpFee =", service.followUpFee);
+
 
 const fee = getAppointmentFee(service, appointmentType);
 
-console.log("calculated fee =", fee);
     
     const appointment = await Appointment.create({
       patient: auth.user.id,

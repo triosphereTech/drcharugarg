@@ -4,23 +4,18 @@ import sharp from "sharp";
 import mongoose from "mongoose";
 
 import { connectDB } from "@/lib/db";
-import {
-  requireAdminAuth,
-  unauthorizedAdminResponse,
-} from "@/lib/adminAuth";
+import { requireAdminAuth, unauthorizedAdminResponse } from "@/lib/adminAuth";
 import Appointment from "@/models/Appointment";
+import Patient from "@/models/Patient";
 
 export async function POST(request) {
-console.log("abc");
 
   const auth = await requireAdminAuth();
   if (!auth.success) return unauthorizedAdminResponse();
 
   try {
-
     // CONNECT DATABASE
     await connectDB();
-
 
     // GET FORM DATA
     const formData = await request.formData();
@@ -36,7 +31,7 @@ console.log("abc");
           success: false,
           message: "Service, date, and time slot are required.",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -46,16 +41,12 @@ console.log("abc");
     const attachments = [];
 
     // UPLOAD FOLDER
-    const uploadDir = path.join(
-      process.cwd(),
-      "public/uploads/appointments"
-    );
+    const uploadDir = path.join(process.cwd(), "public/uploads/appointments");
 
     await fs.mkdir(uploadDir, { recursive: true });
 
     // LOOP FILES
     for (const file of files) {
-
       if (!file || file.size === 0) continue;
 
       const bytes = await file.arrayBuffer();
@@ -66,7 +57,6 @@ console.log("abc");
 
       // IMAGE FILES
       if (file.type.startsWith("image/")) {
-
         const fileName = `${timestamp}-${random}.webp`;
 
         const filePath = path.join(uploadDir, fileName);
@@ -89,12 +79,10 @@ console.log("abc");
           uploadedBy: "patient",
           uploadedAt: new Date(),
         });
-
       }
 
       // PDF FILES
       else if (file.type === "application/pdf") {
-
         const fileName = `${timestamp}-${random}.pdf`;
 
         const filePath = path.join(uploadDir, fileName);
@@ -124,29 +112,26 @@ console.log("abc");
         message: "Appointment booked successfully.",
         appointment,
       },
-      { status: 201 }
+      { status: 201 },
     );
-
   } catch (error) {
-
     return Response.json(
       {
         success: false,
         message: "Something went wrong.",
         error: error.message,
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 export async function GET(req) {
-  
   const auth = await requireAdminAuth();
   if (!auth.success) return unauthorizedAdminResponse();
 
   try {
-    await connectDB();
+    await connectDB();    
 
     const { searchParams } = new URL(req.url);
 
@@ -162,8 +147,7 @@ export async function GET(req) {
 
     const countOnly = searchParams.get("countOnly") === "true";
 
-    const hasPagination =
-      searchParams.has("page") || searchParams.has("limit");
+    const hasPagination = searchParams.has("page") || searchParams.has("limit");
 
     const page = Math.max(Number(searchParams.get("page")) || 1, 1);
 
@@ -184,7 +168,7 @@ export async function GET(req) {
             success: false,
             message: "Invalid patient id",
           },
-          { status: 400 }
+          { status: 400 },
         );
       }
 
@@ -252,7 +236,7 @@ export async function GET(req) {
           countOnly: true,
           counts,
         },
-        { status: 200 }
+        { status: 200 },
       );
     }
 
@@ -260,46 +244,52 @@ export async function GET(req) {
     const skip = (page - 1) * limit;
 
     const appointmentsQuery = Appointment.find(query)
-        .populate({
-          path: "patient",
-          select: "name email mobileNumber",
-        })
-        .sort({
-          date: -1,
-          createdAt: -1,
-        })
-        .lean();
+      .sort({
+        date: -1,
+        createdAt: -1,
+      })
+      .lean();
 
     if (hasPagination) {
       appointmentsQuery.skip(skip).limit(limit);
     }
 
-    const [appointments, total] = await Promise.all([
-      appointmentsQuery,
+    const promises = [
+  appointmentsQuery,
+  Appointment.countDocuments(query),
+];
 
-      Appointment.countDocuments(query),
-    ]);
+if (patientId) {
+  promises.push(
+    Patient.findById(patientId)
+      .select("patientId name email mobileNumber dob gender bloodGroup address")
+      .lean()
+  );
+}
+
+const [appointments, total, patient = null] = await Promise.all(promises);
 
     return Response.json(
-      {
-        success: true,
-        total,
-        page: hasPagination ? page : null,
-        limit: hasPagination ? limit : null,
-        totalPages: hasPagination ? Math.ceil(total / limit) : 1,
-        count: appointments.length,
-        data: appointments,
-      },
-      { status: 200 }
-    );
-  } catch (error) {
+  {
+    success: true,
+    patient,
+    appointments,
 
+    total,
+    page: hasPagination ? page : null,
+    limit: hasPagination ? limit : null,
+    totalPages: hasPagination ? Math.ceil(total / limit) : 1,
+    count: appointments.length,
+  },
+  { status: 200 },
+);
+  } catch (error) {
     return Response.json(
       {
         success: false,
         message: "Internal server error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
