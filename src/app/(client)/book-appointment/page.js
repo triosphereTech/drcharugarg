@@ -1,3 +1,4 @@
+import Emergency from '@/components/Booking/Emergency'
 import BookingSection from '@/components/home/Bookingsection'
 import React from 'react'
 
@@ -6,6 +7,7 @@ const page = () => {
     <>
     <section className='py-10 bg-white'>
     <BookingSection/>
+    <Emergency/>
     </section>
     </>
   )

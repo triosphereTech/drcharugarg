@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 
-export async function sendAppointmentConfirmationMail({ to, name, service, date, time }) {
+export async function sendAppointmentConfirmationMail({ to, name, service, date, time ,fee}) {
   const requiredEnv = [
     "SMTP_HOST",
     "SMTP_PORT",
@@ -57,12 +57,21 @@ export async function sendAppointmentConfirmationMail({ to, name, service, date,
             </tr>
             <tr style="border-top: 1px solid #e2e8f0;">
               <td style="padding: 8px 0; color: #94a3b8; font-size: 13px;">Amount Paid</td>
-              <td style="padding: 8px 0; color: #058FD2; font-size: 13px; font-weight: 600; text-align: right;">₹500</td>
+              <td style="padding: 8px 0; color: #058FD2; font-size: 13px; font-weight: 600; text-align: right;">₹${fee}</td>
             </tr>
           </table>
         </div>
 
-        <p style="color: #64748b; font-size: 13px;">Please arrive 5 minutes early. For any changes contact us on WhatsApp.</p>
+        <p style="color: #64748b; font-size: 13px;">
+          This is an online consultation. Please be available at your scheduled appointment time.
+          For any changes or assistance, contact us at
+          <a
+            href="mailto:teleconsult.drcharugarg@gmail.com"
+            style="color: #2563eb; text-decoration: none;"
+          >
+            teleconsult.drcharugarg@gmail.com
+          </a>.
+        </p>
         
         <p style="color: #94a3b8; font-size: 12px; margin-top: 32px; border-top: 1px solid #e2e8f0; padding-top: 16px;">
           Dr. Charu Garg — Hair & Scalp Clinic

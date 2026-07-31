@@ -66,9 +66,9 @@ export const SettingsContent = () => {
 
   return (
     <div className="bg-white px-4 md:px-8 py-6">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-full mx-auto">
         {/* Page header */}
-        <div className="flex items-center gap-3 mb-6">
+        {/* <div className="flex items-center gap-3 mb-6">
           <span className="flex items-center justify-center w-11 h-11 rounded-2xl bg-gray-100 text-gray-700">
             <SlidersHorizontal size={20} strokeWidth={2} />
           </span>
@@ -76,7 +76,7 @@ export const SettingsContent = () => {
             <h1 className="text-2xl font-bold text-gray-900">Practice Settings</h1>
             <p className="text-sm text-gray-400">Manage scheduling, availability and consultation fees</p>
           </div>
-        </div>
+        </div> */}
 
         <div className="flex flex-col lg:flex-row gap-6">
           <SettingsSidebar activeKey={activeKey} onSelect={setActiveKey} />

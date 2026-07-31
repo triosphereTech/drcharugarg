@@ -24,7 +24,27 @@ export const SettingsSidebar = ({ activeKey, onSelect }) => {
       <div className="p-2 lg:sticky lg:top-6 space-y-1">
         {SETTINGS_SECTIONS.map((section) => {
           const GroupIcon = GROUP_ICONS[section.icon] || Calendar
+          const singleChild = section.children.length === 1 ? section.children[0] : null
+          const singleChildActive = singleChild && activeKey === singleChild.key
           const isOpen = openGroup === section.key
+
+          if (singleChild) {
+            return (
+              <button
+                key={section.key}
+                type="button"
+                onClick={() => onSelect(singleChild.key)}
+                className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl cursor-pointer active:scale-95 transition-all duration-150 ${
+                  singleChildActive
+                    ? "bg-gray-100 text-gray-900"
+                    : "text-gray-700 hover:bg-gray-100"
+                }`}
+              >
+                <GroupIcon size={19} strokeWidth={1.75} className="text-gray-500" />
+                <span className="text-[15px] font-bold">{singleChild.label}</span>
+              </button>
+            )
+          }
 
           return (
             <div key={section.key}>

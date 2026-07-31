@@ -81,6 +81,7 @@ export async function POST(request) {
           time: appointment.slotStartTime && appointment.slotEndTime
             ? `${appointment.slotStartTime} - ${appointment.slotEndTime}`
             : appointment.timeSlot,
+            fee: appointment.fee
         });
       }
 

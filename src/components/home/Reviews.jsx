@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React from "react";
 import { Quote } from "lucide-react";
@@ -77,12 +77,10 @@ const Reviews = () => {
 
   return (
     <section className="relative overflow-hidden py-10 md:py-20">
-
       {/* Right Fade — direct child of <section>, so right-0 always lands on the true edge */}
       <div className="hidden lg:block pointer-events-none absolute right-0 top-0 z-20 h-full w-24 md:w-40 bg-linear-to-l from-[#3eabae] via-[#3eabae]/50 to-transparent" />
 
       <div className="relative mx-auto px-5 md:px-8 lg:px-0">
-
         {/* Heading */}
         <motion.div
           className="mx-auto max-w-full text-center"
@@ -91,18 +89,15 @@ const Reviews = () => {
           whileInView="visible"
           viewport={{ once: true, amount: 0.5 }}
         >
-
           <motion.div
             className="inline-flex items-center gap-2 rounded-full border border-[#d8eaf4]/40 bg-white/30 px-4 py-2"
             variants={fadeUp}
           >
-
             <div className="h-2 w-2 rounded-full bg-white" />
 
             <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-white">
               Testimonials
             </p>
-
           </motion.div>
 
           <motion.h2
@@ -111,7 +106,6 @@ const Reviews = () => {
           >
             Words from Our Patients
           </motion.h2>
-
         </motion.div>
 
         {/* Reviews */}
@@ -122,29 +116,22 @@ const Reviews = () => {
           whileInView="visible"
           viewport={{ once: true, amount: 0.15 }}
         >
-
           {/* Mobile: plain swipeable row, no animation. Desktop (lg+): original auto-scrolling marquee */}
           <div className="marquee-wrap overflow-x-auto lg:overflow-visible snap-x snap-mandatory lg:snap-none">
             <div className="marquee rounded-2xl flex gap-4 lg:gap-6">
-
               {duplicatedReviews.map((item, index) => (
-
                 <div
                   key={index}
-                  className={`snap-start shrink-0 min-w-[250px] max-w-[250px] lg:min-w-[360px] lg:max-w-[360px] rounded-[20px] lg:rounded-[34px] border border-[#dceaf3] bg-[#fbfdfe] p-4 lg:p-7 shadow-[0_10px_40px_rgba(15,23,42,0.04)] transition-all duration-300 lg:hover:-translate-y-1 ${
-                    index >= reviews.length ? "hidden lg:block" : ""
-                  }`}
+                  className={`snap-start shrink-0 min-w-[250px] max-w-[250px] lg:min-w-[360px] lg:max-w-[360px] rounded-[20px] lg:rounded-[34px] border border-[#dceaf3] bg-[#fbfdfe] p-4 lg:p-7 shadow-[0_10px_40px_rgba(15,23,42,0.04)] transition-all duration-300 lg:hover:-translate-y-1 ${index >= reviews.length ? "hidden lg:block" : ""}`}
                 >
-
                   {/* Quote Icon */}
                   <div className="flex items-center justify-between">
-
                     <div className="flex h-7 w-7 lg:h-8 lg:w-8 opacity-40 items-center justify-center rounded-2xl text-[#058FD2]">
-
-                      <Quote className="w-5 h-5 lg:w-[27px] lg:h-[27px]" strokeWidth={2} />
-
+                      <Quote
+                        className="w-5 h-5 lg:w-[27px] lg:h-[27px]"
+                        strokeWidth={2}
+                      />
                     </div>
-
                   </div>
 
                   {/* Review Text */}
@@ -157,16 +144,13 @@ const Reviews = () => {
 
                   {/* Bottom */}
                   <div className="mt-4 lg:mt-6 flex items-center justify-between">
-
                     <div className="flex items-center gap-3 lg:gap-4">
-
                       {/* Avatar */}
                       <div className="flex h-10 w-10 lg:h-12 lg:w-12 items-center justify-center rounded-full bg-[#eef7fb] text-base lg:text-lg font-semibold text-[#058FD2]">
                         {item.name.charAt(0)}
                       </div>
 
                       <div>
-
                         <h3 className="text-sm lg:text-base font-semibold text-[#131C15]">
                           {item.name}
                         </h3>
@@ -174,29 +158,22 @@ const Reviews = () => {
                         <p className="mt-1 text-xs lg:text-sm text-[#667085]">
                           Verified Patient
                         </p>
-
                       </div>
-
                     </div>
 
                     {/* Small Quote */}
                     <div className="text-[#058FD2] opacity-60">
-
                       <Quote
                         className="w-3.5 h-3.5 lg:w-[18px] lg:h-[18px]"
                         strokeWidth={2}
                       />
-
                     </div>
-
                   </div>
-
                 </div>
               ))}
             </div>
           </div>
         </motion.div>
-
       </div>
 
       <style jsx>{`

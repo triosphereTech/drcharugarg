@@ -2,7 +2,7 @@
 
 /* eslint-disable react-hooks/set-state-in-effect */
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Avatar } from "@/components/admin/ui/Avatar";
 import { formatDate } from "@/lib/data";
 import { GrAttachment } from "react-icons/gr";
@@ -27,6 +27,7 @@ import {
   HiOutlineUserCircle,
   HiDocumentText,
   HiArrowTopRightOnSquare,
+  HiArrowDownTray,
   HiClipboardDocumentList,
   HiClipboardDocumentCheck,
   HiPhoto,
@@ -48,6 +49,19 @@ function getAttachmentOwner(attachment) {
   }
 
   return attachment?.uploadedBy === "doctor" ? "doctor" : "patient";
+}
+
+function getDownloadFileName(url) {
+  const fallback = "appointment-image";
+
+  try {
+    const pathname = new URL(url, window.location.href).pathname;
+    return (
+      decodeURIComponent(pathname.split("/").filter(Boolean).pop()) || fallback
+    );
+  } catch {
+    return fallback;
+  }
 }
 
 function createDraftFileId() {
@@ -90,8 +104,18 @@ export function AppointmentModal({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
   const chatRef = useRef(null);
+  const prescriptionFormRef = useRef(null);
   const fileInputRef = useRef(null);
   const [showPrescription, setShowPrescription] = useState(false);
+  const [showCloseConfirm, setShowCloseConfirm] = useState(false);
+  const requestClose = useCallback(() => {
+    if (showPrescription) {
+      setShowCloseConfirm(true);
+      return;
+    }
+
+    onClose();
+  }, [onClose, showPrescription]);
 
   // const groupHistory = useMemo(() => {
   //   return [...appointments].sort(
@@ -101,16 +125,16 @@ export function AppointmentModal({
   //   );
   // }, [appointments]);
   const groupHistory = useMemo(() => {
-  if (appointments?.length > 0) {
-    return [...appointments].sort(
-      (a, b) =>
-        new Date(a.date) - new Date(b.date) ||
-        new Date(a.createdAt) - new Date(b.createdAt),
-    );
-  }
+    if (appointments?.length > 0) {
+      return [...appointments].sort(
+        (a, b) =>
+          new Date(a.date) - new Date(b.date) ||
+          new Date(a.createdAt) - new Date(b.createdAt),
+      );
+    }
 
-  return appointment ? [appointment] : [];
-}, [appointments, appointment]);
+    return appointment ? [appointment] : [];
+  }, [appointments, appointment]);
 
   const appointmentClosed =
     appointment?.status === "attended" || appointment?.status === "cancelled";
@@ -162,10 +186,9 @@ export function AppointmentModal({
         createdAt: appointment.updatedAt || appointment.createdAt,
       });
     }
-    console.log("thsi issi",appointment);
-    
+    console.log("thsi issi", appointment);
+
     if (appointment?.prescriptionPdf) {
-      
       messages.push({
         id: `${appointment._id}-pdf`,
         sender: "doctor",
@@ -195,13 +218,23 @@ export function AppointmentModal({
   useEffect(() => {
     const handler = (e) => {
       if (e.key === "Escape") {
-        onClose();
+        if (selectedImage) {
+          setSelectedImage(null);
+          return;
+        }
+
+        if (showCloseConfirm) {
+          setShowCloseConfirm(false);
+          return;
+        }
+
+        requestClose();
       }
     };
 
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
-  }, [onClose]);
+  }, [requestClose, selectedImage, showCloseConfirm]);
 
   useEffect(() => {
     // Only reset when the parent explicitly opens a different appointment;
@@ -222,7 +255,19 @@ export function AppointmentModal({
     setError("");
     setExpanded(false);
     setShowPrescription(false);
+    setShowCloseConfirm(false);
   }, [appointment?._id]);
+
+  useEffect(() => {
+    if (!showPrescription) return;
+
+    requestAnimationFrame(() => {
+      prescriptionFormRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
+  }, [showPrescription]);
 
   if (!appointment) return null;
 
@@ -230,10 +275,10 @@ export function AppointmentModal({
     setError("");
     // Check if any prescription field actually has a value
     const hasPrescriptionData = Object.values(prescriptionData).some(
-      (val) => val !== "" && val !== null && val !== undefined
+      (val) => val !== "" && val !== null && val !== undefined,
     );
 
-    if (!message.trim() && draftFiles.length === 0) {
+    if (!message.trim() && draftFiles.length === 0 && !hasPrescriptionData) {
       toast.error(
         "Add prescription notes or an attachment before submitting.",
         {
@@ -275,6 +320,7 @@ export function AppointmentModal({
       setActiveAppointment((previous) => ({
         ...previous,
         ...data.data,
+        status: data.data?.status || "attended",
         patient: previous?.patient || data.data.patient,
       }));
 
@@ -287,9 +333,21 @@ export function AppointmentModal({
 
       // Reset form
       setMessage("");
+      setPrescriptionData({
+        primaryConcern: "",
+        clinicalFindings: "",
+        diagnosis: "",
+        treatmentPlan: "",
+        medications: "",
+        instructions: "",
+        followUpDays: "",
+        notes: "",
+      });
       setDraftFiles([]);
       setError("");
       setExpanded(false);
+      setShowPrescription(false);
+      setShowCloseConfirm(false);
 
       // Show success toast ONCE
       toast.success("Appointment updated successfully.", {
@@ -316,7 +374,7 @@ export function AppointmentModal({
         className="fixed inset-0 bg-[#0D1F2D]/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
         onClick={(e) => {
           if (e.target === e.currentTarget) {
-            onClose();
+            requestClose();
           }
         }}
       >
@@ -389,7 +447,7 @@ export function AppointmentModal({
               </div>
 
               <button
-                onClick={onClose}
+                onClick={requestClose}
                 className="w-10 h-10 cursor-pointer rounded-xl border border-[#DDEAF2] text-zinc-500 hover:bg-[#F8FBFD] hover:text-red-500 transition-all duration-200 flex items-center justify-center"
               >
                 <HiOutlineXMark className="w-5 h-5" />
@@ -397,44 +455,51 @@ export function AppointmentModal({
             </div>
           </div>
 
-          <div
-            ref={chatRef}
-            className="flex-1 overflow-y-auto bg-gradient-to-b from-[#F8FBFD] via-[#F5FAFD] to-[#F0F8FC] px-6 py-6"
-          >
-            <div className="max-w-[1080px] mx-auto flex gap-6 items-start">
-              <aside className="w-56 shrink-0 sticky top-0 rounded-2xl border border-[#DDEAF2] bg-white p-3 shadow-sm">
-                <p className="px-2 pb-2 text-[11px] font-semibold uppercase tracking-wide text-zinc-400">
+          <div className="flex-1 min-h-0 flex bg-gradient-to-b from-[#F8FBFD] via-[#F5FAFD] to-[#F0F8FC]">
+            <aside className="w-72 shrink-0 border-r border-[#DDEAF2] bg-white/95 overflow-y-auto">
+              <div className="px-4 py-4 border-b border-[#EEF4F8]">
+                <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-400">
                   Appointment journey
                 </p>
-                <div className="space-y-2">
-                  {groupHistory.map((appt) => {
-                    const isActive = appt._id === appointment._id;
-                    return (
-                      <button
-                        key={appt._id}
-                        type="button"
-                        onClick={() => setActiveAppointment(appt)}
-                        className={`w-full rounded-xl border p-3 text-left transition-colors ${isActive ? "border-[#058FD2] bg-[#EEF7FB]" : "border-transparent hover:border-[#DDEAF2] hover:bg-[#F8FBFD]"}`}
-                      >
-                        <p className="text-xs font-semibold text-[#131C15]">
-                          {appt.appointmentType === "followup"
-                            ? "Follow-up"
-                            : "Initial Consultation"}
-                        </p>
-                        <p className="mt-1 text-[11px] text-zinc-500">
-                          {formatDate(appt.date)}
-                        </p>
+              </div>
+              <div>
+                {groupHistory.map((appt) => {
+                  const isActive = appt._id === appointment._id;
+                  return (
+                    <button
+                      key={appt._id}
+                      type="button"
+                      onClick={() => setActiveAppointment(appt)}
+                      className={`w-full border-b border-[#EEF4F8] px-4 py-4 text-left transition-colors ${isActive ? "bg-[#EEF7FB]" : "hover:bg-[#F8FBFD]"}`}
+                    >
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <p className="truncate text-[13px] font-semibold text-[#131C15]">
+                            {appt.appointmentType === "followup"
+                              ? "Follow-up"
+                              : "Initial Consultation"}
+                          </p>
+                          <p className="mt-1 text-[12px] text-zinc-500">
+                            {formatDate(appt.date)}
+                          </p>
+                        </div>
                         <span
-                          className={`mt-2 inline-flex rounded-full px-2 py-0.5 text-[10px] font-semibold capitalize ${appt.status === "attended" ? "bg-emerald-50 text-emerald-700" : appt.status === "cancelled" ? "bg-red-50 text-red-600" : "bg-amber-50 text-amber-700"}`}
+                          className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold capitalize ${appt.status === "attended" ? "bg-emerald-50 text-emerald-700" : appt.status === "cancelled" ? "bg-red-50 text-red-600" : "bg-amber-50 text-amber-700"}`}
                         >
                           {appt.status}
                         </span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </aside>
-              <div className="min-w-0 flex-1 space-y-6">
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </aside>
+
+            <div
+              ref={chatRef}
+              className="min-w-0 flex-1 overflow-y-auto px-6 py-6"
+            >
+              <div className="max-w-[820px] mx-auto space-y-6">
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -551,14 +616,16 @@ export function AppointmentModal({
 
                           {item.type === "attachments" && (
                             <div
-                              className={`rounded-[16px] p-3 shadow-md transition-shadow duration-200 hover:shadow-lg  ${isPatient ? "bg-white border border-[#DDEAF2] rounded-bl-md" : "bg-gradient-to-br from-[#058FD2] to-[#0480BC] rounded-br-md"}`}
+                              className={`rounded-[16px] p-3 shadow-md transition-shadow duration-200 hover:shadow-lg bg-white border border-[#DDEAF2]  ${isPatient ? "rounded-bl-md" : "rounded-br-md"}`}
                             >
                               <p
-                                className={`text-[12px] font-semibold mb-3 tracking-wide ${isPatient ? "text-[#131C15]" : "text-white"}`}
+                                className={`text-[12px] font-semibold mb-3 tracking-wide text-primary-accent`}
                               >
                                 {item.title}
                               </p>
-                              <div className={`grid grid-cols-${item.attachments.length > 2 ? '2' : item.attachments.length } md:grid-cols-${item.attachments.length > 3 ? '3' : item.attachments.length } gap-2.5`}>
+                              <div
+                                className={`grid grid-cols-${item.attachments.length > 2 ? "2" : item.attachments.length} md:grid-cols-${item.attachments.length > 3 ? "3" : item.attachments.length} gap-2.5`}
+                              >
                                 {item.attachments?.map((attachment, index) => {
                                   const url = getAttachmentUrl(attachment);
 
@@ -693,6 +760,7 @@ export function AppointmentModal({
                 <AnimatePresence>
                   {showPrescription && (
                     <motion.div
+                      ref={prescriptionFormRef}
                       initial={{ opacity: 0, y: 25 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 25 }}
@@ -712,7 +780,7 @@ export function AppointmentModal({
                             </label>
 
                             <textarea
-                              rows={3}
+                              rows={1}
                               className="w-full rounded-xl border border-[#DDEAF2] p-3 outline-none focus:border-[#058FD2]"
                               placeholder="e.g. Hair fall since 6 months with dandruff"
                               value={prescriptionData.primaryConcern}
@@ -732,7 +800,7 @@ export function AppointmentModal({
                             </label>
 
                             <textarea
-                              rows={3}
+                              rows={1}
                               className="w-full rounded-xl border border-[#DDEAF2] p-3 outline-none focus:border-[#058FD2]"
                               placeholder="Clinical examination findings"
                               value={prescriptionData.clinicalFindings}
@@ -752,7 +820,7 @@ export function AppointmentModal({
                             </label>
 
                             <textarea
-                              rows={3}
+                              rows={1}
                               className="w-full rounded-xl border border-[#DDEAF2] p-3 outline-none focus:border-[#058FD2]"
                               placeholder="Diagnosis"
                               value={prescriptionData.diagnosis}
@@ -772,7 +840,7 @@ export function AppointmentModal({
                             </label>
 
                             <textarea
-                              rows={4}
+                              rows={1}
                               className="w-full rounded-xl border border-[#DDEAF2] p-3 outline-none focus:border-[#058FD2]"
                               placeholder="Treatment plan"
                               value={prescriptionData.treatmentPlan}
@@ -815,7 +883,7 @@ Medicine Name
                             </label>
 
                             <textarea
-                              rows={4}
+                              rows={1}
                               className="w-full rounded-xl border border-[#DDEAF2] p-3 outline-none focus:border-[#058FD2]"
                               placeholder="Diet, precautions, skincare, lifestyle advice..."
                               value={prescriptionData.instructions}
@@ -856,7 +924,7 @@ Medicine Name
                             </label>
 
                             <textarea
-                              rows={4}
+                              rows={1}
                               className="w-full rounded-xl border border-[#DDEAF2] p-3 outline-none focus:border-[#058FD2]"
                               placeholder="Optional notes"
                               value={prescriptionData.notes}
@@ -943,27 +1011,24 @@ Medicine Name
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
                   className="
-        w-11 h-11 rounded-xl
-        border border-[#DDEAF2]
-        bg-white
-        text-zinc-500
-        flex items-center justify-center
-        hover:bg-[#EEF7FB]
-        hover:text-[#058FD2]
-        hover:border-[#BFE4F5]
-        transition-all duration-200
-        shadow-inner
-        active:scale-95
-        transition-all
-        duration-300
-        cursor-pointer
-      "
+                  w-11 h-11 rounded-xl
+                  border
+                  flex items-center justify-center
+                  bg-[#EEF7FB]
+                  text-[#058FD2]
+                  border-[#BFE4F5]
+                  transition-all duration-200
+                  shadow-inner
+                  active:scale-95
+                  transition-all
+                  duration-300
+                  cursor-pointer"
                 >
                   <GrAttachment className="text-[17px]" />
                 </button>
 
                 {/* Expand */}
-                <button
+                {/* <button
                   type="button"
                   onClick={() => setExpanded(!expanded)}
                   className="
@@ -988,8 +1053,8 @@ Medicine Name
                   ) : (
                     <BiExpandAlt className="text-[18px]" />
                   )}
-                </button>
-                { appointment?.status === "pending" && (
+                </button> */}
+                {appointment?.status === "pending" && (
                   // <motion.div
                   //   initial={{ opacity: 0, y: 20 }}
                   //   animate={{ opacity: 1, y: 0 }}
@@ -998,11 +1063,22 @@ Medicine Name
                   <button
                     type="button"
                     onClick={() => setShowPrescription((prev) => !prev)}
-                    className={`group flex items-center gap-3 rounded-full px-6 py-3 text-white shadow-lg hover:shadow-xl transition-all hover:scale-[1.02]
+                    className={`group flex items-center gap-2 px-5 py-2.5 rounded-xl
+                  border
+                  flex items-center justify-center
+                  bg-[#EEF7FB]
+                  text-[#058FD2]
+                  border-[#BFE4F5]
+                  transition-all duration-200
+                  shadow-inner
+                  active:scale-95
+                  transition-all
+                  duration-300
+                  cursor-pointer
                     ${
                       showPrescription
-                        ? "bg-gradient-to-r from-red-500 to-red-600"
-                        : "bg-gradient-to-r from-[#058FD2] to-[#047BB6]"
+                        ? "bg-gradient-to-r from-red-500 to-red-600 text-white"
+                        : ""
                     }`}
                   >
                     {showPrescription ? (
@@ -1023,14 +1099,14 @@ Medicine Name
                 {/* Composer */}
                 <div className="flex-1">
                   <div className="rounded-2xl border border-[#DDEAF2] bg-white shadow-inner overflow-hidden transition-all">
-                    <textarea
+                    <input
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       placeholder="Write prescription, consultation notes, or reply..."
                       className={`
             w-full
             px-5
-            py-2.5
+            py-2
             resize-none
             outline-none
             bg-transparent
@@ -1038,7 +1114,6 @@ Medicine Name
             leading-7
             placeholder:text-zinc-400
             transition-all duration-300
-            ${expanded ? "h-[240px]" : "h-[40px]"}
           `}
                     />
                   </div>
@@ -1139,23 +1214,91 @@ Medicine Name
         </div>
       </div>
 
+      {showCloseConfirm && (
+        <div
+          className="fixed inset-0 z-[75] flex items-center justify-center bg-[#0D1F2D]/45 p-4 backdrop-blur-md"
+          onClick={() => setShowCloseConfirm(false)}
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 14, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 14, scale: 0.96 }}
+            transition={{ duration: 0.18 }}
+            onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-[420px] rounded-2xl border border-[#DDEAF2] bg-white p-5 shadow-2xl"
+          >
+            <div className="flex items-start gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-50 text-amber-600">
+                <HiOutlineCheckCircle className="h-5 w-5" />
+              </div>
+              <div>
+                <h3 className="text-[17px] font-semibold text-[#131C15]">
+                  Close appointment?
+                </h3>
+                <p className="mt-2 text-[13px] leading-6 text-zinc-500">
+                  Your prescription form is still open. Closing now will discard
+                  the details you have entered.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-6 flex justify-end gap-3">
+              <button
+                type="button"
+                onClick={() => setShowCloseConfirm(false)}
+                className="rounded-xl border border-[#DDEAF2] bg-white px-4 py-2 text-[13px] font-semibold text-zinc-600 transition-colors hover:bg-[#F8FBFD] hover:text-[#058FD2]"
+              >
+                Keep Editing
+              </button>
+              <button
+                type="button"
+                onClick={onClose}
+                className="rounded-xl bg-red-500 px-4 py-2 text-[13px] font-semibold text-white shadow-sm transition-colors hover:bg-red-600"
+              >
+                Close Anyway
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
       {selectedImage && (
         <div
           className="fixed inset-0 bg-black/85 z-[70] flex items-center justify-center p-6"
           onClick={() => setSelectedImage(null)}
         >
+          <a
+            href={selectedImage}
+            download={getDownloadFileName(selectedImage)}
+            target="_blank"
+            rel="noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="absolute top-6 left-6 inline-flex h-10 items-center gap-2 rounded-full bg-white px-4 text-[13px] font-semibold text-[#131C15] shadow-lg transition-colors hover:bg-[#EEF7FB] hover:text-[#058FD2]"
+          >
+            <HiArrowDownTray className="w-4 h-4" />
+            Download
+          </a>
+
           <button
-            onClick={() => setSelectedImage(null)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedImage(null);
+            }}
             className="absolute top-6 right-6 w-10 h-10 rounded-full bg-white text-black text-lg"
           >
             x
           </button>
 
-          <img
-            src={selectedImage}
-            alt=""
-            className="max-w-full max-h-full object-contain rounded-3xl"
-          />
+          <div
+            className="max-w-full max-h-full"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={selectedImage}
+              alt=""
+              className="max-w-full max-h-[calc(100vh-3rem)] object-contain rounded-3xl"
+            />
+          </div>
         </div>
       )}
       <ToastContainer />
