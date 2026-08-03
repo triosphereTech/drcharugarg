@@ -82,7 +82,7 @@ export default function AppointmentsPage({ onDataChange }) {
       }
 
       loadAppointments();
-      loadStats();
+    
 
       setShowCancelDialog(false);
       setAppointmentToCancel(null);
