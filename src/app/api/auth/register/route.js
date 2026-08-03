@@ -4,13 +4,12 @@ import { sendOtpEmail } from "@/lib/sendOtpEmail";
 import { generatePatientId } from "@/lib/generatePatientId";
 import Patient from "@/models/Patient";
 
-const patientId = await generatePatientId();
 
 export async function POST(request) {
   try {
     const body = await request.json();
     const { name, email, mobileNumber } = body;
-
+    
     if (!name || !email || !mobileNumber) {
       return Response.json(
         {
@@ -20,8 +19,9 @@ export async function POST(request) {
         { status: 400 }
       );
     }
-
+    
     await connectDB();
+    const patientId = await generatePatientId();
 
     const existingPatient = await Patient.findOne({ email });
 
