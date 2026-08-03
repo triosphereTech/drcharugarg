@@ -25,8 +25,13 @@ const initials = (name) =>
 // Maps a sidebar/bottom-nav key to the appointment status filter it represents
 const APPOINTMENT_FILTER_KEYS = {
   "apt-all": "all",
+
   "apt-upcoming": "pending",
+  "apt-pending": "pending",
+
   "apt-completed": "attended",
+  "apt-attended": "attended",
+
   "apt-cancelled": "cancelled",
 };
 

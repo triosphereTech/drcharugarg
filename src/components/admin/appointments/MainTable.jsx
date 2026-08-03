@@ -115,7 +115,7 @@ export default function AppointmentsPage({ onDataChange }) {
         throw new Error(res.message || "Unable to load appointments.");
       }
 
-      setAppointments(res.data || []);
+      setAppointments(res.appointments || []);
       setTotal(res.total || 0);
       setTotalPages(res.totalPages || 1);
       await onDataChange?.();

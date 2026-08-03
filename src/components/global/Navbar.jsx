@@ -396,11 +396,11 @@ const Navbar = () => {
               {/* BOTTOM CARD */}
               <div className="mb-4 mt-4 shrink-0 space-y-2">
                 <Link
-                  href="/book-appointment"
+                  href="/login"
                   onClick={() => setOpenMenu(false)}
                   className="flex w-full items-center justify-center gap-2 rounded-full bg-primary-dark py-3 text-[14px] font-medium text-white"
                 >
-                  Book Appointment
+                  Login To Book Appointment
                   <HiArrowUpRight className="text-[18px]" />
                 </Link>
                 {user && (
