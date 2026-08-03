@@ -14,6 +14,7 @@ export async function POST(request) {
   if (!auth.success) return unauthorizedAdminResponse();
 
   try {
+    console.log("POST request received for booking an appointment");
     // CONNECT DATABASE
     await connectDB();
 
@@ -131,6 +132,8 @@ export async function GET(req) {
   if (!auth.success) return unauthorizedAdminResponse();
 
   try {
+    
+
     await connectDB();    
 
     const { searchParams } = new URL(req.url);
@@ -244,6 +247,7 @@ export async function GET(req) {
     const skip = (page - 1) * limit;
 
     const appointmentsQuery = Appointment.find(query)
+    .populate("patient", "name patientId email mobileNumber")
       .sort({
         date: -1,
         createdAt: -1,

@@ -13,6 +13,9 @@ import { useRouter } from "next/navigation";
 import { clearUser } from "@/redux/features/userSlice";
 import { useDispatch } from "react-redux";
 import { ChevronDown, LogOut } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import Logo from "../../../public/images/brand/LogoTop.png";
 
 const initials = (name) =>
   name
@@ -178,10 +181,14 @@ case "followup":
         {/* Page header */}
         <div className="flex items-center justify-between gap-3 mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">My Dashboard</h1>
-            <p className="text-sm text-gray-400">
-              Manage your appointments and profile
-            </p>
+            <Link href="/">
+            <Image
+              src={Logo}
+              alt="Logo"
+              priority
+              className="h-12 w-auto object-contain md:h-20 xl:h-18"
+            />
+            </Link>
           </div>
           <div className="relative shrink-0">
             <button

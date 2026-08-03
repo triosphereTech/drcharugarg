@@ -46,6 +46,14 @@ export function AppointmentItem({
               {appointment.service}
             </h4>
 
+            <p className="text-[12px] text-zinc-700 mt-1">
+  {appointment.patient?.name}
+  <span className="text-zinc-400">
+    {" • "}
+    {appointment.patient?.patientId}
+  </span>
+</p>
+
             <p className="text-[12px] text-zinc-500 mt-1">
               {appointment.appointmentType === "followup"
                 ? "Follow-up consultation"

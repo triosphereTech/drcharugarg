@@ -204,8 +204,8 @@ const handleCancelAppointment = (appointment) => {
           Back to Patients
         </Link>
 
-        <div className="grid grid-cols-1 xl:grid-cols-[340px_1fr] gap-6">
-          <div className="top-6 bg-white border-2 border-gray-200 rounded-2xl p-6 h-fit">
+        <div className="grid grid-cols-1 xl:grid-cols-[340px_1fr] gap-6 items-stretch">
+         <div className="bg-white border-2 border-gray-200 rounded-2xl p-6 flex flex-col h-full">
             {patient ? (
               <>
                 <div className="flex flex-col items-center text-center">
@@ -314,7 +314,7 @@ const handleCancelAppointment = (appointment) => {
             </div>
           </div>
 
-          <div className="bg-white border-2 border-gray-200 rounded-2xl overflow-hidden flex flex-col">
+         <div className="bg-white border-2 border-gray-200 rounded-2xl overflow-hidden h-full grid grid-rows-[auto_1fr_auto]">
             <div className="px-6 py-5 border-b border-[#DDEAF2] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
                 <h3 className="text-[18px] font-semibold text-[#131C15]">
@@ -341,7 +341,7 @@ const handleCancelAppointment = (appointment) => {
               </select>
             </div>
 
-            <div className="flex-1  max-h-[60vh] overflow-y-auto">
+            <div className="flex-1  max-h-[75vh] 2xl:max-h-[42vh] overflow-y-auto">
               {loading ? (
                 <div className="py-20 text-center">
                   <p className="text-zinc-400 text-[14px]">Loading appointments...</p>
@@ -368,13 +368,15 @@ const handleCancelAppointment = (appointment) => {
               )}
             </div>
 
-            <Pagination
-              currentPage={page}
-              totalPages={totalPages}
-              onPageChange={setPage}
-              totalItems={total}
-              itemsPerPage={10}
-            />
+            <div className="shrink-0 border-t border-[#DDEAF2] bg-white">
+  <Pagination
+    currentPage={page}
+    totalPages={totalPages}
+    onPageChange={setPage}
+    totalItems={total}
+    itemsPerPage={10}
+  />
+</div>
           </div>
         </div>
       </div>
