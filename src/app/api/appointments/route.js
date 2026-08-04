@@ -93,7 +93,7 @@ export async function POST(request) {
         });
 
       } else if (file.type === "application/pdf") {
-        const fileName = createProtectedFilename(`${timestamp}-${random}.webp`, auth.user.id);
+        const fileName = createProtectedFilename(`${timestamp}-${random}.pdf`, auth.user.id);
         await fs.writeFile(path.join(uploadDir, fileName), buffer);
         attachments.push({
           url: protectedUploadUrl(fileName),
