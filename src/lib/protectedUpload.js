@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import path from "path";
 
 const UPLOAD_URL_PREFIX = "/uploads/appointments";
 
@@ -8,6 +9,7 @@ function getEncryptionKey() {
 }
 
 export function createProtectedFilename(filename, patientId) {
+    const extension = path.extname(filename);
     const iv = crypto.randomBytes(12);
     const cipher = crypto.createCipheriv("aes-256-gcm",getEncryptionKey(), iv);
     const plaintext = `${filename}_${patientId}`;
@@ -16,10 +18,13 @@ export function createProtectedFilename(filename, patientId) {
         cipher.final(),
     ]);
     const authTag = cipher.getAuthTag();
-    return Buffer.concat([iv, authTag, encrypted]).toString("base64url");
+    const encryptedFilename = Buffer.concat([iv, authTag, encrypted]).toString("base64url");
+    return `${encryptedFilename}${extension}`;
 }
 
 export async function decryptFilename(encryptedFilename) {
+    const extension = path.extname(encryptedFilename);
+    const encryptedName = encryptedFilename.slice(0, -extension.length);
     const encryptedData = Buffer.from(encryptedFilename, "base64url");
 
     if (encryptedData.length < 29) {
@@ -40,5 +45,5 @@ export async function decryptFilename(encryptedFilename) {
 }
 
 export function protectedUploadUrl(filename) {
-    return `${UPLOAD_URL_PREFIX}${filename}`;
+    return `${UPLOAD_URL_PREFIX}/${filename}`;
 }

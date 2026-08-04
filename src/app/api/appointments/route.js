@@ -93,10 +93,10 @@ export async function POST(request) {
         });
 
       } else if (file.type === "application/pdf") {
-        const fileName = `${timestamp}-${random}.pdf`;
+        const fileName = createProtectedFilename(`${timestamp}-${random}.webp`, auth.user.id);
         await fs.writeFile(path.join(uploadDir, fileName), buffer);
         attachments.push({
-          url: `/uploads/appointments/${fileName}`,
+          url: protectedUploadUrl(fileName),
           uploadedBy: "patient",
           uploadedAt: new Date(),
         });
