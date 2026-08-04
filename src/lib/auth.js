@@ -11,6 +11,7 @@ export function createAccessToken(patient) {
       id: patient._id.toString(),
       email: patient.email,
       mobileNumber: patient.mobileNumber,
+      role: 'patient'
     },
     process.env.ACCESS_TOKEN_SECRET,
     {
@@ -52,8 +53,14 @@ export async function requireAuth() {
 }
 
 export function verifyAccessToken(token) {
-  return jwt.verify(
+   const decoded = jwt.verify(
     token,
     process.env.ACCESS_TOKEN_SECRET
   );
+
+  if (decoded.role !== "patient") {
+    throw new Error("Invalid patient token");
+  }
+
+  return decoded;
 }

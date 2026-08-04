@@ -7,6 +7,8 @@ import Appointment from "@/models/Appointment";
 import { connectDB } from "@/lib/db";
 import { requireAdminAuth, unauthorizedAdminResponse } from "@/lib/adminAuth";
 import { generatePrescriptionPdf } from "@/lib/generatePrescriptionPdf";
+import { createProtectedFilename, protectedUploadUrl } from "@/lib/protectedUpload";
+
 
 export async function PATCH(req, { params }) {
   const auth = await requireAdminAuth();
@@ -108,7 +110,7 @@ export async function PATCH(req, { params }) {
         const random = Math.round(Math.random() * 1e9);
 
         if (file.type.startsWith("image/")) {
-          const fileName = `${timestamp}-${random}.webp`;
+          const fileName = createProtectedFilename(`${timestamp}-${random}.webp`,appointment.patient._id);
           const filePath = path.join(uploadDir, fileName);
 
           const outputBuffer = await sharp(buffer)
@@ -125,18 +127,18 @@ export async function PATCH(req, { params }) {
           await fs.writeFile(filePath, outputBuffer);
 
           attachments.push({
-            url: `/uploads/appointments/${fileName}`,
+            url: protectedUploadUrl(fileName),
             uploadedBy: "doctor",
             uploadedAt: new Date(),
           });
         } else if (file.type === "application/pdf") {
-          const fileName = `${timestamp}-${random}.pdf`;
+          const fileName = createProtectedFilename(`${timestamp}-${random}.pdf`,appointment.patient._id);
           const filePath = path.join(uploadDir, fileName);
 
           await fs.writeFile(filePath, buffer);
 
           attachments.push({
-            url: `/uploads/appointments/${fileName}`,
+            url: protectedUploadUrl(fileName),
             uploadedBy: "doctor",
             uploadedAt: new Date(),
           });

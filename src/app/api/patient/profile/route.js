@@ -16,7 +16,6 @@ export async function GET(request) {
     }
 
     await connectDB();
-
     const patient = await Patient.findById(auth.user.id).select("-otp");
     if (!patient) {
       return Response.json(

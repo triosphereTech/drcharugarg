@@ -1,5 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
+import { createProtectedFilename, protectedUploadUrl } from "@/lib/protectedUpload";
 import React from "react";
 import {
   Document,
@@ -728,9 +729,12 @@ export async function generatePrescriptionPdf(
   .format(new Date())
   .replace(/\//g, "-");
 
-const fileName = `Prescription-${
+const originalFileName = `Prescription-${
   appointment.patient.patientId || appointment._id
 }-${indiaDate}.pdf`;
+
+  const patientId = appointment.patient._id;
+  const fileName = createProtectedFilename(originalFileName,patientId);
   const filePath = path.join(uploadDir, fileName);
 
   const pdfBlob = await pdf(
@@ -744,5 +748,5 @@ const fileName = `Prescription-${
 
   await fs.writeFile(filePath, pdfBlob);
 
-  return `/uploads/appointments/${fileName}`;
+  return protectedUploadUrl(fileName);
 }

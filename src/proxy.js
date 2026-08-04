@@ -6,6 +6,7 @@ import {
 } from "@/lib/adminAuth";
 
 import { verifyAccessToken } from "@/lib/auth";
+import { decryptFilename } from "@/lib/protectedUpload";
 
 const PUBLIC_ADMIN_PAGES = new Set(["/admin/login", "/admin/otp"]);
 const PUBLIC_ADMIN_APIS = new Set([
@@ -30,7 +31,7 @@ const PUBLIC_PATIENT_APIS = new Set([
 ]);
 
 
-export function proxy(request) {
+export async function proxy(request) {
  const { pathname } = request.nextUrl;
 
   // =========================
@@ -101,8 +102,7 @@ export function proxy(request) {
       if (!token)
         throw new Error("Missing patient token");
 
-      
-verifyAccessToken(token);
+      verifyAccessToken(token);
 
       return NextResponse.next();
     } catch {
@@ -122,6 +122,55 @@ verifyAccessToken(token);
     }
   }
 
+  //Uploads Protection
+  if(pathname.startsWith("/uploads")){
+    const patientToken = request.cookies.get("accessToken")?.value;
+    const adminToken = request.cookies.get("adminAccessToken")?.value;
+    const encryptedFilename = pathname.split("/").pop();
+    try {
+      let decoded;
+
+      if (patientToken)
+        decoded = verifyAccessToken(patientToken);
+
+      else if(adminToken)
+        decoded = verifyAdminAccessToken(adminToken)
+      
+      else
+        throw new Error("Missing patient token");
+
+      if(decoded.role === "patient")
+      {
+        const plainText = await decryptFilename(encryptedFilename)
+        const decryptedId = plainText.split("_").pop();
+        if(decryptedId !== decoded.id)
+          throw new Error("Invalid token");
+      }
+
+      const response = new NextResponse(null, {status: 200});
+
+      response.headers.set(
+        "X-Accel-Redirect",
+        `/_protected_uploads/appointments/${encryptedFilename}`
+      );
+
+      response.headers.set(
+        "Cache-Control",
+        "private, no-store"
+      );
+
+      return response;
+    } catch {
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Authentication required.",
+          },
+          { status: 401 }
+        );
+    }
+  }
+
   return NextResponse.next();
 }
 
@@ -131,5 +180,6 @@ export const config = {
     "/api/admin/:path*",
     "/dashboard/:path*",
     "/api/patient/:path*",
+    "/uploads/:path*"
   ],
 };

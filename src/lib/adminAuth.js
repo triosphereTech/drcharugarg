@@ -4,12 +4,11 @@ import { cookies } from "next/headers";
 export const ADMIN_COOKIE_NAME = "adminAccessToken";
 
 function getAdminTokenSecret() {
-  const secret =
-    process.env.ADMIN_ACCESS_TOKEN_SECRET || process.env.ACCESS_TOKEN_SECRET;
+  const secret = process.env.ACCESS_TOKEN_SECRET;
 
   if (!secret) {
     throw new Error(
-      "Please add ADMIN_ACCESS_TOKEN_SECRET or ACCESS_TOKEN_SECRET to .env.local"
+      "Please add ACCESS_TOKEN_SECRET to .env.local"
     );
   }
 

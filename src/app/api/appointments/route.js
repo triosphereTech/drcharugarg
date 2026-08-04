@@ -9,6 +9,8 @@ import Service from "@/models/Service";
 import { requireAuth } from "@/lib/auth";
 import { buildAppointmentGroupId, getAppointmentFee, resolveFollowUpBookingContext } from "@/lib/appointmentGroup";
 import { validateBookingSlot } from "@/lib/availability";
+import { createProtectedFilename, protectedUploadUrl } from "@/lib/protectedUpload";
+
 
 export async function POST(request) {
   try {
@@ -77,7 +79,7 @@ export async function POST(request) {
       const random    = Math.round(Math.random() * 1e9);
 
       if (file.type.startsWith("image/")) {
-        const fileName     = `${timestamp}-${random}.webp`;
+        const fileName     = createProtectedFilename(`${timestamp}-${random}.webp`, auth.user.id);
         const outputBuffer = await sharp(buffer)
           .rotate()
           .resize({ width: 1600, withoutEnlargement: true })
@@ -85,7 +87,7 @@ export async function POST(request) {
           .toBuffer();
         await fs.writeFile(path.join(uploadDir, fileName), outputBuffer);
         attachments.push({
-          url: `/uploads/appointments/${fileName}`,
+          url: protectedUploadUrl(fileName),
           uploadedBy: "patient",
           uploadedAt: new Date(),
         });
