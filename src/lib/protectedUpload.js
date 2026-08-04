@@ -25,7 +25,7 @@ export function createProtectedFilename(filename, patientId) {
 export async function decryptFilename(encryptedFilename) {
     const extension = path.extname(encryptedFilename);
     const encryptedName = encryptedFilename.slice(0, -extension.length);
-    const encryptedData = Buffer.from(encryptedFilename, "base64url");
+    const encryptedData = Buffer.from(encryptedName, "base64url");
 
     if (encryptedData.length < 29) {
         throw new Error("Invalid encrypted filename");
