@@ -124,7 +124,7 @@ const SignupPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fbfd] overflow-hidden font-sans">
+    <div className="min-h-screen bg-[#f8fbfd] overflow-hidden font-sans mt-10">
       <div className="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8 min-h-screen flex items-center py-6 md:py-10">
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-20 items-center w-full">

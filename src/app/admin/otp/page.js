@@ -228,7 +228,7 @@ export default function AdminOtpPage() {
             </div>
 
             <div className="mt-10">
-              <div className="flex items-center justify-between gap-3 sm:gap-4">
+              <div className="flex items-center justify-between gap-2 sm:gap-4">
                 {otp.map((data, index) => (
                   <input
                     key={index}

@@ -220,23 +220,23 @@ const dispatch = useDispatch();
             className="w-full max-w-md lg:ml-auto"
           >
             <div>
-              <span className="inline-flex items-center gap-2 text-[#058FD2] text-sm font-medium">
+              <span className="hidden lg:inline-flex text-center lg:text-left items-center gap-2 text-[#058FD2] text-sm font-medium">
                 <HiOutlineShieldCheck className="text-base" />
                 Secure Verification
               </span>
 
-              <h2 className="text-3xl xl:text-4xl leading-tight font-semibold text-[#131C15] mt-4">
+              <h2 className="text-3xl text-center lg:text-left xl:text-4xl leading-tight font-semibold text-[#131C15] mt-4">
                 Enter OTP
               </h2>
 
-              <p className="text-[#6c7671] text-base leading-7 mt-3">
+              <p className="text-[#6c7671] text-center lg:text-left text-base leading-7 mt-3">
                 We have sent a 6-digit verification code to{" "}
                 {email || "your registered email address"}.
               </p>
             </div>
 
             <div className="mt-10">
-              <div className="flex items-center justify-between gap-3 sm:gap-4">
+              <div className="flex items-center justify-between gap-2 sm:gap-4">
                 {otp.map((data, index) => (
                   <input
                     key={index}

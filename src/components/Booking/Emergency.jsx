@@ -9,8 +9,8 @@ import {
 
 export default function Emergency() {
   return (
-    <section className="px-4 py-10 md:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl overflow-hidden rounded-[36px] bg-gradient-to-r from-[#0D8CE9] via-[#169BD7] to-[#1E6EB5] p-8 shadow-[0_25px_60px_rgba(13,140,233,0.18)] md:p-12">
+    <section className="px-3 py-3 lg:py-10 md:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl overflow-hidden rounded-[26px] bg-linear-to-r from-[#0D8CE9] via-[#169BD7] to-[#1E6EB5] p-4 py-8 lg:p-8 shadow-[0_25px_60px_rgba(13,140,233,0.18)] md:p-12">
         <div className="flex flex-col items-start justify-between gap-10 lg:flex-row lg:items-center">
           {/* Left */}
           <div className="max-w-2xl">
@@ -66,24 +66,24 @@ export default function Emergency() {
                 </div>
               </Link>
 
-              <Link
-                href="mailto:teleconsult.drcharugarg@gmail.com"
-                className="flex items-center gap-4 rounded-2xl border border-gray-200 px-5 py-4 transition hover:border-[#0D8CE9] hover:bg-[#F4FAFF]"
-              >
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#EAF6FF]">
-                  <HiOutlineEnvelope className="text-xl text-[#0D8CE9]" />
-                </div>
+             <Link
+  href="mailto:teleconsult.drcharugarg@gmail.com"
+  className="flex items-center gap-4 rounded-2xl border border-gray-200 px-5 py-4 transition hover:border-[#0D8CE9] hover:bg-[#F4FAFF]"
+>
+  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#EAF6FF] shrink-0">
+    <HiOutlineEnvelope className="text-xl text-[#0D8CE9]" />
+  </div>
 
-                <div>
-                  <p className="text-xs uppercase tracking-wider text-gray-400">
-                    Email Support
-                  </p>
+  <div className="min-w-0 flex-1">
+    <p className="text-xs uppercase tracking-wider text-gray-400">
+      Email Support
+    </p>
 
-                  <p className="font-semibold text-primary-dark">
-                    teleconsult.drcharugarg@gmail.com
-                  </p>
-                </div>
-              </Link>
+    <p className="font-semibold text-primary-dark break-all leading-6">
+      teleconsult.drcharugarg@gmail.com
+    </p>
+  </div>
+</Link>
             </div>
 
             <p className="mt-6 text-xs leading-6 text-gray-500">

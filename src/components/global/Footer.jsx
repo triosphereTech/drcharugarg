@@ -69,22 +69,20 @@ function Footer() {
           {/* MIDDLE */}
           <div className="grid gap-12 p-5 md:p-7 lg:grid-cols-[1fr_1fr] lg:p-10">
             {/* BRAND */}
-            <div>
+<div className="flex flex-col items-center lg:items-start">
               {/* LOGO */}
-              <div className="flex items-center gap-4">
-                <img
-                  src={Logo.src}
-                  alt="Dr Charu Garg"
-                  className="h-52 w-fit object-cover"
-                />
-              </div>
-              <p
-                className={`${appleChancery.className} mt-3 text-xl text-[#007997]`}
-              >
-                Where skin finds its true balance
-              </p>
+              <div className="flex justify-center lg:justify-start w-full">
+  <img
+    src={Logo.src}
+    alt="Dr Charu Garg"
+    className="h-52 w-auto object-contain"
+  />
+</div>
+              <p className={`${appleChancery.className} mt-3 text-xl text-[#007997] text-center lg:text-left`}>
+  Where skin finds its true balance
+</p>
               {/* SOCIALS */}
-              <div className="grid w-fit grid-cols-4 gap-3 pt-5 ml-14 lg:ml-10">
+              <div className="mt-5 flex justify-center gap-3 lg:justify-start">
                 {socialLinks.map(({ icon: Icon, href, label }, i) => (
                   <a
                     key={i}
