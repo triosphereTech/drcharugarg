@@ -40,6 +40,18 @@ export async function GET(req) {
             $options: "i",
           },
         },
+        {
+          email: {
+            $regex: search.trim(),
+            $options: "i",
+          },
+        },
+        {
+          mobileNumber: {
+            $regex: search.trim(),
+            $options: "i",
+          },
+        },
       ];
     }
 

@@ -200,7 +200,7 @@ case "followup":
               }}
               className="flex items-center gap-2.5 pl-1.5 pr-1.5 py-1.5 rounded-full border border-gray-100 bg-white shadow-sm hover:bg-gray-50 cursor-pointer active:scale-95 transition-all duration-150 shrink-0"
             >
-              <span className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-900 text-white text-xs font-bold">
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#0D8CE9] text-lg font-semibold text-white">
                 {/* {initials(patient.name)} */}
                 {patient ? initials(patient.name) : ""}
               </span>

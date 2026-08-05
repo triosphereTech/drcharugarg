@@ -175,7 +175,7 @@ const dispatch = useDispatch();
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="max-w-md hidden lg:block"
+            className="max-w-md hidden lg:block mt-3 lg:mt-10"
           >
             <span className="text-[#058FD2] text-sm font-medium tracking-wide">
               SECURE OTP VERIFICATION

@@ -78,7 +78,7 @@ export async function POST(request) {
       const timestamp = Date.now();
       const random    = Math.round(Math.random() * 1e9);
 
-      if (file.type.startsWith("image/")) {
+      if (file.type.startsWith("image/")) {        
         const fileName     = createProtectedFilename(`${timestamp}-${random}.webp`, auth.user.id);
         const outputBuffer = await sharp(buffer)
           .rotate()

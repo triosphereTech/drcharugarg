@@ -540,7 +540,7 @@ const ConversationMessage = ({ item, onImageClick }) => {
           <button
             type="button"
             onClick={() => downloadPdf(item.url, `prescription-${item.id}.pdf`)}
-            className="flex items-center gap-3 bg-white border border-gray-100 rounded-2xl px-4 py-3 shadow-sm hover:border-gray-300 transition-colors cursor-pointer"
+            className="flex items-center gap-3 bg-white border border-gray-100 rounded-2xl px-4 py-3 shadow-sm   cursor-pointer"
           >
             <span className="w-9 h-9 rounded-xl bg-red-50 text-red-500 flex items-center justify-center shrink-0">
               <FileText size={16} />
@@ -558,16 +558,10 @@ const ConversationMessage = ({ item, onImageClick }) => {
 
         {(item.type === "attachments" || item.type === "images") && (
           <div
-            className={`rounded-2xl p-3 shadow-sm w-full max-w-[420px] ${
-              isPatient
-                ? "bg-gray-900"
-                : "bg-white border border-gray-100"
-            }`}
+            className={`rounded-2xl p-3 shadow-sm w-full border border-gray-100 bg-white text-gray-700`}
           >
             <p
-              className={`text-xs font-semibold mb-2.5 ${
-                isPatient ? "text-white" : "text-gray-600"
-              }`}
+              className={`text-xs font-semibold mb-2.5 `}
             >
               {item.title}
             </p>

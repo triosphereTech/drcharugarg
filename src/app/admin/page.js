@@ -5,7 +5,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { Topbar } from "@/components/admin/layout/Topbar";
 import { StatCard } from "@/components/admin/dashboard/StatCard";
-import { MiniCalendar } from "@/components/admin/dashboard/MiniCalendar";
 import MainTable from "@/components/admin/appointments/MainTable";
 
 function getTodayDate() {

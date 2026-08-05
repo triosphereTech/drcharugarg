@@ -114,9 +114,9 @@ export const DashboardOverview = ({ patient, appointments, onNavigate }) => {
         </p>
         {nextAppointment ? (
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex flex-col sm:flex-row sm:items-center gap-4">
-            <span className="flex items-center justify-center w-12 h-12 rounded-2xl bg-gray-900 text-white shrink-0">
-              <Stethoscope size={20} />
-            </span>
+            <span className="flex items-center justify-center w-12 h-12 rounded-2xl bg-linear-to-tr from-[#0D8CE9] via-[#169BD7] to-[#1E6EB5] text-white shrink-0">
+                              <Stethoscope size={20} />
+                            </span>
             <div className="flex-1">
               <p className="font-bold text-gray-900 text-sm">
                 {nextAppointment.service}

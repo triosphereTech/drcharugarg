@@ -248,7 +248,7 @@ export default function PatientsPage() {
           alignItems: "center",
           gap: 12,
         }}>
-          <div style={{ position: "relative", flex: 1, maxWidth: 380 }}>
+          <div style={{ position: "relative", flex: 1, maxWidth: 450 }}>
             <span style={{
               position: "absolute", left: 13, top: "50%", transform: "translateY(-50%)",
               color: "#94A3B8", pointerEvents: "none", display: "flex",
@@ -259,7 +259,7 @@ export default function PatientsPage() {
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search patients by name…"
+              placeholder="Search patients by name, patient ID, email, or mobile number" 
               style={{
                 width: "100%",
                 paddingLeft: 38, paddingRight: search ? 36 : 14,

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { Topbar } from "@/components/admin/layout/Topbar";
 import { AppointmentItem } from "@/components/admin/appointments/AppointmentItem";
 import { AppointmentModal } from "@/components/admin/appointments/AppointmentModal";
 import { Pagination } from "@/components/admin/ui/Pagination";

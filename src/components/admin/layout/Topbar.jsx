@@ -89,42 +89,6 @@ export function Topbar({ title, subtitle, actions }) {
 
             
           </div>
-
-          {/* Search */}
-          {/* <div className="hidden lg:flex items-center w-[320px] h-11 rounded-xl border border-[#E4EAF0] bg-[#FAFBFC] px-4">
-            <svg
-              width="18"
-              height="18"
-              fill="none"
-              viewBox="0 0 24 24"
-              className="text-zinc-400"
-            >
-              <circle
-                cx="11"
-                cy="11"
-                r="7"
-                stroke="currentColor"
-                strokeWidth="2"
-              />
-
-              <path
-                d="M20 20L17 17"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-            </svg>
-
-            <input
-              type="text"
-              placeholder="Search patients, appointments..."
-              className="flex-1 bg-transparent outline-none text-[14px] text-zinc-700 placeholder:text-zinc-400 px-3"
-            />
-
-            <div className="px-2 py-1 rounded-md bg-white border border-[#E4EAF0] text-[11px] text-zinc-400">
-              ⌘K
-            </div>
-          </div> */}
         </div>
 
         <div>
