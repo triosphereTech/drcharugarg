@@ -3,8 +3,8 @@ import "../globals.css";
 import ClientLayout from "./ClientLayout";
 
 export const metadata = {
-  title: "Your Website",
-  description: "Your Website Description",
+  title: "Dr Charu Garg",
+  description: "Modern Dermatology",
 };
 
 export default function RootLayout({ children }) {

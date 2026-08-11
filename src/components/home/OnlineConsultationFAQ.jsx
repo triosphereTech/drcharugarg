@@ -6,43 +6,70 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import Faq from "../../../public/images/NurseF.png";
 
+
 const faqs = [
   {
-    question: "How can I book an online consultation?",
+    question: "How do I book an online consultation?",
     answer:
-      "You can book your online consultation by filling in your details on our website and completing the payment. Once confirmed, you will receive all consultation details on your registered email.",
+      "To book an online consultation, click Book Appointment and sign up using your Google account. During registration, you will be asked to provide your full name, mobile number, and email address. Once you sign up, your secure patient portal will be created, allowing you to book appointments and manage your consultation details. After selecting your preferred consultation service and completing the payment, your appointment will be confirmed.",
   },
   {
-    question: "How does the teleconsultation process work?",
+    question: "When is my appointment confirmed?",
     answer:
-      "After booking, you will receive a secure consultation link via email. At your scheduled time, simply click the link to join your online consultation from your phone or laptop.",
+      "Your appointment is confirmed once the payment is successfully completed. You will receive a confirmation on your email.",
   },
   {
-    question: "Will I receive confirmation after booking my appointment?",
+    question: "Can I choose between a video and telephone consultation?",
     answer:
-      "Yes, once your booking is successful, a confirmation email with your appointment details and consultation link will be sent to your registered email address.",
+      "Yes. Consultations can be conducted via video call or telephone call, depending on your preference and availability.\n\nFor most skin, hair, and nail conditions, video consultation is recommended, as it allows for a better visual assessment. If a video call is not feasible, a telephone consultation can be arranged. You may also be requested to share clear photographs of the affected area before or during the consultation to assist in evaluation.",
   },
   {
-    question: "Is my personal and medical data safe?",
+    question: "How will I receive the consultation link?",
     answer:
-      "Absolutely. Your information is securely stored and kept confidential, ensuring privacy and continuity of care for future consultations and follow-ups.",
+      "Our team will contact you before your scheduled appointment and share the consultation link via WhatsApp. If your registered mobile number is not available on WhatsApp, the consultation link will be shared through SMS or another suitable method.",
   },
   {
-    question: "How will I receive my prescription after consultation?",
+    question: "What details do I need while booking?",
     answer:
-      "After your consultation, a digital prescription will be generated. You can download your prescription instantly for easy access and future reference.",
+      "Please keep the following information ready:\n\n● Full Name\n● Mobile Number\n● Email Address (Google account)\nProviding accurate contact details ensures smooth communication regarding your appointment.",
   },
   {
-    question: "How long is the follow-up consultation valid?",
+    question: "What should I keep ready before my consultation?",
     answer:
-      "Your follow-up consultation is valid for 7 days from your initial appointment. After this period, a new consultation will be required for further evaluation and treatment.",
+      "For the best consultation experience, please:\n\n● Ensure you have a stable internet connection.\n● Join from a quiet, well-lit place.\n● Keep previous prescriptions and  investigation reports ready for review.",
   },
   {
-    question: "Can I contact for follow-up during this period?",
+    question: "What if I face issues while making the payment or booking my appointment?",
     answer:
-      "Yes, you can reach out for follow-up queries within 1 week.During these 7 days, you can send follow-up messages or upload prescribed diagnostic reports to your doctor.",
+      "If you experience any difficulty with payment, booking, or accessing your consultation, please contact us using the phone number or email provided on the website. We will be happy to assist you.",
+  },
+  {
+    question: "Can I reschedule my appointment?",
+    answer:
+      "If you need to reschedule, please contact us as early as possible. Rescheduling requests will be accommodated subject to availability.",
+  },
+  {
+    question: "Is my personal information secure?",
+    answer:
+      "Yes. Your personal information and medical details are handled confidentially and are used only for providing your consultation and related healthcare services.",
+  },
+  {
+    question: "How will I receive my prescription?",
+    answer:
+      "Once your consultation is complete, your prescription  will be uploaded to your patient portal. You can view and download it anytime from your account.",
+  },
+  {
+    question: "Should I upload photographs or medical reports before my consultation?",
+    answer:
+      "Yes. For the best assessment, we recommend uploading clear photographs of the affected area taken in good natural or bright lighting before your consultation. If you have any previous prescriptions, laboratory reports, biopsy reports, or relevant medical records, please upload them as well. This helps the dermatologist better understand your condition and provide appropriate advice.",
+  },
+  {
+    question: "Does the doctor also provide in-person consultations?",
+    answer:
+      "Yes. In-person consultations may be available by prior appointment at designated consultation locations. If you wish to schedule a physical consultation, please contact us using the phone number or email provided on the website for availability and appointment details.",
   },
 ];
+
 
 const fadeUp = {
   hidden: {

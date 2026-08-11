@@ -132,10 +132,10 @@ function Footer() {
       </p>
 
       <a
-        href="tel:+918460407471"
+        href="tel:+918168335718"
         className="pt-2 text-md font-medium text-gray-600 transition-colors hover:text-primary-accent"
       >
-        +91 84604 07471
+        +91 81683 35718
       </a>
     </div>
 

@@ -63,7 +63,6 @@ const ContactHero = () => {
 
       <div className="relative max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 py-14 lg:py-20">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-
           {/* Left Content */}
           <motion.div
             variants={staggerContainer}
@@ -91,50 +90,77 @@ const ContactHero = () => {
               variants={fadeUp}
               className="mt-6 max-w-xl text-[17px] leading-relaxed text-gray-600"
             >
-              Whether you have questions about a skin, hair, or nail concern, need expert advice on the right treatment, or wish to schedule a consultation, our team is here to provide compassionate, personalized dermatology care tailored to your unique needs.
-
+              Whether you have questions about a skin, hair, or nail concern,
+              need expert advice on the right treatment, or wish to schedule a
+              consultation, our team is here to provide compassionate,
+              personalized dermatology care tailored to your unique needs.
             </motion.p>
 
             <motion.div variants={fadeUp} className="flex flex-wrap gap-4 mt-8">
-              <Link href="/book-appointment" className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#058FD2] text-white font-medium transition-all hover:-translate-y-0.5">
+              <Link
+                href="/book-appointment"
+                className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#058FD2] text-white font-medium transition-all hover:-translate-y-0.5"
+              >
                 Book Consultation
                 <HiArrowUpRight className="text-lg transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
               </Link>
             </motion.div>
 
             {/* Contact Cards */}
-           <motion.div variants={staggerContainer} className="mt-10 grid gap-4 sm:grid-cols-2">
-  <motion.div variants={fadeUp} className="rounded-3xl border border-slate-200 bg-white p-5">
+{/* Contact & Consultation Location Cards */}
+<motion.div
+  variants={staggerContainer}
+  className="mt-10 grid gap-4 sm:grid-cols-2"
+>
+  {/* Phone */}
+  <motion.div
+    variants={fadeUp}
+    className="rounded-3xl border border-slate-200 bg-white p-5"
+  >
     <p className="text-sm text-gray-500">Phone</p>
     <a
-      href="tel:+918460407471"
+      href="tel:+918168335718"
       className="mt-1 block font-semibold text-[#131C15] transition-colors hover:text-primary-accent"
     >
-      +91 84604 07471
+      +91 81683 35718
     </a>
   </motion.div>
 
-  <motion.div variants={fadeUp} className="rounded-3xl border border-slate-200 bg-white p-5">
+  {/* Email */}
+  <motion.div
+    variants={fadeUp}
+    className="rounded-3xl border border-slate-200 bg-white p-5"
+  >
     <p className="text-sm text-gray-500">Email</p>
     <a
       href="mailto:teleconsult.drcharugarg@gmail.com"
-      className="mt-1 block max-w-full break-all font-semibold text-[#131C15] transition-colors hover:text-primary-accent"
+      className="mt-1 block break-all font-semibold text-[#131C15] transition-colors hover:text-primary-accent"
     >
       teleconsult.drcharugarg@gmail.com
     </a>
   </motion.div>
 
-  <motion.div variants={fadeUp} className="rounded-3xl border border-slate-200 bg-white p-5">
-    <p className="text-sm text-gray-500">Clinic Hours</p>
-    <p className="mt-1 font-semibold text-[#131C15]">
-      Mon - Sat, 10 AM - 7 PM
+  {/* Location 1 */}
+  <motion.div
+    variants={fadeUp}
+    className="rounded-3xl border border-slate-200 bg-white p-5"
+  >
+    <p className="text-sm text-gray-500">Consultation Location</p>
+    <p className="mt-2 text-base font-semibold leading-relaxed text-[#131C15]">
+      Swarsudha Hospital,
+      <span className="block">Ahmedabad, Gujarat</span>
     </p>
   </motion.div>
 
-  <motion.div variants={fadeUp} className="rounded-3xl border border-slate-200 bg-white p-5">
-    <p className="text-sm text-gray-500">Location</p>
-    <p className="mt-1 font-semibold text-[#131C15]">
-      Ahmedabad, Gujarat
+  {/* Location 2 */}
+  <motion.div
+    variants={fadeUp}
+    className="rounded-3xl border border-slate-200 bg-white p-5"
+  >
+    <p className="text-sm text-gray-500">Consultation Location</p>
+    <p className="mt-2 text-base font-semibold leading-relaxed text-[#131C15]">
+      Malik Nursing Home,
+      <span className="block">Palwal, Haryana</span>
     </p>
   </motion.div>
 </motion.div>
@@ -148,13 +174,11 @@ const ContactHero = () => {
             animate="visible"
             transition={{ delay: 0.2 }}
           >
-
             {/* Glow */}
             <div className="absolute w-[420px] h-[420px] rounded-full bg-[#058FD2]/10 blur-3xl" />
 
             {/* Main Card */}
             <div className="relative bg-[#eef7fb] rounded-[40px] overflow-hidden max-w-md w-full">
-
               <Image
                 src={DoctorImage}
                 alt="Dr Charu Garg"
@@ -198,10 +222,8 @@ const ContactHero = () => {
                   ✓ Skin • Hair • Nail Specialist
                 </p>
               </motion.div>
-
             </div>
           </motion.div>
-
         </div>
       </div>
     </section>

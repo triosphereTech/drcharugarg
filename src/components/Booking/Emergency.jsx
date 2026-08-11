@@ -48,7 +48,7 @@ export default function Emergency() {
 
             <div className="mt-6 space-y-4">
               <Link
-                href="tel:+919876543210"
+                href="tel:+918168335718"
                 className="flex items-center gap-4 rounded-2xl border border-gray-200 px-5 py-4 transition hover:border-[#0D8CE9] hover:bg-[#F4FAFF]"
               >
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#EAF6FF]">
@@ -61,7 +61,7 @@ export default function Emergency() {
                   </p>
 
                   <p className="font-semibold text-primary-dark">
-                    +91 98765 43210
+                    +91 81683 35718
                   </p>
                 </div>
               </Link>

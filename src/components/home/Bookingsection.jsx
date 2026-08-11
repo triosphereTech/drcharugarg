@@ -532,7 +532,7 @@ function SuccessScreen({ selectedService, selectedDate, selectedTime, onReset, s
         className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#058FD2] cursor-pointer text-white text-sm font-medium hover:bg-[#0A7AB8] active:scale-95 transition-all mb-4">
         <LayoutDashboard className="w-3.5 h-3.5" /> Go to Dashboard
       </button>
-      <a href="https://wa.me/8460407471"
+      <a href="https://wa.me/8168335718"
         className="inline-flex items-center gap-1.5 bg-emerald-500 text-white px-2 py-2 rounded-xl font-semibold text-sm  hover:text-white/90 active:scale-95  transition-all duration-300">
         <FaWhatsapp className="w-4 h-4" /> Chat on WhatsApp instead
       </a>
