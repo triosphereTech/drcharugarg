@@ -158,7 +158,7 @@ function Footer() {
       </p>
 
       <p className="pt-2 text-md font-medium leading-[180%] text-gray-600">
-        Ahmedabad, Gujarat
+        R-119, Near Malik Nursing home, New Colony, Palwal.
       </p>
     </div>
   </div>
@@ -172,12 +172,10 @@ function Footer() {
               © 2026 Dr Charu Garg. All rights reserved.
             </p>
             <div className="flex flex-wrap gap-5">
-              <button className="text-sm font-medium text-gray-300 transition-all duration-300 hover:text-primary-accent">
+              <Link href="/privacy-policy" className="text-sm font-medium text-gray-300 transition-all duration-300 hover:text-primary-accent">
                 Privacy Policy
-              </button>
-              <button className="text-sm font-medium text-gray-300 transition-all duration-300 hover:text-primary-accent">
-                Terms & Conditions
-              </button>
+              </Link>
+            
             </div>
           </div>
         </div>

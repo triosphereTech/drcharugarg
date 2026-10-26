@@ -48,17 +48,31 @@ const ContactFormSection = () => {
         </h2>
       </motion.div>
 
-      {/* Form */}
+      {/* Map and form */}
       <motion.div
-        className="max-w-3xl mx-auto"
+        className="mx-auto max-w-7xl px-5 pb-16 sm:px-6 lg:px-8"
         variants={staggerContainer}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.1 }}
       >
+        <div className="grid items-stretch gap-6 lg:grid-cols-2 lg:gap-8">
         <motion.div
           variants={fadeUp}
-          className="bg-white rounded-[32px] border border-slate-200 p-6 md:p-8 lg:p-10"
+          className="overflow-hidden rounded-[32px] border border-slate-200 bg-white p-3 shadow-sm"
+        >
+          <iframe
+            title="Map to R-119, New Colony, Palwal"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14074.142302568447!2d77.31848154215658!3d28.130179672559585!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cd255e30636d1%3A0x8fec3b19fe3d825e!2sNew%20Colony%2C%20Palwal%2C%20Haryana%20121102!5e0!3m2!1sen!2sin!4v1793019625479!5m2!1sen!2sin"
+            className="h-[320px] w-full rounded-3xl border-0 sm:h-[400px] lg:h-full lg:min-h-[620px]"
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="strict-origin-when-cross-origin"
+          />
+        </motion.div>
+        <motion.div
+          variants={fadeUp}
+          className="rounded-[32px] border border-slate-200 bg-white p-6 shadow-sm md:p-8 lg:p-10"
         >
           <form className="space-y-5">
             {/* Name + Phone */}
@@ -139,6 +153,7 @@ const ContactFormSection = () => {
             </button>
           </form>
         </motion.div>
+        </div>
       </motion.div>
       </div>
     </>

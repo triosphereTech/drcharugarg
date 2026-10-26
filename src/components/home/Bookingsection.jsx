@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef, useCallback } from "react";
 import Script from "next/script";
+import Link from "next/link";
 import {
   FaStethoscope, FaCalendarAlt, FaClock, FaImages, FaCheck,
   FaChevronLeft, FaChevronRight, FaUpload, FaTimes,
@@ -137,22 +138,29 @@ function RightHeader({ step, title, subtitle }) {
 /* ─── Footer ─── */
 function Footer({ onBack, onNext, nextLabel = "Continue", nextDisabled = false, confirm = false }) {
   return (
-    <div className="flex items-center justify-between px-6 md:px-7 py-4 border-t border-slate-100 bg-slate-50/60 rounded-br-2xl">
+    <div className={`flex items-center px-6 md:px-7 py-4 border-t border-slate-100 bg-slate-50/60 rounded-br-2xl ${confirm ? "flex-col gap-3 sm:flex-row sm:justify-between" : "justify-between"}`}>
       {onBack ? (
         <button onClick={onBack} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-200 bg-white text-slate-500 text-sm font-medium hover:border-[#058FD2] hover:text-[#058FD2] hover:bg-[#E8F6FD] transition-all">
           <FaChevronLeft className="w-3 h-3" /> Back
         </button>
       ) : <div />}
-      <button
-        onClick={onNext}
-        disabled={nextDisabled}
-        className={`inline-flex items-center gap-2 px-5 py-2 rounded-xl text-sm font-medium transition-all active:scale-95
-          ${nextDisabled ? "bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200" : "bg-[#058FD2] text-white hover:bg-[#0A7AB8]"}`}
-      >
-        {confirm && <FaCreditCard className="w-3 h-3" />}
-        {nextLabel}
-        {!confirm && <FaChevronRight className="w-3 h-3" />}
-      </button>
+      <div className={`flex items-center ${confirm ? "w-full flex-col-reverse gap-2 sm:w-auto sm:flex-row sm:gap-4" : ""}`}>
+        {confirm && (
+          <p className="text-center text-[11px] leading-relaxed text-slate-500/80 sm:max-w-[260px] sm:text-right">
+            Cancellation and refund terms apply. <Link href="/privacy-policy" className="underline underline-offset-2 transition-colors hover:text-[#058FD2]">View policy</Link>
+          </p>
+        )}
+        <button
+          onClick={onNext}
+          disabled={nextDisabled}
+          className={`inline-flex items-center gap-2 px-5 py-2 rounded-xl text-sm font-medium transition-all active:scale-95
+            ${nextDisabled ? "bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200" : "bg-[#058FD2] text-white hover:bg-[#0A7AB8]"}`}
+        >
+          {confirm && <FaCreditCard className="w-3 h-3" />}
+          {nextLabel}
+          {!confirm && <FaChevronRight className="w-3 h-3" />}
+        </button>
+      </div>
     </div>
   );
 }

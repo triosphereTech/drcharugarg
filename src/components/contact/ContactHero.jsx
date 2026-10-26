@@ -140,7 +140,7 @@ const ContactHero = () => {
     </a>
   </motion.div>
 
-  {/* Location 1 */}
+  {/* Location 1
   <motion.div
     variants={fadeUp}
     className="rounded-3xl border border-slate-200 bg-white p-5"
@@ -150,20 +150,20 @@ const ContactHero = () => {
       Swarsudha Hospital,
       <span className="block">Ahmedabad, Gujarat</span>
     </p>
-  </motion.div>
+  </motion.div> */}
 
   {/* Location 2 */}
+</motion.div>
   <motion.div
     variants={fadeUp}
-    className="rounded-3xl border border-slate-200 bg-white p-5"
+    className="rounded-3xl border border-slate-200 bg-white mt-4 p-5"
   >
     <p className="text-sm text-gray-500">Consultation Location</p>
     <p className="mt-2 text-base font-semibold leading-relaxed text-[#131C15]">
-      Malik Nursing Home,
+     R-119, Near Malik Nursing home, New Colony
       <span className="block">Palwal, Haryana</span>
     </p>
   </motion.div>
-</motion.div>
           </motion.div>
 
           {/* Right Image */}
