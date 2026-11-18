@@ -730,6 +730,12 @@ export default function BookingSection() {
       description: `Consultation — ${services.find((service) => (service._id || service.id) === selectedService)?.name || selectedService}`,
       order_id:    orderData.orderId,
 
+
+      // Disable Razorpay's built-in payment retry
+  retry: {
+    enabled: false,
+  },
+
       handler: async (response) => {
         // Payment succeeded — verify on server
         try {
@@ -755,14 +761,19 @@ export default function BookingSection() {
         }
       },
 
-      modal: {
-        ondismiss: async () => {
-          // User closed the payment modal without paying
-          await deleteAppointment(appointmentId);
-          setSubmitError("Payment was cancelled. Your slot has been released. You can try again.");
-          setIsSubmitting(false);
-        },
-      },
+       modal: {
+    ondismiss: () => {
+
+      // Do not delete appointment here.
+      // Webhook handles confirmed payment failures.
+
+      setSubmitError(
+        "Payment cancelled or checkout closed. Please check your appointment status before booking again."
+      );
+
+      setIsSubmitting(false);
+    },
+  },
 
       prefill: {}, // you can prefill name/email/phone from patient profile if available
       theme: { color: "#058FD2" },
@@ -771,14 +782,23 @@ export default function BookingSection() {
     const rzp = new window.Razorpay(razorpayOptions);
 
     // Handle payment failure inside the modal (wrong card, bank decline, etc.)
-    rzp.on("payment.failed", async () => {
-      await deleteAppointment(appointmentId);
-      setSubmitError("Payment failed. Your slot has been released. Please try again.");
-      setIsSubmitting(false);
-      rzp.close();
-    });
+    // Handle payment failure
+rzp.on("payment.failed", (response) => {
+  console.error("❌ RAZORPAY PAYMENT FAILED");
+  // Close checkout after failed attempt
+  rzp.close();
 
-    rzp.open();
+  setSubmitError(
+    "Payment failed. Your appointment will be cancelled. Please try booking again."
+  );
+
+  setIsSubmitting(false);
+
+  // Do not delete appointment here.
+  // Your verified Razorpay webhook handles deletion.
+});
+
+rzp.open();
     // Note: isSubmitting stays true while modal is open
     // It resets in handler / ondismiss / payment.failed above
   };

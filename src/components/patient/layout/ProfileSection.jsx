@@ -50,12 +50,10 @@ const save = async () => {
       setPatient(data.patient);
       setDraft(data.patient);
       setModalOpen(false);
-    } else {
-      console.log(data.message);
-    }
+    } 
 
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 

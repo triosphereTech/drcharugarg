@@ -107,9 +107,7 @@ export default function AppointmentsPage({ onDataChange }) {
       const response = await fetch(
         `/api/admin/appointments?${params.toString()}`,
       );
-      const res = await response.json();
-      console.log("this is apppp",res);
-      
+      const res = await response.json();      
       if (!response.ok) {
         throw new Error(res.message || "Unable to load appointments.");
       }

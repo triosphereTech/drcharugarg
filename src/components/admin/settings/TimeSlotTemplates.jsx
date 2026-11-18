@@ -90,7 +90,6 @@ export const TimeSlotTemplates = ({ templates, onChanged, onError }) => {
     try {
       const response = await fetch(draft.id ? `/api/admin/availability/templates/${draft.id}` : "/api/admin/availability/templates", { method: draft.id ? "PUT" : "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name: draft.name, color: draft.color, slots: draft.slots.map((slot) => ({ startTime: slot.start, endTime: slot.end })) }) })
       const data = await response.json()
-            console.log("UPDATE RESPONSE", data);
 
       if (!response.ok || !data.success) throw new Error(data.message || "Unable to save template.")
       await onChanged()

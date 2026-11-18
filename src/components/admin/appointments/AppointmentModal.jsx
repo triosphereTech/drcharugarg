@@ -183,7 +183,6 @@ export function AppointmentModal({
         createdAt: appointment.updatedAt || appointment.createdAt,
       });
     }
-    console.log("thsi issi", appointment);
 
     if (appointment?.prescriptionPdf) {
       messages.push({

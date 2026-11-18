@@ -66,7 +66,6 @@ const [selectedAppointmentId, setSelectedAppointmentId] = useState(null);
       const appointmentData = await appointmentRes.json();
 
       if (profileData.success) {
-        console.log("this is profile data :::", profileData);
 
         setPatient(profileData.patient);
       }
@@ -75,7 +74,7 @@ const [selectedAppointmentId, setSelectedAppointmentId] = useState(null);
         setAppointments(appointmentData.appointments);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -96,7 +95,6 @@ const handleFollowUp = (appointment) => {
       });
 
       const data = await res.json();
-      console.log("this is logout data",data);
       
       if (!res.ok) {
         throw new Error(data.message || "Unable to logout.");
@@ -105,7 +103,7 @@ const handleFollowUp = (appointment) => {
 
       window.location.href = "/"; // Redirect to login page after logout
     } catch (error) {
-      console.log("Logout error:", error);
+      console.error("Logout error:", error);
     }
   };
 const refreshAppointments = async () => {
@@ -117,7 +115,7 @@ const refreshAppointments = async () => {
       setAppointments(data.appointments);
     }
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 };
   const renderContent = () => {

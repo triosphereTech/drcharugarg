@@ -87,13 +87,7 @@ export const BookFollowUp = ({
     () => parentAppointment?.followUpFee || 0,
     [parentAppointment],
   );
-  useEffect(() => {
-    console.log("STEP CHANGED", step);
-  }, [step]);
-
-  useEffect(() => {
-    console.log("CONFIRMED APPOINTMENT", confirmedAppointment);
-  }, [confirmedAppointment]);
+  
   useEffect(() => {
     if (!parentAppointmentId) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -264,8 +258,7 @@ export const BookFollowUp = ({
       });
 
       const orderData = await orderRes.json();
-      console.log("ORDER RESPONSE", orderData);
-      console.log("ORDER STATUS", orderRes.status);
+   
       if (!orderRes.ok) {
         await deleteAppointment(appointmentId);
 
@@ -281,7 +274,10 @@ export const BookFollowUp = ({
           parentAppointment?.service || "Consultation"
         }`,
         order_id: orderData.orderId,
-
+    // Disable Razorpay's built-in payment retry
+  retry: {
+    enabled: false,
+  },
         handler: async (response) => {
           try {
             const verifyRes = await fetch("/api/appointments/verify-payment", {
@@ -305,10 +301,7 @@ export const BookFollowUp = ({
               );
             }
 
-            console.log("Before refresh");
-
             await refreshAppointments();
-            console.log("After refresh");
 
             const appointment = {
               _id: appointmentId,
@@ -322,9 +315,7 @@ export const BookFollowUp = ({
             };
 
             setConfirmedAppointment(appointment);
-            console.log("Setting appointment");
             goNext();
-            console.log("Current step should become 2");
           } catch (err) {
             setSubmitError(err.message || "Payment verification failed.");
           } finally {
@@ -332,41 +323,43 @@ export const BookFollowUp = ({
           }
         },
 
-        modal: {
-          ondismiss: async () => {
-            await deleteAppointment(appointmentId);
+      modal: {
+    ondismiss: () => {
+      // Do not delete appointment here.
+      // Webhook handles confirmed payment failures.
 
-            setSubmitError(
-              "Payment was cancelled. Your slot has been released.",
-            );
+      setSubmitError(
+        "Payment cancelled or checkout closed. Please check your appointment status before booking again."
+      );
 
-            setPaying(false);
-          },
-        },
+      setIsSubmitting(false);
+    },
+  },
 
         theme: {
           color: "#058FD2",
         },
       });
 
-      rzp.on("payment.failed", async () => {
-        await deleteAppointment(appointmentId);
+  // Handle payment failure
+rzp.on("payment.failed", (response) => {
+  console.error("❌ RAZORPAY PAYMENT FAILED");
+  // Close checkout after failed attempt
+  rzp.close();
 
-        setSubmitError("Payment failed. Your slot has been released.");
+  setSubmitError(
+    "Payment failed. Your appointment will be cancelled. Please try booking again."
+  );
 
-        setPaying(false);
+  setIsSubmitting(false);
 
-        rzp.close();
-      });
+  // Do not delete appointment here.
+  // Your verified Razorpay webhook handles deletion.
+});
 
       rzp.open();
     } catch (err) {
-      console.log("followup error", err);
-      console.log("FOLLOWUP PAYMENT ERROR", err);
-      console.log("appointmentId", appointmentId);
-
       setSubmitError(err.message || "Could not create follow-up appointment.");
-
       setPaying(false);
     }
   };
